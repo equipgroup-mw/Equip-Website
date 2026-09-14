@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" data-root="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="csTitle">Case Study — Equip Group</title>
+<meta name="description" id="csDescription" content="">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CaseStudy",
+  "name": "Case Study — Equip Group",
+  "description": "Detailed case study of Equip Group's client engagement and results.",
+  "publisher": { "@type": "Organization", "name": "Equip Group", "url": "https://equipgroup.co" }
+}
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div id="header-slot"></div>
+<main id="main">
+  <div id="caseStudyContent"></div>
+
+  <section class="bg-navy" style="padding-block:4rem;">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+      <h3 class="mt-0" style="max-width:26ch;">Explore more case studies</h3>
+      <a href="services/business-development.html" class="btn btn-gold">View all projects</a>
+    </div>
+  </section>
+
+  <section class="section" style="padding-block:3rem;">
+    <div class="container">
+      <h3 class="center" style="margin-bottom:2rem;">Trusted by the Best</h3>
+      <div data-logos></div>
+    </div>
+  </section>
+</main>
+<div id="footer-slot"></div>
+<script type="module">
+  import { loadCaseStudies, renderCaseStudyDetail } from './js/case-studies.js';
+  import { initHeroAnimations } from './js/hero-animations.js';
+  import './js/main.js';
+  import './js/carousel.js';
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  if (!id) window.location.href = '/services/business-development.html';
+
+  const allStudies = await loadCaseStudies('', { featuredOnly: false });
+  const study = allStudies.find(cs => cs.id === id);
+  if (!study) window.location.href = '/services/business-development.html';
+
+  document.getElementById('csTitle').textContent = `${study.title} — Equip Group`;
+  document.getElementById('csDescription').content = study.title + ' — ' + study.client + ' — ' + study.period;
+  document.getElementById('caseStudyContent').innerHTML = renderCaseStudyDetail(study);
+
+  initHeroAnimations();
+
+  const logoWrapper = document.querySelector('[data-logos]');
+  if (logoWrapper) {
+    const { LogoMarquee } = await import('./js/logo-marquee.js');
+    const res = await fetch('data/logos.json');
+    const { logos } = await res.json();
+    const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
+      logoWrapper.innerHTML = `
+        <div class="logo-marquee" role="region" aria-label="Trusted partners" tabindex="0"></div>
+        <button class="marquee-arrow marquee-arrow--prev" aria-label="Previous partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="marquee-arrow marquee-arrow--next" aria-label="Next partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      `;
+      return logoWrapper.querySelector('.logo-marquee');
+    })();
+    marqueeEl.innerHTML = logos.map(l => `
+      <div class="logo-item" style="flex:0 0 auto;">
+        <img src="${l.image}" alt="${l.name}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
+      </div>
+    `).join('');
+    new LogoMarquee(logoWrapper, { speed: 35, gap: 56 });
+  }
+</script>
+</body>
+</html>
