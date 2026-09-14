@@ -1,0 +1,98 @@
+{
+  "_instructions": "One file for everything on the Updates page. Copy the block that matches what you're publishing, fill it in, save. 'type' controls which tab it appears under and how the card is drawn. For podcasts and webinars, this site never hosts the audio/video itself — put the real links (YouTube, Spotify, Apple Podcasts, Zoom recording, etc.) in 'links', and optionally an 'embedUrl' (a YouTube/Spotify embed link) to show a preview player right on the page. podcastSeries defines the show metadata; podcast items reference seriesId.",
+  "podcastSeries": [
+    {
+      "id": "equip-insights",
+      "title": "Equip Insights",
+      "description": "Conversations with leaders shaping Malawi's economy — entrepreneurs, investors, policymakers, and development practitioners.",
+      "coverArt": "/assets/images/updates/equip-insights-cover.jpg",
+      "totalEpisodes": 12,
+      "latestEpisodeDate": "2025-08-15",
+      "links": { "spotify": "https://open.spotify.com/show/REPLACE_WITH_YOUR_SHOW_ID", "apple": "https://podcasts.apple.com/podcast/idREPLACE", "youtube": "https://youtube.com/@equipgroup" }
+    },
+    {
+      "id": "business-unfiltered",
+      "title": "Business Unfiltered",
+      "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
+      "coverArt": "/assets/images/updates/business-unfiltered-cover.jpg",
+      "totalEpisodes": 8,
+      "latestEpisodeDate": "2025-07-22",
+      "links": { "spotify": "https://open.spotify.com/show/REPLACE", "youtube": "https://youtube.com/@equipgroup" }
+    }
+  ],
+  "items": [
+    {
+      "type": "webinar",
+      "title": "Exploring Poultry Business Opportunities Webinar",
+      "date": "2026-08-28",
+      "excerpt": "Expert insights from industry leaders, interactive discussion and networking for young people exploring poultry as a business.",
+      "image": "/assets/images/updates/poultry-webinar.jpeg",
+      "embedUrl": "",
+      "links": { "youtube": "https://youtube.com/@equipgroup", "zoom": "" }
+    },
+    {
+      "type": "announcement",
+      "title": "Join our network of expert consultants",
+      "date": "2025-10-24",
+      "excerpt": "Equip Group is expanding its consulting network and inviting experienced experts across energy, agribusiness, finance, ICT and other sectors to join.",
+      "image": "/assets/images/updates/join-network.jpg",
+      "link": "/contact.html"
+    },
+    {
+      "type": "article",
+      "title": "Agro-Processing in Malawi: Untapped Potential in a Growing Sector",
+      "date": "2025-09-02",
+      "excerpt": "What the data behind agro-processing investment means for policymakers and investors in Malawi.",
+      "image": "/assets/data-division/agroprocessing-malawi.jpg",
+      "link": "/services/data-division.html"
+    },
+    {
+      "type": "opportunity",
+      "title": "Consultant call: Monitoring & Evaluation specialist",
+      "date": "2025-08-15",
+      "excerpt": "We're looking for a short-term M&E specialist to support an agribusiness programme evaluation. Applications open to independent consultants and firms.",
+      "image": "/assets/images/updates/opportunity-me.jpg",
+      "link": "/contact.html",
+      "deadline": "2025-09-30"
+    },
+    {
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 12,
+      "title": "10 Entrepreneurial Archetypes That Stunt Your Growth",
+      "date": "2025-07-10",
+      "duration": "42:15",
+      "excerpt": "A deep dive into the common psychological and operational archetypes that hold entrepreneurs back from scaling their businesses effectively.",
+      "image": "/assets/images/updates/podcast-entrepreneurial-archetypes.png",
+      "embedUrl": "",
+      "guests": ["rollins-chitika"],
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 11,
+      "title": "From Chalkboards to Cash Flow: Formalising Malawi's SMEs",
+      "date": "2025-06-15",
+      "duration": "38:42",
+      "excerpt": "Why 63% of Malawian SMEs operate informally, and what it takes to bridge the gap — with data from our latest regional study.",
+      "image": "/assets/images/updates/podcast-sme-formalisation.png",
+      "embedUrl": "",
+      "guests": ["ipyana-mkandawire", "lizzie-mwanandi"],
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup" }
+    },
+    {
+      "type": "podcast",
+      "seriesId": "business-unfiltered",
+      "episodeNumber": 8,
+      "title": "Building a Poultry Empire from 50 Birds",
+      "date": "2025-07-22",
+      "duration": "45:30",
+      "excerpt": "Founder story: how a Lilongwe entrepreneur scaled from backyard poultry to a 10,000-bird operation supplying major retailers.",
+      "image": "/assets/images/updates/podcast-poultry-empire.png",
+      "embedUrl": "",
+      "guests": [],
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup" }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "_instructions": "Each object is one testimonial card in the carousel. Copy a block, edit the text, save — it appears automatically. Order here is the order shown.",
+  "testimonials": [
+    {
+      "quote": "Equip is a longstanding partner, with a similar mission, that knows SEED and its programmes very well. They have expertise in the provision of BDS services to inclusive enterprises and are experienced, capable and reliable.",
+      "name": "Christine Meyer",
+      "title": "Programme Manager, SEED"
+    },
+    {
+      "quote": "My experience with EQUIP has been insightful. Their team is highly professional, collaborative, and responsive. They understand the realities on the ground and are committed to making a genuine difference. EQUIP's approach to partnership is rooted in mutual respect and shared goals, which has made working with them both productive and fulfilling.",
+      "name": "Godfrey Chimwenja",
+      "title": "ESG Coordinator, Hail and Cotton (Malawi) Limited"
+    },
+    {
+      "quote": "The BDS team directed us in producing credit proposal documents with which we recommend them to others because they advanced our business.",
+      "name": "Limbikani Bernard",
+      "title": "Chair, Chitsanzo Cooperative"
+    },
+    {
+      "quote": "Working with the Data Division turned Mibawa's coverage into a memberable experience shared to millions of viewers. From all the insights, to the visuals and to the 'Magic Wall' - a true display of a masterclass",
+      "name": "Patrick Njawala",
+      "title": "Senior Producer, Mibawa TV Studios"
+    }
+  ]
+}

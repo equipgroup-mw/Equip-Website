@@ -1,0 +1,17 @@
+{
+  "_instructions": "Each object is one logo in the 'Trusted by the Best' carousel. Drop the logo file into /assets/logos/ (AVIF format preferred, ~200px wide works best), then add a block here pointing to it. If an image fails to load, the organisation's name is shown instead so nothing ever looks broken.",
+  "logos": [
+    { "name": "The World Bank", "image": "/assets/logos/world-bank.avif" },
+    { "name": "Mastercard Foundation", "image": "/assets/logos/mastercard-foundation.avif" },
+    { "name": "The Development Fund", "image": "/assets/logos/development-fund.avif" },
+    { "name": "SAT — Gender Equal Youth Health", "image": "/assets/logos/sat.avif" },
+    { "name": "GIZ", "image": "/assets/logos/giz.avif" },
+    { "name": "Venture37", "image": "/assets/logos/venture37.avif" },
+    { "name": "IFC — International Finance Corporation", "image": "/assets/logos/ifc.avif" },
+    { "name": "SRUC", "image": "/assets/logos/sruc.avif" },
+    { "name": "AICC", "image": "/assets/logos/aicc.avif" },
+    { "name": "ACADES", "image": "/assets/logos/acades.avif" },
+    { "name": "The Salvation Army", "image": "/assets/logos/salvation-army.avif" },
+    { "name": "Genesis", "image": "/assets/logos/genesis.avif" }
+  ]
+}

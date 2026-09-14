@@ -1,0 +1,29 @@
+{
+  "_instructions": "Add, remove, or reorder departments here — the header dropdown rebuilds from this file automatically. Set 'external': true and a full 'url' for a sister company that lives on its own website (it will open in a new tab). Set 'external': false and a 'path' for a page that lives on this site.",
+  "departments": [
+    {
+      "name": "Business Development",
+      "description": "We help businesses start, build and grow.",
+      "external": false,
+      "path": "/services/business-development.html"
+    },
+    {
+      "name": "Research & Project Management",
+      "description": "We design and deliver projects that work.",
+      "external": false,
+      "path": "/services/research-project-management.html"
+    },
+    {
+      "name": "Data Division",
+      "description": "Complex data. Compelling stories. Strategic clarity.",
+      "external": false,
+      "path": "/services/data-division.html"
+    },
+    {
+      "name": "Clickbait Marketing",
+      "description": "Our sister company for brand, content and growth marketing.",
+      "external": true,
+      "url": "https://clickbait-beta.vercel.app/"
+    }
+  ]
+}

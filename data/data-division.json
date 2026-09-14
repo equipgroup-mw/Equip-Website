@@ -1,0 +1,125 @@
+{
+  "_instructions": {
+    "how_to_add_an_HD_graphic": "Export your PowerPoint/Canva slide as a PNG or JPG (File > Export > Image, highest quality). Drop the file into /assets/data-division/. Then copy an 'image' block below, set 'image' to that file's path, fill in title/description/sector, save. It appears in the gallery and opens full-size when clicked.",
+    "how_to_add_a_dashboard": "If it's Power BI: in Power BI, choose File > Embed report > Publish to web (or use your organisation's secure embed link), copy the embed URL. Paste it into 'embedUrl' on a 'dashboard' block below. Works the same for Tableau Public, Looker Studio, or any tool that gives you an embeddable link.",
+    "how_to_add_an_interactive_chart_without_any_design_tool": "Copy a 'chart' block, change 'chartType' to bar / line / pie / doughnut, replace 'labels' with your categories and 'series' with your numbers. No image needed — it draws itself.",
+    "how_to_add_an_article": "Copy an 'article' block, fill in title/excerpt/sector, and set 'link' to a page on this site (e.g. an Updates post) or an external report URL."
+  },
+  "sectors": [
+    "Crop Production", "Food", "Logistics", "Construction", "Horticulture",
+    "Tobacco", "Retail", "Renewable Energy", "Agroprocessing", "Manufacturing",
+    "Aquaculture", "Tourism", "Cotton", "Livestock", "Marketing",
+    "Education", "Poultry", "Media"
+  ],
+  "items": [
+    {
+      "id": "sme-sectors",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "The sectors we have worked in",
+      "sector": "Cross-sector",
+      "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
+      "image": "/assets/data-division/sectors-worked-in.jpg"
+    },
+    {
+      "id": "bds-split",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "Research & Project Management vs Business Development projects",
+      "sector": "Cross-sector",
+      "description": "Share of completed engagements by division.",
+      "chartType": "doughnut",
+      "labels": ["Research & Project Management", "Business Development"],
+      "series": [{ "name": "Share of projects", "data": [42, 58] }]
+    },
+    {
+      "id": "sme-formalisation",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "From chalkboards to cash flow: SME formalisation rates",
+      "sector": "SMEs",
+      "description": "Share of surveyed SMEs now keeping formal financial records, by country.",
+      "chartType": "bar",
+      "labels": ["Zambia", "South Africa", "Malawi", "Zimbabwe"],
+      "series": [{ "name": "% formalised", "data": [58, 69, 37, 65] }]
+    },
+    {
+      "id": "sme-employment",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "Beyond employment: the impact SMEs make",
+      "sector": "SMEs",
+      "description": "Estimated share of the workforce supported by SME activity.",
+      "chartType": "bar",
+      "labels": ["Tanzania", "Zambia", "South Africa", "Malawi", "Zimbabwe"],
+      "series": [{ "name": "% of workforce", "data": [35, 70, 40, 47, 60] }]
+    },
+    {
+      "id": "savings-behaviour",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "Thinking about starting a business? Have you started saving yet?",
+      "sector": "SMEs",
+      "description": "Reported primary funding source among aspiring entrepreneurs.",
+      "chartType": "bar",
+      "labels": ["Savings", "Money from another business", "Bank loan", "Salary", "Loan", "Friends/family", "Personal retirement policy", "Retirement package", "Other"],
+      "series": [{ "name": "% of respondents", "data": [29, 22, 13, 12, 9, 7, 5, 5, 4] }]
+    },
+    {
+      "id": "agroprocessing-malawi",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
+      "sector": "Emerging Industries",
+      "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
+      "image": "/assets/data-division/agroprocessing-malawi.jpg"
+    },
+    {
+      "id": "mse-dashboard",
+      "category": "Dashboards",
+      "type": "dashboard",
+      "title": "Malawi Stock Exchange (MSE) tracker",
+      "sector": "Current Affairs",
+      "description": "Live-updating index performance and top movers on the Malawi Stock Exchange.",
+      "provider": "Power BI",
+      "embedUrl": "https://app.powerbi.com/view?r=REPLACE_WITH_YOUR_EMBED_ID"
+    },
+    {
+      "id": "groceries-dashboard",
+      "category": "Dashboards",
+      "type": "dashboard",
+      "title": "Basic basket: grocery price tracker",
+      "sector": "Current Affairs",
+      "description": "Monthly price movement for a basket of essential groceries across major markets.",
+      "provider": "Power BI",
+      "embedUrl": "https://app.powerbi.com/view?r=REPLACE_WITH_YOUR_EMBED_ID"
+    },
+    {
+      "id": "mp-race-timeline",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "Member of Parliament race (unofficial) — timeline",
+      "sector": "Current Affairs",
+      "description": "An unofficial running timeline built from public reporting, for reference only.",
+      "image": "/assets/data-division/mp-race-timeline.jpg"
+    },
+    {
+      "id": "impact-timeline",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "Our timeline",
+      "sector": "Cross-sector",
+      "description": "Equip Group's project timeline from founding to today.",
+      "image": "/assets/data-division/our-timeline.jpg"
+    },
+    {
+      "id": "article-agroprocessing",
+      "category": "Articles",
+      "type": "article",
+      "title": "Agro-Processing in Malawi: Untapped Potential in a Growing Sector",
+      "sector": "Emerging Industries",
+      "description": "The full write-up behind the agro-processing dataset above — what the numbers mean for investors and policymakers.",
+      "link": "/updates/index.html"
+    }
+  ]
+}

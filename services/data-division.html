@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Division — Equip Group</title>
+<meta name="description" content="Equip Group's Data Division: interactive charts, dashboards, HD data visuals and research articles turning complex data into strategic clarity.">
+<link rel="stylesheet" href="../css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Data Division",
+  "name": "Data Division",
+  "description": "Complex data. Compelling stories. Strategic clarity — interactive charts, dashboards, HD data visuals and research articles turning complex data into strategic clarity.",
+  "provider": { "@type": "Organization", "name": "Equip Group", "url": "https://equipgroup.co" },
+  "areaServed": { "@type": "Country", "name": "Malawi" },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Data Division Services",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interactive Dashboards", "description": "Live-updating dashboards for financial markets, commodity prices, and custom KPIs." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Data Visualization", "description": "Transform complex datasets into clear, compelling visual stories for any audience." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Research Articles", "description": "Evidence-based analysis and policy briefs backed by rigorous data." } }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div id="header-slot"></div>
+
+<main id="main">
+  <section class="hero hero--compact hero--accent-turquoise" data-hero>
+    <div class="hero-bg"><img src="../assets/images/hero-data.jpg" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Data Division</p>
+        <h1>Complex data. Compelling stories. Strategic clarity.</h1>
+        <p class="hero-lede">A living portal of the datasets, dashboards and visuals behind our work. Built to be read by anyone from research students to government officials alike.</p>
+      </div>
+    </section>
+
+  <div class="dd-view-toggle" role="tablist" aria-label="Data Division view">
+    <button role="tab" class="dd-view-btn" aria-selected="true" data-view="projects">Projects</button>
+    <button role="tab" class="dd-view-btn" aria-selected="false" data-view="portal">Portal</button>
+  </div>
+
+  <div role="tabpanel" data-panel="projects" id="ddProjectsPanel">
+    <div class="section" style="padding-top:2rem;">
+      <div class="container">
+        <div class="section-head"><div><hr class="rule"><h2>Featured Projects</h2></div></div>
+        <div class="grid grid-3" id="ddProjectsGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div role="tabpanel" data-panel="portal" id="ddPortalPanel" hidden>
+    <div class="dd-toolbar">
+      <div class="container dd-toolbar-inner">
+        <div class="dd-search">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="search" id="ddSearch" placeholder="Search datasets, dashboards, sectors…" aria-label="Search the Data Division catalogue">
+        </div>
+        <div class="dd-tabs" id="ddTabs"></div>
+        <span class="dd-count" id="ddCount"></span>
+      </div>
+    </div>
+
+    <section class="section" style="padding-block: 2.5rem 1rem;">
+      <div class="container">
+        <div class="eyebrow" style="margin-bottom:.75rem; color:var(--ink-soft);">Browse by sector</div>
+        <div class="dd-sectors" id="ddSectors"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem;">
+      <div class="container">
+        <div class="dd-grid" id="ddGrid"></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="section bg-navy">
+    <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
+      <div>
+        <hr class="rule"><h2>Publish new data yourself — no developer needed</h2>
+        <p>Export a slide as an image, paste a Power BI link, or drop in a few numbers — this whole page is generated from one plain-language file. See the project README for the three-step guide.</p>
+        <a href="../contact.html" class="btn btn-gold">Request onboarding</a>
+      </div>
+      <div class="card-media" style="aspect-ratio:4/3;"><img src="../assets/images/data-cms.jpg" alt="" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-block:3rem;">
+    <div class="container">
+      <h3 class="center" style="margin-bottom:2rem;">Trusted by the Best</h3>
+      <div data-logos></div>
+    </div>
+  </section>
+</main>
+
+<!-- Mobile sticky CTA bar -->
+<div class="mobile-cta-bar" id="mobileCtaBar" aria-hidden="true">
+  <a href="../contact.html" class="btn btn-gold">Let's talk about your project</a>
+</div>
+
+<div id="footer-slot"></div>
+
+<!-- Lightbox for HD visuals -->
+<div class="dd-lightbox" id="ddLightbox" role="dialog" aria-modal="true">
+  <button type="button" class="dd-lightbox-close" aria-label="Close">×</button>
+  <figure>
+    <img src="" alt="">
+    <figcaption></figcaption>
+  </figure>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/carousel.js"></script>
+<script src="../js/data-division.js"></script>
+<script src="../js/data-division-toggle.js"></script>
+<script type="module">
+  import { loadCaseStudies, renderCaseStudyCard } from '../js/case-studies.js';
+  import { initHeroAnimations } from '../js/hero-animations.js';
+  import { initDataDivisionToggle } from '../js/data-division-toggle.js';
+
+  loadCaseStudies('data-division', { featuredOnly: false })
+    .then(studies => {
+      document.getElementById('ddProjectsGrid').innerHTML = studies.map(cs => renderCaseStudyCard(cs, { link: true })).join('');
+    });
+
+  initHeroAnimations();
+  initDataDivisionToggle();
+
+  const logoWrapper = document.querySelector('[data-logos]');
+  if (logoWrapper) {
+    const { LogoMarquee } = await import('../js/logo-marquee.js');
+    const res = await fetch('../data/logos.json');
+    const { logos } = await res.json();
+    const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
+      logoWrapper.innerHTML = `
+        <div class="logo-marquee" role="region" aria-label="Trusted partners" tabindex="0"></div>
+        <button class="marquee-arrow marquee-arrow--prev" aria-label="Previous partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="marquee-arrow marquee-arrow--next" aria-label="Next partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      `;
+      return logoWrapper.querySelector('.logo-marquee');
+    })();
+    marqueeEl.innerHTML = logos.map(l => `
+      <div class="logo-item" style="flex:0 0 auto;">
+        <img src="${l.image}" alt="${l.name}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
+      </div>
+    `).join('');
+    new LogoMarquee(logoWrapper, { speed: 35, gap: 56 });
+  }
+</script>
+<script>
+  fetch('../data/data-division.json').then(r=>r.json()).then(({items})=>{
+    document.getElementById('statVisuals').textContent = items.filter(i=>i.type!=='dashboard').length + '+';
+    document.getElementById('statDashboards').textContent = items.filter(i=>i.type==='dashboard').length || '2';
+  }).catch(()=>{});
+</script>
+<script>
+  // Mobile sticky CTA bar - show when scrolled past hero
+  (function() {
+    const ctaBar = document.getElementById('mobileCtaBar');
+    const hero = document.query('[data-hero]');
+    if (!ctaBar || !hero) return;
+    
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const heroRect = hero.getBoundingClientRect();
+          const isPastHero = heroRect.bottom < 0;
+          ctaBar.classList.toggle('visible', isPastHero);
+          ctaBar.setAttribute('aria-hidden', !isPastHero);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
+</script>
+</body>
+</html>
