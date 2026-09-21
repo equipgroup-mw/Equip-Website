@@ -1,10 +1,13 @@
 <header class="site-header" id="siteHeader">
   <div class="container">
-    <a href="/index.html" class="brand" aria-label="Equip Group — home">
-      <img src="/assets/logos/equip-main-logo(white).png" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'EQUIP'}))">
-    </a>
+    <div class="header-top-row">
+      <a href="/index.html" class="brand" aria-label="Equip Group — home">
+        <img class="brand-logo-light" src="/assets/logos/equip-main-logo(white).png" alt="Equip Group">
+      </a>
 
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"></button>
+      <!-- Mobile only. Label stays "Menu"; the overlay has its own Close button. -->
+      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileNavOverlay">Menu</button>
+    </div>
 
     <nav class="main-nav" id="mainNav">
       <div class="has-dropdown" id="servicesDropdown">
@@ -12,7 +15,7 @@
           Services
           <svg viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5"/></svg>
         </button>
-        <div class="dropdown-panel" id="servicesPanel"><!-- built from data/nav.json --></div>
+        <div class="dropdown-panel" id="servicesPanel"></div>
       </div>
       <a href="/updates/index.html">Updates</a>
       <a href="/about.html">About us</a>
@@ -20,3 +23,91 @@
     </nav>
   </div>
 </header>
+
+<!-- ======================================================================
+     Mobile menu overlay — uses .mobile-nav-* classes to match CSS/JS
+     JS hooks (main.js): #mobileNavOverlay, #mobileNavClose, #mobileNavLinks,
+     [data-accordion], .mobile-nav-link, [data-accordion-panel]
+     ====================================================================== -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true">
+  <div class="mobile-nav-panel">
+
+    <div class="mobile-nav-top">
+      <a href="/index.html" class="mobile-nav-logo" aria-label="Equip Group — home">
+        <img src="/assets/logos/equip-main-logo(white).png" alt="Equip Group" class="mobile-nav-logo-img">
+      </a>
+      <button type="button" class="mobile-nav-close" id="mobileNavClose">Close</button>
+    </div>
+
+    <nav class="mobile-nav-links" id="mobileNavLinks" aria-label="Main navigation">
+
+      <div class="mobile-nav-item">
+        <a class="mobile-nav-link" href="/index.html">
+          <span class="mobile-nav-link-inner">
+            <span class="mobile-nav-link-text">Home</span>
+            <span class="mobile-nav-link-desc">Back to the top</span>
+          </span>
+        </a>
+      </div>
+
+      <!-- Services (accordion). The list is rebuilt from data/nav.json by main.js;
+           the links below are the fallback if that file fails to load. -->
+      <div class="mobile-nav-item" data-accordion>
+        <button type="button" class="mobile-nav-link" data-accordion-btn aria-expanded="false" aria-controls="mobileServicesSub">
+          <span class="mobile-nav-link-inner">
+            <span class="mobile-nav-link-text">Services</span>
+            <span class="mobile-nav-link-desc">Business development, research, data and marketing</span>
+          </span>
+          <svg class="mobile-nav-chevron" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="mobile-nav-submenu" id="mobileServicesSub" data-accordion-panel>
+          <div class="mobile-nav-submenu-inner">
+            <ul class="mobile-nav-sublist">
+              <li><a class="mobile-nav-subitem" href="/services/business-development.html" data-service="business-development">Business Development</a></li>
+              <li><a class="mobile-nav-subitem" href="https://clickbait-beta.vercel.app/" target="_blank" rel="noopener" data-service="clickbait-marketing">Clickbait Marketing</a></li>
+              <li><a class="mobile-nav-subitem" href="/services/research-project-management.html" data-service="research-project-management">Research & Project Management</a></li>
+              <li><a class="mobile-nav-subitem" href="/services/data-division.html" data-service="data-division">Data Division</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-nav-item">
+        <a class="mobile-nav-link" href="/updates/index.html">
+          <span class="mobile-nav-link-inner">
+            <span class="mobile-nav-link-text">Updates</span>
+            <span class="mobile-nav-link-desc">News, insights and project stories</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="mobile-nav-item">
+        <a class="mobile-nav-link" href="/about.html">
+          <span class="mobile-nav-link-inner">
+            <span class="mobile-nav-link-text">About us</span>
+            <span class="mobile-nav-link-desc">Who we are and how we work</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="mobile-nav-item">
+        <a class="mobile-nav-link mobile-nav-link--cta" href="/contact.html">
+          <span class="mobile-nav-link-inner">
+            <span class="mobile-nav-link-text">Contact us <span class="mobile-nav-arrow" aria-hidden="true">↗</span></span>
+            <span class="mobile-nav-link-desc">Start the conversation</span>
+          </span>
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="mobile-nav-footer">
+      <a href="mailto:info@equipgroup.co" class="mobile-nav-footer-email">info@equipgroup.co</a>
+      <div class="mobile-nav-footer-social">
+        <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram <span class="mobile-nav-footer-arrow" aria-hidden="true">↳</span></a>
+        <a href="https://linkedin.com/company/equip-consulting-group" target="_blank" rel="noopener">LinkedIn <span class="mobile-nav-footer-arrow" aria-hidden="true">↳</span></a>
+      </div>
+    </div>
+
+  </div>
+</div>

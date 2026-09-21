@@ -160,7 +160,7 @@
         <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
       </div>
     `).join('');
-    new LogoMarquee(logoWrapper, { speed: 35, gap: 56 });
+    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
   }
 </script>
 <script>
@@ -173,7 +173,7 @@
   // Mobile sticky CTA bar - show when scrolled past hero
   (function() {
     const ctaBar = document.getElementById('mobileCtaBar');
-    const hero = document.query('[data-hero]');
+    const hero = document.querySelector('[data-hero]');
     if (!ctaBar || !hero) return;
     
     let ticking = false;
@@ -190,6 +190,112 @@
       }
     }, { passive: true });
   })();
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/carousel.js"></script>
+<script src="../js/data-division.js"></script>
+<script src="../js/data-division-toggle.js"></script>
+<script type="module">
+  import { loadCaseStudies, renderCaseStudyCard } from '../js/case-studies.js';
+  import { initHeroAnimations } from '../js/hero-animations.js';
+  import { initDataDivisionToggle } from '../js/data-division-toggle.js';
+
+  loadCaseStudies('data-division', { featuredOnly: false })
+    .then(studies => {
+      document.getElementById('ddProjectsGrid').innerHTML = studies.map(cs => renderCaseStudyCard(cs, { link: true })).join('');
+    });
+
+  initHeroAnimations();
+  initDataDivisionToggle();
+
+  const logoWrapper = document.querySelector('[data-logos]');
+  if (logoWrapper) {
+    const { LogoMarquee } = await import('../js/logo-marquee.js');
+    const res = await fetch('../data/logos.json');
+    const { logos } = await res.json();
+    const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
+      logoWrapper.innerHTML = `
+        <div class="logo-marquee" role="region" aria-label="Trusted partners" tabindex="0"></div>
+        <button class="marquee-arrow marquee-arrow--prev" aria-label="Previous partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="marquee-arrow marquee-arrow--next" aria-label="Next partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      `;
+      return logoWrapper.querySelector('.logo-marquee');
+    })();
+    marqueeEl.innerHTML = logos.map(l => `
+      <div class="logo-item" style="flex:0 0 auto;">
+        <img src="${l.image}" alt="${l.name}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
+      </div>
+    `).join('');
+    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
+  }
+</script>
+<script>
+  fetch('../data/data-division.json').then(r=>r.json()).then(({items})=>{
+    document.getElementById('statVisuals').textContent = items.filter(i=>i.type!=='dashboard').length + '+';
+    document.getElementById('statDashboards').textContent = items.filter(i=>i.type==='dashboard').length || '2';
+  }).catch(()=>{});
+</script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/carousel.js"></script>
+<script src="../js/data-division.js"></script>
+<script src="../js/data-division-toggle.js"></script>
+<script type="module">
+  import { loadCaseStudies, renderCaseStudyCard } from '../js/case-studies.js';
+  import { initHeroAnimations } from '../js/hero-animations.js';
+  import { initDataDivisionToggle } from '../js/data-division-toggle.js';
+
+  loadCaseStudies('data-division', { featuredOnly: false })
+    .then(studies => {
+      document.getElementById('ddProjectsGrid').innerHTML = studies.map(cs => renderCaseStudyCard(cs, { link: true })).join('');
+    });
+
+  initHeroAnimations();
+  initDataDivisionToggle();
+
+  const logoWrapper = document.querySelector('[data-logos]');
+  if (logoWrapper) {
+    const { LogoMarquee } = await import('../js/logo-marquee.js');
+    const res = await fetch('../data/logos.json');
+    const { logos } = await res.json();
+    const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
+      logoWrapper.innerHTML = `
+        <div class="logo-marquee" role="region" aria-label="Trusted partners" tabindex="0"></div>
+        <button class="marquee-arrow marquee-arrow--prev" aria-label="Previous partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="marquee-arrow marquee-arrow--next" aria-label="Next partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      `;
+      return logoWrapper.querySelector('.logo-marquee');
+    })();
+    marqueeEl.innerHTML = logos.map(l => `
+      <div class="logo-item" style="flex:0 0 auto;">
+        <img src="${l.image}" alt="${l.name}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
+      </div>
+    `).join('');
+    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
+  }
+</script>
+<script>
+  fetch('../data/data-division.json').then(r=>r.json()).then(({items})=>{
+    document.getElementById('statVisuals').textContent = items.filter(i=>i.type!=='dashboard').length + '+';
+    document.getElementById('statDashboards').textContent = items.filter(i=>i.type==='dashboard').length || '2';
+  }).catch(()=>{});
 </script>
 </body>
 </html>

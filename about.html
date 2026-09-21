@@ -59,38 +59,51 @@
     <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
   </section>
 
-  <section class="section">
-    <div class="container grid" style="grid-template-columns: 1fr 1fr; align-items:center; gap:3rem;">
-      <div class="card-media" style="aspect-ratio:4/3;"><img src="assets/images/about-office.jpg" alt="" onerror="this.parentElement.style.background='var(--navy)'"></div>
-      <div>
-        <hr class="rule"><h2>Our work in numbers</h2>
-        <p>Offering tailor-made management, data and capacity development solutions.</p>
-        <div class="grid grid-4" style="margin-top:1.5rem;">
-          <div class="card" style="padding:1.5rem; background:var(--navy); color:#fff;"><b style="font-family:var(--font-display); font-size:var(--step-2); color:var(--soft-gold);">$3M+</b><br><span style="font-size:.85rem;">Investment facilitated</span></div>
-          <div class="card" style="padding:1.5rem; background:var(--soft-gold);"><b style="font-family:var(--font-display); font-size:var(--step-2); color:var(--navy);">500+</b><br><span style="font-size:.85rem;">Number of SMEs</span></div>
-          <div class="card" style="padding:1.5rem; background:var(--ink-soft); color:#fff;"><b style="font-family:var(--font-display); font-size:var(--step-2); color:var(--soft-gold);">17+</b><br><span style="font-size:.85rem;">Sectors</span></div>
-          <div class="card" style="padding:1.5rem; background:var(--gold);"><b style="font-family:var(--font-display); font-size:var(--step-2); color:var(--navy-deep);">55+</b><br><span style="font-size:.85rem;">Organisations</span></div>
+  <section class="section section--fullscreen" data-section="numbers">
+    <div class="container">
+      <div class="numbers-content">
+        <div class="section-head-simple">
+          <hr class="rule"><h2>Our work in numbers</h2>
+        </div>
+        <p class="numbers-lede">Offering tailor-made management, data and capacity development solutions.</p>
+        <div class="grid grid-4 numbers-grid" data-reveal-group data-reveal="scale">
+          <div class="stat-card" data-reveal>
+            <b data-count="3" data-prefix="$" data-suffix="M+" class="stat-number">$3M+</b>
+            <span class="stat-label">Investment facilitated</span>
+          </div>
+          <div class="stat-card" data-reveal>
+            <b data-count="500" data-suffix="+" class="stat-number">500+</b>
+            <span class="stat-label">Number of SMEs</span>
+          </div>
+          <div class="stat-card" data-reveal>
+            <b data-count="17" data-suffix="+" class="stat-number">17+</b>
+            <span class="stat-label">Sectors</span>
+          </div>
+          <div class="stat-card" data-reveal>
+            <b data-count="55" data-suffix="+" class="stat-number">55+</b>
+            <span class="stat-label">Organisations</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section bg-navy">
-    <div class="container grid" style="grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
-      <div>
-        <hr class="rule"><h2>Our vision</h2>
-        <p>To create more efficient organisations with the ability to identify solutions to all their challenges.</p>
-      </div>
-      <div class="card-media" style="aspect-ratio:4/3;"><img src="assets/images/about-vision.jpg" alt="" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
-    </div>
-  </section>
-
-  <section class="section" style="background:var(--soft-gold);">
-    <div class="container grid" style="grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
-      <div class="card-media" style="aspect-ratio:4/3;"><img src="assets/images/about-mission.jpg" alt="" onerror="this.parentElement.style.background='var(--navy)'"></div>
-      <div>
-        <hr class="rule"><h2>Our mission</h2>
-        <p style="color:var(--navy);">To offer tailor-made management, data and capacity development solutions that prepare organisations and individuals to adapt to the changing nature of work.</p>
+  <section class="section section--fullscreen vision-mission-section" data-section="vision-mission">
+    <div class="container">
+      <div class="vision-mission-grid">
+        <div class="vision-mission-text">
+          <div class="vision-block" data-reveal="left">
+            <hr class="rule"><h2>Our vision</h2>
+            <p>To create more efficient organisations with the ability to identify solutions to all their challenges.</p>
+          </div>
+          <div class="mission-block" data-reveal="left">
+            <hr class="rule"><h2>Our mission</h2>
+            <p style="color:var(--navy);">To offer tailor-made management, data and capacity development solutions that prepare organisations and individuals to adapt to the changing nature of work.</p>
+          </div>
+        </div>
+        <div class="vision-mission-photo" data-reveal="right">
+          <div class="card-media" style="aspect-ratio:4/3;"><img src="assets/images/about-vision.jpg" alt="Equip Group vision and mission in action" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -158,19 +171,22 @@
         <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
       </div>
     `).join('');
-    new LogoMarquee(logoWrapper, { speed: 35, gap: 56 });
+    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
   }
 
   fetch('data/team.json').then(r=>r.json()).then(({team}) => {
     document.getElementById('teamGrid').innerHTML = team.map(m => `
-      <div class="card">
-        <div class="card-media"><img src="${m.photo}" alt="${m.name}" onerror="this.parentElement.style.background='var(--navy)'"></div>
-        <div class="card-body" style="gap:.15rem;">
-          <h4 style="font-size:1rem;">${m.name}</h4>
-          <span style="color:var(--ink-soft); font-size:.9rem;">${m.role}</span>
-        </div>
-      </div>`).join('');
+        <div class="team-card card">
+            <div class="card-media">
+                <img src="${m.photo}" alt="${m.name}" onerror="this.parentElement.style.background='var(--navy)'">
+                <div class="team-card-info">
+                    <h4>${m.name}</h4>
+                    <span>${m.role}</span>
+                </div>
+            </div>
+        </div>`).join('');
   }).catch(()=>{});
 </script>
+
 </body>
 </html>

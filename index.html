@@ -107,46 +107,54 @@
     <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
   </section>
 
-  <!-- SERVICES -->
+<!-- SERVICES -->
   <section class="section">
     <div class="container">
       <div class="section-head">
         <div><hr class="rule"><h2>Explore our services</h2></div>
-        <p>Three disciplines, one goal: organisations that can identify solutions to their own challenges.</p>
+        <p>Four disciplines, one goal: organisations that can identify solutions to their own challenges.</p>
       </div>
-      <div class="grid" style="grid-template-columns: 1.1fr 1fr; gap:1.75rem;">
-        <a href="services/business-development.html" class="card" style="position:relative; min-height:480px;">
+      <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap:1.75rem;">
+        <a href="services/business-development.html" class="card" style="position:relative; min-height:380px;">
           <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
             <img src="assets/images/service-bd.jpg" alt="" onerror="this.parentElement.style.background='var(--plum)'">
           </div>
           <div class="card-body" style="position:relative; margin-top:auto; background:var(--plum); color:#fff;">
             <hr class="rule" style="background:var(--soft-gold)">
             <h4 style="color:#fff;">Business Development</h4>
-            <p style="color:rgba(255,255,255,.8)">Imagine your startup’s potential fully realized. From vision to impact—we guide your journey to lasting growth.</p>
+            <p style="color:rgba(255,255,255,.8)">Imagine your startup's potential fully realized. From vision to impact—we guide your journey to lasting growth.</p>
           </div>
         </a>
-        <div class="grid" style="grid-template-columns:1fr; gap:1.75rem;">
-          <a href="services/research-project-management.html" class="card" style="position:relative; min-height:225px;">
-            <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-              <img src="assets/images/service-rpm.jpg" alt="" onerror="this.parentElement.style.background='var(--green)'">
-            </div>
-            <div class="card-body" style="position:relative; margin-top:auto; background:var(--green); color:#fff;">
-              <hr class="rule" style="background:var(--soft-gold)">
-              <h4 style="color:#fff;">Research &amp; Project Management</h4>
-              <p style="color:rgba(255,255,255,.8)">We design and deliver projects that work — meaningful, practical, built for impact.</p>
-            </div>
-          </a>
-          <a href="services/data-division.html" class="card" style="position:relative; min-height:225px;">
-            <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-              <img src="assets/images/service-data.jpg" alt="" onerror="this.parentElement.style.background='var(--turquoise)'">
-            </div>
-            <div class="card-body" style="position:relative; margin-top:auto; background:var(--turquoise); color:#fff;">
-              <hr class="rule" style="background:var(--soft-gold)">
-              <h4 style="color:#fff;">Data Division</h4>
-              <p style="color:rgba(255,255,255,.8)">We turn complex data into clear, compelling insight that drives smarter decisions.</p>
-            </div>
-          </a>
-        </div>
+        <a href="https://clickbait-beta.vercel.app/" target="_blank" rel="noopener" class="card" style="position:relative; min-height:380px;">
+          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
+            <div style="width:100%;height:100%;background:#003135;display:flex;align-items:center;justify-content:center;"><span style="font-family:var(--font-display);font-size:3rem;color:#fff;opacity:.15;">CM</span></div>
+          </div>
+          <div class="card-body" style="position:relative; margin-top:auto; background:#003135; color:#fff;">
+            <hr class="rule" style="background:#005a5f">
+            <h4 style="color:#fff;">Clickbait Marketing</h4>
+            <p style="color:rgba(255,255,255,.8)">Our sister company for brand, content and growth marketing that stops the scroll.</p>
+          </div>
+        </a>
+        <a href="services/research-project-management.html" class="card" style="position:relative; min-height:380px;">
+          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
+            <img src="assets/images/service-rpm.jpg" alt="" onerror="this.parentElement.style.background='var(--green)'">
+          </div>
+          <div class="card-body" style="position:relative; margin-top:auto; background:var(--green); color:#fff;">
+            <hr class="rule" style="background:var(--soft-gold)">
+            <h4 style="color:#fff;">Research & Project Management</h4>
+            <p style="color:rgba(255,255,255,.8)">We design and deliver projects that work — meaningful, practical, built for impact.</p>
+          </div>
+        </a>
+        <a href="services/data-division.html" class="card" style="position:relative; min-height:380px;">
+          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
+            <img src="assets/images/service-data.jpg" alt="" onerror="this.parentElement.style.background='var(--turquoise)'">
+          </div>
+          <div class="card-body" style="position:relative; margin-top:auto; background:var(--turquoise); color:#fff;">
+            <hr class="rule" style="background:var(--soft-gold)">
+            <h4 style="color:#fff;">Data Division</h4>
+            <p style="color:rgba(255,255,255,.8)">We turn complex data into clear, compelling insight that drives smarter decisions.</p>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -195,22 +203,22 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section bg-navy">
-    <div class="container">
-      <div class="section-head">
-        <div><hr class="rule"><h2>What our clients say</h2></div>
-        <a href="contact.html" style="color:var(--soft-gold); font-weight:600;">Let's work together →</a>
-      </div>
-      <div data-testimonials></div>
+  <!-- CTA -->
+  <section style="padding-block:4rem; border-top:1px solid rgba(246,244,238,.12); background-image: url('assets/images/discover.webp'); background-size: cover; background-position: center;">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+      <h3 class="mt-0" style="max-width:26ch; color:#a8935a;">Discover tailored business solutions</h3>
+      <a href="contact.html" class="btn btn-gold">Let's talk</a>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="bg-navy" style="padding-block:4rem; border-top:1px solid rgba(246,244,238,.12);">
-    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
-      <h3 class="mt-0" style="max-width:26ch;">Discover tailored business solutions</h3>
-      <a href="contact.html" class="btn btn-gold">Let's talk</a>
+  <!-- TESTIMONIALS -->
+  <section class="section section--compact bg-white" style="padding-block: clamp(1.5rem, 3vw, 2.5rem);">
+    <div class="container">
+      <div class="section-head">
+        <div><hr class="rule"><h2>What our clients say</h2></div>
+        <a href="contact.html" style="color:var(--navy); font-weight:600;">Let's work together →</a>
+      </div>
+      <div data-testimonials></div>
     </div>
   </section>
 
@@ -249,7 +257,7 @@
         <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
       </div>
     `).join('');
-    new LogoMarquee(logoWrapper, { speed: 35, gap: 56 });
+    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
   }
 
   // Pull the 3 most recent updates for the homepage preview strip

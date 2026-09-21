@@ -1,3 +1,9 @@
+const VIDEO_MAP = {
+    'business-development': 'hero-bds-video.webm',
+    'research-project-management': 'hero-rpm-video.webm',
+    'data-division': 'hero-dd-video.webm'
+};
+
 const ROOT = document.documentElement.dataset.root || '';
 
 export async function loadCaseStudies(serviceSlug, { featuredOnly = false, limit = null } = {}) {
@@ -68,8 +74,10 @@ export function renderCaseStudyDetail(cs) {
     return nameMap[id] || id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   });
 
+const videoSrc = ROOT + 'assets/videos/' + (VIDEO_MAP[cs.serviceSlug] || 'hero-bds-video.mp4');
   return `
-    <section class="hero hero--compact" style="background:var(--${color});" data-hero>
+    <section class="hero hero--compact" data-hero>
+      <div class="hero-bg"><video autoplay muted loop playsinline preload="auto" poster="${ROOT}${cs.heroImage}"><source src="${videoSrc}" type="video/mp4"></video></div>
       <div class="hero-inner">
         <div class="hero-content" style="grid-column:1/-1; text-align:center;">
           <span class="hero-eyebrow">${cs.eyebrow}</span>
@@ -90,7 +98,7 @@ export function renderCaseStudyDetail(cs) {
 
     <section class="section">
       <div class="container">
-        <div class="grid" style="grid-template-columns: 2fr 1fr; gap:3rem;">
+        <div class="grid cs-detail-grid" style="grid-template-columns: 2fr 1fr; gap:3rem;">
           <div>
             <div class="case-study-section" style="margin-bottom:3rem;">
               <h2>The Challenge</h2>
