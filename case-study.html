@@ -6,7 +6,7 @@
 <title id="csTitle">Case Study — Equip Group</title>
 <meta name="description" id="csDescription" content="">
 <link rel="stylesheet" href="css/style.css">
-<link rel="icon" type="image/avif" href="/assets/logos/favicon.avif">
+<link rel="icon" type="image/avif" href="assets/logos/favicon.avif">
 <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script type="application/ld+json">
 {
@@ -27,7 +27,7 @@
   <section class="bg-navy" style="padding-block:4rem;">
     <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
       <h3 class="mt-0" style="max-width:26ch;">Explore more case studies</h3>
-      <a href="/services/business-development.html" class="btn btn-gold">View all projects</a>
+      <a href="services/business-development.html" class="btn btn-gold">View all projects</a>
     </div>
   </section>
 
@@ -47,11 +47,11 @@
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  if (!id) window.location.href = '/services/business-development.html';
+  if (!id) window.location.href = 'services/business-development.html';
 
   const allStudies = await loadCaseStudies('', { featuredOnly: false });
   const study = allStudies.find(cs => cs.id === id);
-  if (!study) window.location.href = '/services/business-development.html';
+  if (!study) window.location.href = 'services/business-development.html';
 
   document.getElementById('csTitle').textContent = `${study.title} — Equip Group`;
   document.getElementById('csDescription').content = study.title + ' — ' + study.client + ' — ' + study.period;
@@ -62,7 +62,7 @@
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
     const { LogoMarquee } = await import('./js/logo-marquee.js');
-    const res = await fetch('/data/logos.json');
+    const res = await fetch('data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `

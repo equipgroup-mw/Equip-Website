@@ -19,7 +19,7 @@
       "title": "The sectors we have worked in",
       "sector": "Cross-sector",
       "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
-      "image": "/assets/data-division/sectors-worked-in.jpg"
+      "image": "/Equip-Website/assets/data-division/sectors-worked-in.jpg"
     },
     {
       "id": "bds-split",
@@ -72,7 +72,7 @@
       "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
       "sector": "Emerging Industries",
       "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
-      "image": "/assets/data-division/agroprocessing-malawi.jpg"
+      "image": "/Equip-Website/assets/data-division/agroprocessing-malawi.jpg"
     },
     {
       "id": "mse-dashboard",
@@ -101,7 +101,7 @@
       "title": "Member of Parliament race (unofficial) — timeline",
       "sector": "Current Affairs",
       "description": "An unofficial running timeline built from public reporting, for reference only.",
-      "image": "/assets/data-division/mp-race-timeline.jpg"
+      "image": "/Equip-Website/assets/data-division/mp-race-timeline.jpg"
     },
     {
       "id": "impact-timeline",
@@ -110,7 +110,7 @@
       "title": "Our timeline",
       "sector": "Cross-sector",
       "description": "Equip Group's project timeline from founding to today.",
-      "image": "/assets/data-division/our-timeline.jpg"
+      "image": "/Equip-Website/assets/data-division/our-timeline.jpg"
     },
     {
       "id": "article-agroprocessing",
