@@ -5,19 +5,19 @@
       "name": "Business Development",
       "description": "We help businesses start, build and grow.",
       "external": false,
-      "path": "/services/business-development.html"
+      "path": "services/business-development.html"
     },
     {
       "name": "Research & Project Management",
       "description": "We design and deliver projects that work.",
       "external": false,
-      "path": "/services/research-project-management.html"
+      "path": "services/research-project-management.html"
     },
     {
       "name": "Data Division",
       "description": "Complex data. Compelling stories. Strategic clarity.",
       "external": false,
-      "path": "/services/data-division.html"
+      "path": "services/data-division.html"
     },
     {
       "name": "Clickbait Marketing",
