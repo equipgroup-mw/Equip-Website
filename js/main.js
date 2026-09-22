@@ -15,7 +15,7 @@
       if(!res.ok) throw new Error(url + ' → HTTP ' + res.status);
       const html = await res.text();
       if(!html.trim()) throw new Error(url + ' → empty response');
-      host.innerHTML = html;
+      host.innerHTML = rewritePaths(html, ROOT);
       return true;
     }catch(e){
       host.innerHTML = '<div style="padding:1rem;background:#fee;border:1px solid #f88;color:#800;font-family:monospace;font-size:.8rem">Failed to load '+url+': '+e.message+'</div>';
@@ -24,19 +24,10 @@
   }
 
   function rewritePaths(html, root){
-    const ATTRS = ['href', 'src', 'action', 'poster'];
-    const tpl = document.createElement('template');
-    tpl.innerHTML = html;
-    const els = tpl.content.querySelectorAll(ATTRS.map(a => `[${a}]`).join(','));
-    els.forEach(el => {
-      ATTRS.forEach(attr => {
-        const v = el.getAttribute(attr);
-        if(v && v.startsWith('/') && !v.startsWith('//')){
-          el.setAttribute(attr, root + v.slice(1));
-        }
-      });
+    return html.replace(/((?:href|src|action|poster)=["'])(\/[^\s"'>]+)(["'])/g, (match, prefix, path, suffix) => {
+      if(path.startsWith('//')) return match;
+      return prefix + root + path.slice(1) + suffix;
     });
-    return tpl.innerHTML;
   }
 
   /* ------------------------------------------------------------------ */

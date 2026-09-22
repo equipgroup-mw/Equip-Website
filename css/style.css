@@ -431,14 +431,14 @@ button{ font-family: inherit; cursor:pointer; }
 
 .mobile-nav-top{
   display:flex; justify-content:space-between; align-items:center;
-  padding-bottom: 2.5rem;
-  padding-top: 1rem;
+  padding-bottom: 1.25rem;
+  padding-top: .5rem;
 }
-.mobile-nav-logo-img{ height:28px; width:auto; filter: brightness(0) invert(1); }
+.mobile-nav-logo-img{ height:22px; width:auto; filter: brightness(0) invert(1); }
 
 .mobile-nav-close{
   background:none; border:0; font-family:inherit; font-weight:600;
-  font-size:.85rem; letter-spacing:.08em; color:var(--cream);
+  font-size:.75rem; letter-spacing:.08em; color:var(--cream);
   text-transform: uppercase; cursor:pointer; padding:.25rem; min-height:44px; min-width:44px;
   display:flex; align-items:center; justify-content:center;
 }
@@ -446,10 +446,10 @@ button{ font-family: inherit; cursor:pointer; }
 /* Nav links */
 .mobile-nav-links{
   flex:1; display:flex; flex-direction:column;
-  gap:0; justify-content: center;
+  gap:0; justify-content: flex-start;
 }
 .mobile-nav-item{
-  display:block !important; padding: 1.25rem 0;
+  display:block !important; padding: .55rem 0;
   border-bottom:1px solid rgba(255,255,255,.08);
   opacity:1 !important; visibility:visible !important;
 }
@@ -459,34 +459,34 @@ button{ font-family: inherit; cursor:pointer; }
   background:none; border:0; width:100%;
   text-align:left; padding:0;
   font-family:inherit; cursor:pointer;
-  display:flex !important; align-items:flex-end; justify-content:space-between; gap:1rem;
+  display:flex !important; align-items:flex-end; justify-content:space-between; gap:.65rem;
   color:var(--cream);
   text-transform: none;
   letter-spacing: normal;
   opacity:1 !important; visibility:visible !important;
 }
-.mobile-nav-link-inner{ display:flex !important; flex-direction:column; gap:.5rem; }
+.mobile-nav-link-inner{ display:flex !important; flex-direction:column; gap:.3rem; }
 .mobile-nav-link-text{
   font-family:var(--font-display);
-  font-size: clamp(2.5rem, 12vw, 4rem);
-  line-height:1; 
-  letter-spacing:-.02em;
+  font-size: clamp(1.4rem, 6vw, 2.2rem);
+  line-height:1.1; 
+  letter-spacing:-.01em;
   color:inherit;
-  display:flex; align-items:baseline; gap:.3em;
+  display:flex; align-items:baseline; gap:.25em;
   transition: color .3s var(--ease);
 }
 .mobile-nav-link:hover .mobile-nav-link-text { color: var(--soft-gold); }
 .mobile-nav-link--cta .mobile-nav-link-text{ display:inline-flex; align-items:baseline; }
-.mobile-nav-arrow{ font-size:clamp(1.2rem, 5vw, 1.5rem); opacity:.6; }
+.mobile-nav-arrow{ font-size:.9rem; opacity:.6; }
 
 .mobile-nav-link-desc{
-  font-family:inherit; font-size:.7rem;
-  text-transform:uppercase; letter-spacing:.08em;
+  font-family:inherit; font-size:.6rem;
+  text-transform:uppercase; letter-spacing:.06em;
   color:rgba(255,255,255,.4); font-weight:400;
 }
 
 .mobile-nav-chevron{
-  width:14px; height:14px; flex-shrink:0; margin-bottom: .8rem;
+  width:12px; height:12px; flex-shrink:0; margin-bottom: .3rem;
   color:rgba(255,255,255,.4); transition:transform .3s var(--ease);
 }
 .mobile-nav-item[data-open] .mobile-nav-chevron{ transform:rotate(180deg); }
@@ -500,10 +500,10 @@ button{ font-family: inherit; cursor:pointer; }
 .mobile-nav-item[data-open] .mobile-nav-submenu{
   grid-template-rows:1fr;
 }
-.mobile-nav-submenu-inner{ overflow:hidden; padding-top: 1rem; }
+.mobile-nav-submenu-inner{ overflow:hidden; padding-top: .5rem; }
 .mobile-nav-subitem{
-  display:flex; align-items:center; gap:.65rem;
-  padding:.65rem 0; font-size:1.1rem; font-weight:400;
+  display:flex; align-items:center; gap:.5rem;
+  padding:.45rem 0; font-size:.95rem; font-weight:400;
   color:rgba(255,255,255,.6); text-decoration:none;
   transition: color .2s ease;
 }
@@ -514,11 +514,11 @@ button{ font-family: inherit; cursor:pointer; }
 /* Footer pinned to bottom */
 .mobile-nav-footer{
   display:flex; justify-content:flex-start; align-items:center;
-  gap: 2.5rem;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
+  gap: 2rem;
+  padding-top: 1.25rem;
+  padding-bottom: .75rem;
   margin-top:auto;
-  font-size:.75rem; text-transform:uppercase; letter-spacing:.08em;
+  font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
   font-weight: 600;
 }
 .mobile-nav-footer a{
