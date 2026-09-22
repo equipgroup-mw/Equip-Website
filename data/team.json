@@ -4,7 +4,7 @@
     {
       "name": "Rollins Chitika",
       "role": "Managing Director",
-      "photo": "/assets/team/rollins-chitika.avif",
+      "photo": "assets/team/rollins-chitika.avif",
       "bio": "Rollins founded Equip Group in 2019 with a vision to bridge the gap between ambitious Malawian entrepreneurs and the structured support they need to scale. He brings 15+ years of experience in business development, investment facilitation, and SME ecosystem building across Southern Africa. Previously led enterprise development programs for international development agencies.",
       "linkedin": "https://linkedin.com/in/rollinschitika",
       "expertise": ["Strategy", "Business Development", "Fundraising", "Ecosystem Building"]
@@ -12,7 +12,7 @@
     {
       "name": "Matilda Nhlane",
       "role": "Teams Manager",
-      "photo": "/assets/team/matilda-nhlane.avif",
+      "photo": "assets/team/matilda-nhlane.avif",
       "bio": "Matilda leads Equip's operational excellence, ensuring project teams deliver on time, on budget, and to standard. She has 10+ years managing multi-disciplinary teams in consulting and development sectors. Certified PMP with a focus on adaptive project management in resource-constrained environments.",
       "linkedin": "https://linkedin.com/in/matildanhlane",
       "expertise": ["Project Management", "Team Leadership", "Operations", "Quality Assurance"]
@@ -20,7 +20,7 @@
     {
       "name": "Tereza Chaponda",
       "role": "Team Lead",
-      "photo": "/assets/team/tereza-chaponda.avif",
+      "photo": "assets/team/tereza-chaponda.avif",
       "bio": "Tereza heads the Business Development practice, overseeing incubator programs, investment readiness, and SME acceleration. She has designed and delivered entrepreneurship programs for UN Women, Standard Bank, and GIZ. Passionate about women's economic empowerment in agriculture.",
       "linkedin": "https://linkedin.com/in/terezachaponda",
       "expertise": ["Incubation", "Gender Lens Investing", "Agribusiness", "Program Design"]
@@ -28,7 +28,7 @@
     {
       "name": "Ipyana Mkandawire",
       "role": "Project Officer",
-      "photo": "/assets/team/ipyana-mkandawire.avif",
+      "photo": "assets/team/ipyana-mkandawire.avif",
       "bio": "Ipyana specializes in monitoring & evaluation and adaptive learning for agriculture and food security programs. He has led baseline, mid-term, and end-line evaluations for AGRA, IFAD, and World Bank-funded projects. Skilled in KoBoToolbox, Power BI, and qualitative outcome harvesting.",
       "linkedin": "https://linkedin.com/in/ipyana-mkandawire",
       "expertise": ["M&E", "Data Analysis", "Agriculture", "Adaptive Management"]
@@ -36,7 +36,7 @@
     {
       "name": "Mervis Msukwa",
       "role": "Project and Administrative Officer",
-      "photo": "/assets/team/mervis-msukwa.avif",
+      "photo": "assets/team/mervis-msukwa.avif",
       "bio": "Mervis ensures seamless project execution through rigorous administrative and financial management. She manages budgets, contracts, compliance, and reporting for multi-donor programs. Her organizational precision keeps complex, multi-stakeholder projects running smoothly.",
       "linkedin": "https://linkedin.com/in/mervis-msukwa",
       "expertise": ["Financial Management", "Compliance", "Grant Administration", "Operations"]
@@ -44,7 +44,7 @@
     {
       "name": "Sophie Chisa",
       "role": "Project and Marketing Officer",
-      "photo": "/assets/team/sophie-chisa.avif",
+      "photo": "assets/team/sophie-chisa.avif",
       "bio": "Sophie bridges project delivery and strategic communications. She manages stakeholder engagement, knowledge products, and digital outreach for Equip's research and business development portfolios. Background in development communications and social media strategy.",
       "linkedin": "https://linkedin.com/in/sophiechisa",
       "expertise": ["Communications", "Stakeholder Engagement", "Knowledge Management", "Digital Marketing"]
@@ -52,7 +52,7 @@
     {
       "name": "Lusungu Masawanie",
       "role": "Data Visualization Specialist",
-      "photo": "/assets/team/lusungu-masawanie.avif",
+      "photo": "assets/team/lusungu-masawanie.avif",
       "bio": "Lusungu transforms complex datasets into intuitive, actionable visual stories. She leads Equip's Data Division design practice — building dashboards, interactive portals, and print-ready infographics for government, donors, and private sector. Expert in Power BI, Tableau, and D3.js.",
       "linkedin": "https://linkedin.com/in/lusungu-masawanie",
       "expertise": ["Data Visualization", "Dashboard Design", "Power BI", "Information Design"]
@@ -60,7 +60,7 @@
     {
       "name": "Lizzie Mwanandi",
       "role": "Data Analyst",
-      "photo": "/assets/team/lizzie-mwanandi.avif",
+      "photo": "assets/team/lizzie-mwanandi.avif",
       "bio": "Lizzie handles data engineering, statistical analysis, and survey design for Equip's research projects. She builds reproducible data pipelines, conducts econometric analysis, and produces evidence briefs for policy audiences. Proficient in R, Python, Stata, and SQL.",
       "linkedin": "https://linkedin.com/in/lizzie-mwanandi",
       "expertise": ["Data Analysis", "Statistics", "Survey Design", "R/Python"]
@@ -68,7 +68,7 @@
     {
       "name": "Pacharo Njoloma",
       "role": "Project Officer",
-      "photo": "/assets/team/pacharo-njoloma.avif",
+      "photo": "assets/team/pacharo-njoloma.avif",
       "bio": "Pacharo supports Business Development projects with a focus on market systems and value chain analysis. He has worked on agricultural commercialization programs across Malawi and Zambia. Strong in field coordination, partner management, and results reporting.",
       "linkedin": "https://linkedin.com/in/pacharo-njoloma",
       "expertise": ["Market Systems", "Value Chains", "Field Coordination", "Agriculture"]
@@ -76,7 +76,7 @@
     {
       "name": "Dorica Nyasulu",
       "role": "Finance and Administrative Officer",
-      "photo": "/assets/team/dorica-nyasulu.avif",
+      "photo": "assets/team/dorica-nyasulu.avif",
       "bio": "Dorica manages Equip's financial operations — budgeting, forecasting, donor financial reporting, and audit compliance. She ensures all projects meet fiduciary standards of international donors (World Bank, EU, IFAD, bilateral agencies). ACCA affiliate.",
       "linkedin": "https://linkedin.com/in/dorica-nyasulu",
       "expertise": ["Financial Reporting", "Donor Compliance", "Audit", "Budgeting"]
@@ -84,7 +84,7 @@
     {
       "name": "Jacqueline Chibambo",
       "role": "Project Officer",
-      "photo": "/assets/team/jacqueline-chibambo.avif",
+      "photo": "assets/team/jacqueline-chibambo.avif",
       "bio": "Jacqueline works on Research & Project Management engagements, specializing in qualitative research, policy analysis, and stakeholder consultations. She has contributed to national strategy documents for the Ministry of Agriculture and Ministry of Youth. Strong writing and synthesis skills.",
       "linkedin": "https://linkedin.com/in/jacqueline-chibambo",
       "expertise": ["Qualitative Research", "Policy Analysis", "Stakeholder Engagement", "Report Writing"]
@@ -92,7 +92,7 @@
     {
       "name": "Maxwell Mkumba",
       "role": "Digital Marketer",
-      "photo": "/assets/team/maxwell-mkumba.avif",
+      "photo": "assets/team/maxwell-mkumba.avif",
       "bio": "Maxwell drives Equip's digital presence — website, social media, email marketing, and content strategy. He also supports clients with digital transformation and online market access. Background in e-commerce and growth marketing for African SMEs.",
       "linkedin": "https://linkedin.com/in/maxwell-mkumba",
       "expertise": ["Digital Marketing", "Content Strategy", "Social Media", "E-commerce"]
@@ -100,7 +100,7 @@
     {
       "name": "Danford Mponda",
       "role": "Data Engineer",
-      "photo": "/assets/team/danford-mponda.avif",
+      "photo": "assets/team/danford-mponda.avif",
       "bio": "Danford architects Equip's data infrastructure — pipelines, warehouses, APIs, and real-time dashboards. He built the MSE Tracker live feed, the agro-processing portal, and automated reporting systems for multiple clients. Expert in Python, SQL, Airflow, and cloud data platforms.",
       "linkedin": "https://linkedin.com/in/danford-mponda",
       "expertise": ["Data Engineering", "Real-time Dashboards", "ETL Pipelines", "Cloud Architecture"]
@@ -108,7 +108,7 @@
     {
       "name": "Haywood Liuma",
       "role": "Graphics Designer",
-      "photo": "/assets/team/haywood-liuma.avif",
+      "photo": "assets/team/haywood-liuma.avif",
       "bio": "Haywood creates Equip's visual identity across all touchpoints — brand, reports, dashboards, presentations, and digital assets. He translates complex data and narratives into compelling visual communication. Proficient in Adobe Creative Suite, Figma, and motion graphics.",
       "linkedin": "https://linkedin.com/in/haywood-liuma",
       "expertise": ["Graphic Design", "Brand Identity", "Report Design", "Motion Graphics"]
@@ -116,7 +116,7 @@
     {
       "name": "Blessings Akimu",
       "role": "Project Officer",
-      "photo": "/assets/team/blessings-akimu.avif",
+      "photo": "assets/team/blessings-akimu.avif",
       "bio": "Blessings manages Equip's projects from conception to completion — ensuring timely delivery, quality control, and stakeholder satisfaction. She coordinates cross-functional teams and maintains project documentation. Background in project management for development initiatives in Africa.",
       "linkedin": "https://linkedin.com/in/blessings-akimu",
       "expertise": ["Project Management", "Stakeholder Communication", "Quality Assurance", "Development Methodologies"]

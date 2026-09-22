@@ -5,17 +5,17 @@
  * the mobile menu, and the "header only visible in the hero" scroll behaviour.
  */
 (function(){
-  const ROOT = document.documentElement.dataset.root || ''; // e.g. "../" on nested pages
+  window.ROOT = document.documentElement.dataset.root || ''; // e.g. "../" on nested pages
 
   async function injectPartial(selector, url){
     const host = document.querySelector(selector);
     if(!host){ return false; }
     try{
-      const res = await fetch(ROOT + url);
+      const res = await fetch(window.ROOT + url);
       if(!res.ok) throw new Error(url + ' → HTTP ' + res.status);
       const html = await res.text();
       if(!html.trim()) throw new Error(url + ' → empty response');
-      host.innerHTML = rewritePaths(html, ROOT);
+      host.innerHTML = rewritePaths(html, window.ROOT);
       return true;
     }catch(e){
       host.innerHTML = '<div style="padding:1rem;background:#fee;border:1px solid #f88;color:#800;font-family:monospace;font-size:.8rem">Failed to load '+url+': '+e.message+'</div>';
@@ -36,7 +36,7 @@
 
   async function loadDepartments(){
     try{
-      const res = await fetch(ROOT + 'data/nav.json');
+      const res = await fetch(window.ROOT + 'data/nav.json');
       if(!res.ok) throw new Error('HTTP ' + res.status);
       const { departments } = await res.json();
       return Array.isArray(departments) ? departments : [];
@@ -47,7 +47,7 @@
   }
 
   function deptHref(d){
-    return d.external ? d.url : (ROOT + d.path.replace(/^\//,''));
+    return d.external ? d.url : (window.ROOT + d.path.replace(/^\//,''));
   }
 
   function deptKey(d){

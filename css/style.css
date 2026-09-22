@@ -52,7 +52,7 @@
   --ease: cubic-bezier(.4,0,.2,1);
 }
 
-*, *::before, *::after{ box-sizing: border-box; }
+*, *::before, *::after{ box-sizing: border-box; max-width: 100%; }
 html{ scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
@@ -67,6 +67,7 @@ body{
   background: var(--cream);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 h1,h2,h3,h4{

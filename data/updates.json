@@ -5,7 +5,7 @@
       "id": "equip-insights",
       "title": "Equip Insights",
       "description": "Conversations with leaders shaping Malawi's economy — entrepreneurs, investors, policymakers, and development practitioners.",
-      "coverArt": "/assets/images/updates/equip-insights-cover.jpg",
+      "coverArt": "assets/images/updates/equip-insights-cover.jpg",
       "totalEpisodes": 12,
       "latestEpisodeDate": "2025-08-15",
       "people": ["Rollins Chitika"],
@@ -15,7 +15,7 @@
       "id": "series-2",
       "title": "Series 2",
       "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
-      "coverArt": "/assets/images/updates/business-unfiltered-cover.jpg",
+      "coverArt": "assets/images/updates/business-unfiltered-cover.jpg",
       "totalEpisodes": 8,
       "latestEpisodeDate": "2025-07-22",
       "people": ["Rollins Chitika", "Charles Phiri"],
@@ -25,7 +25,7 @@
       "id": "series-3",
       "title": "Series 3",
       "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
-      "coverArt": "/assets/images/updates/series-03.png",
+      "coverArt": "assets/images/updates/series-03.png",
       "totalEpisodes": 9,
       "latestEpisodeDate": "2025-07-22",
       "people": ["Maxwell Mkumba"],
@@ -40,7 +40,7 @@
       "title": "Exploring Poultry Business Opportunities Webinar",
       "date": "2026-08-28",
       "excerpt": "Expert insights from industry leaders, interactive discussion and networking for young people exploring poultry as a business.",
-      "image": "/assets/images/updates/poultry-webinar.jpeg",
+      "image": "assets/images/updates/poultry-webinar.jpeg",
       "embedUrl": "",
       "links": { "youtube": "https://youtube.com/@equipgroup", "zoom": "" }
     },
@@ -49,7 +49,7 @@
       "title": "Join our network of expert consultants",
       "date": "2025-10-24",
       "excerpt": "Equip Group is expanding its consulting network and inviting experienced experts across energy, agribusiness, finance, ICT and other sectors to join.",
-      "image": "/assets/images/updates/join-network.jpg",
+      "image": "assets/images/updates/join-network.jpg",
       "link": "/contact.html"
     },
     {
@@ -57,7 +57,7 @@
       "title": "Agro-Processing in Malawi: Untapped Potential in a Growing Sector",
       "date": "2025-09-02",
       "excerpt": "What the data behind agro-processing investment means for policymakers and investors in Malawi.",
-      "image": "/assets/data-division/agroprocessing-malawi.jpg",
+      "image": "assets/data-division/agroprocessing-malawi.jpg",
       "link": "/services/data-division.html"
     },
     {
@@ -65,7 +65,7 @@
       "title": "Consultant call: Monitoring & Evaluation specialist",
       "date": "2025-08-15",
       "excerpt": "We're looking for a short-term M&E specialist to support an agribusiness programme evaluation. Applications open to independent consultants and firms.",
-      "image": "/assets/images/updates/opportunity-me.jpg",
+      "image": "assets/images/updates/opportunity-me.jpg",
       "link": "/contact.html",
       "deadline": "2025-09-30"
     },
@@ -76,7 +76,7 @@
       "title": "10 Entrepreneurial Archetypes That Stunt Your Growth",
       "date": "2026-07-10",
       "excerpt": "A deep dive into the common psychological and operational archetypes that hold entrepreneurs back from scaling their businesses effectively.",
-      "image": "/assets/images/updates/series-01.avif",
+      "image": "assets/images/updates/series-01.avif",
       "embedUrl": "",
       "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
     },
@@ -88,7 +88,7 @@
       "title": "Breaking The Boundaries Of Media To Make Your Brand Standout",
       "date": "2026-07-25",
       "excerpt": "Learn unconventional media strategies and creative approaches to cut through the noise, capture attention, and position your brand as a market leader.",
-      "image": "/assets/images/updates/series-03.avif",
+      "image": "assets/images/updates/series-03.avif",
       "embedUrl": "",
       "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
     },
@@ -100,7 +100,7 @@
       "title": "Partnerships: How To Build Together",
       "date": "2026-07-22",
       "excerpt": "Discover the secrets to finding the right partners, aligning visions, and building sustainable business relationships that withstand the test of time and turbulence.",
-      "image": "/assets/images/updates/series-02.avif",
+      "image": "assets/images/updates/series-02.avif",
       "embedUrl": "",
       "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH" }
     }

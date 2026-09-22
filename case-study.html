@@ -40,6 +40,7 @@
 </main>
 <div id="footer-slot"></div>
 <script type="module">
+  const ROOT = document.documentElement.dataset.root || '';
   import { loadCaseStudies, renderCaseStudyDetail } from './js/case-studies.js';
   import { initHeroAnimations } from './js/hero-animations.js';
   import './js/main.js';
@@ -62,7 +63,7 @@
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
     const { LogoMarquee } = await import('./js/logo-marquee.js');
-    const res = await fetch('data/logos.json');
+    const res = await fetch(ROOT + 'data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `
@@ -78,7 +79,7 @@
     })();
     marqueeEl.innerHTML = logos.map(l => `
       <div class="logo-item" style="flex:0 0 auto;">
-        <img src="${l.image}" alt="${l.name}"
+        <img src="${ROOT}${l.image}" alt="${l.name}"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
         <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
       </div>
