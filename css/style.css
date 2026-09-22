@@ -53,7 +53,7 @@
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; overflow-x: hidden; }
+html{ scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
   *, *::before, *::after{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -67,7 +67,6 @@ body{
   background: var(--cream);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
 h1,h2,h3,h4{
@@ -418,10 +417,11 @@ button{ font-family: inherit; cursor:pointer; }
   position:fixed; inset:0; z-index:600;
   background:var(--navy-deep);
   color: var(--cream);
-  visibility:hidden; opacity:0;
+  visibility:hidden !important; opacity:0 !important;
+  pointer-events: none;
   transition: visibility .01s linear .4s, opacity .35s var(--ease);
 }
-.mobile-nav-overlay.open{ visibility:visible; opacity:1; transition-delay:0s; }
+.mobile-nav-overlay.open{ visibility:visible !important; opacity:1 !important; pointer-events: auto; transition-delay:0s; }
 
 .mobile-nav-panel{
   display:flex; flex-direction:column;
