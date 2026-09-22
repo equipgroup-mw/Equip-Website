@@ -6,6 +6,7 @@
 <title>Business Development — Equip Group</title>
 <meta name="description" content="Equip Group's Business Development arm helps startups and SMEs launch, secure investment, and scale sustainably.">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/avif" href="/assets/logos/favicon.avif">
 <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script type="application/ld+json">
 {
@@ -31,11 +32,11 @@
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
-<div id="header-slot"></div>
+<div id="header-slot"></a>
 
 <main id="main">
   <section class="hero hero--compact hero--accent-plum" data-hero>
-    <div class="hero-bg"><img src="../assets/images/hero-bds.jpg" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-bg"><img src="/assets/images/hero-bds.jpg" alt="" onerror="this.style.opacity=0"></div>
     <div class="hero-inner">
       <div class="hero-content">
         <p class="hero-eyebrow">Business Development</p>
@@ -50,8 +51,8 @@
       <div class="section-head"><div><hr class="rule"><h2>What we do</h2></div></div>
       <div class="feature-list" style="border-top-color:var(--line);">
         <div class="feature-item"><h4>Business incubation</h4><p>Turn your startup into a scalable business with expert training, mentorship and accelerator programs.</p></div>
-        <div class="feature-item"><h4>Investment readiness &amp; financial planning</h4><p>Secure funding with a solid business plan, investor-ready financials, and strategic guidance.</p></div>
-        <div class="feature-item"><h4>Strategic management &amp; organisational development</h4><p>Optimise your business structure, refine strategies, and enhance leadership.</p></div>
+        <div class="feature-item"><h4>Investment readiness & financial planning</h4><p>Secure funding with a solid business plan, investor-ready financials, and strategic guidance.</p></div>
+        <div class="feature-item"><h4>Strategic management & organisational development</h4><p>Optimise your business structure, refine strategies, and enhance leadership.</p></div>
         <div class="feature-item"><h4>Financial management solutions</h4><p>Expert bookkeeping, tax planning, and cash flow management for sustainable success.</p></div>
       </div>
     </div>
@@ -60,38 +61,38 @@
   <section class="section">
     <div class="container">
       <div class="section-head"><div><hr class="rule"><h2>Projects</h2></div><p>See our successful projects.</p></div>
-      <div class="grid grid-3" id="projectsGrid"></div>
+      <div class="grid grid-3" id="projectsGrid"></a>
     </div>
   </section>
 
   <section class="bg-navy" style="padding-block:4rem;">
     <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
       <h3 class="mt-0">Discover tailored business solutions</h3>
-      <a href="../contact.html" class="btn btn-gold">Let's talk</a>
+      <a href="/contact.html" class="btn btn-gold">Let's talk</a>
     </div>
   </section>
 
   <section class="section" style="padding-block:3rem;">
     <div class="container">
       <h3 class="center" style="margin-bottom:2rem;">Trusted by the Best</h3>
-      <div data-logos></div>
+      <div data-logos></a>
     </div>
   </section>
 
   <section class="section section--compact bg-navy">
     <div class="container">
       <div class="section-head"><div><hr class="rule"><h2>What our clients say</h2></div></div>
-      <div data-testimonials></div>
+      <div data-testimonials></a>
     </div>
   </section>
 </main>
 
 <!-- Mobile sticky CTA bar -->
 <div class="mobile-cta-bar" id="mobileCtaBar" aria-hidden="true">
-  <a href="../contact.html" class="btn btn-gold">Let's talk about your project</a>
+  <a href="/contact.html" class="btn btn-gold">Let's talk about your project</a>
 </div>
 
-<div id="footer-slot"></div>
+<div id="footer-slot"></a>
 <script src="../js/main.js"></script>
 <script src="../js/carousel.js"></script>
 <script type="module">
@@ -108,72 +109,7 @@
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
     const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch('../data/logos.json');
-    const { logos } = await res.json();
-    const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
-      logoWrapper.innerHTML = `
-        <div class="logo-marquee" role="region" aria-label="Trusted partners" tabindex="0"></div>
-        <button class="marquee-arrow marquee-arrow--prev" aria-label="Previous partner">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-        <button class="marquee-arrow marquee-arrow--next" aria-label="Next partner">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-      `;
-      return logoWrapper.querySelector('.logo-marquee');
-    })();
-    marqueeEl.innerHTML = logos.map(l => `
-      <div class="logo-item" style="flex:0 0 auto;">
-        <img src="${l.image}" alt="${l.name}"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-        <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
-      </div>
-    `).join('');
-    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
-  }
-</script>
-<script>
-  // Mobile sticky CTA bar - show when scrolled past hero
-  (function() {
-    const ctaBar = document.getElementById('mobileCtaBar');
-    const hero = document.querySelector('[data-hero]');
-    if (!ctaBar || !hero) return;
-    
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const heroRect = hero.getBoundingClientRect();
-          const isPastHero = heroRect.bottom < 0;
-          ctaBar.classList.toggle('visible', isPastHero);
-          ctaBar.setAttribute('aria-hidden', !isPastHero);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-  })();
-</script>
-
-
-
-<script src="../js/main.js"></script>
-<script src="../js/carousel.js"></script>
-<script type="module">
-  import { loadCaseStudies, renderCaseStudyCard } from '../js/case-studies.js';
-  import { initHeroAnimations } from '../js/hero-animations.js';
-
-  loadCaseStudies('business-development', { featuredOnly: false, limit: 6 })
-    .then(studies => {
-      document.getElementById('projectsGrid').innerHTML = studies.map(cs => renderCaseStudyCard(cs, { link: true })).join('');
-    });
-
-  initHeroAnimations();
-
-  const logoWrapper = document.querySelector('[data-logos]');
-  if (logoWrapper) {
-    const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch('../data/logos.json');
+    const res = await fetch('/data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `

@@ -6,6 +6,7 @@
 <title>About Equip — Equip Group</title>
 <meta name="description" content="Founded in 2019, Equip Group grew from a one-person effort into a management consulting firm helping businesses start, build and grow across Malawi.">
 <link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/avif" href="/assets/logos/favicon.avif">
 <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script type="application/ld+json">
 {
@@ -44,12 +45,12 @@
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
-<div id="header-slot"></div>
+<div id="header-slot"></a>
 
 <main id="main">
 
   <section class="hero" data-hero>
-    <div class="hero-bg"><img src="assets/images/hero-about.jpg" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-bg"><img src="/assets/images/hero-about.jpg" alt="" onerror="this.style.opacity=0"></div>
     <div class="hero-inner">
       <div class="hero-content">
         <h1>About Equip</h1>
@@ -102,7 +103,7 @@
           </div>
         </div>
         <div class="vision-mission-photo" data-reveal="right">
-          <div class="card-media" style="aspect-ratio:4/3;"><img src="assets/images/about-vision.jpg" alt="Equip Group vision and mission in action" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
+          <div class="card-media" style="aspect-ratio:4/3;"><img src="/assets/images/about-vision.jpg" alt="Equip Group vision and mission in action" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
         </div>
       </div>
     </div>
@@ -126,20 +127,20 @@
         <div><hr class="rule"><h2>Who are we?</h2></div>
         <p>A team of passionate people helping businesses grow and thrive through innovative, results-driven consulting.</p>
       </div>
-      <div class="grid grid-4" id="teamGrid"></div>
+      <div class="grid grid-4" id="teamGrid"></a>
     </div>
   </section>
 
   <section class="section" style="padding-block:3rem;">
     <div class="container">
       <h3 class="center" style="margin-bottom:2rem;">Trusted by the Best</h3>
-      <div data-logos></div>
+      <div data-logos></a>
     </div>
   </section>
 
 </main>
 
-<div id="footer-slot"></div>
+<div id="footer-slot"></a>
 <script src="js/main.js"></script>
 <script src="js/carousel.js"></script>
 <script type="module">
@@ -150,7 +151,7 @@
 
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
-    const res = await fetch('data/logos.json');
+    const res = await fetch('/data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `
@@ -174,7 +175,7 @@
     new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
   }
 
-  fetch('data/team.json').then(r=>r.json()).then(({team}) => {
+  fetch('/data/team.json').then(r=>r.json()).then(({team}) => {
     document.getElementById('teamGrid').innerHTML = team.map(m => `
         <div class="team-card card">
             <div class="card-media">

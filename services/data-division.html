@@ -6,6 +6,7 @@
 <title>Data Division — Equip Group</title>
 <meta name="description" content="Equip Group's Data Division: interactive charts, dashboards, HD data visuals and research articles turning complex data into strategic clarity.">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/avif" href="/assets/logos/favicon.avif">
 <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script type="application/ld+json">
 {
@@ -30,11 +31,11 @@
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
-<div id="header-slot"></div>
+<div id="header-slot"></a>
 
 <main id="main">
   <section class="hero hero--compact hero--accent-turquoise" data-hero>
-    <div class="hero-bg"><img src="../assets/images/hero-data.jpg" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-bg"><img src="/assets/images/hero-data.jpg" alt="" onerror="this.style.opacity=0"></div>
     <div class="hero-inner">
       <div class="hero-content">
         <p class="hero-eyebrow">Data Division</p>
@@ -52,7 +53,7 @@
     <div class="section" style="padding-top:2rem;">
       <div class="container">
         <div class="section-head"><div><hr class="rule"><h2>Featured Projects</h2></div></div>
-        <div class="grid grid-3" id="ddProjectsGrid"></div>
+        <div class="grid grid-3" id="ddProjectsGrid"></a>
       </div>
     </div>
   </div>
@@ -64,7 +65,7 @@
           <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <input type="search" id="ddSearch" placeholder="Search datasets, dashboards, sectors…" aria-label="Search the Data Division catalogue">
         </div>
-        <div class="dd-tabs" id="ddTabs"></div>
+        <div class="dd-tabs" id="ddTabs"></a>
         <span class="dd-count" id="ddCount"></span>
       </div>
     </div>
@@ -72,13 +73,13 @@
     <section class="section" style="padding-block: 2.5rem 1rem;">
       <div class="container">
         <div class="eyebrow" style="margin-bottom:.75rem; color:var(--ink-soft);">Browse by sector</div>
-        <div class="dd-sectors" id="ddSectors"></div>
+        <div class="dd-sectors" id="ddSectors"></a>
       </div>
     </section>
 
     <section class="section" style="padding-top:1rem;">
       <div class="container">
-        <div class="dd-grid" id="ddGrid"></div>
+        <div class="dd-grid" id="ddGrid"></a>
       </div>
     </section>
   </div>
@@ -88,26 +89,26 @@
       <div>
         <hr class="rule"><h2>Publish new data yourself — no developer needed</h2>
         <p>Export a slide as an image, paste a Power BI link, or drop in a few numbers — this whole page is generated from one plain-language file. See the project README for the three-step guide.</p>
-        <a href="../contact.html" class="btn btn-gold">Request onboarding</a>
+        <a href="/contact.html" class="btn btn-gold">Request onboarding</a>
       </div>
-      <div class="card-media" style="aspect-ratio:4/3;"><img src="../assets/images/data-cms.jpg" alt="" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
+      <div class="card-media" style="aspect-ratio:4/3;"><img src="/assets/images/data-cms.jpg" alt="" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
     </div>
   </section>
 
   <section class="section" style="padding-block:3rem;">
     <div class="container">
       <h3 class="center" style="margin-bottom:2rem;">Trusted by the Best</h3>
-      <div data-logos></div>
+      <div data-logos></a>
     </div>
   </section>
 </main>
 
 <!-- Mobile sticky CTA bar -->
 <div class="mobile-cta-bar" id="mobileCtaBar" aria-hidden="true">
-  <a href="../contact.html" class="btn btn-gold">Let's talk about your project</a>
+  <a href="/contact.html" class="btn btn-gold">Let's talk about your project</a>
 </div>
 
-<div id="footer-slot"></div>
+<div id="footer-slot"></a>
 
 <!-- Lightbox for HD visuals -->
 <div class="dd-lightbox" id="ddLightbox" role="dialog" aria-modal="true">
@@ -139,7 +140,7 @@
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
     const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch('../data/logos.json');
+    const res = await fetch('/data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `
@@ -164,7 +165,7 @@
   }
 </script>
 <script>
-  fetch('../data/data-division.json').then(r=>r.json()).then(({items})=>{
+  fetch('/data/data-division.json').then(r=>r.json()).then(({items})=>{
     document.getElementById('statVisuals').textContent = items.filter(i=>i.type!=='dashboard').length + '+';
     document.getElementById('statDashboards').textContent = items.filter(i=>i.type==='dashboard').length || '2';
   }).catch(()=>{});
@@ -190,112 +191,6 @@
       }
     }, { passive: true });
   })();
-</script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/carousel.js"></script>
-<script src="../js/data-division.js"></script>
-<script src="../js/data-division-toggle.js"></script>
-<script type="module">
-  import { loadCaseStudies, renderCaseStudyCard } from '../js/case-studies.js';
-  import { initHeroAnimations } from '../js/hero-animations.js';
-  import { initDataDivisionToggle } from '../js/data-division-toggle.js';
-
-  loadCaseStudies('data-division', { featuredOnly: false })
-    .then(studies => {
-      document.getElementById('ddProjectsGrid').innerHTML = studies.map(cs => renderCaseStudyCard(cs, { link: true })).join('');
-    });
-
-  initHeroAnimations();
-  initDataDivisionToggle();
-
-  const logoWrapper = document.querySelector('[data-logos]');
-  if (logoWrapper) {
-    const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch('../data/logos.json');
-    const { logos } = await res.json();
-    const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
-      logoWrapper.innerHTML = `
-        <div class="logo-marquee" role="region" aria-label="Trusted partners" tabindex="0"></div>
-        <button class="marquee-arrow marquee-arrow--prev" aria-label="Previous partner">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-        <button class="marquee-arrow marquee-arrow--next" aria-label="Next partner">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-      `;
-      return logoWrapper.querySelector('.logo-marquee');
-    })();
-    marqueeEl.innerHTML = logos.map(l => `
-      <div class="logo-item" style="flex:0 0 auto;">
-        <img src="${l.image}" alt="${l.name}"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-        <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
-      </div>
-    `).join('');
-    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
-  }
-</script>
-<script>
-  fetch('../data/data-division.json').then(r=>r.json()).then(({items})=>{
-    document.getElementById('statVisuals').textContent = items.filter(i=>i.type!=='dashboard').length + '+';
-    document.getElementById('statDashboards').textContent = items.filter(i=>i.type==='dashboard').length || '2';
-  }).catch(()=>{});
-</script>
-</body>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/carousel.js"></script>
-<script src="../js/data-division.js"></script>
-<script src="../js/data-division-toggle.js"></script>
-<script type="module">
-  import { loadCaseStudies, renderCaseStudyCard } from '../js/case-studies.js';
-  import { initHeroAnimations } from '../js/hero-animations.js';
-  import { initDataDivisionToggle } from '../js/data-division-toggle.js';
-
-  loadCaseStudies('data-division', { featuredOnly: false })
-    .then(studies => {
-      document.getElementById('ddProjectsGrid').innerHTML = studies.map(cs => renderCaseStudyCard(cs, { link: true })).join('');
-    });
-
-  initHeroAnimations();
-  initDataDivisionToggle();
-
-  const logoWrapper = document.querySelector('[data-logos]');
-  if (logoWrapper) {
-    const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch('../data/logos.json');
-    const { logos } = await res.json();
-    const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
-      logoWrapper.innerHTML = `
-        <div class="logo-marquee" role="region" aria-label="Trusted partners" tabindex="0"></div>
-        <button class="marquee-arrow marquee-arrow--prev" aria-label="Previous partner">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-        <button class="marquee-arrow marquee-arrow--next" aria-label="Next partner">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-      `;
-      return logoWrapper.querySelector('.logo-marquee');
-    })();
-    marqueeEl.innerHTML = logos.map(l => `
-      <div class="logo-item" style="flex:0 0 auto;">
-        <img src="${l.image}" alt="${l.name}"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-        <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
-      </div>
-    `).join('');
-    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
-  }
-</script>
-<script>
-  fetch('../data/data-division.json').then(r=>r.json()).then(({items})=>{
-    document.getElementById('statVisuals').textContent = items.filter(i=>i.type!=='dashboard').length + '+';
-    document.getElementById('statDashboards').textContent = items.filter(i=>i.type==='dashboard').length || '2';
-  }).catch(()=>{});
 </script>
 </body>
 </html>
