@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Division — Equip Group</title>
+<title>Data Division</title>
 <meta name="description" content="Equip Group's Data Division: interactive charts, dashboards, HD data visuals and research articles turning complex data into strategic clarity.">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="icon" type="image/avif" href="../assets/logos/favicon.avif">
@@ -141,7 +141,7 @@
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
     const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch(ROOT + '../data/logos.json');
+    const res = await fetch(ROOT + 'data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `
@@ -166,7 +166,7 @@
   }
 </script>
 <script>
-  fetch(ROOT + '../data/data-division.json').then(r=>r.json()).then(({items})=>{
+  fetch(ROOT + 'data/data-division.json').then(r=>r.json()).then(({items})=>{
     document.getElementById('statVisuals').textContent = items.filter(i=>i.type!=='dashboard').length + '+';
     document.getElementById('statDashboards').textContent = items.filter(i=>i.type==='dashboard').length || '2';
   }).catch(()=>{});
