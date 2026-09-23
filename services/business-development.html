@@ -113,7 +113,7 @@
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
     const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch(ROOT + '../data/logos.json');
+    const res = await fetch(ROOT + 'data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `
