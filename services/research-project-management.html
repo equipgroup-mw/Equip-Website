@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Research & Projects</title>
+<title>Research & Project Management — Equip Group</title>
 <meta name="description" content="Equip Group designs and manages projects that deliver real impact — monitoring & evaluation, project design, implementation, and policy briefs.">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="icon" type="image/avif" href="../assets/logos/favicon.avif">
@@ -31,27 +31,45 @@
 </script>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to content</a>
 <div id="header-slot"></div>
 
 <main id="main">
   <section class="hero hero--compact hero--accent-green" data-hero>
-    <div class="hero-bg"><img src="../assets/images/hero-rpm.jpg" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-bg"><img src="../assets/images/hero-rpm.png" alt="" onerror="this.style.opacity=0"></div>
     <div class="hero-inner">
       <div class="hero-content">
         <p class="hero-eyebrow">Research & Project Management</p>
         <h1>We design and manage projects that deliver real impact</h1>
         <p class="hero-lede">From baseline to end-term evaluation, we build the evidence base that governments and donors use to make decisions.</p>
       </div>
+    </div>
   </section>
 
-  <section class="section" style="padding-bottom:0;">
+  <section class="section services-grid-section" style="padding-block:3rem; min-height:85vh; max-height:900px; display:flex; flex-direction:column; justify-content:center;">
     <div class="container">
       <div class="section-head"><div><hr class="rule"><h2>What we do</h2></div></div>
-      <div class="feature-list">
-        <div class="feature-item"><h4>Monitoring and evaluation</h4><p>Track project progress and performance at all key stages with well-executed baseline, mid-term, and end-term evaluations.</p></div>
-        <div class="feature-item"><h4>Project design</h4><p>Carefully plan and tailor frameworks so each project is set up for success and delivers impactful, lasting results.</p></div>
-        <div class="feature-item"><h4>Project implementation</h4><p>Coordinate resources, monitor progress, and adapt as needed to achieve outcomes aligned with project goals.</p></div>
-        <div class="feature-item"><h4>Policy briefs</h4><p>Deliver concise, research-backed insights to guide decision-making and influence policy direction.</p></div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-num-icon"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span class="service-num">01</span></div>
+          <h4>Monitoring and evaluation</h4>
+          <p>Track project progress and performance at all key stages with well-executed baseline, mid-term, and end-term evaluations.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num-icon"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="service-num">02</span></div>
+          <h4>Project design</h4>
+          <p>Carefully plan and tailor frameworks so each project is set up for success and delivers impactful, lasting results.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num-icon"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="service-num">03</span></div>
+          <h4>Project implementation</h4>
+          <p>Coordinate resources, monitor progress, and adapt as needed to achieve outcomes aligned with project goals.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num-icon"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="service-num">04</span></div>
+          <h4>Policy briefs</h4>
+          <p>Deliver concise, research-backed insights to guide decision-making and influence policy direction.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -76,11 +94,9 @@
       <div data-logos></div>
     </div>
   </section>
-</main>
 
-<!-- Mobile sticky CTA bar -->
+</main>
 <div class="mobile-cta-bar" id="mobileCtaBar" aria-hidden="true">
-  <a href="../contact.html" class="btn btn-gold">Let's talk about your project</a>
 </div>
 
 <div id="footer-slot"></div>
@@ -101,7 +117,7 @@
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
     const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch(ROOT + 'data/logos.json');
+    const res = await fetch(ROOT + '../data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `
