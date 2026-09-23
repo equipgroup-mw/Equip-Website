@@ -34,18 +34,57 @@
 
 <main id="main">
   <section class="hero hero--compact hero--accent-turquoise" data-hero>
-    <div class="hero-bg"><img src="../assets/images/hero-data.jpg" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-bg"><img src="../assets/images/hero-data.avif" alt="" onerror="this.style.opacity=0"></div>
     <div class="hero-inner">
       <div class="hero-content">
         <p class="hero-eyebrow">Data Division</p>
         <h1>Complex data. Compelling stories. Strategic clarity.</h1>
         <p class="hero-lede">A living portal of the datasets, dashboards and visuals behind our work. Built to be read by anyone from research students to government officials alike.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-  <div class="dd-view-toggle" role="tablist" aria-label="Data Division view">
-    <button role="tab" class="dd-view-btn" aria-selected="true" data-view="projects">Projects</button>
-    <button role="tab" class="dd-view-btn" aria-selected="false" data-view="portal">Portal</button>
+  <section class="section services-grid-section" style="padding-block:3rem; min-height:95vh; max-height:900px; overflow:visible; display:flex; flex-direction:column; justify-content:center;">
+    <div class="container">
+      <div class="section-head"><div><hr class="rule"><h2>What we do</h2></div></div>
+      <div class="services-grid services-grid-3x2">
+        <div class="service-card">
+          <div class="service-num-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="service-num">01</span></div>
+          <h4>Market Intelligence</h4>
+          <p>We collect trustworthy, ground-level data using trained field teams — combining digital tools with paper-based methods so no community gets left out, even where internet access is limited.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-4.97 0-9-2.24-9-5v-1c0-2.76 3.58-5 8-5s8 2.24 8 5v1c0 2.76-4.03 5-9 5z"/><line x1="4" y1="9" x2="20" y2="9"/><ellipse cx="8" cy="5" rx="4" ry="2"/><line x1="16" y1="5" x2="16" y2="9"/></svg><span class="service-num">02</span></div>
+          <h4>Data Management</h4>
+          <p>We keep data safe, clean, and organised, so it stays accurate and usable from the moment it's collected to the moment it's needed.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><polyline points="7 16 10 10 14 14 21 7"/><circle cx="19" cy="5" r="2"/></svg><span class="service-num">03</span></div>
+          <h4>Data Analysis, Visualization &amp; Storytelling</h4>
+          <p>We turn raw numbers into insights people can actually use — through clear charts, statistics, and reports written in plain language, not jargon.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg><span class="service-num">04</span></div>
+          <h4>Monitoring &amp; Evaluation (M&amp;E)</h4>
+          <p>We track how projects are performing and what impact they're having, so our partners always know what's working and what needs to change.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 8.5a3 3 0 0 0-4.24 0L3 15l2.25 2.25a3 3 0 0 0 4.24 0l4.5-4.5a3 3 0 0 0 0-4.24L10.5 8.5z"/><path d="M6 12l1.5 1.5"/><path d="M18 12l-1.5 1.5"/><circle cx="18" cy="6" r="2"/></svg><span class="service-num">05</span></div>
+          <h4>Data Systems</h4>
+          <p>We build the dashboards, databases, and digital tools organisations need to manage their own data long after our work is done.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v4M8 10v4M14 10v4"/><path d="M2 20h20"/><path d="M6 16v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4"/></svg><span class="service-num">06</span></div>
+          <h4>Training &amp; Capacity Building</h4>
+          <p>We train people and institutions in research methods, data tools, and fieldwork — building skills that stay local and outlast any single project.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="dd-tab-switcher" role="tablist" aria-label="Data Division view">
+    <button role="tab" class="dd-tab-btn" aria-selected="true" data-view="projects">Projects</button>
+    <button role="tab" class="dd-tab-btn" aria-selected="false" data-view="portal">Portal</button>
   </div>
 
   <div role="tabpanel" data-panel="projects" id="ddProjectsPanel">
@@ -101,11 +140,6 @@
     </div>
   </section>
 </main>
-
-<!-- Mobile sticky CTA bar -->
-<div class="mobile-cta-bar" id="mobileCtaBar" aria-hidden="true">
-  <a href="../contact.html" class="btn btn-gold">Let's talk about your project</a>
-</div>
 
 <div id="footer-slot"></div>
 
@@ -169,28 +203,6 @@
     document.getElementById('statVisuals').textContent = items.filter(i=>i.type!=='dashboard').length + '+';
     document.getElementById('statDashboards').textContent = items.filter(i=>i.type==='dashboard').length || '2';
   }).catch(()=>{});
-</script>
-<script>
-  // Mobile sticky CTA bar - show when scrolled past hero
-  (function() {
-    const ctaBar = document.getElementById('mobileCtaBar');
-    const hero = document.querySelector('[data-hero]');
-    if (!ctaBar || !hero) return;
-    
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const heroRect = hero.getBoundingClientRect();
-          const isPastHero = heroRect.bottom < 0;
-          ctaBar.classList.toggle('visible', isPastHero);
-          ctaBar.setAttribute('aria-hidden', !isPastHero);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-  })();
 </script>
 </body>
 </html>
