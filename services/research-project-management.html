@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Research & Project Management — Equip Group</title>
+<title>Research & Project Management</title>
 <meta name="description" content="Equip Group designs and manages projects that deliver real impact — monitoring & evaluation, project design, implementation, and policy briefs.">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="icon" type="image/avif" href="../assets/logos/favicon.avif">
@@ -117,7 +117,7 @@
   const logoWrapper = document.querySelector('[data-logos]');
   if (logoWrapper) {
     const { LogoMarquee } = await import('../js/logo-marquee.js');
-    const res = await fetch(ROOT + '../data/logos.json');
+    const res = await fetch(ROOT + '..data/logos.json');
     const { logos } = await res.json();
     const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
       logoWrapper.innerHTML = `
