@@ -62,7 +62,7 @@
       "period": "2020–2023",
       "location": "Malawi (Central & Southern Regions)",
       "tags": ["Monitoring & Evaluation", "Market Systems", "Agriculture"],
-      "heroImage": "/Equip-Website/assets/images/case-studies/mafeco-hero.jpg",
+      "heroImage": "../assets/images/case-studies/mafeco-hero.jpg",
       "heroImageAlt": "MAFECO field team conducting farmer surveys",
       "eyebrow": "Research & Project Management • M&E",
       "challenge": "<p>AGRA's MAFECO program aimed to improve market access for 150,000 smallholder farmers across Malawi. The program lacked a robust M&E framework to track whether interventions (input subsidies, market linkages, policy reform) were actually changing farmer outcomes. Donor reporting was compliance-driven, not learning-oriented.</p>",
