@@ -969,3 +969,18 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .eyebrow{ font-size: clamp(.75rem, 1.2vw, .9rem); letter-spacing:.08em; }
 .hero-inner h1{ font-size: clamp(2rem, 4.5vw, 3.5rem); line-height:1.1; }
 .hero-lede{ font-size: clamp(.9rem, 1.4vw, 1.1rem); line-height:1.6; max-width:48ch; }
+
+/* ---------------- Full-viewport service cards ---------------- */
+.services-hero-section{ padding:0; height:100dvh; overflow:hidden; }
+.services-hero-grid{ display:grid; grid-template-columns:repeat(4,1fr); height:100dvh; }
+.service-hero-card{ position:relative; overflow:hidden; cursor:pointer; background-size:cover; background-position:center; background-repeat:no-repeat; display:flex; align-items:flex-end; }
+.service-hero-card::after{ content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(10,21,38,.92) 0%, rgba(10,21,38,.55) 50%, rgba(10,21,38,.1) 80%, rgba(10,21,38,0) 100%); z-index:1; transition:background .4s var(--ease); }
+.service-hero-card:hover::after{ background:linear-gradient(to top, rgba(10,21,38,.95) 0%, rgba(10,21,38,.65) 50%, rgba(10,21,38,.2) 80%, rgba(10,21,38,0) 100%); }
+.service-hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; display:none; }
+.service-hero-card:hover .service-hero-video{ display:block; }
+.service-hero-content{ position:relative; z-index:2; padding:2.5rem; color:#fff; width:100%; }
+.service-hero-content h3{ font-family:var(--font-display); font-size:clamp(1.4rem, 2.5vw, 2.2rem); margin:0 0 .5rem; color:#fff; line-height:1.15; }
+.service-hero-content p{ font-size:clamp(.85rem, 1.3vw, 1.05rem); line-height:1.5; color:rgba(255,255,255,.85); margin:0; max-width:40ch; }
+.service-hero-content hr.rule{ border:0; height:2px; background:var(--soft-gold); width:3rem; margin-bottom:1rem; }
+@media (max-width:900px){ .services-hero-grid{ grid-template-columns:repeat(2,1fr); height:auto; } .service-hero-card{ height:100dvh; } }
+@media (max-width:640px){ .services-hero-grid{ grid-template-columns:1fr; } .service-hero-card{ height:100dvh; } .service-hero-content{ padding:1.5rem; } .service-hero-content h3{ font-size:clamp(1.2rem, 5vw, 1.8rem); } .service-hero-content p{ font-size:clamp(.8rem, 4vw, .95rem); } }

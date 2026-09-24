@@ -107,55 +107,45 @@
     <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
   </section>
 
-<!-- SERVICES -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div><hr class="rule"><h2>Explore our services</h2></div>
-        <p>Four disciplines, one goal: organisations that can identify solutions to their own challenges.</p>
-      </div>
-      <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap:1.75rem;">
-        <a href="services/business-development.html" class="card" style="position:relative; min-height:380px;">
-          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-            <img src="assets/images/service-bd.jpg" alt="" onerror="this.parentElement.style.background='var(--plum)'">
-          </div>
-          <div class="card-body" style="position:relative; margin-top:auto; background:var(--plum); color:#fff;">
-            <hr class="rule" style="background:var(--soft-gold)">
-            <h4 style="color:#fff;">Business Development</h4>
-            <p style="color:rgba(255,255,255,.8)">Imagine your startup's potential fully realized. From vision to impact—we guide your journey to lasting growth.</p>
-          </div>
-        </a>
-        <a href="https://clickbait-beta.vercel.app/" target="_blank" rel="noopener" class="card" style="position:relative; min-height:380px;">
-          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-            <div style="width:100%;height:100%;background:#003135;display:flex;align-items:center;justify-content:center;"><span style="font-family:var(--font-display);font-size:3rem;color:#fff;opacity:.15;">CM</span></div>
-          </div>
-          <div class="card-body" style="position:relative; margin-top:auto; background:#003135; color:#fff;">
-            <hr class="rule" style="background:#005a5f">
-            <h4 style="color:#fff;">Clickbait Marketing</h4>
-            <p style="color:rgba(255,255,255,.8)">Our sister company for brand, content and growth marketing that stops the scroll.</p>
-          </div>
-        </a>
-        <a href="services/research-project-management.html" class="card" style="position:relative; min-height:380px;">
-          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-            <img src="assets/images/service-rpm.jpg" alt="" onerror="this.parentElement.style.background='var(--green)'">
-          </div>
-          <div class="card-body" style="position:relative; margin-top:auto; background:var(--green); color:#fff;">
-            <hr class="rule" style="background:var(--soft-gold)">
-            <h4 style="color:#fff;">Research & Project Management</h4>
-            <p style="color:rgba(255,255,255,.8)">We design and deliver projects that work — meaningful, practical, built for impact.</p>
-          </div>
-        </a>
-        <a href="services/data-division.html" class="card" style="position:relative; min-height:380px;">
-          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-            <img src="assets/images/service-data.jpg" alt="" onerror="this.parentElement.style.background='var(--turquoise)'">
-          </div>
-          <div class="card-body" style="position:relative; margin-top:auto; background:var(--turquoise); color:#fff;">
-            <hr class="rule" style="background:var(--soft-gold)">
-            <h4 style="color:#fff;">Data Division</h4>
-            <p style="color:rgba(255,255,255,.8)">We turn complex data into clear, compelling insight that drives smarter decisions.</p>
-          </div>
-        </a>
-      </div>
+<!-- SERVICES — full-viewport-height cards -->
+  <section class="section services-hero-section" style="padding:0;">
+    <div class="services-hero-grid">
+      <a href="services/business-development.html" class="service-hero-card" style="background-image:url('assets/images/service-bd.avif');">
+        <div class="service-hero-overlay"></div>
+        <video class="service-hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/videos/service-bd.mp4" type="video/mp4"></video>
+        <div class="service-hero-content">
+          <hr class="rule" style="background:var(--soft-gold)">
+          <h3>Business Development</h3>
+          <p>Imagine your startup's potential fully realized. From vision to impact—we guide your journey to lasting growth.</p>
+        </div>
+      </a>
+      <a href="https://clickbait-beta.vercel.app/" target="_blank" rel="noopener" class="service-hero-card" style="background-image:url('assets/images/service-ckb.avif');">
+        <div class="service-hero-overlay"></div>
+        <video class="service-hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/videos/service-ckb.mp4" type="video/mp4"></video>
+        <div class="service-hero-content">
+          <hr class="rule" style="background:#005a5f">
+          <h3>Clickbait Marketing</h3>
+          <p>Our sister company for brand, content and growth marketing that stops the scroll.</p>
+        </div>
+      </a>
+      <a href="services/research-project-management.html" class="service-hero-card" style="background-image:url('assets/images/service-rpm.avif');">
+        <div class="service-hero-overlay"></div>
+        <video class="service-hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/videos/service-rpm.mp4" type="video/mp4"></video>
+        <div class="service-hero-content">
+          <hr class="rule" style="background:var(--soft-gold)">
+          <h3>Research &amp; Project Management</h3>
+          <p>We design and deliver projects that work — meaningful, practical, built for impact.</p>
+        </div>
+      </a>
+      <a href="services/data-division.html" class="service-hero-card" style="background-image:url('assets/images/service-data.avif');">
+        <div class="service-hero-overlay"></div>
+        <video class="service-hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/videos/service-data.mp4" type="video/mp4"></video>
+        <div class="service-hero-content">
+          <hr class="rule" style="background:var(--soft-gold)">
+          <h3>Data Division</h3>
+          <p>We turn complex data into clear, compelling insight that drives smarter decisions.</p>
+        </div>
+      </a>
     </div>
   </section>
 
