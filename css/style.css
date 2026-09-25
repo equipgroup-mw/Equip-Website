@@ -56,7 +56,7 @@
 html{ scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
-  *, *::before, *::after{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after{ animation-duration: 3.01ms !important; transition-duration: 3.01ms !important; }
 }
 
 body{
@@ -663,11 +663,12 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .carousel-arrows button:disabled{ opacity:.35; cursor:default; }
 .carousel-arrows svg{ width:16px; height:16px; }
 
-.testimonial-card{ width: min(480px, 84vw); background: var(--paper); border:1px solid var(--line); padding: 1.5rem; display:flex; flex-direction:column; gap:1rem; justify-content:space-between; min-height: 180px; }
+.testimonial-card{ width: calc(33.333% - 1.17rem); background: transparent; border: none; padding: 0; display:flex; flex-direction:column; gap:1rem; justify-content:space-between; min-height: 180px; flex-shrink:0; }
 .testimonial-card .quote-mark{ font-family: var(--font-display); font-size: 4.2rem; color: var(--gold); line-height:.4; }
 .testimonial-card p{ font-family: var(--font-display); font-style: italic; font-size: var(--step-0); color: var(--navy); max-width:none; }
 .testimonial-who b{ display:block; color:var(--ink-soft); font-size:.95rem; }
 .testimonial-who span{ font-size:.85rem; color: var(--ink-soft); }
+@media (max-width:640px){ .testimonial-card{ width: calc(100% - 0); } }
 
 .logo-track{ display:flex; align-items:center; gap: clamp(2.5rem,6vw,5rem); }
 .logo-track > *{ height: 40px; display:flex; align-items:center; }
@@ -984,3 +985,26 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .service-hero-content hr.rule{ border:0; height:2px; background:var(--soft-gold); width:3rem; margin-bottom:1rem; }
 @media (max-width:900px){ .services-hero-grid{ grid-template-columns:repeat(2,1fr); height:auto; } .service-hero-card{ height:100dvh; } }
 @media (max-width:640px){ .services-hero-grid{ grid-template-columns:1fr; } .service-hero-card{ height:100dvh; } .service-hero-content{ padding:1.5rem; } .service-hero-content h3{ font-size:clamp(1.2rem, 5vw, 1.8rem); } .service-hero-content p{ font-size:clamp(.8rem, 4vw, .95rem); } }
+
+/* ---------------- Stats band — column layout ---------------- */
+.stats-section{ min-height:100dvh; max-height:1000px; overflow:visible; display:flex; flex-direction:column; justify-content:center; }
+.stats-section .container{ padding-inline:0; }
+.stats-section .section-head{ margin-bottom:2rem; }
+.stats-section .section-head h2{ color: var(--navy); }
+.stats-section .section-head p{ color: var(--ink); }
+.stat-cards{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.stat-card{ display:flex; flex-direction:column; justify-content:center; padding:2rem 2rem; min-height:320px; position:relative; border-radius:0; align-items:flex-start; }
+.stat-num{ font-family:var(--font-display); font-size:clamp(3rem, 6vw, 5rem); line-height:1; margin:0; }
+.stat-line{ display:block; width:48px; height:2px; background:var(--gold); margin:.75rem 0; }
+.stat-lbl{ font-size:clamp(.8rem, 1.2vw, .95rem); line-height:1.4; margin:0; }
+.stat-card:nth-child(1){ background:var(--navy); color:#fff; }
+.stat-card:nth-child(1) .stat-num, .stat-card:nth-child(1) .stat-line, .stat-card:nth-child(1) .stat-lbl{ color:#fff; }
+.stat-card:nth-child(2){ background:var(--gold); color:var(--navy); }
+.stat-card:nth-child(2) .stat-num, .stat-card:nth-child(2) .stat-line, .stat-card:nth-child(2) .stat-lbl{ color:var(--navy); }
+.stat-card:nth-child(3){ background:var(--navy-mid); color:#fff; }
+.stat-card:nth-child(3) .stat-num, .stat-card:nth-child(3) .stat-line, .stat-card:nth-child(3) .stat-lbl{ color:#fff; }
+.stat-card:nth-child(4){ background:var(--soft-gold); color:var(--navy); }
+.stat-card:nth-child(4) .stat-num, .stat-card:nth-child(4) .stat-line, .stat-card:nth-child(4) .stat-lbl{ color:var(--navy); }
+.stat-line{ background:currentColor; opacity:.5; }
+@media (max-width:900px){ .stat-cards{ grid-template-columns:repeat(2,1fr); gap:10px; } .stat-card{ min-height:260px; } }
+@media (max-width:640px){ .stats-section{ min-height:auto; max-height:none; } .stat-cards{ grid-template-columns:repeat(2,1fr); gap:10px; } .stat-card{ min-height:180px; padding:1.5rem; } }
