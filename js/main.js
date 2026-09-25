@@ -238,22 +238,25 @@ function buildMobileServices(departments){
     const hero = document.querySelector('[data-hero]');
     if(!hero) return;
 
-const io = new IntersectionObserver((entries) => {
+    const isContact = window.location.pathname.includes('contact.html');
+    if(isContact){
+      header.classList.add('solid');
+      header.classList.remove('is-hidden');
+    }
+    const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if(entry.isIntersecting){
                 header.classList.add('in-hero');
+                header.classList.remove('is-hidden');
                 header.classList.remove('solid');
             } else {
                 header.classList.remove('in-hero');
-                header.classList.add('solid');
+                header.classList.remove('solid');
+                if(!isContact) header.classList.add('is-hidden');
             }
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
     io.observe(hero);
-    
-    if(window.location.pathname.includes('contact.html')){
-      header.classList.add('solid');
-    }
   }
 
   function setYear(){

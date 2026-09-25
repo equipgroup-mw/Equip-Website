@@ -339,9 +339,8 @@ button{ font-family: inherit; cursor:pointer; }
   background: transparent;
   transition: background .2s var(--ease);
 }
-.site-header.solid{ background: var(--navy); }
-.site-header.in-hero{ background: transparent; box-shadow: none; }
 .site-header.is-hidden{ transform: translateY(-100%); pointer-events: none; }
+body.contact-page .site-header{ background: #0d2136; }
 
 .site-header .container{ display:flex; align-items:center; justify-content:space-between; width:100%; }
 .header-top-row {
@@ -402,13 +401,13 @@ button{ font-family: inherit; cursor:pointer; }
 }
 .dropdown-panel a strong{ font-size:.95rem; font-weight:600; display:block; white-space:normal; }
 .dropdown-panel a strong svg.ext-icon{ width:1em; height:1em; margin-left:.3rem; flex-shrink:0; }
-.dropdown-panel a[data-service="business-development"]{ border: 1px solid #512137; }
+.dropdown-panel a[data-service="business-development"]{ border: 2px solid #512137; }
 .dropdown-panel a[data-service="business-development"]:hover{ background: #512137; color: #fff; border-color:#512137; }
-.dropdown-panel a[data-service="research-project-management"]{ border: 1px solid #2f3527; }
+.dropdown-panel a[data-service="research-project-management"]{ border: 2px solid #2f3527; }
 .dropdown-panel a[data-service="research-project-management"]:hover{ background: #2f3527; color: #fff; border-color:#2f3527; }
-.dropdown-panel a[data-service="data-division"]{ border: 1px solid #0d2136; }
+.dropdown-panel a[data-service="data-division"]{ border: 2px solid #0d2136; }
 .dropdown-panel a[data-service="data-division"]:hover{ background: #0d2136; color: #fff; border-color:#0d2136; }
-.dropdown-panel a[data-service="clickbait-marketing"]{ border: 1px solid #003135; }
+.dropdown-panel a[data-service="clickbait-marketing"]{ border: 2px solid #003135; }
 .dropdown-panel a[data-service="clickbait-marketing"]:hover{ background: #003135; color: #fff; border-color:#003135; }
 
 
