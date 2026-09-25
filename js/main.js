@@ -60,8 +60,11 @@
     if(!panel || !departments.length) return;
     panel.innerHTML = departments.map((d) => {
       const attrs = d.external ? 'target="_blank" rel="noopener"' : '';
-      const extIcon = d.external ? `<svg class="ext-icon" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` : '';
-      return `<a href="${deptHref(d)}" ${attrs} data-service="${deptKey(d)}"><strong>${d.name} ${extIcon}</strong><span>${d.description}</span></a>`;
+      const extIcon = d.external ? `<svg class="ext-icon" viewBox="0 0 24 24" fill="none" width="1em" height="1em"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` : '';
+      const nameParts = d.name.split(' ');
+      const displayName = d.name === 'Research & Project Management' ? 'Research &amp; Project<br>Management' : (nameParts.length <= 2 ? nameParts.join('<br>') : d.name);
+      const iconSpan = d.external ? `<span class="ext-icon">${extIcon}</span>` : '';
+      return `<a href="${deptHref(d)}" ${attrs} data-service="${deptKey(d)}"><strong>${displayName} ${iconSpan}</strong></a>`;
     }).join('');
   }
 
@@ -97,14 +100,14 @@ function buildMobileServices(departments){
     const toggle = dd.querySelector('.dropdown-toggle');
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      const isOpen = dd.classList.toggle('open');
+      const isOpen = dd.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', isOpen);
     });
     document.addEventListener('click', (e) => {
-      if(!dd.contains(e.target)){ dd.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+      if(!dd.contains(e.target)){ dd.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); }
     });
     document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape'){ dd.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+      if(e.key === 'Escape'){ dd.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); }
     });
   }
 
@@ -235,18 +238,22 @@ function buildMobileServices(departments){
     const hero = document.querySelector('[data-hero]');
     if(!hero) return;
 
-    const io = new IntersectionObserver((entries) => {
+const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if(entry.isIntersecting){
                 header.classList.add('in-hero');
-                header.classList.remove('is-hidden');
+                header.classList.remove('solid');
             } else {
                 header.classList.remove('in-hero');
-                header.classList.add('is-hidden');
+                header.classList.add('solid');
             }
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
     io.observe(hero);
+    
+    if(window.location.pathname.includes('contact.html')){
+      header.classList.add('solid');
+    }
   }
 
   function setYear(){
