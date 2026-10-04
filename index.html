@@ -85,7 +85,6 @@
 </script>
 </head>
 <body>
-<a href="#main" class="skip-link">Skip to content</a>
 <div id="header-slot"></div>
 
 <main id="main">
@@ -93,14 +92,14 @@
   <!-- HERO — full dynamic viewport height, header overlays this only -->
   <section class="hero" data-hero>
     <div class="hero-bg">
-      <img src="assets/images/hero-home.jpg" alt="" onerror="this.style.opacity=0">
+      <img src="assets/images/hero-home.avif" alt="" onerror="this.style.opacity=0">
     </div>
     <div class="hero-inner">
       <div class="hero-content">
         <h1>Empowering ambition. Delivering results.</h1>
         <p class="hero-lede">We help businesses start, build, and grow. Whether you're launching your first venture or scaling operations shaped by national policy, we partner with you to turn strategy into action.</p>
         <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
-          <a href="services/business-development.html" class="btn btn-gold">Explore our services</a>
+          <a href="#services" class="btn btn-gold">Explore our services</a>
           <a href="contact.html" class="btn btn-outline" style="color:var(--cream);">Let's talk</a>
         </div>
       </div>
@@ -108,78 +107,76 @@
     <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
   </section>
 
-<!-- SERVICES -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div><hr class="rule"><h2>Explore our services</h2></div>
-        <p>Four disciplines, one goal: organisations that can identify solutions to their own challenges.</p>
-      </div>
-      <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap:1.75rem;">
-        <a href="services/business-development.html" class="card" style="position:relative; min-height:380px;">
-          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-            <img src="assets/images/service-bd.jpg" alt="" onerror="this.parentElement.style.background='var(--plum)'">
-          </div>
-          <div class="card-body" style="position:relative; margin-top:auto; background:var(--plum); color:#fff;">
-            <hr class="rule" style="background:var(--soft-gold)">
-            <h4 style="color:#fff;">Business Development</h4>
-            <p style="color:rgba(255,255,255,.8)">Imagine your startup's potential fully realized. From vision to impact—we guide your journey to lasting growth.</p>
-          </div>
-        </a>
-        <a href="https://clickbait-beta.vercel.app/" target="_blank" rel="noopener" class="card" style="position:relative; min-height:380px;">
-          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-            <div style="width:100%;height:100%;background:#003135;display:flex;align-items:center;justify-content:center;"><span style="font-family:var(--font-display);font-size:3rem;color:#fff;opacity:.15;">CM</span></div>
-          </div>
-          <div class="card-body" style="position:relative; margin-top:auto; background:#003135; color:#fff;">
-            <hr class="rule" style="background:#005a5f">
-            <h4 style="color:#fff;">Clickbait Marketing</h4>
-            <p style="color:rgba(255,255,255,.8)">Our sister company for brand, content and growth marketing that stops the scroll.</p>
-          </div>
-        </a>
-        <a href="services/research-project-management.html" class="card" style="position:relative; min-height:380px;">
-          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-            <img src="assets/images/service-rpm.jpg" alt="" onerror="this.parentElement.style.background='var(--green)'">
-          </div>
-          <div class="card-body" style="position:relative; margin-top:auto; background:var(--green); color:#fff;">
-            <hr class="rule" style="background:var(--soft-gold)">
-            <h4 style="color:#fff;">Research & Project Management</h4>
-            <p style="color:rgba(255,255,255,.8)">We design and deliver projects that work — meaningful, practical, built for impact.</p>
-          </div>
-        </a>
-        <a href="services/data-division.html" class="card" style="position:relative; min-height:380px;">
-          <div class="card-media" style="position:absolute; inset:0; aspect-ratio:auto;">
-            <img src="assets/images/service-data.jpg" alt="" onerror="this.parentElement.style.background='var(--turquoise)'">
-          </div>
-          <div class="card-body" style="position:relative; margin-top:auto; background:var(--turquoise); color:#fff;">
-            <hr class="rule" style="background:var(--soft-gold)">
-            <h4 style="color:#fff;">Data Division</h4>
-            <p style="color:rgba(255,255,255,.8)">We turn complex data into clear, compelling insight that drives smarter decisions.</p>
-          </div>
-        </a>
-      </div>
+<!-- SERVICES — full-viewport-height cards -->
+  <section class="section services-hero-section" id="services" style="padding:0;">
+    <div class="services-hero-grid">
+      <a href="services/business-development.html" class="service-hero-card" style="background-image:url('assets/images/service-bd.avif');">
+        <div class="service-hero-overlay"></div>
+        <video class="service-hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/videos/service-bd.webm" type="video/webm"></video>
+        <div class="service-hero-content">
+          <hr class="rule" style="background:var(--soft-gold)">
+          <h3>Business Development</h3>
+          <p>From vision to impact, we guide your startup's journey to lasting growth.</p>
+        </div>
+      </a>
+      <a href="https://clickbait-beta.vercel.app/" target="_blank" rel="noopener" class="service-hero-card" style="background-image:url('assets/images/service-ckb.avif');">
+        <div class="service-hero-overlay"></div>
+        <video class="service-hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/videos/service-ckb.webm" type="video/webm"></video>
+        <div class="service-hero-content">
+          <hr class="rule" style="background:var(--soft-gold)">
+          <h3>Clickbait Marketing</h3>
+          <p>Our sister company for brand, content and growth marketing that stops the scroll.</p>
+        </div>
+      </a>
+      <a href="services/research-project-management.html" class="service-hero-card" style="background-image:url('assets/images/service-rpm.avif');">
+        <div class="service-hero-overlay"></div>
+        <video class="service-hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/videos/service-rpm.webm" type="video/webm"></video>
+        <div class="service-hero-content" style="padding-left:3.5rem;padding-right:3.5rem;">
+          <hr class="rule" style="background:var(--soft-gold)">
+          <h3>Research &amp; Project Management</h3>
+          <p>We design and deliver projects that work — meaningful, practical, built for impact.</p>
+        </div>
+      </a>
+      <a href="services/data-division.html" class="service-hero-card" style="background-image:url('assets/images/service-data.avif');">
+        <div class="service-hero-overlay"></div>
+        <video class="service-hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/videos/service-data.webm" type="video/webm"></video>
+        <div class="service-hero-content">
+          <hr class="rule" style="background:var(--soft-gold)">
+          <h3>Data<br>Division</h3>
+          <p>We turn complex data into clear, compelling insight that drives smarter decisions.</p>
+        </div>
+      </a>
+    </div>
+    <div class="services-hero-curtain">
+      <hr class="rule">
+      <h2>Explore our services</h2>
     </div>
   </section>
 
   <!-- STATS BAND -->
-  <section class="section bg-navy">
-    <div class="container">
-      <div class="section-head"><div><hr class="rule"><h2>Equip by the numbers</h2></div></div>
-      <div class="grid grid-4">
-        <div class="card stat-card" style="background:var(--navy-mid); border-color:rgba(255,255,255,.15); padding:1.75rem;">
-          <b class="stat" data-count="3" data-prefix="$" data-suffix="M+" style="font-family:var(--font-display); font-size:var(--step-3); color:var(--soft-gold);">$3M+</b>
-          <span style="color:rgba(246,244,238,.7)">Investment facilitated</span>
+  <section class="section stats-section" style="padding:0; background:var(--light-beige);">
+    <div class="container" style="padding-inline:0;">
+      <div class="section-head"><div><hr class="rule"><h2>Equip by the numbers</h2><p>A track record built on measurable impact across Malawi's economy.</p></div></div>
+      <div class="stat-cards">
+        <div class="stat-card" style="background:var(--navy);">
+          <b class="stat-num">$3M+</b>
+          <span class="stat-line"></span>
+          <span class="stat-lbl">Investment facilitated</span>
         </div>
-        <div class="card stat-card" style="background:var(--navy-mid); border-color:rgba(246,244,238,.15); padding:1.75rem;">
-          <b class="stat" data-count="500" data-suffix="+" style="font-family:var(--font-display); font-size:var(--step-3); color:var(--soft-gold);">500+</b>
-          <span style="color:rgba(246,244,238,.7)">Number of SMEs</span>
+        <div class="stat-card" style="background:var(--gold);">
+          <b class="stat-num">500+</b>
+          <span class="stat-line"></span>
+          <span class="stat-lbl">Number of SMEs</span>
         </div>
-        <div class="card stat-card" style="background:var(--navy-mid); border-color:rgba(246,244,238,.15); padding:1.75rem;">
-          <b class="stat" data-count="17" data-suffix="+" style="font-family:var(--font-display); font-size:var(--step-3); color:var(--soft-gold);">17+</b>
-          <span style="color:rgba(246,244,238,.7)">Sectors</span>
+        <div class="stat-card" style="background:var(--blue-grey);">
+          <b class="stat-num">17+</b>
+          <span class="stat-line"></span>
+          <span class="stat-lbl">Sectors</span>
         </div>
-        <div class="card stat-card" style="background:var(--navy-mid); border-color:rgba(246,244,238,.15); padding:1.75rem;">
-          <b class="stat" data-count="55" data-suffix="+" style="font-family:var(--font-display); font-size:var(--step-3); color:var(--soft-gold);">55+</b>
-          <span style="color:rgba(246,244,238,.7)">Organisations</span>
+        <div class="stat-card" style="background:var(--soft-gold);">
+          <b class="stat-num">55+</b>
+          <span class="stat-line"></span>
+          <span class="stat-lbl">Organisations</span>
         </div>
       </div>
     </div>
@@ -275,6 +272,20 @@
         </div>
       </a>`).join('');
   }).catch(()=>{});
+
+  // Services section scroll-triggered intro animation
+  const servicesSection = document.getElementById('services');
+  if (servicesSection && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          servicesSection.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    observer.observe(servicesSection);
+  }
 </script>
 </body>
 </html>

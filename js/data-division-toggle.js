@@ -1,5 +1,5 @@
 export function initDataDivisionToggle() {
-  const tabs = document.querySelectorAll('.dd-view-btn');
+  const tabs = document.querySelectorAll('.dd-tab-btn');
   const panels = document.querySelectorAll('[data-panel]');
 
   tabs.forEach(tab => {
@@ -16,7 +16,7 @@ export function initDataDivisionToggle() {
 
   const saved = localStorage.getItem('ddView');
   if (saved) {
-    const tab = document.querySelector(`.dd-view-btn[data-view="${saved}"]`);
+    const tab = document.querySelector(`.dd-tab-btn[data-view="${saved}"]`);
     if (tab) tab.click();
   }
 }

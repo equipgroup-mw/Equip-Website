@@ -54,7 +54,16 @@
 
     function scrollToIndex(i){
       i = Math.max(0, Math.min(items.length - 1, i));
-      track.scrollTo({ left: items[i].offsetLeft, behavior: 'smooth' });
+      const itemWidth = items[0].getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      track.scrollTo({ left: i * (itemWidth + gap), behavior: 'smooth' });
+    }
+
+    function currentIndex(){
+      const scrollLeft = track.scrollLeft;
+      const itemWidth = items[0].getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      return Math.max(0, Math.min(items.length - 1, Math.round(scrollLeft / (itemWidth + gap))));
     }
 
     function updateUI(){

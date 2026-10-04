@@ -34,70 +34,320 @@
   }
 }
 </script>
+<style>
+  /* Contact page specific styles */
+  .contact-section{
+    padding-top: calc(var(--header-h) + 3rem);
+    padding-bottom: 4rem;
+  }
+  .contact-head{
+    max-width: 52ch;
+    margin-bottom: 3rem;
+  }
+  .contact-head .eyebrow{
+    color: var(--ink);
+    font-size: var(--step-0);
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: .75rem;
+  }
+  .contact-head h1{
+    font-size: clamp(var(--step-3), 5vw, var(--step-4));
+    line-height: 1.1;
+    margin: 0 0 .75rem;
+    color: var(--navy);
+  }
+  .contact-head p{
+    color: var(--ink);
+    font-size: var(--step-0);
+    line-height: 1.6;
+  }
+  .contact-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: start;
+  }
+  @media (max-width: 900px){
+    .contact-grid{ grid-template-columns: 1fr; }
+  }
+  /* Reach us directly column */
+  .reach-column h2{
+    font-size: var(--step-2);
+    color: var(--navy);
+    margin: 0 0 .5rem;
+    position: relative;
+    padding-top: 1.25rem;
+  }
+  .reach-column h2::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: var(--gold);
+  }
+  .reach-column > p{
+    color: var(--ink);
+    margin-bottom: 2rem;
+    font-size: var(--step-0);
+  }
+  .contact-item{
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .contact-icon{
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+    color: var(--navy);
+    stroke-width: 1.5;
+  }
+  .contact-item-content{
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    min-width: 0;
+  }
+  .contact-label{
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .contact-value{
+    font-size: var(--step-0);
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.5;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  .contact-value a{
+    color: inherit;
+    text-decoration: none;
+    transition: color .2s var(--ease);
+  }
+  .contact-value a:hover{ color: var(--gold); }
+  /* Map */
+  .map-wrapper{
+    aspect-ratio: 4/3;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    margin-top: 1rem;
+  }
+  .map-wrapper iframe{
+    width: 100%; height: 100%; border: 0;
+  }
+  /* Form panel */
+  .form-panel{
+    background: #0d2136;
+    border-radius: 8px;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    color: var(--cream);
+  }
+  .form-panel h2{
+    font-size: clamp(var(--step-1), 3vw, var(--step-2));
+    color: var(--cream);
+    margin: 0 0 .5rem;
+    position: relative;
+    padding-top: 1.25rem;
+  }
+  .form-panel h2::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: var(--gold);
+  }
+  .form-panel > p{
+    color: var(--soft-gold);
+    font-size: var(--step--1);
+    margin: 0 0 2rem;
+    line-height: 1.5;
+  }
+  .form-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  @media (max-width: 600px){
+    .form-grid{ grid-template-columns: 1fr; }
+  }
+  .form-field{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+  .form-field.full-width{
+    grid-column: 1 / -1;
+  }
+  .form-field label{
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--cream);
+    letter-spacing: .02em;
+  }
+  .form-field .required{ color: var(--soft-gold); }
+  .form-field input,
+  .form-field textarea{
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: .9rem 1rem;
+    border: 1px solid rgba(214,202,176,.3);
+    border-radius: 6px;
+    background: var(--cream);
+    color: var(--navy);
+    transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+    min-height: 52px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .form-field textarea{
+    min-height: 140px;
+    resize: vertical;
+  }
+  .form-field input::placeholder,
+  .form-field textarea::placeholder{
+    color: var(--blue-grey);
+    opacity: .7;
+  }
+  .form-field input:focus,
+  .form-field textarea:focus{
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(168,147,90,.2);
+  }
+  .form-field input:-webkit-autofill,
+  .form-field textarea:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0 1000px var(--cream) inset;
+    box-shadow: 0 0 0 1000px var(--cream) inset;
+  }
+  .form-submit{
+    margin-top: 1.5rem;
+    width: 100%;
+  }
+  .form-submit .btn{
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: var(--step-0);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .form-status{
+    margin-top: 1rem;
+    font-size: var(--step--1);
+    color: var(--soft-gold);
+    min-height: 1.5em;
+  }
+  /* Mobile adjustments */
+  @media (max-width: 480px){
+    .contact-head{ margin-bottom: 2rem; }
+    .form-panel{ padding: 1.5rem; }
+    .form-field input,
+    .form-field textarea{ font-size: 16px; } /* Prevent iOS zoom */
+  }
+</style>
 </head>
-<body>
-<a href="#main" class="skip-link">Skip to content</a>
+<body class="contact-page">
 <div id="header-slot"></div>
 
 <main id="main">
-  <section class="section" style="padding-top: calc(var(--header-h) + 3rem);">
+  <section class="section contact-section">
     <div class="container">
-      <div style="max-width:52ch; margin-bottom:2.5rem;">
-        <p class="eyebrow" style="color:var(--ink-soft);">Get in touch</p>
-        <h1 style="font-size:var(--step-4);">Contact us</h1>
+      <div class="contact-head">
+        <p class="eyebrow">Get in touch</p>
+        <h1>Contact us</h1>
         <p>How can we help? We're here to answer all your questions.</p>
       </div>
-    <div class="grid" style="grid-template-columns: 0.8fr 1.2fr; gap:3rem;">
-      <div>
-        <h3>Reach us directly</h3>
-        <p style="margin-bottom:1.75rem;">Prefer email, phone, or dropping by? All three work.</p>
-        <div style="display:flex; flex-direction:column; gap:1.5rem;">
-          <div>
-            <span class="eyebrow" style="display:block; color:var(--ink-soft);">Email</span>
-            <a href="mailto:info@equipgroup.co" style="color:var(--navy); font-weight:600;">info@equipgroup.co</a>
-          </div>
-          <div>
-            <span class="eyebrow" style="display:block; color:var(--ink-soft);">Phone</span>
-            <a href="tel:+265885303239" style="display:block; color:var(--navy); font-weight:600;">+265 (0) 885 303 239</a>
-            <a href="tel:+265887413116" style="color:var(--navy); font-weight:600;">+265 (0) 887 413 116</a>
-          </div>
-          <div>
-            <span class="eyebrow" style="display:block; color:var(--ink-soft);">Address</span>
-            <p style="margin:0; color:var(--navy); font-weight:600;">Area 3, Keppel Compton Road, House 109<br>P.O. Box 3020, Lilongwe, Malawi</p>
-          </div>
-        </div>
-        <div class="card-media" style="aspect-ratio: 4/3; margin-top:2rem;">
-          <iframe title="Map to Equip Group offices" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.4637549114777!2d33.76039667430563!3d-13.990493881129378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1921d319c5f0586d%3A0xbb1a149bffe3a5c6!2sEquip%20Group!5e0!3m2!1sen!2smw!4v1789311450413!5m2!1sen!2smw" style="width:100%; height:100%; border:0;" loading="lazy"></iframe>
-        </div>
-      </div>
 
-      <form id="contactForm" style="background:var(--paper); border:1px solid var(--line); padding: 2.25rem;">
-        <div class="grid" style="grid-template-columns:1fr 1fr; gap:1.25rem;">
-          <label style="display:flex; flex-direction:column; gap:.4rem; font-size:.85rem; font-weight:600; color:var(--navy);">
-            First name *
-            <input required name="firstName" type="text" style="padding:.8rem; border:1px solid var(--line); font:inherit;">
-          </label>
-          <label style="display:flex; flex-direction:column; gap:.4rem; font-size:.85rem; font-weight:600; color:var(--navy);">
-            Last name
-            <input name="lastName" type="text" style="padding:.8rem; border:1px solid var(--line); font:inherit;">
-          </label>
+      <div class="contact-grid">
+        <!-- Reach us directly column -->
+        <div class="reach-column">
+          <h2>Reach us directly</h2>
+          <p>Prefer email, phone, or dropping by? All three work.</p>
+
+          <div class="contact-item">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor"/><polyline points="22,6 12,13 2,6" stroke="currentColor"/></svg>
+            <div class="contact-item-content">
+              <span class="contact-label">Email</span>
+              <a class="contact-value" href="mailto:info@equipgroup.co">info@equipgroup.co</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor"/></svg>
+            <div class="contact-item-content">
+              <span class="contact-label">Phone</span>
+              <a class="contact-value" href="tel:+265885303239" style="display:block;">+265 (0) 885 303 239</a>
+              <a class="contact-value" href="tel:+265887413116">+265 (0) 887 413 116</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor"/><circle cx="12" cy="10" r="3" stroke="currentColor"/></svg>
+            <div class="contact-item-content">
+              <span class="contact-label">Address</span>
+              <address class="contact-value" style="font-style:normal;">Area 3, Keppel Compton Road, House 109<br>P.O. Box 3020, Lilongwe, Malawi</address>
+            </div>
+          </div>
+
+          <!-- Map -->
+          <div class="map-wrapper">
+            <iframe
+              title="Map to Equip Group offices"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.4637549114777!2d33.76039667430563!3d-13.990493881129378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1921d319c5f0586d%3A0xbb1a149bffe3a5c6!2sEquip%20Group!5e0!3m2!1sen!2smw!4v1789311450413!5m2!1sen!2smw"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
         </div>
-        <label style="display:flex; flex-direction:column; gap:.4rem; font-size:.85rem; font-weight:600; color:var(--navy); margin-top:1.25rem;">
-          Email address *
-          <input required name="email" type="email" style="padding:.8rem; border:1px solid var(--line); font:inherit;">
-        </label>
-        <label style="display:flex; flex-direction:column; gap:.4rem; font-size:.85rem; font-weight:600; color:var(--navy); margin-top:1.25rem;">
-          Subject *
-          <input required name="subject" type="text" style="padding:.8rem; border:1px solid var(--line); font:inherit;">
-        </label>
-        <label style="display:flex; flex-direction:column; gap:.4rem; font-size:.85rem; font-weight:600; color:var(--navy); margin-top:1.25rem;">
-          Message *
-          <textarea required name="message" rows="6" style="padding:.8rem; border:1px solid var(--line); font:inherit; resize:vertical;"></textarea>
-        </label>
-        <button type="submit" class="btn btn-dark" style="margin-top:1.5rem;">Submit</button>
-        <p id="formStatus" style="margin-top:1rem; font-size:.9rem;"></p>
-      </form>
-    </div>
+
+        <!-- Contact form panel -->
+        <form id="contactForm" class="form-panel" novalidate>
+          <h2>Send us a message</h2>
+          <p>We'll get back to you within one business day.</p>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label>First name <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" name="firstName" required autocomplete="given-name" placeholder="First name">
+            </div>
+            <div class="form-field">
+              <label>Last name <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" name="lastName" required autocomplete="family-name" placeholder="Last name">
+            </div>
+            <div class="form-field full-width">
+              <label>Email address <span class="required" aria-hidden="true">*</span></label>
+              <input type="email" name="email" required autocomplete="email" placeholder="name@example.com">
+            </div>
+            <div class="form-field full-width">
+              <label>Subject <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" name="subject" required autocomplete="off" placeholder="What's this about?">
+            </div>
+            <div class="form-field full-width">
+              <label>Message <span class="required" aria-hidden="true">*</span></label>
+              <textarea name="message" required rows="6" placeholder="Tell us a bit more..."></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-gold form-submit">Send message</button>
+          <p id="formStatus" class="form-status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
   </section>
 </main>
