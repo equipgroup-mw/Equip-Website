@@ -177,16 +177,16 @@ button{ font-family: inherit; cursor:pointer; }
 .stat-card:nth-child(3){ background: var(--ink-soft); color: #fff; }
 .stat-card:nth-child(4){ background: var(--gold); color: var(--navy-deep); }
 
-/* Vision + Mission combined section — white bg, navy text block, full-bleed photo */
-.vision-mission-section{
+/* Vision + Mission combined section — white bg, two contained cards, full-bleed photo */
+.section.vision-mission-section{
   background: #fff;
-  display: flex;
-  align-items: center;
+  margin: 0;
+  padding-block: 0;
 }
 .vision-mission-section > .container{
   width: 100%;
-  padding-block: clamp(3rem, 6vw, 5rem);
-  max-width: var(--maxw);
+  max-width: none;
+  padding: 0;
 }
 .vision-mission-grid{
   display: grid;
@@ -194,41 +194,57 @@ button{ font-family: inherit; cursor:pointer; }
   gap: 0;
   align-items: stretch;
   width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 .vision-mission-text{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  padding: clamp(2rem, 4vw, 3rem);
-  background: var(--navy);
+  gap: 1.5rem;
+  padding: clamp(2.5rem, 5vw, 4rem);
+  background: #fff;
+}
+.vision-card, .mission-card{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(2.5rem, 4vw, 3.5rem);
+  border-radius: 8px;
+}
+.vision-card{
+  background: var(--beige);
+  color: var(--navy);
+  border: 1px solid var(--line);
+}
+.mission-card{
+  background: #0d2136;
   color: var(--cream);
-  min-height: 100%;
+  border: 1px solid rgba(214,202,176,.2);
 }
-.vision-block, .mission-block{
-  opacity: 1;
-}
-.vision-block h2, .mission-block h2{
-  font-size: clamp(var(--step-0), 3vw, var(--step-1));
+.vision-card h2, .mission-card h2{
+  font-size: clamp(var(--step-1), 3vw, var(--step-2));
   margin: 0;
   line-height: 1.2;
 }
-.vision-block .rule, .mission-block .rule{
-  margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+.vision-card h2{ color: var(--navy); }
+.mission-card h2{ color: var(--soft-gold); }
+.vision-card .rule, .mission-card .rule{
+  margin: 0 0 1rem;
+  background: var(--gold);
 }
-.vision-block p{
+.vision-card p{
   margin: 0;
   line-height: 1.7;
-  font-size: clamp(.9rem, 1.5vw, 1rem);
+  font-size: clamp(.95rem, 1.5vw, 1.05rem);
+  color: var(--ink);
+}
+.mission-card p{
+  margin: 0;
+  line-height: 1.7;
+  font-size: clamp(.95rem, 1.5vw, 1.05rem);
+  color: var(--cream);
   opacity: .9;
-}
-.mission-block{
-  background: var(--soft-gold);
-  color: var(--navy);
-}
-.mission-block p{
-  color: var(--navy);
-  opacity: .85;
 }
 .vision-mission-photo{
   position: relative;
@@ -257,23 +273,302 @@ button{ font-family: inherit; cursor:pointer; }
     grid-template-columns: 1fr;
     gap: 0;
     width: 100%;
+    min-height: auto;
   }
   .vision-mission-text{
     flex-direction: column;
     padding: clamp(2rem, 4vw, 3rem);
   }
-  .mission-block{
-    background: var(--soft-gold);
-    color: var(--navy);
-  }
   .vision-mission-photo{
     order: -1;
-    min-height: 50dvh;
-  }
-  .section--fullscreen > .container{
-    padding-block: clamp(2rem, 5vw, 3rem);
+    min-height: 60dvh;
   }
 }
+
+/* ========================================================================
+   FOUNDING STORY SECTION — 50/50 split, full-bleed image left, text right
+   ======================================================================== */
+.section.founding-story-section{
+  padding-block: 0 !important;
+  margin: 0;
+}
+.founding-story-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: stretch;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.founding-story-image{
+  position: relative;
+  overflow: hidden;
+  background: var(--navy);
+}
+.founding-story-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.founding-story-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2.5rem, 5vw, 4rem);
+  background: #fff;
+}
+.founding-story-content .rule{
+  margin: 0 0 1.25rem;
+  background: var(--gold);
+}
+.founding-story-content h2{
+  font-size: clamp(var(--step-1), 4vw, var(--step-2));
+  color: var(--navy);
+  margin: 0 0 1.5rem;
+  line-height: 1.2;
+}
+.founding-story-text p{
+  margin: 0 0 1.25rem;
+  line-height: 1.75;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  color: var(--ink);
+  max-width: 52ch;
+}
+.founding-story-text p:last-child{ margin-bottom: 0; }
+
+@media (max-width: 900px){
+  .founding-story-grid{
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .founding-story-image{
+    order: -1;
+    min-height: 60vh;
+    min-height: 60dvh;
+  }
+  .founding-story-content{
+    padding: clamp(2rem, 4vw, 3rem);
+  }
+}
+
+/* ========================================================================
+   VALUES SECTION — Navy panel with 5 equal columns
+   ======================================================================== */
+.values-section{
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(1rem, 2vw, 1.5rem);
+  background: #fff;
+  margin: 0;
+}
+.values-header{
+  max-width: var(--maxw);
+  margin-left: 0;
+  margin-right: auto;
+  padding-inline: var(--gutter);
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
+}
+.values-panel{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(2rem, 4vw, 3rem);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(3.5rem, 6vw, 4.5rem) clamp(2rem, 4vw, 3rem);
+  background: #0d2136;
+  border-radius: 8px;
+  border: 1px solid rgba(214,202,176,.15);
+}
+.value-column{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.value-column h3{
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  color: var(--cream);
+  margin: 0;
+  line-height: 1.2;
+  min-height: 3em;
+  display: flex;
+  align-items: flex-start;
+}
+.value-column .rule{
+  margin: 0;
+  width: 30px;
+  height: 2px;
+  background: var(--gold);
+  border: 0;
+}
+.value-column p{
+  margin: 0;
+  line-height: 1.65;
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  color: var(--beige);
+  opacity: 1;
+}
+
+/* Responsive values panel */
+@media (max-width: 1100px){
+  .values-panel{
+    grid-template-columns: repeat(3, 1fr) repeat(2, 1fr);
+  }
+}
+@media (max-width: 900px){
+  .values-section{
+    min-height: auto;
+    padding-block: clamp(3rem, 6vw, 4rem);
+  }
+  .values-panel{
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 3vw, 2rem);
+    padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .value-column h3{
+    min-height: auto;
+  }
+}
+@media (max-width: 600px){
+  .values-panel{
+    grid-template-columns: 1fr;
+    gap: clamp(1.25rem, 2.5vw, 1.75rem);
+    padding: clamp(1.75rem, 4vw, 2.5rem) clamp(1.25rem, 3vw, 2rem);
+  }
+}
+
+/* ========================================================================
+   FOUNDING STORY SECTION RESPONSIVE (additional)
+   ======================================================================== */
+
+/* ========================================================================
+   TEAM CARD LINK STYLES
+   ======================================================================== */
+.team-card-link{
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-radius: 0;
+  overflow: hidden;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.team-card-link:hover,
+.team-card-link:focus-visible{
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(7,16,25,.25);
+}
+.team-card-link:focus-visible{
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.team-card-link .team-card{
+  transition: none;
+}
+
+/* ========================================================================
+   SECTION SPACING & ALIGNMENT CONSISTENCY
+   ======================================================================== */
+.section{
+  padding-block: clamp(5rem, 8vw, 7rem);
+}
+.section--compact{
+  padding-block: clamp(3rem, 5vw, 4rem);
+}
+
+/* Section subtitle contrast - Contact page only */
+.contact-head p,
+.reach-column > p,
+.contact-label{
+  color: var(--ink);
+  opacity: .8;
+}
+
+/* About page: team intro contrast */
+.about-page .team-intro{
+  color: var(--ink);
+  opacity: .8;
+}
+
+/* About page: left-align "Our values" heading only (scoped to values-header) */
+.values-header .section-head{
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.values-header .section-head > div{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.values-header .section-head .rule{
+  width: 30px;
+  margin: 0 0 0.75rem;
+}
+
+/* Team grid last row centered */
+#teamGrid{
+  justify-content: center;
+}
+#teamGrid.grid-4{
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 1200px){
+  #teamGrid.grid-4{
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 900px){
+  #teamGrid.grid-4{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 360px){
+  #teamGrid.grid-4{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Team name styling - brand serif heading style */
+.team-card-info h4{
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  color: #fff;
+  margin: 0 0 .25rem;
+  text-align: left;
+}
+.team-card-info span{
+  font-size: .9rem;
+  font-weight: 400;
+  color: rgba(255,255,255,.85);
+  text-align: left;
+}
+
+/* Ensure touch targets on mobile */
+@media (max-width: 640px){
+  .team-card-info{
+    padding: 1.25rem 1rem 1rem 1rem;
+  }
+  .team-card-link{
+    min-height: 44px;
+  }
+}
+
+/* Hero content alignment with content grid */
+.hero-content{
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+/* CTA section from home page - keep as-is */
+
 
 @media (max-width: 620px){
   .numbers-grid{
@@ -949,12 +1244,7 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 /* ---------------- Mobile Nav Media Query ---------------- */
 @media (max-width: 900px){
   .main-nav{ display: none; }
-  
-.dropdown-panel a[data-service="business-development"]:hover strong{ color: #fff; }
-.dropdown-panel a[data-service="research-project-management"]:hover strong{ color: #fff; }
-.dropdown-panel a[data-service="data-division"]:hover strong{ color: #fff; }
-.dropdown-panel a[data-service="clickbait-marketing"]:hover strong{ color: #fff; }
-.nav-toggle{ display:flex; }
+  .nav-toggle{ display:flex; }
   .mobile-nav-overlay{ display:block; }
 
   /* Submenu stagger */
