@@ -30,6 +30,16 @@
       "latestEpisodeDate": "2025-07-22",
       "people": ["Maxwell Mkumba"],
       "links": { "spotify": "https://open.spotify.com/show/REPLACE", "youtube": "https://youtube.com/@equipgroup" }
+    },
+    {
+      "id": "series-1",
+      "title": "Start. Build. Grow. Podcast",
+      "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
+      "coverArt": "assets/images/updates/equip-podcast1.avif",
+      "totalEpisodes": 1,
+      "latestEpisodeDate": "2025-09-28",
+      "people": ["Rollins Chitika"],
+      "links": { "spotify": "https://open.spotify.com/show/7FfGHGdnobPUSU8JuHdB8K", "youtube": "https://youtu.be/qP2k4bybDAY", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast/id6817039751" }
     }
   ],
 
@@ -103,6 +113,27 @@
       "image": "assets/images/updates/series-02.avif",
       "embedUrl": "",
       "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH" }
+    },
+
+    {
+      "type": "podcast",
+      "seriesId": "series-1",
+      "episodeNumber": 1,
+      "title": "Start. Build. Grow. Podcast",
+      "date": "2026-09-28",
+      "excerpt": "Discover the secrets to finding the right partners, aligning visions, and building sustainable business relationships that withstand the test of time and turbulence.",
+      "image": "assets/images/updates/equip-podcast1.png",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/show/7FfGHGdnobPUSU8JuHdB8K", "youtube": "https://youtu.be/qP2k4bybDAY", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast/id6817039751"}
+    },
+    {
+      "type": "webinar",
+      "title": "Artificial Intelligence in Poultry",
+      "date": "2026-09-29",
+      "excerpt": "Led by SACAU, in partnership with Equip and the Southern African Poultry Initiative (SAPI), this webinar will explore how AI and digital tools are used in poultry, from bird health and biosecurity to climate control, feed formulation, sales, and distribution.",
+      "image": "assets/images/updates/ai-poultry.jpg",
+      "embedUrl": "",
+      "links": { "youtube": "https://docs.google.com/forms/d/e/1FAIpQLScICE7PkMFM7cTCVDNBFaZkkl5_LDBSJEGCyTZduAqrwmYChQ/closedform" }
     }
   ]
 }
