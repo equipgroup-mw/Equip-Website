@@ -9,7 +9,7 @@
     "Crop Production", "Food", "Logistics", "Construction", "Horticulture",
     "Tobacco", "Retail", "Renewable Energy", "Agroprocessing", "Manufacturing",
     "Aquaculture", "Tourism", "Cotton", "Livestock", "Marketing",
-    "Education", "Poultry", "Media"
+    "Education", "Poultry", "Media", "SMEs"
   ],
   "items": [
     {
@@ -92,7 +92,7 @@
       "sector": "Current Affairs",
       "description": "Monthly price movement for a basket of essential groceries across major markets.",
       "provider": "Power BI",
-      "embedUrl": "https://app.powerbi.com/view?r=REPLACE_WITH_YOUR_EMBED_ID"
+      "embedUrl": "https://public.tableau.com/views/HRAnalytics_17575255034700/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
     },
     {
       "id": "mp-race-timeline",

@@ -2,7 +2,19 @@ const VIDEO_MAP = {
     'business-development': 'hero-bds-video.webm',
     'research-project-management': 'hero-rpm-video.webm',
     'data-division': 'hero-dd-video.webm'
-};
+  };
+
+const POSTER_MAP = {
+    'business-development': 'hero-bds.avif',
+    'research-project-management': 'hero-rpm.png',
+    'data-division': 'hero-data.avif'
+  };
+
+const ACCENT_CLASS_MAP = {
+    'business-development': 'hero--accent-plum',
+    'research-project-management': 'hero--accent-green',
+    'data-division': 'hero--accent-turquoise'
+  };
 
 const ROOT = document.documentElement.dataset.root || '';
 
@@ -29,12 +41,12 @@ export function renderCaseStudyCard(cs, { link = true } = {}) {
   const color = getServiceColor(cs.serviceSlug);
   const studyUrl = ROOT + `case-study.html?id=${cs.id}`;
   return `
-    <article class="card case-study-card" data-id="${cs.id}">
+    <article class="card case-study-card" data-id="${cs.id}" style="display:flex; flex-direction:column; height:100%;">
       <div class="card-media">
         <img src="${ROOT}${cs.heroImage}" alt="${cs.heroImageAlt}"
              onerror="this.parentElement.style.background='var(--${color})'">
       </div>
-      <div class="card-body">
+      <div class="card-body" style="display:flex; flex-direction:column; flex:1;">
         <span class="tag">${cs.eyebrow}</span>
         <h4>${cs.title}</h4>
         <p style="font-size:.85rem; color:var(--ink-soft); margin-bottom:.75rem;">${cs.client} • ${cs.period}</p>
@@ -46,7 +58,9 @@ export function renderCaseStudyCard(cs, { link = true } = {}) {
             </div>
           `).join('')}
         </div>
-        ${link ? `<a href="${studyUrl}" class="btn btn-outline" style="margin-top:.5rem; font-size:.8rem; width:100%; justify-content:center;">Read case study →</a>` : ''}
+        <div style="margin-top:auto; padding-top:.75rem;">
+          ${link ? `<a href="${studyUrl}" class="btn btn-outline" style="font-size:.8rem; width:100%; justify-content:center;">Read case study →</a>` : ''}
+        </div>
       </div>
     </article>
   `;
@@ -54,6 +68,9 @@ export function renderCaseStudyCard(cs, { link = true } = {}) {
 
 export function renderCaseStudyDetail(cs) {
   const color = getServiceColor(cs.serviceSlug);
+  const accentClass = ACCENT_CLASS_MAP[cs.serviceSlug] || 'hero--accent-plum';
+  const posterSrc = ROOT + 'assets/images/' + (POSTER_MAP[cs.serviceSlug] || 'hero-bds.avif');
+  const videoSrc = ROOT + 'assets/videos/' + (VIDEO_MAP[cs.serviceSlug] || 'hero-bds-video.webm');
   const teamNames = cs.team.map(id => {
     const nameMap = {
       'rollins-chitika': 'Rollins Chitika',
@@ -74,10 +91,9 @@ export function renderCaseStudyDetail(cs) {
     return nameMap[id] || id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   });
 
-const videoSrc = ROOT + 'assets/videos/' + (VIDEO_MAP[cs.serviceSlug] || 'hero-bds-video.mp4');
   return `
-    <section class="hero hero--compact" data-hero>
-      <div class="hero-bg"><video autoplay muted loop playsinline preload="auto" poster="${ROOT}${cs.heroImage}"><source src="${videoSrc}" type="video/mp4"></video></div>
+    <section class="hero hero--compact ${accentClass} hero--case-study" data-hero>
+      <div class="hero-bg"><video autoplay muted loop playsinline preload="auto" poster="${posterSrc}"><source src="${videoSrc}" type="video/webm"></video></div>
       <div class="hero-inner">
         <div class="hero-content" style="grid-column:1/-1; text-align:center;">
           <span class="hero-eyebrow">${cs.eyebrow}</span>
