@@ -3,13 +3,30 @@
     "how_to_add_an_HD_graphic": "Export your PowerPoint/Canva slide as a PNG or JPG (File > Export > Image, highest quality). Drop the file into /assets/data-division/. Then copy an 'image' block below, set 'image' to that file's path, fill in title/description/sector, save. It appears in the gallery and opens full-size when clicked.",
     "how_to_add_a_dashboard": "If it's Power BI: in Power BI, choose File > Embed report > Publish to web (or use your organisation's secure embed link), copy the embed URL. Paste it into 'embedUrl' on a 'dashboard' block below. Works the same for Tableau Public, Looker Studio, or any tool that gives you an embeddable link.",
     "how_to_add_an_interactive_chart_without_any_design_tool": "Copy a 'chart' block, change 'chartType' to bar / line / pie / doughnut, replace 'labels' with your categories and 'series' with your numbers. No image needed — it draws itself.",
-    "how_to_add_an_article": "Copy an 'article' block, fill in title/excerpt/sector, and set 'link' to a page on this site (e.g. an Updates post) or an external report URL."
+    "how_to_add_an_article": "Copy an 'article' block, fill in title/excerpt/sector, and set 'link' to a page on this site (e.g. an Updates post) or an external report URL.",
+    "how_to_choose_a_chart_type": "Pick the chart by what you want to say. bar: simple vertical comparisons across a few categories. horizontalBar: ranked comparisons and long category names (labels wrap, never rotate). groupedBar: compare several series side by side per category. stackedBar: parts of a whole per category, stacked vertically. stackedBar100: share of a whole per category (raw numbers in JSON, chart shows %). line: change over time; area: change over time with the volume filled in. steppedLine: values that jump between levels rather than gliding. radar: compare a few items across several indicators at once. pie / doughnut / polarArea: shares of one whole (doughnut has the hole). scatter: two measures plotted as x/y points. bubble: three measures at once (x, y and bubble size). combo: a count as bars plus a rate as a line on a second axis. Add \"sortDescending\": true to bar/horizontalBar to rank biggest first.",
+    "chart_block_examples": "One tiny valid example per chartType, as strings (not real items). Every chart needs: \"type\": \"chart\", \"chartType\", \"labels\" (except scatter/bubble), \"series\": [{\"name\": ..., \"data\": [...]}]. Data lengths must match labels. Optional on any chart: \"unit\" (e.g. \"%\", \"USD\"), \"xAxisTitle\", \"yAxisTitle\". Optional per series: \"color\" (hex override). Combo series also take \"type\": \"bar\"|\"line\" and \"axis\": \"left\"|\"right\" (plus \"rightAxisTitle\"). bar/horizontalBar also take \"sortDescending\": true. Scatter/bubble series data are {\"x\": n, \"y\": n} (bubble adds \"r\": n). EXAMPLES (strings only): {\"type\":\"chart\",\"chartType\":\"bar\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"horizontalBar\",\"sortDescending\":true,\"labels\":[\"Long category name here\"],\"series\":[{\"name\":\"Share\",\"data\":[42]}]} | {\"type\":\"chart\",\"chartType\":\"groupedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar100\",\"unit\":\"%\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[60,45]}]} | {\"type\":\"chart\",\"chartType\":\"line\",\"xAxisTitle\":\"Year\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"area\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"steppedLine\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Level\",\"data\":[1,1,2]}]} | {\"type\":\"chart\",\"chartType\":\"radar\",\"labels\":[\"Reach\",\"Quality\",\"Speed\"],\"series\":[{\"name\":\"2023\",\"data\":[4,3,5]},{\"name\":\"2024\",\"data\":[5,4,4]}]} | {\"type\":\"chart\",\"chartType\":\"pie\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"doughnut\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"polarArea\",\"labels\":[\"A\",\"B\",\"C\"],\"series\":[{\"name\":\"Share\",\"data\":[30,50,20]}]} | {\"type\":\"chart\",\"chartType\":\"scatter\",\"xAxisTitle\":\"Cost\",\"yAxisTitle\":\"Return\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20},{\"x\":15,\"y\":25}]}]} | {\"type\":\"chart\",\"chartType\":\"bubble\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20,\"r\":15},{\"x\":30,\"y\":40,\"r\":45}]}]} | {\"type\":\"chart\",\"chartType\":\"combo\",\"rightAxisTitle\":\"Rate %\",\"labels\":[\"Q1\",\"Q2\"],\"series\":[{\"name\":\"Count\",\"type\":\"bar\",\"data\":[120,150]},{\"name\":\"Rate\",\"type\":\"line\",\"axis\":\"right\",\"data\":[62,71]}]}"
   },
   "sectors": [
-    "Crop Production", "Food", "Logistics", "Construction", "Horticulture",
-    "Tobacco", "Retail", "Renewable Energy", "Agroprocessing", "Manufacturing",
-    "Aquaculture", "Tourism", "Cotton", "Livestock", "Marketing",
-    "Education", "Poultry", "Media", "SMEs"
+    "Crop Production",
+    "Food",
+    "Logistics",
+    "Construction",
+    "Horticulture",
+    "Tobacco",
+    "Retail",
+    "Renewable Energy",
+    "Agroprocessing",
+    "Manufacturing",
+    "Aquaculture",
+    "Tourism",
+    "Cotton",
+    "Livestock",
+    "Marketing",
+    "Education",
+    "Poultry",
+    "Media",
+    "SMEs"
   ],
   "items": [
     {
@@ -29,8 +46,19 @@
       "sector": "Cross-sector",
       "description": "Share of completed engagements by division.",
       "chartType": "doughnut",
-      "labels": ["Research & Project Management", "Business Development"],
-      "series": [{ "name": "Share of projects", "data": [42, 58] }]
+      "labels": [
+        "Research & Project Management",
+        "Business Development"
+      ],
+      "series": [
+        {
+          "name": "Share of projects",
+          "data": [
+            42,
+            58
+          ]
+        }
+      ]
     },
     {
       "id": "sme-formalisation",
@@ -40,8 +68,23 @@
       "sector": "SMEs",
       "description": "Share of surveyed SMEs now keeping formal financial records, by country.",
       "chartType": "bar",
-      "labels": ["Zambia", "South Africa", "Malawi", "Zimbabwe"],
-      "series": [{ "name": "% formalised", "data": [58, 69, 37, 65] }]
+      "labels": [
+        "Zambia",
+        "South Africa",
+        "Malawi",
+        "Zimbabwe"
+      ],
+      "series": [
+        {
+          "name": "% formalised",
+          "data": [
+            58,
+            69,
+            37,
+            65
+          ]
+        }
+      ]
     },
     {
       "id": "sme-employment",
@@ -51,8 +94,25 @@
       "sector": "SMEs",
       "description": "Estimated share of the workforce supported by SME activity.",
       "chartType": "bar",
-      "labels": ["Tanzania", "Zambia", "South Africa", "Malawi", "Zimbabwe"],
-      "series": [{ "name": "% of workforce", "data": [35, 70, 40, 47, 60] }]
+      "labels": [
+        "Tanzania",
+        "Zambia",
+        "South Africa",
+        "Malawi",
+        "Zimbabwe"
+      ],
+      "series": [
+        {
+          "name": "% of workforce",
+          "data": [
+            35,
+            70,
+            40,
+            47,
+            60
+          ]
+        }
+      ]
     },
     {
       "id": "savings-behaviour",
@@ -61,9 +121,34 @@
       "title": "Thinking about starting a business? Have you started saving yet?",
       "sector": "SMEs",
       "description": "Reported primary funding source among aspiring entrepreneurs.",
-      "chartType": "bar",
-      "labels": ["Savings", "Money from another business", "Bank loan", "Salary", "Loan", "Friends/family", "Personal retirement policy", "Retirement package", "Other"],
-      "series": [{ "name": "% of respondents", "data": [29, 22, 13, 12, 9, 7, 5, 5, 4] }]
+      "chartType": "horizontalBar",
+      "labels": [
+        "Savings",
+        "Money from another business",
+        "Bank loan",
+        "Salary",
+        "Loan",
+        "Friends/family",
+        "Personal retirement policy",
+        "Retirement package",
+        "Other"
+      ],
+      "series": [
+        {
+          "name": "% of respondents",
+          "data": [
+            29,
+            22,
+            13,
+            12,
+            9,
+            7,
+            5,
+            5,
+            4
+          ]
+        }
+      ]
     },
     {
       "id": "agroprocessing-malawi",

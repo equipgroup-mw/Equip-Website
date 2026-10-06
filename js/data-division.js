@@ -40,7 +40,11 @@
 
   function renderChartCard(item, index){
     const canvasId = `chart-${item.id}-${index}`;
-    return cardShell(item, `<canvas id="${canvasId}" width="400" height="300" role="img" aria-label="${item.title}"></canvas>`, '');
+    return cardShell(item, `<canvas id="${canvasId}" width="400" height="300" role="img" aria-label="${esc(ddTypeName(item))}: ${esc(item.title)}"></canvas>`, '');
+  }
+
+  function renderFallbackCard(item){
+    return cardShell(item, `<div class="dd-fallback">Visual coming soon</div>`, '');
   }
 
   function renderDashboardCard(item){
@@ -80,110 +84,503 @@
 
     grid.innerHTML = filtered.map((item, i) => {
       if(item.type === 'image') return renderImageCard(item);
-      if(item.type === 'chart') return renderChartCard(item, i);
+      if(item.type === 'chart'){
+        const v = validateChartItem(item);
+        if(!v.ok){
+          console.warn(`[dd] skipping chart "${item.id}" (${v.reason}) — showing fallback.`);
+          return renderFallbackCard(item);
+        }
+        return renderChartCard(item, i);
+      }
       if(item.type === 'dashboard') return renderDashboardCard(item);
       if(item.type === 'article') return renderArticleCard(item);
       return '';
     }).join('');
 
     // Destroy old chart instances
-    chartInstances.forEach(chart => chart.destroy());
+    chartInstances.forEach(chart => { try { chart.destroy(); } catch(err) {} });
     chartInstances = [];
 
     // draw charts after they exist in the DOM
     filtered.forEach((item, i) => {
       if(item.type !== 'chart') return;
+      if(!validateChartItem(item).ok) return;
       const ctx = document.getElementById(`chart-${item.id}-${i}`);
       if(!ctx || !window.Chart) return;
-      const chartConfig = buildChartConfig(item, 'card');
-      const chart = new Chart(ctx, chartConfig);
-      chartInstances.push(chart);
+      try {
+        const chartConfig = buildChartConfig(item, 'card');
+        if(!chartConfig) return;
+        const chart = new Chart(ctx, chartConfig);
+        chartInstances.push(chart);
+      } catch(err) {
+        console.warn(`[dd] failed to render chart "${item.id}":`, err);
+      }
     });
 
     wireLightbox();
   }
 
+  /* One brand palette for every chart: navy, gold, slate, beige plus
+     four harmonious brand tones. Lightness varies so adjacent series
+     stay distinguishable in greyscale. */
+  const DD_PALETTE = ['#0d2136','#a8935a','#8a949e','#d8d0c6','#7e2138','#2f3527','#004451','#512137'];
+
+  const DD_TYPE_NAMES = {
+    bar: 'Bar chart', horizontalBar: 'Horizontal bar chart', line: 'Line chart',
+    area: 'Area chart', pie: 'Pie chart', doughnut: 'Doughnut chart',
+    polarArea: 'Polar area chart', groupedBar: 'Grouped bar chart',
+    stackedBar: 'Stacked bar chart', stackedBar100: '100% stacked bar chart',
+    steppedLine: 'Stepped line chart', radar: 'Radar chart', scatter: 'Scatter chart',
+    combo: 'Combination chart', bubble: 'Bubble chart', treemap: 'Treemap'
+  };
+
+  const DD_LABEL_TYPES = ['bar','horizontalBar','line','area','pie','doughnut','polarArea',
+    'groupedBar','stackedBar','stackedBar100','steppedLine','radar','combo'];
+  const DD_KNOWN_TYPES = DD_LABEL_TYPES.concat(['scatter','bubble','treemap']);
+
+  function ddSeriesColor(series, si){
+    const c = series && typeof series.color === 'string' ? series.color.trim() : '';
+    if(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(c)) return c;
+    return DD_PALETTE[si % DD_PALETTE.length];
+  }
+
+  function ddHexA(hex, alpha){
+    const h = hex.replace('#','');
+    const full = h.length === 3 ? h.split('').map(ch => ch + ch).join('') : h;
+    const n = parseInt(full, 16);
+    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
+  }
+
+  function ddFmtVal(v, unit){
+    if(v == null || v === '') return '';
+    if(typeof v === 'number' && Math.abs(v) >= 1000) v = (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + 'k';
+    if(!unit) return String(v);
+    return unit === '%' ? `${v}%` : `${v} ${unit}`;
+  }
+
+  /* Wrap long category labels onto several lines (arrays of lines) so
+     nothing is rotated or clipped at the card edge. */
+  function ddWrapLabel(label, maxLen){
+    const text = String(label == null ? '' : label);
+    const max = maxLen || 24;
+    if(text.length <= max) return text;
+    const words = text.split(/\s+/);
+    const lines = [];
+    let line = '';
+    words.forEach(w => {
+      const next = line ? line + ' ' + w : w;
+      if(next.length > max && line){ lines.push(line); line = w; }
+      else line = next;
+    });
+    if(line) lines.push(line);
+    return lines.length > 1 ? lines : text;
+  }
+
+  function ddTypeName(item){
+    const t = (item && item.chartType) || 'bar';
+    return DD_TYPE_NAMES[t] || DD_TYPE_NAMES.bar;
+  }
+
+  /* Pure validation: returns {ok:true} or {ok:false, reason}. Never throws,
+     never mutates. One bad item must never stop the rest from rendering. */
+  function validateChartItem(item){
+    if(!item || item.type !== 'chart') return { ok: false, reason: 'not-a-chart' };
+    const type = item.chartType || 'bar';
+    if(type === 'treemap') return { ok: false, reason: 'treemap-unsupported' };
+    if(type === 'scatter' || type === 'bubble'){
+      if(!Array.isArray(item.series) || !item.series.length) return { ok: false, reason: 'empty' };
+      for(const s of item.series){
+        if(!s || !Array.isArray(s.data) || !s.data.length) return { ok: false, reason: 'empty' };
+        for(const p of s.data){
+          if(!p || typeof p.x !== 'number' || typeof p.y !== 'number') return { ok: false, reason: 'length' };
+          if(type === 'bubble' && typeof p.r !== 'number') return { ok: false, reason: 'length' };
+        }
+      }
+      return { ok: true };
+    }
+    /* Unknown chartType falls back to "bar" (warned in normalize), so any
+       other label-based type validates against labels/series lengths. */
+    if(!Array.isArray(item.labels) || !item.labels.length) return { ok: false, reason: 'empty' };
+    if(!Array.isArray(item.series) || !item.series.length) return { ok: false, reason: 'empty' };
+    for(const s of item.series){
+      if(!s || !Array.isArray(s.data) || s.data.length !== item.labels.length){
+        return { ok: false, reason: 'length' };
+      }
+    }
+    if(type === 'combo'){
+      for(const s of item.series){
+        const st = s.type || 'bar';
+        if(st !== 'bar' && st !== 'line') return { ok: false, reason: 'combo-type' };
+      }
+    }
+    return { ok: true };
+  }
+
+  /* Normalise a valid item into a render-ready copy (never mutates JSON):
+     unknown chartType falls back to bar, sortDescending reorders a copy,
+     stackedBar100 converts to percentages (raw kept for tooltips/tables),
+     bubble radii scale so the largest bubble is ~30px. */
+  function normalizeChartItem(item){
+    let type = item.chartType || 'bar';
+    if(!DD_KNOWN_TYPES.includes(type)){
+      console.warn(`[dd] unknown chartType "${type}" for item "${item.id}" — falling back to "bar".`);
+      type = 'bar';
+    }
+    const labels = Array.isArray(item.labels) ? item.labels.slice() : [];
+    const series = (item.series || []).map(s => ({
+      name: s.name, data: Array.isArray(s.data) ? s.data.slice() : [],
+      type: s.type, axis: s.axis, color: s.color, fill: s.fill
+    }));
+    if((type === 'bar' || type === 'horizontalBar') && item.sortDescending && series.length){
+      const order = labels.map((_, i) => i).sort((a, b) => (Number(series[0].data[b]) || 0) - (Number(series[0].data[a]) || 0));
+      const sortedLabels = order.map(i => labels[i]);
+      series.forEach(s => { s.data = order.map(i => s.data[i]); });
+      return { type, labels: sortedLabels, series };
+    }
+    if(type === 'stackedBar100'){
+      const totals = labels.map((_, li) => series.reduce((t, s) => t + (Number(s.data[li]) || 0), 0));
+      series.forEach(s => {
+        s._raw = s.data.slice();
+        s.data = s.data.map((v, li) => totals[li] > 0 ? +((Number(v) || 0) / totals[li] * 100).toFixed(1) : 0);
+      });
+    }
+    if(type === 'bubble'){
+      let maxR = 0;
+      series.forEach(s => s.data.forEach(p => { if(p && typeof p.r === 'number' && p.r > maxR) maxR = p.r; }));
+      const k = maxR > 0 ? 30 / maxR : 1;
+      series.forEach(s => { s.data = s.data.map(p => ({ x: p.x, y: p.y, r: Math.max(2, p.r * k) })); });
+    }
+    return { type, labels, series };
+  }
+
   function buildChartConfig(item, context) {
+    const validity = validateChartItem(item);
+    if(!validity.ok){
+      if(validity.reason === 'unknown-type'){
+        /* fall through to bar fallback below */
+      } else {
+        return null;
+      }
+    }
+    const norm = normalizeChartItem(item);
+    const type = norm.type;
+    const labels = norm.labels;
+    const series = norm.series;
+    if(type === 'treemap'){
+      console.warn(`[dd] chartType "treemap" for item "${item.id}" is not supported — showing fallback.`);
+      return null;
+    }
     const isModal = context === 'modal';
     const tickSize = isModal ? 14 : 11;
-    const legendSize = isModal ? 13 : 11;
-    const palette = ['#0F2038','#B9954A','#7A2331','#545A34','#16333B','#8A93A6'];
+    const legendSize = isModal ? 14 : 11;
+    const unit = item.unit || '';
+    const showTitles = isModal;
+
+    const tooltipLabel = function(ctx){
+      const ds = ctx.dataset;
+      const si = ctx.datasetIndex;
+      const sName = ds.label ? ds.label + ': ' : '';
+      if(type === 'stackedBar100'){
+        const raw = ds._raw ? ds._raw[ctx.dataIndex] : ctx.parsed.y !== undefined ? ctx.parsed.y : ctx.parsed;
+        const pct = typeof ctx.parsed.y === 'number' ? ctx.parsed.y : ctx.parsed;
+        return `${sName}${raw} (${pct}%)`;
+      }
+      if(type === 'scatter'){
+        const p = ctx.raw || {};
+        return `${sName}(${p.x}, ${p.y})`;
+      }
+      if(type === 'bubble'){
+        const p = ctx.raw || {};
+        return `${sName}(${p.x}, ${p.y}, size ${p.r == null ? '' : Math.round(p.r)})`;
+      }
+      if(type === 'pie' || type === 'doughnut' || type === 'polarArea'){
+        const v = ctx.parsed;
+        return `${ctx.label}: ${ddFmtVal(typeof v === 'number' ? v : v, unit)}`;
+      }
+      const v = ctx.parsed.y !== undefined ? ctx.parsed.y : ctx.parsed;
+      return `${sName}${ddFmtVal(v, unit)}`;
+    };
+
     const baseConfig = {
-      type: item.chartType || 'bar',
-      data: {
-        labels: item.labels,
-        datasets: item.series.map((s, si) => ({
-          label: s.name,
-          data: s.data,
-          backgroundColor: item.chartType === 'bar' ? palette[0] : item.labels.map((_,li)=>palette[li % palette.length]),
-          borderColor: palette[0],
-          borderWidth: item.chartType === 'line' ? 2 : 0,
-          fill: item.chartType === 'line' ? false : true,
-          tension: 0.3
-        }))
-      },
+      type: type === 'horizontalBar' ? 'bar'
+        : type === 'area' ? 'line'
+        : type === 'steppedLine' ? 'line'
+        : type === 'groupedBar' ? 'bar'
+        : type === 'stackedBar' ? 'bar'
+        : type === 'stackedBar100' ? 'bar'
+        : type === 'combo' ? 'bar'
+        : type,
+      data: { labels: labels, datasets: [] },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: isModal ? (Array.isArray(item.series) && item.series.length > 1) : item.chartType !== 'bar',
-            labels: { boxWidth: 10, font: { family: 'Public Sans', size: legendSize } }
+            display: series.length > 1 || ['pie','doughnut','polarArea','treemap'].includes(type),
+            position: 'bottom',
+            labels: { boxWidth: 10, font: { family: 'Public Sans', size: legendSize }, padding: 16, usePointStyle: (type === 'pie' || type === 'doughnut') }
           },
           tooltip: {
             backgroundColor: 'rgba(13,33,54,0.9)',
             titleFont: { family: 'Public Sans', size: isModal ? 14 : 12 },
             bodyFont: { family: 'Public Sans', size: isModal ? 14 : 11 },
             padding: 10,
-            cornerRadius: 4
+            cornerRadius: 4,
+            callbacks: { label: tooltipLabel }
           }
         },
-        scales: {
-          x: {
-            border: { display: false },
-            grid: {
-              display: false,
-              drawBorder: false,
-              drawOnChartArea: false
-            },
-            ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', maxRotation: 0, autoSkip: true, padding: 8 }
-          },
-          y: {
-            border: { display: false },
-            grid: {
-              color: '#eee',
-              drawBorder: false,
-              drawOnChartArea: true,
-              drawTicks: false
-            },
-            ticks: {
-              font: { family: 'Public Sans', size: tickSize },
-              color: '#666',
-              padding: 8,
-              callback: function(value) { return value >= 1000 ? (value/1000).toFixed(0)+'k' : value; }
-            },
-            beginAtZero: true
-          }
-        },
+        scales: {},
         layout: {
           padding: { left: 0, right: 0, top: 8, bottom: 0 }
         },
-        interaction: { intersect: false, mode: 'index' },
         animation: (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
           ? false
           : { duration: 750, easing: 'easeOutQuart' }
       }
     };
 
-    if (item.chartType === 'pie' || item.chartType === 'doughnut') {
+    /* Bar family */
+    if(['bar','horizontalBar','groupedBar','stackedBar','stackedBar100'].includes(type)){
+      if(type === 'horizontalBar') baseConfig.options.indexAxis = 'y';
+      const stacked = type === 'stackedBar' || type === 'stackedBar100';
+      baseConfig.data.datasets = series.map((s, si) => ({
+        label: s.name,
+        data: s.data,
+        backgroundColor: ddSeriesColor(s, si),
+        borderWidth: 0
+      }));
+      const catAxis = type === 'horizontalBar' ? 'y' : 'x';
+      const valAxis = type === 'horizontalBar' ? 'x' : 'y';
+      const tickUnit = type === 'stackedBar100' ? '%' : unit;
+      baseConfig.options.scales[catAxis] = {
+        stacked: stacked || undefined,
+        border: { display: false },
+        grid: { display: false, drawBorder: false, drawOnChartArea: false },
+        ticks: {
+          font: { family: 'Public Sans', size: tickSize }, color: '#666',
+          maxRotation: 0, autoSkip: true, padding: 8,
+          callback: type === 'horizontalBar'
+            ? function(value){ const l = this.getLabelForValue(value); return ddWrapLabel(l, 24); }
+            : undefined
+        }
+      };
+      baseConfig.options.scales[valAxis] = {
+        stacked: stacked || undefined,
+        border: { display: false },
+        grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
+        ticks: {
+          font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8,
+          callback: function(value){ return ddFmtVal(value, tickUnit); }
+        },
+        beginAtZero: true
+      };
+      if(showTitles){
+        if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+        if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+      }
+      baseConfig.options.interaction = { intersect: false, mode: 'index' };
+    }
+
+    /* Line family */
+    if(['line','area','steppedLine'].includes(type)){
+      baseConfig.data.datasets = series.map((s, si) => {
+        const c = ddSeriesColor(s, si);
+        return {
+          label: s.name,
+          data: s.data,
+          borderColor: c,
+          backgroundColor: type === 'area' ? ddHexA(c, 0.22) : c,
+          borderWidth: 2,
+          fill: type === 'area' ? true : false,
+          stepped: type === 'steppedLine' ? true : false,
+          tension: type === 'steppedLine' ? 0 : 0.3,
+          pointRadius: isModal ? 3 : 2,
+          pointBackgroundColor: c
+        };
+      });
+      baseConfig.options.scales = cartesianValueScales(tickSize, unit);
+      if(showTitles){
+        if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+        if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+      }
+      baseConfig.options.interaction = { intersect: false, mode: 'index' };
+    }
+
+    /* Circular */
+    if(['pie','doughnut','polarArea'].includes(type)){
+      baseConfig.data.datasets = series.map(s => ({
+        label: s.name,
+        data: s.data,
+        backgroundColor: labels.map((_, li) => DD_PALETTE[li % DD_PALETTE.length]),
+        borderWidth: 0
+      }));
       baseConfig.options.scales = {};
-      baseConfig.options.cutout = '65%';
-      baseConfig.options.plugins.legend.position = 'bottom';
-      baseConfig.options.plugins.legend.labels.padding = 16;
-      baseConfig.options.plugins.legend.labels.usePointStyle = true;
+      if(type === 'doughnut') baseConfig.options.cutout = '65%';
+      if(type === 'polarArea'){
+        baseConfig.options.scales = {
+          r: {
+            border: { display: false },
+            grid: { color: '#eee' },
+            angleLines: { color: '#eee' },
+            ticks: { display: false, beginAtZero: true },
+            pointLabels: { font: { family: 'Public Sans', size: tickSize }, color: '#666' }
+          }
+        };
+      }
+    }
+
+    /* Radar */
+    if(type === 'radar'){
+      baseConfig.data.datasets = series.map((s, si) => {
+        const c = ddSeriesColor(s, si);
+        return {
+          label: s.name,
+          data: s.data,
+          borderColor: c,
+          backgroundColor: ddHexA(c, 0.2),
+          borderWidth: 2,
+          pointRadius: isModal ? 3 : 2,
+          pointBackgroundColor: c
+        };
+      });
+      baseConfig.options.scales = {
+        r: {
+          border: { display: false },
+          grid: { color: '#eee' },
+          angleLines: { color: '#eee' },
+          ticks: { display: false, beginAtZero: true },
+          pointLabels: { font: { family: 'Public Sans', size: tickSize }, color: '#333' }
+        }
+      };
+    }
+
+    /* Scatter */
+    if(type === 'scatter'){
+      baseConfig.data.datasets = series.map((s, si) => {
+        const c = ddSeriesColor(s, si);
+        return {
+          label: s.name,
+          data: s.data,
+          backgroundColor: c,
+          borderColor: c,
+          pointRadius: isModal ? 4 : 3
+        };
+      });
+      baseConfig.options.scales = pointScales(tickSize, unit, showTitles, item);
+    }
+
+    /* Bubble */
+    if(type === 'bubble'){
+      baseConfig.data.datasets = series.map((s, si) => {
+        const c = ddSeriesColor(s, si);
+        return {
+          label: s.name,
+          data: s.data,
+          backgroundColor: ddHexA(c, 0.55),
+          borderColor: c,
+          borderWidth: 1
+        };
+      });
+      baseConfig.options.scales = pointScales(tickSize, unit, showTitles, item);
+    }
+
+    /* Combo */
+    if(type === 'combo'){
+      const useRight = series.some(s => s.axis === 'right');
+      baseConfig.data.datasets = series.map((s, si) => {
+        const c = ddSeriesColor(s, si);
+        const st = s.type === 'line' ? 'line' : 'bar';
+        const d = {
+          type: st,
+          label: s.name,
+          data: s.data,
+          yAxisID: s.axis === 'right' ? 'y1' : 'y',
+          borderColor: c,
+          backgroundColor: st === 'bar' ? c : 'transparent',
+          borderWidth: st === 'line' ? 2 : 0,
+          fill: false,
+          tension: 0.3,
+          pointRadius: 2,
+          pointBackgroundColor: c
+        };
+        return d;
+      });
+      baseConfig.options.scales.x = {
+        border: { display: false },
+        grid: { display: false, drawBorder: false, drawOnChartArea: false },
+        ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', maxRotation: 0, autoSkip: true, padding: 8 }
+      };
+      baseConfig.options.scales.y = {
+        border: { display: false },
+        grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
+        ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8 },
+        beginAtZero: true
+      };
+      if(showTitles){
+        if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+        if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+      }
+      if(useRight){
+        baseConfig.options.scales.y1 = {
+          position: 'right',
+          border: { display: false },
+          grid: { drawOnChartArea: false, drawBorder: false },
+          ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8 },
+          beginAtZero: true
+        };
+        if(showTitles && item.rightAxisTitle){
+          baseConfig.options.scales.y1.title = { display: true, text: item.rightAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+        }
+      }
+      baseConfig.options.interaction = { intersect: false, mode: 'index' };
     }
 
     return baseConfig;
+  }
+
+  function cartesianValueScales(tickSize, unit){
+    return {
+      x: {
+        border: { display: false },
+        grid: { display: false, drawBorder: false, drawOnChartArea: false },
+        ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', maxRotation: 0, autoSkip: true, padding: 8 }
+      },
+      y: {
+        border: { display: false },
+        grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
+        ticks: {
+          font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8,
+          callback: function(value){ return ddFmtVal(value, unit); }
+        },
+        beginAtZero: true
+      }
+    };
+  }
+
+  function pointScales(tickSize, unit, showTitles, item){
+    const scales = {
+      x: {
+        type: 'linear',
+        border: { display: false },
+        grid: { display: false, drawBorder: false, drawOnChartArea: false },
+        ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8 }
+      },
+      y: {
+        type: 'linear',
+        border: { display: false },
+        grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
+        ticks: {
+          font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8,
+          callback: function(value){ return ddFmtVal(value, unit); }
+        },
+        beginAtZero: false
+      }
+    };
+    if(showTitles){
+      if(item.xAxisTitle) scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+      if(item.yAxisTitle) scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+    }
+    return scales;
   }
 
   function wireLightbox(){
@@ -266,11 +663,9 @@
       : item.type === 'article' ? ' dd-modal__visual--article' : '';
     let inner = '';
     if(item.type === 'chart'){
-      const hasData = Array.isArray(item.labels) && item.labels.length
-        && Array.isArray(item.series) && item.series.length
-        && item.series.some(s => Array.isArray(s.data) && s.data.length);
+      const hasData = validateChartItem(item).ok;
       inner = hasData
-        ? `<div class="dd-modal__chart-wrap"><canvas id="ddDetailChart" role="img" aria-label="${esc(item.title)}"></canvas></div>`
+        ? `<div class="dd-modal__chart-wrap"><canvas id="ddDetailChart" role="img" aria-label="${esc(ddTypeName(item))}: ${esc(item.title)}"></canvas></div>`
         : `<div class="dd-fallback">Visual coming soon</div>`;
     } else if(item.type === 'image'){
       inner = item.image
@@ -296,23 +691,53 @@
     return { cls: visualClass, inner };
   }
 
+  function modalTableCell(v, unit){
+    if(v == null || v === '') return `<td style="text-align:right;">&ndash;</td>`;
+    if(typeof v === 'number') return `<td style="text-align:right;">${esc(ddFmtVal(v, unit))}</td>`;
+    if(typeof v === 'object') return `<td style="text-align:right;">${esc(`(${v.x}, ${v.y}${v.r == null ? '' : ', ' + v.r})`)}</td>`;
+    return `<td style="text-align:right;">${esc(v)}</td>`;
+  }
+
   function modalTableHtml(item){
     if(item.type !== 'chart') return '';
-    if(!Array.isArray(item.labels) || !item.labels.length) return '';
-    if(!Array.isArray(item.series) || !item.series.length) return '';
+    if(!validateChartItem(item).ok) return '';
+    const type = item.chartType || 'bar';
+    const unit = item.unit || '';
+    const unitNote = unit ? ` <span style="font-weight:400;">(${esc(unit)})</span>` : '';
+    const wrap = inner => `<div class="dd-modal__table-wrap"><table class="dd-modal__details-table"><caption class="sr-only" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);">Data for ${esc(item.title)}</caption>${inner}</table></div>`;
+
+    if(type === 'scatter'){
+      const rows = item.series.map(s => (s.data || []).map(p =>
+        `<tr><th scope="row" style="font-weight:400; text-transform:none; letter-spacing:0;">${esc(s.name)}</th><td style="text-align:right;">${esc(p.x)}</td><td style="text-align:right;">${esc(p.y)}</td></tr>`
+      ).join('')).join('');
+      return wrap(`<thead><tr><th scope="col">Series</th><th scope="col" style="text-align:right;">X${unitNote}</th><th scope="col" style="text-align:right;">Y${unitNote}</th></tr></thead><tbody>${rows}</tbody>`);
+    }
+    if(type === 'bubble'){
+      const rows = item.series.map(s => (s.data || []).map(p =>
+        `<tr><th scope="row" style="font-weight:400; text-transform:none; letter-spacing:0;">${esc(s.name)}</th><td style="text-align:right;">${esc(p.x)}</td><td style="text-align:right;">${esc(p.y)}</td><td style="text-align:right;">${esc(p.r)}</td></tr>`
+      ).join('')).join('');
+      return wrap(`<thead><tr><th scope="col">Series</th><th scope="col" style="text-align:right;">X${unitNote}</th><th scope="col" style="text-align:right;">Y${unitNote}</th><th scope="col" style="text-align:right;">Size${unitNote}</th></tr></thead><tbody>${rows}</tbody>`);
+    }
+    if(type === 'pie' || type === 'doughnut' || type === 'polarArea'){
+      const s = item.series[0] || { data: [] };
+      const rows = (item.labels || []).map((label, li) =>
+        `<tr><th scope="row" style="font-weight:400; text-transform:none; letter-spacing:0;">${esc(label)}</th>${modalTableCell(s.data[li], unit)}</tr>`
+      ).join('');
+      return wrap(`<thead><tr><th scope="col">Label</th><th scope="col" style="text-align:right;">Value${unitNote}</th></tr></thead><tbody>${rows}</tbody>`);
+    }
     const multi = item.series.length > 1;
-    const unit = item.unit ? ` <span style="font-weight:400;">(${esc(item.unit)})</span>` : '';
-    let head = multi
+    const head = multi
       ? `<tr><th scope="col">Label</th>${item.series.map(s => `<th scope="col" style="text-align:right;">${esc(s.name)}</th>`).join('')}</tr>`
-      : `<tr><th scope="col">Label</th><th scope="col" style="text-align:right;">Value${unit}</th></tr>`;
-    const rows = item.labels.map((label, li) => {
-      const cells = item.series.map(s => {
-        const v = Array.isArray(s.data) ? s.data[li] : '';
-        return `<td style="text-align:right;">${esc(v == null ? '' : v)}</td>`;
-      }).join('');
-      return `<tr><th scope="row" style="font-weight:400; text-transform:none; letter-spacing:0;">${esc(label)}</th>${cells}</tr>`;
+      : `<tr><th scope="col">Label</th><th scope="col" style="text-align:right;">Value${unitNote}</th></tr>`;
+    const rows = (item.labels || []).map((label, li) => {
+      const cells = item.series.map(s => modalTableCell(Array.isArray(s.data) ? s.data[li] : '', unit)).join('');
+      const shown = typeof label === 'string' ? label : (Array.isArray(label) ? label.join(' ') : String(label));
+      return `<tr><th scope="row" style="font-weight:400; text-transform:none; letter-spacing:0;">${esc(shown)}</th>${cells}</tr>`;
     }).join('');
-    return `<div class="dd-modal__table-wrap"><table class="dd-modal__details-table"><caption class="sr-only" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);">Data for ${esc(item.title)}</caption><thead>${head}</thead><tbody>${rows}</tbody></table></div>`;
+    const note = type === 'stackedBar100'
+      ? `<p style="font-size:.85rem; color:var(--ink-soft); margin:.75rem 0 0;">Values below are the raw numbers; the chart displays each category as percentages.</p>`
+      : '';
+    return wrap(`<thead>${head}</thead><tbody>${rows}</tbody>`) + note;
   }
 
   function modalDetailsHtml(item){
@@ -445,12 +870,18 @@
       }
     }
 
-    if(item.type === 'chart'){
+    if(item.type === 'chart' && validateChartItem(item).ok){
       requestAnimationFrame(() => requestAnimationFrame(() => {
         if(modalOpenId !== id) return;
         const canvas = document.getElementById('ddDetailChart');
         if(!canvas || !window.Chart) return;
-        modalChart = new Chart(canvas, buildChartConfig(item, 'modal'));
+        try {
+          const cfg = buildChartConfig(item, 'modal');
+          if(!cfg) return;
+          modalChart = new Chart(canvas, cfg);
+        } catch(err) {
+          console.warn(`[dd] failed to render modal chart "${item.id}":`, err);
+        }
       }));
     }
     return true;
@@ -606,4 +1037,12 @@
   }
 
   document.addEventListener('partials:ready', init);
+
+  /* Test hook for the chart-type harness: exposes the shared builders so a
+     test page can render every chartType through the real code path. */
+  try {
+    window.__ddCharts = {
+      buildChartConfig, validateChartItem, normalizeChartItem, ddTypeName, DD_PALETTE
+    };
+  } catch(err) {}
 })();
