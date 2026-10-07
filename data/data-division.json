@@ -37,7 +37,7 @@
       "title": "The sectors we have worked in",
       "sector": "Cross-sector",
       "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
-      "image": "../assets/data-division/data-sectors.png"
+      "image": "/assets/data-division/data-sectors.png"
     },
     {
       "id": "pres-race-map",
@@ -167,7 +167,7 @@
       "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
       "sector": "Emerging Industries",
       "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
-      "image": "../assets/data-division/agroprocessing-malawi.jpg"
+      "image": "/assets/data-division/agroprocessing-malawi.jpg"
     },
     {
       "id": "mse-dashboard",
