@@ -55,12 +55,13 @@
       "links": { "youtube": "https://youtube.com/@equipgroup", "zoom": "" }
     },
     {
-      "type": "announcement",
+      "type": "opportunity",
       "title": "Join our network of expert consultants",
       "date": "2025-10-24",
       "excerpt": "Equip Group is expanding its consulting network and inviting experienced experts across energy, agribusiness, finance, ICT and other sectors to join.",
       "image": "assets/images/updates/join-network.jpg",
-      "link": "/contact.html"
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog",
+      "deadline": "2026-12-31"
     },
     {
       "type": "article",
