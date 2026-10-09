@@ -5,9 +5,10 @@
     "how_to_add_an_interactive_chart_without_any_design_tool": "Copy a 'chart' block, change 'chartType' to bar / line / pie / doughnut, replace 'labels' with your categories and 'series' with your numbers. No image needed — it draws itself.",
     "how_to_add_an_article": "Copy an 'article' block, fill in title/excerpt/sector, and set 'link' to a page on this site (e.g. an Updates post) or an external report URL.",
     "how_to_choose_a_chart_type": "Pick the chart by what you want to say. bar: simple vertical comparisons across a few categories. horizontalBar: ranked comparisons and long category names (labels wrap, never rotate). groupedBar: compare several series side by side per category. stackedBar: parts of a whole per category, stacked vertically. stackedBar100: share of a whole per category (raw numbers in JSON, chart shows %). line: change over time; area: change over time with the volume filled in. steppedLine: values that jump between levels rather than gliding. radar: compare a few items across several indicators at once. pie / doughnut / polarArea: shares of one whole (doughnut has the hole). scatter: two measures plotted as x/y points. bubble: three measures at once (x, y and bubble size). combo: a count as bars plus a rate as a line on a second axis. Add \"sortDescending\": true to bar/horizontalBar to rank biggest first.",
-    "chart_block_examples": "One tiny valid example per chartType, as strings (not real items). Every chart needs: \"type\": \"chart\", \"chartType\", \"labels\" (except scatter/bubble), \"series\": [{\"name\": ..., \"data\": [...]}]. Data lengths must match labels. Optional on any chart: \"unit\" (e.g. \"%\", \"USD\"), \"xAxisTitle\", \"yAxisTitle\". Optional per series: \"color\" (hex override). Combo series also take \"type\": \"bar\"|\"line\" and \"axis\": \"left\"|\"right\" (plus \"rightAxisTitle\"). bar/horizontalBar also take \"sortDescending\": true. Scatter/bubble series data are {\"x\": n, \"y\": n} (bubble adds \"r\": n). EXAMPLES (strings only): {\"type\":\"chart\",\"chartType\":\"bar\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"horizontalBar\",\"sortDescending\":true,\"labels\":[\"Long category name here\"],\"series\":[{\"name\":\"Share\",\"data\":[42]}]} | {\"type\":\"chart\",\"chartType\":\"groupedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar100\",\"unit\":\"%\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[60,45]}]} | {\"type\":\"chart\",\"chartType\":\"line\",\"xAxisTitle\":\"Year\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"area\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"steppedLine\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Level\",\"data\":[1,1,2]}]} | {\"type\":\"chart\",\"chartType\":\"radar\",\"labels\":[\"Reach\",\"Quality\",\"Speed\"],\"series\":[{\"name\":\"2023\",\"data\":[4,3,5]},{\"name\":\"2024\",\"data\":[5,4,4]}]} | {\"type\":\"chart\",\"chartType\":\"pie\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"doughnut\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"polarArea\",\"labels\":[\"A\",\"B\",\"C\"],\"series\":[{\"name\":\"Share\",\"data\":[30,50,20]}]} | {\"type\":\"chart\",\"chartType\":\"scatter\",\"xAxisTitle\":\"Cost\",\"yAxisTitle\":\"Return\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20},{\"x\":15,\"y\":25}]}]} | {\"type\":\"chart\",\"chartType\":\"bubble\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20,\"r\":15},{\"x\":30,\"y\":40,\"r\":45}]}]} | {\"type\":\"chart\",\"chartType\":\"combo\",\"rightAxisTitle\":\"Rate %\",\"labels\":[\"Q1\",\"Q2\"],\"series\":[{\"name\":\"Count\",\"type\":\"bar\",\"data\":[120,150]},{\"name\":\"Rate\",\"type\":\"line\",\"axis\":\"right\",\"data\":[62,71]}]}"
+    "chart_block_examples": "One tiny valid example per chartType, as strings (not real items). Every chart needs: \"type\": \"chart\", \"chartType\", \"labels\" (except scatter/bubble), \"series\": [{\"name\": ..., \"data\": [...]}]. Data lengths must match labels. Optional on any chart: \"unit\" (e.g. \"%\", \"USD\"), \"xAxisTitle\", \"yAxisTitle\". Optional per series: \"color\" (hex override). Combo series also take \"type\": \"bar\"|\"line\" and \"axis\": \"left\"|\"right\" (plus \"rightAxisTitle\"). bar/horizontalBar also take \"sortDescending\": true. Scatter/bubble series data are {\"x\": n, \"y\": n} (bubble adds \"r\": n). EXAMPLES (strings only): {\"type\":\"chart\",\"chartType\":\"bar\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"horizontalBar\",\"sortDescending\":true,\"labels\":[\"Long category name here\"],\"series\":[{\"name\":\"Share\",\"data\":[42]}]} | {\"type\":\"chart\",\"chartType\":\"groupedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar100\",\"unit\":\"%\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[60,45]}]} | {\"type\":\"chart\",\"chartType\":\"line\",\"xAxisTitle\":\"Year\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"area\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"steppedLine\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Level\",\"data\":[1,1,2]}]} | {\"type\":\"chart\",\"chartType\":\"radar\",\"labels\":[\"Reach\",\"Quality\",\"Speed\"],\"series\":[{\"name\":\"2023\",\"data\":[4,3,5]},{\"name\":\"2024\",\"data\":[5,4,4]}]} | {\"type\":\"chart\",\"chartType\":\"pie\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"doughnut\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"polarArea\",\"labels\":[\"A\",\"B\",\"C\"],\"series\":[{\"name\":\"Share\",\"data\":[30,50,20]}]} | {\"type\":\"chart\",\"chartType\":\"scatter\",\"xAxisTitle\":\"Cost\",\"yAxisTitle\":\"Return\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20},{\"x\":15,\"y\":25}]}]} | {\"type\":\"chart\",\"chartType\":\"bubble\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20,\"r\":15},{\"x\":30,\"y\":40,\"r\":45}]}]} | {\"type\":\"chart\",\"chartType\":\"combo\",\"rightAxisTitle\":\"Rate %\",\"labels\":[\"Q1\",\"Q2\"],\"series\":[{\"name\":\"Count\",\"type\":\"bar\",\"data\":[120,150]},{\"name\":\"Rate\",\"type\":\"line\",\"axis\":\"right\",\"data\":[62,71]}]}",
+    "card_fields_updated_and_labels": "Every item needs an \"updated\" month (\"YYYY-MM\", e.g. \"2026-09\"), shown on its card as \"Updated: Sep, 2026\". Set it to the month the underlying visual or data was last refreshed. Card corner badges are automatic, not typed in: embeds and anything explorable (Tableau, Power BI, custom HTML, maps, timelines, dashboards) show \"Interactive\"; images, site-drawn charts and plain datasets show \"Static\"."
   },
-  "sectors": [
+"sectors": [
     "Crop Production",
     "Food",
     "Logistics",
@@ -27,29 +28,34 @@
     "Poultry",
     "Media",
     "SMEs",
-    "Current Affairs"
+    "Current Affairs",
+    "Cross-sector",
+    "Government"
   ],
   "items": [
     {
       "id": "sme-sectors",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "image",
       "title": "The sectors we have worked in",
       "sector": "Cross-sector",
       "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
-      "image": "/assets/data-division/data-sectors.png"
+      "image": "../assets/data-division/data-sectors.png"
     },
     {
       "id": "pres-race-map",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "dashboard",
       "title": "Presidential race map (2025)",
       "sector": "Current Affairs",
-      "description": "An official running timeline built from public reporting, for reference only.",
+      "description": "An interactive map tracking reported results in the 2025 presidential election by constituency.",
       "embedUrl": "https://flo.uri.sh/visualisation/24346727/embed"
     },
     {
       "id": "sme-formalisation",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "chart",
       "title": "From chalkboards to cash flow: SME formalisation rates",
@@ -76,6 +82,7 @@
     },
     {
       "id": "bds-split",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "chart",
       "title": "Research & Project Management vs Business Development projects",
@@ -98,6 +105,7 @@
     },
     {
       "id": "sme-employment",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "chart",
       "title": "Beyond employment: the impact SMEs make",
@@ -126,6 +134,7 @@
     },
     {
       "id": "savings-behaviour",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "chart",
       "title": "Thinking about starting a business? Have you started saving yet?",
@@ -160,37 +169,41 @@
         }
       ]
     },
-    {
+{
       "id": "agroprocessing-malawi",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "image",
       "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
-      "sector": "Emerging Industries",
+      "sector": "Agroprocessing",
       "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
-      "image": "/assets/data-division/agroprocessing-malawi.jpg"
+      "image": "../assets/data-division/agroprocessing-malawi.jpg"
     },
     {
-      "id": "mse-dashboard",
+      "id": "ngora-dashboard",
+      "updated": "2026-09",
       "category": "Dashboards",
       "type": "dashboard",
-      "title": "Malawi Stock Exchange (MSE) tracker",
+      "title": "NGORA's national monitor of NGOs in Malawi ",
       "sector": "Current Affairs",
-      "description": "Live-updating index performance and top movers on the Malawi Stock Exchange.",
-      "provider": "Power BI",
-      "embedUrl": "https://app.powerbi.com/view?r=REPLACE_WITH_YOUR_EMBED_ID"
+      "description": "The Non-Governmental Organizations Regulatory Authority (NGORA). This is a district overiew of all the NGOs that it regulates and oversees in Malawi. ",
+      "provider": "Custom HTML",
+      "embedUrl": "https://equipgroup-mw.github.io/NGORA-Dashboard-Map/"
     },
     {
       "id": "groceries-dashboard",
+      "updated": "2026-09",
       "category": "Dashboards",
       "type": "dashboard",
       "title": "Basic basket: grocery price tracker",
       "sector": "Current Affairs",
       "description": "Monthly price movement for a basket of essential groceries across major markets.",
-      "provider": "Power BI",
-      "embedUrl": "https://public.tableau.com/views/HRAnalytics_17575255034700/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
+      "provider": "Tableau",
+      "embedUrl": "https://public.tableau.com/views/CarColorEvolutionNorthAmerica-EquipRebrand/ColorRankOverTime?:showVizHome=no&:embed=true"
     },
     {
       "id": "mp-race-timeline",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "dashboard",
       "title": "Member of Parliament seats (official): 1994-2025",
@@ -200,6 +213,7 @@
     },
     {
       "id": "impact-timeline",
+      "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "dashboard",
       "title": "Our timeline",

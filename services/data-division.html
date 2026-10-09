@@ -40,7 +40,11 @@
         <p class="hero-eyebrow">Data Division</p>
         <h1>Complex data. Compelling stories. Strategic clarity.</h1>
         <p class="hero-lede">A living portal of the datasets, dashboards and visuals behind our work. Built to be read by anyone from research students to government officials alike.</p>
-        <a href="#service-overview" class="hero-explore-btn">Explore service</a>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
+          <button type="button" class="btn btn-gold" data-dd-view="portal">Explore portal</button>
+          <button type="button" class="btn btn-outline" style="color:var(--cream);" data-dd-view="projects">Our projects</button>
+          <a href="../contact.html" class="btn btn-outline" style="color:var(--cream);">Talk to our team</a>
+        </div>
       </div>
     </div>
     <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><span class="line"></span></div>
@@ -85,11 +89,11 @@
   </section>
 
   <div class="dd-tab-switcher" role="tablist" aria-label="Data Division view">
-    <button role="tab" class="dd-tab-btn" aria-selected="true" data-view="projects">Projects</button>
-    <button role="tab" class="dd-tab-btn" aria-selected="false" data-view="portal">Portal</button>
+    <button role="tab" class="dd-tab-btn" id="dd-tab-projects" aria-selected="false" aria-controls="ddProjectsPanel" data-view="projects">Projects</button>
+    <button role="tab" class="dd-tab-btn" id="dd-tab-portal" aria-selected="true" aria-controls="ddPortalPanel" data-view="portal">Portal</button>
   </div>
 
-  <div role="tabpanel" data-panel="projects" id="ddProjectsPanel">
+  <div role="tabpanel" data-panel="projects" id="ddProjectsPanel" hidden aria-labelledby="dd-tab-projects">
     <div class="section" style="padding-top:2rem;">
       <div class="container">
         <div class="section-head"><div><hr class="rule"><h2>Featured Projects</h2></div></div>
@@ -98,24 +102,29 @@
     </div>
   </div>
 
-  <div role="tabpanel" data-panel="portal" id="ddPortalPanel" hidden>
-    <div class="dd-toolbar">
-      <div class="container dd-toolbar-inner">
-        <div class="dd-search">
-          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input type="search" id="ddSearch" placeholder="Search datasets, dashboards, sectors…" aria-label="Search the Data Division catalogue">
+  <div role="tabpanel" data-panel="portal" id="ddPortalPanel" aria-labelledby="dd-tab-portal">
+<div class="dd-toolbar">
+    <div class="container dd-toolbar-inner">
+      <div class="dd-search">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="search" id="ddSearch" placeholder="Search datasets, dashboards, sectors…" aria-label="Search the Data Division catalogue">
+        <button type="button" class="dd-search-clear" id="ddSearchClear" aria-label="Clear search and filters" hidden><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="dd-tabs" id="ddTabs"></div>
+      <div class="dd-sector-dropdown" id="ddSectorDropdown">
+        <button type="button" class="dd-sector-trigger" id="ddSectorTrigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="ddSectorList" aria-label="Sector filter">
+          <span class="dd-sector-label">Sector</span>
+          <svg class="dd-sector-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+<div class="dd-sector-panel" id="ddSectorPanel" role="listbox" aria-label="Sectors" hidden>
+        <div class="dd-sector-options" id="ddSectorList">
+          <div class="dd-sector-option" data-sector="" role="option" aria-selected="true">All sectors</div>
         </div>
-        <div class="dd-tabs" id="ddTabs"></div>
-        <span class="dd-count" id="ddCount"></span>
+        </div>
       </div>
+      <span class="dd-count" id="ddCount"></span>
     </div>
-
-    <section class="section" style="padding-block: 2.5rem 1rem;">
-      <div class="container">
-        <div class="eyebrow" style="margin-bottom:.75rem; color:var(--ink-soft);">Browse by sector</div>
-        <div class="dd-sectors" id="ddSectors"></div>
-      </div>
-    </section>
+  </div>
 
     <section class="section" style="padding-top:1rem;">
       <div class="container">
@@ -124,12 +133,12 @@
     </section>
   </div>
 
-  <section class="section bg-navy">
+  <section class="section" style="padding-block:4rem; border-top:1px solid rgba(246,244,238,.12); background-image:url('../assets/images/discover.webp'); background-size:cover; background-position:center;">
     <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
       <div>
-        <hr class="rule"><h2>Publish new data yourself — no developer needed</h2>
-        <p>Export a slide as an image, paste a Power BI link, or drop in a few numbers — this whole page is generated from one plain-language file. See the project README for the three-step guide.</p>
-        <a href="../contact.html" class="btn btn-gold">Request onboarding</a>
+        <hr class="rule"><h2>Need visuals or dashboards like these?</h2>
+        <p>Or maybe you need help collecting data or bolstering your current (M&E) process? Talk to our team.</p>
+        <a href="../contact.html" class="btn btn-gold">Talk to us</a>
       </div>
       <div class="card-media" style="aspect-ratio:4/3;"><img src="../assets/images/data-cms.jpg" alt="" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
     </div>
@@ -158,7 +167,6 @@
 <script src="../js/main.js"></script>
 <script src="../js/carousel.js"></script>
 <script src="../js/data-division.js"></script>
-<script src="../js/data-division-toggle.js"></script>
 <script type="module">
   const ROOT = document.documentElement.dataset.root || '';
   import { loadCaseStudies, renderCaseStudyCard } from '../js/case-studies.js';

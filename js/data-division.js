@@ -9,8 +9,10 @@
 (function(){
   const ROOT = document.documentElement.dataset.root || '';
   let ALL_ITEMS = [];
+  let SECTORS = [];
   let activeCategory = 'All';
   let activeQuery = '';
+  let activeSector = '';
   let chartInstances = [];
 
   function esc(s){
@@ -21,26 +23,43 @@
       .replace(/"/g, '&quot;');
   }
 
+  /* Card date tag: "2026-09" renders as "Updated: Sep, 2026". */
+  const DD_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function fmtUpdated(ym){
+    const m = /^(\d{4})-(\d{2})/.exec(ym || '');
+    if(!m) return '';
+    const mi = parseInt(m[2], 10);
+    if(mi < 1 || mi > 12) return '';
+    return `Updated: ${DD_MONTHS[mi - 1]}, ${m[1]}`;
+  }
+
+  /* Corner badge, derived from the item type: embeds and anything a viewer
+     can explore are Interactive; images, site-drawn charts and plain
+     datasets are Static. */
+  function ddStaticLabel(item){
+    return item.type === 'dashboard' ? 'Interactive' : 'Static';
+  }
+
   function cardShell(item, innerHtml, extraClass){
     return `
       <article class="dd-card ${extraClass||''}" data-sector="${esc(item.sector||'')}" data-item-id="${esc(item.id)}" role="button" tabindex="0" aria-label="Open details: ${esc(item.title)}">
         <div class="dd-card-media">${innerHtml}</div>
         <div class="card-body">
-          <span class="tag">${item.category}</span>
+          <span class="dd-updated-tag">${fmtUpdated(item.updated)}</span>
           <h4>${item.title}</h4>
-          <p style="margin:0;">${item.description||''}</p>
-          ${item.sector ? `<span style="font-size:.8rem; color:var(--gold); font-weight:700;">${item.sector}</span>` : ''}
+          <p class="update-desc" title="${esc(item.description||'')}">${item.description||''}</p>
+          ${item.sector ? `<span class="sector-tag">${esc(item.sector)}</span>` : ''}
         </div>
       </article>`;
   }
 
   function renderImageCard(item){
-    return cardShell(item, `<img src="${ROOT}${item.image.replace(/^\//,'')}" alt="${esc(item.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'dd-fallback\\'>Visual coming soon</div>'">`, 'is-clickable');
+    return cardShell(item, `<img src="${ROOT}${item.image.replace(/^\//,'')}" alt="${esc(item.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'dd-fallback\\'>Visual coming soon</div>'"><span class="dd-provider">${ddStaticLabel(item)}</span>`, 'is-clickable');
   }
 
   function renderChartCard(item, index){
     const canvasId = `chart-${item.id}-${index}`;
-    return cardShell(item, `<canvas id="${canvasId}" width="400" height="300" role="img" aria-label="${esc(ddTypeName(item))}: ${esc(item.title)}"></canvas>`, '');
+    return cardShell(item, `<canvas id="${canvasId}" width="400" height="300" role="img" aria-label="${esc(ddTypeName(item))}: ${esc(item.title)}"></canvas><span class="dd-provider">${ddStaticLabel(item)}</span>`, '');
   }
 
   function renderFallbackCard(item){
@@ -51,18 +70,19 @@
     return cardShell(item, `
       <div class="dd-dashboard-frame" style="position:relative; width:100%; height:100%;">
         <iframe src="${item.embedUrl}" title="${esc(item.title)}" loading="lazy" tabindex="-1" aria-hidden="true" style="width:100%; height:100%; border:0; pointer-events:none;"></iframe>
-        <span class="dd-provider">${item.provider||'Dashboard'}</span>
+        <span class="dd-provider">${ddStaticLabel(item)}</span>
       </div>`, '');
   }
 
   function renderArticleCard(item){
     return `
       <article class="dd-card" data-sector="${esc(item.sector||'')}" data-item-id="${esc(item.id)}" role="button" tabindex="0" aria-label="Open details: ${esc(item.title)}">
-        <div class="dd-card-media"><div class="dd-fallback" style="background:var(--teal); color:#fff;">Read the article →</div></div>
+        <div class="dd-card-media"><div class="dd-fallback" style="background:var(--teal); color:#fff;">Read the article →</div><span class="dd-provider">${ddStaticLabel(item)}</span></div>
         <div class="card-body">
-          <span class="tag">${item.category}</span>
+          <span class="dd-updated-tag">${fmtUpdated(item.updated)}</span>
           <h4>${item.title}</h4>
-          <p style="margin:0;">${item.description||''}</p>
+          <p class="update-desc" title="${esc(item.description||'')}">${item.description||''}</p>
+          ${item.sector ? `<span class="sector-tag">${esc(item.sector)}</span>` : ''}
         </div>
       </article>`;
   }
@@ -71,11 +91,21 @@
     const grid = document.getElementById('ddGrid');
     const filtered = ALL_ITEMS.filter(item => {
       const matchCat = activeCategory === 'All' || item.category === activeCategory;
+      const matchSector = !activeSector || item.sector === activeSector;
       const matchQuery = !activeQuery || (item.title + item.description + (item.sector||'')).toLowerCase().includes(activeQuery);
-      return matchCat && matchQuery;
+      return matchCat && matchSector && matchQuery;
     });
 
-    document.getElementById('ddCount').textContent = `${filtered.length} result${filtered.length===1?'':'s'}`;
+    const total = ALL_ITEMS.length;
+    const filteredCount = filtered.length;
+    const countEl = document.getElementById('ddCount');
+    if (countEl) {
+      if (activeCategory !== 'All' || activeSector || activeQuery) {
+        countEl.textContent = `Showing ${filtered.length} of ${total} results`;
+      } else {
+        countEl.textContent = `${filtered.length} result${filtered.length===1?'':'s'}`;
+      }
+    }
 
     if(!filtered.length){
       grid.innerHTML = `<div class="dd-empty">Nothing matches yet — try a different filter or search term.</div>`;
@@ -120,10 +150,10 @@
     wireLightbox();
   }
 
-  /* One brand palette for every chart: navy, gold, slate, beige plus
-     four harmonious brand tones. Lightness varies so adjacent series
-     stay distinguishable in greyscale. */
-  const DD_PALETTE = ['#0d2136','#a8935a','#8a949e','#d8d0c6','#7e2138','#2f3527','#004451','#512137'];
+  /* One brand palette for every chart: navy, gold, plum, plum-dark.
+     Only these four colours may be used for bars, slices and lines.
+     Order is fixed: navy, gold, plum, plum-dark. */
+  const DD_PALETTE = ['#0d2136','#a8935a','#7e2138','#512137'];
 
   const DD_TYPE_NAMES = {
     bar: 'Bar chart', horizontalBar: 'Horizontal bar chart', line: 'Line chart',
@@ -318,7 +348,7 @@
           legend: {
             display: series.length > 1 || ['pie','doughnut','polarArea','treemap'].includes(type),
             position: 'bottom',
-            labels: { boxWidth: 10, font: { family: 'Public Sans', size: legendSize }, padding: 16, usePointStyle: (type === 'pie' || type === 'doughnut') }
+            labels: { boxWidth: 10, font: { family: 'Public Sans', size: legendSize, weight: '600' }, padding: 16, usePointStyle: (type === 'pie' || type === 'doughnut'), color: '#000000' }
           },
           tooltip: {
             backgroundColor: 'rgba(13,33,54,0.9)',
@@ -357,7 +387,7 @@
         border: { display: false },
         grid: { display: false, drawBorder: false, drawOnChartArea: false },
         ticks: {
-          font: { family: 'Public Sans', size: tickSize }, color: '#666',
+          font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000',
           maxRotation: 0, autoSkip: true, padding: 8,
           callback: type === 'horizontalBar'
             ? function(value){ const l = this.getLabelForValue(value); return ddWrapLabel(l, 24); }
@@ -369,7 +399,7 @@
         border: { display: false },
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
-          font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8,
+          font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8,
           callback: function(value){ return ddFmtVal(value, tickUnit); }
         },
         beginAtZero: true
@@ -406,150 +436,174 @@
       baseConfig.options.interaction = { intersect: false, mode: 'index' };
     }
 
-    /* Circular */
-    if(['pie','doughnut','polarArea'].includes(type)){
-      baseConfig.data.datasets = series.map(s => ({
-        label: s.name,
-        data: s.data,
-        backgroundColor: labels.map((_, li) => DD_PALETTE[li % DD_PALETTE.length]),
-        borderWidth: 0
-      }));
-      baseConfig.options.scales = {};
-      if(type === 'doughnut') baseConfig.options.cutout = '65%';
-      if(type === 'polarArea'){
-        baseConfig.options.scales = {
-          r: {
-            border: { display: false },
-            grid: { color: '#eee' },
-            angleLines: { color: '#eee' },
-            ticks: { display: false, beginAtZero: true },
-            pointLabels: { font: { family: 'Public Sans', size: tickSize }, color: '#666' }
-          }
-        };
-      }
-    }
-
-    /* Radar */
-    if(type === 'radar'){
-      baseConfig.data.datasets = series.map((s, si) => {
-        const c = ddSeriesColor(s, si);
-        return {
-          label: s.name,
-          data: s.data,
-          borderColor: c,
-          backgroundColor: ddHexA(c, 0.2),
-          borderWidth: 2,
-          pointRadius: isModal ? 3 : 2,
-          pointBackgroundColor: c
-        };
-      });
-      baseConfig.options.scales = {
-        r: {
-          border: { display: false },
-          grid: { color: '#eee' },
-          angleLines: { color: '#eee' },
-          ticks: { display: false, beginAtZero: true },
-          pointLabels: { font: { family: 'Public Sans', size: tickSize }, color: '#333' }
-        }
-      };
-    }
-
-    /* Scatter */
-    if(type === 'scatter'){
-      baseConfig.data.datasets = series.map((s, si) => {
-        const c = ddSeriesColor(s, si);
-        return {
-          label: s.name,
-          data: s.data,
-          backgroundColor: c,
-          borderColor: c,
-          pointRadius: isModal ? 4 : 3
-        };
-      });
-      baseConfig.options.scales = pointScales(tickSize, unit, showTitles, item);
-    }
-
-    /* Bubble */
-    if(type === 'bubble'){
-      baseConfig.data.datasets = series.map((s, si) => {
-        const c = ddSeriesColor(s, si);
-        return {
-          label: s.name,
-          data: s.data,
-          backgroundColor: ddHexA(c, 0.55),
-          borderColor: c,
-          borderWidth: 1
-        };
-      });
-      baseConfig.options.scales = pointScales(tickSize, unit, showTitles, item);
-    }
-
-    /* Combo */
-    if(type === 'combo'){
-      const useRight = series.some(s => s.axis === 'right');
-      baseConfig.data.datasets = series.map((s, si) => {
-        const c = ddSeriesColor(s, si);
-        const st = s.type === 'line' ? 'line' : 'bar';
-        const d = {
-          type: st,
-          label: s.name,
-          data: s.data,
-          yAxisID: s.axis === 'right' ? 'y1' : 'y',
-          borderColor: c,
-          backgroundColor: st === 'bar' ? c : 'transparent',
-          borderWidth: st === 'line' ? 2 : 0,
-          fill: false,
-          tension: 0.3,
-          pointRadius: 2,
-          pointBackgroundColor: c
-        };
-        return d;
-      });
-      baseConfig.options.scales.x = {
+/* Circular */
+if(['pie','doughnut','polarArea'].includes(type)){
+  baseConfig.data.datasets = series.map(s => ({
+    label: s.name,
+    data: s.data,
+    backgroundColor: labels.map((_, li) => DD_PALETTE[li % DD_PALETTE.length]),
+    borderWidth: 0
+  }));
+  baseConfig.options.scales = {};
+  if(type === 'doughnut') baseConfig.options.cutout = '65%';
+  if(type === 'polarArea'){
+    baseConfig.options.scales = {
+      r: {
         border: { display: false },
-        grid: { display: false, drawBorder: false, drawOnChartArea: false },
-        ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', maxRotation: 0, autoSkip: true, padding: 8 }
-      };
-      baseConfig.options.scales.y = {
-        border: { display: false },
-        grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
-        ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8 },
-        beginAtZero: true
-      };
-      if(showTitles){
-        if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
-        if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+        grid: { color: '#eee' },
+        angleLines: { color: '#eee' },
+        ticks: { display: false, beginAtZero: true },
+        pointLabels: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000' }
       }
-      if(useRight){
-        baseConfig.options.scales.y1 = {
-          position: 'right',
-          border: { display: false },
-          grid: { drawOnChartArea: false, drawBorder: false },
-          ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8 },
-          beginAtZero: true
-        };
-        if(showTitles && item.rightAxisTitle){
-          baseConfig.options.scales.y1.title = { display: true, text: item.rightAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
-        }
-      }
-      baseConfig.options.interaction = { intersect: false, mode: 'index' };
-    }
-
-    return baseConfig;
+    };
   }
+  baseConfig.options.plugins.legend.labels = {
+    ...baseConfig.options.plugins.legend.labels,
+    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    color: '#000000'
+  };
+}
 
-  function cartesianValueScales(tickSize, unit){
+/* Radar */
+if(type === 'radar'){
+  baseConfig.data.datasets = series.map((s, si) => {
+    const c = ddSeriesColor(s, si);
+    return {
+      label: s.name,
+      data: s.data,
+      borderColor: c,
+      backgroundColor: ddHexA(c, 0.2),
+      borderWidth: 2,
+      pointRadius: isModal ? 3 : 2,
+      pointBackgroundColor: c
+    };
+  });
+  baseConfig.options.scales = {
+    r: {
+      border: { display: false },
+      grid: { color: '#eee' },
+      angleLines: { color: '#eee' },
+      ticks: { display: false, beginAtZero: true },
+      pointLabels: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000' }
+    }
+  };
+  baseConfig.options.plugins.legend.labels = {
+    ...baseConfig.options.plugins.legend.labels,
+    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    color: '#000000'
+  };
+}
+
+/* Scatter */
+if(type === 'scatter'){
+  baseConfig.data.datasets = series.map((s, si) => {
+    const c = ddSeriesColor(s, si);
+    return {
+      label: s.name,
+      data: s.data,
+      backgroundColor: c,
+      borderColor: c,
+      pointRadius: isModal ? 4 : 3
+    };
+  });
+  baseConfig.options.scales = pointScales(tickSize, unit, showTitles, item);
+  baseConfig.options.plugins.legend.labels = {
+    ...baseConfig.options.plugins.legend.labels,
+    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    color: '#000000'
+  };
+}
+
+/* Bubble */
+if(type === 'bubble'){
+  baseConfig.data.datasets = series.map((s, si) => {
+    const c = ddSeriesColor(s, si);
+    return {
+      label: s.name,
+      data: s.data,
+      backgroundColor: ddHexA(c, 0.55),
+      borderColor: c,
+      borderWidth: 1
+    };
+  });
+  baseConfig.options.scales = pointScales(tickSize, unit, showTitles, item);
+  baseConfig.options.plugins.legend.labels = {
+    ...baseConfig.options.plugins.legend.labels,
+    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    color: '#000000'
+  };
+}
+
+/* Combo */
+if(type === 'combo'){
+  const useRight = series.some(s => s.axis === 'right');
+  baseConfig.data.datasets = series.map((s, si) => {
+    const c = ddSeriesColor(s, si);
+    const st = s.type === 'line' ? 'line' : 'bar';
+    const d = {
+      type: st,
+      label: s.name,
+      data: s.data,
+      yAxisID: s.axis === 'right' ? 'y1' : 'y',
+      borderColor: c,
+      backgroundColor: st === 'bar' ? c : 'transparent',
+      borderWidth: st === 'line' ? 2 : 0,
+      fill: false,
+      tension: 0.3,
+      pointRadius: 2,
+      pointBackgroundColor: c
+    };
+    return d;
+  });
+  baseConfig.options.scales.x = {
+    border: { display: false },
+    grid: { display: false, drawBorder: false, drawOnChartArea: false },
+    ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', maxRotation: 0, autoSkip: true, padding: 8 }
+  };
+  baseConfig.options.scales.y = {
+    border: { display: false },
+    grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
+    ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8 },
+    beginAtZero: true
+  };
+  if(showTitles){
+    if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
+    if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
+  }
+  if(useRight){
+    baseConfig.options.scales.y1 = {
+      position: 'right',
+      border: { display: false },
+      grid: { drawOnChartArea: false, drawBorder: false },
+      ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8 },
+      beginAtZero: true
+    };
+    if(showTitles && item.rightAxisTitle){
+      baseConfig.options.scales.y1.title = { display: true, text: item.rightAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
+    }
+  }
+  baseConfig.options.interaction = { intersect: false, mode: 'index' };
+  baseConfig.options.plugins.legend.labels = {
+    ...baseConfig.options.plugins.legend.labels,
+    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    color: '#000000'
+};
+}
+return baseConfig;
+}
+
+function cartesianValueScales(tickSize, unit){
     return {
       x: {
         border: { display: false },
         grid: { display: false, drawBorder: false, drawOnChartArea: false },
-        ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', maxRotation: 0, autoSkip: true, padding: 8 }
+        ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', maxRotation: 0, autoSkip: true, padding: 8 }
       },
       y: {
         border: { display: false },
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
-          font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8,
+          font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8,
           callback: function(value){ return ddFmtVal(value, unit); }
         },
         beginAtZero: true
@@ -563,22 +617,22 @@
         type: 'linear',
         border: { display: false },
         grid: { display: false, drawBorder: false, drawOnChartArea: false },
-        ticks: { font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8 }
+        ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8 }
       },
       y: {
         type: 'linear',
         border: { display: false },
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
-          font: { family: 'Public Sans', size: tickSize }, color: '#666', padding: 8,
+          font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8,
           callback: function(value){ return ddFmtVal(value, unit); }
         },
         beginAtZero: false
       }
     };
     if(showTitles){
-      if(item.xAxisTitle) scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
-      if(item.yAxisTitle) scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+      if(item.xAxisTitle) scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
+      if(item.yAxisTitle) scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
     }
     return scales;
   }
@@ -977,12 +1031,209 @@
       tabWrap.querySelectorAll('.dd-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeCategory = btn.dataset.cat;
+      updateClearButtonVisibility();
       draw();
     });
 
     const search = document.getElementById('ddSearch');
-    search.addEventListener('input', () => { activeQuery = search.value.trim().toLowerCase(); draw(); });
-  }
+    search.addEventListener('input', () => { 
+      activeQuery = search.value.trim().toLowerCase(); 
+      updateClearButtonVisibility();
+      draw(); 
+    });
+
+    // Sector dropdown
+    const sectorTrigger = document.getElementById('ddSectorTrigger');
+    const sectorPanel = document.getElementById('ddSectorPanel');
+    const sectorList = document.getElementById('ddSectorList');
+    const sectorLabel = document.querySelector('.dd-sector-label');
+    
+    // Hoisted so selectSector (below) can close the dropdown too.
+    let toggleDropdown = () => {};
+    if (sectorTrigger && sectorPanel) {
+      // Populate sector list from the single sector list (json.sectors)
+      const sectorList = document.getElementById('ddSectorList');
+      if (sectorList) {
+        sectorList.innerHTML = `
+          <div class="dd-sector-option" data-sector="" role="option" tabindex="-1" aria-selected="true">All sectors</div>
+          ${SECTORS.map(s =>
+            `<div class="dd-sector-option" data-sector="${esc(s)}" role="option" tabindex="-1" aria-selected="false">${esc(s)}</div>`
+          ).join('')}
+        `;
+      }
+
+      // Toggle dropdown
+      toggleDropdown = (open) => {
+        const isOpen = sectorPanel.hidden === false;
+        if (open !== undefined) {
+          sectorPanel.hidden = !open;
+        } else {
+          sectorPanel.hidden = isOpen;
+        }
+        sectorTrigger.setAttribute('aria-expanded', !sectorPanel.hidden);
+        if (!sectorPanel.hidden) {
+          // Focus first option or selected
+          const selected = sectorPanel.querySelector('[aria-selected="true"]');
+          if (selected) selected.focus();
+        }
+      };
+
+      sectorTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleDropdown();
+      });
+
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!sectorTrigger.contains(e.target) && !sectorPanel.contains(e.target)) {
+          if (!sectorPanel.hidden) toggleDropdown(false);
+        }
+      });
+
+      // Keyboard navigation
+      sectorTrigger.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          toggleDropdown(false);
+          sectorTrigger.focus();
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          toggleDropdown(true);
+        }
+      });
+
+      // Keyboard navigation within dropdown
+      sectorPanel.addEventListener('keydown', (e) => {
+        const options = sectorPanel.querySelectorAll('.dd-sector-option');
+        const current = sectorPanel.querySelector('[aria-selected="true"]');
+        let index = Array.from(options).indexOf(document.activeElement);
+        
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = options[(Array.from(options).indexOf(document.activeElement) + 1) % options.length];
+          next.focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = options[(Array.from(options).indexOf(document.activeElement) - 1 + options.length) % options.length];
+          prev.focus();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const selected = document.activeElement;
+          if (selected.classList.contains('dd-sector-option')) {
+            selectSector(selected.dataset.sector);
+          }
+        } else if (e.key === 'Escape') {
+          toggleDropdown(false);
+          sectorTrigger.focus();
+        }
+      });
+
+      // Click on sector option
+      sectorPanel.addEventListener('click', (e) => {
+        const option = e.target.closest('.dd-sector-option');
+        if (option) {
+          selectSector(option.dataset.sector);
+        }
+      });
+    }
+
+    // Sector selection handler
+    const selectSector = (sector) => {
+      activeSector = sector;
+      const options = sectorPanel.querySelectorAll('.dd-sector-option');
+      options.forEach(opt => {
+        opt.setAttribute('aria-selected', opt.dataset.sector === sector);
+      });
+
+      // Update trigger label
+      if (sector) {
+        const sectorName = sectorPanel.querySelector(`[data-sector="${esc(sector)}"]`)?.textContent || sector;
+        sectorLabel.textContent = `Sector: ${sectorName}`;
+        sectorTrigger.classList.add('active');
+      } else {
+        sectorLabel.textContent = 'Sector';
+        sectorTrigger.classList.remove('active');
+      }
+
+      // Update aria-selected
+      const sectorOptions = sectorPanel.querySelectorAll('.dd-sector-option');
+      sectorOptions.forEach(opt => {
+        opt.setAttribute('aria-selected', opt.dataset.sector === sector);
+      });
+
+      toggleDropdown(false);
+      updateClearButtonVisibility();
+      draw();
+    };
+
+    // Close dropdown on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !sectorPanel.hidden) {
+        sectorPanel.hidden = true;
+        sectorTrigger.setAttribute('aria-expanded', 'false');
+        sectorTrigger.focus();
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (sectorTrigger && sectorPanel && 
+          !sectorTrigger.contains(e.target) && 
+          !sectorPanel.contains(e.target)) {
+        sectorPanel.hidden = true;
+        sectorTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Clear button functionality
+    const clearBtn = document.getElementById('ddSearchClear');
+    const searchInput = document.getElementById('ddSearch');
+    
+    const updateClearButtonVisibility = () => {
+      const hasSearch = searchInput.value.trim() !== '';
+      const hasFilter = activeCategory !== 'All' || activeSector !== '';
+      clearBtn.hidden = !(hasSearch || hasFilter);
+    };
+
+    const clearAll = () => {
+      searchInput.value = '';
+      activeQuery = '';
+      activeCategory = 'All';
+      activeSector = '';
+      
+      // Reset tabs
+      document.querySelectorAll('.dd-tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.cat === 'All');
+      });
+      activeCategory = 'All';
+      
+      // Reset sector
+      activeSector = '';
+      const options = document.querySelectorAll('#ddSectorList .dd-sector-option');
+      options.forEach(opt => opt.setAttribute('aria-selected', opt.dataset.sector === ''));
+      const sectorLabel = document.querySelector('.dd-sector-label');
+      if (sectorLabel) sectorLabel.textContent = 'Sector';
+      const sectorTrigger = document.getElementById('ddSectorTrigger');
+      if (sectorTrigger) sectorTrigger.classList.remove('active');
+      const options_list = document.querySelectorAll('#ddSectorList .dd-sector-option');
+      options_list.forEach(opt => opt.setAttribute('aria-selected', opt.dataset.sector === ''));
+      
+      draw();
+      updateClearButtonVisibility();
+      searchInput.focus();
+    };
+
+    clearBtn?.addEventListener('click', clearAll);
+
+    // Update clear button visibility on search input
+    searchInput.addEventListener('input', () => {
+      activeQuery = searchInput.value.trim().toLowerCase();
+      updateClearButtonVisibility();
+      draw();
+    });
+
+    // Initial visibility
+    updateClearButtonVisibility();
+  };
 
   function renderSectors(sectors){
     const wrap = document.getElementById('ddSectors');
@@ -1004,9 +1255,10 @@
     const res = await fetch(ROOT + 'data/data-division.json');
     const json = await res.json();
     ALL_ITEMS = json.items;
+    SECTORS = Array.isArray(json.sectors) ? json.sectors.slice() : [];
     const categories = [...new Set(ALL_ITEMS.map(i => i.category))];
     wireFilters(categories);
-    renderSectors(json.sectors || []);
+    renderSectors(SECTORS);
     wireLightboxClose();
     wireDetailModal();
     draw();
@@ -1034,6 +1286,12 @@
         }
       });
     }
+    // Resize charts when Portal is shown without a click (hash, back/forward, hero buttons)
+    window.addEventListener('dd:portal-shown', () => {
+      requestAnimationFrame(() => {
+        chartInstances.forEach(chart => { try { chart.resize(); } catch (err) {} });
+      });
+    });
   }
 
   document.addEventListener('partials:ready', init);
