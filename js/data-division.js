@@ -8,6 +8,30 @@
  */
 (function(){
   const ROOT = document.documentElement.dataset.root || '';
+  /* Site typeface for every chart, set once through the chart library's
+     global defaults so future charts inherit it too. */
+  try {
+    if(window.Chart && window.Chart.defaults && window.Chart.defaults.font){
+      window.Chart.defaults.font.family = "'Libre Franklin', -apple-system, sans-serif";
+    }
+  } catch(err) {}
+  /* Resolve once Libre Franklin (400/500/600) is usable by canvas text,
+     so charts never paint in the fallback serif. Never hangs: 2.5s cap. */
+  function ddFontsReady(){
+    try {
+      if(document.fonts && document.fonts.load){
+        return Promise.race([
+          Promise.all([
+            document.fonts.load('400 12px "Libre Franklin"'),
+            document.fonts.load('500 12px "Libre Franklin"'),
+            document.fonts.load('600 12px "Libre Franklin"')
+          ]),
+          new Promise(resolve => setTimeout(resolve, 2500))
+        ]);
+      }
+    } catch(err) {}
+    return Promise.resolve();
+  }
   let ALL_ITEMS = [];
   let SECTORS = [];
   let activeCategory = 'All';
@@ -33,11 +57,15 @@
     return `Updated: ${DD_MONTHS[mi - 1]}, ${m[1]}`;
   }
 
-  /* Corner badge, derived from the item type: embeds and anything a viewer
-     can explore are Interactive; images, site-drawn charts and plain
-     datasets are Static. */
+  /* Corner badge, derived from the item's explicit mode field:
+     "interactive" for embeds and anything a viewer can explore;
+     "static" for images, site-drawn charts and plain datasets. */
   function ddStaticLabel(item){
-    return item.type === 'dashboard' ? 'Interactive' : 'Static';
+    const mode = (item && item.mode) ? String(item.mode).toLowerCase() : '';
+    if(mode === 'interactive') return 'Interactive';
+    if(mode === 'static') return 'Static';
+    console.warn(`[dd] item "${item.id || 'unknown'}" has missing or invalid mode "${item.mode}" — badge hidden`);
+    return '';
   }
 
   function cardShell(item, innerHtml, extraClass){
@@ -53,13 +81,20 @@
       </article>`;
   }
 
+  /* Corner badge HTML: omitted entirely when the mode field is missing
+     or invalid (ddStaticLabel warns), so no empty badge box is shown. */
+  function ddBadgeHtml(item){
+    const label = ddStaticLabel(item);
+    return label ? `<span class="dd-provider">${label}</span>` : '';
+  }
+
   function renderImageCard(item){
-    return cardShell(item, `<img src="${ROOT}${item.image.replace(/^\//,'')}" alt="${esc(item.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'dd-fallback\\'>Visual coming soon</div>'"><span class="dd-provider">${ddStaticLabel(item)}</span>`, 'is-clickable');
+    return cardShell(item, `<img src="${ROOT}${item.image.replace(/^\//,'')}" alt="${esc(item.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'dd-fallback\\'>Visual coming soon</div>'">${ddBadgeHtml(item)}`, 'is-clickable');
   }
 
   function renderChartCard(item, index){
     const canvasId = `chart-${item.id}-${index}`;
-    return cardShell(item, `<canvas id="${canvasId}" width="400" height="300" role="img" aria-label="${esc(ddTypeName(item))}: ${esc(item.title)}"></canvas><span class="dd-provider">${ddStaticLabel(item)}</span>`, '');
+    return cardShell(item, `<canvas id="${canvasId}" width="400" height="300" role="img" aria-label="${esc(ddTypeName(item))}: ${esc(item.title)}"></canvas>${ddBadgeHtml(item)}`, '');
   }
 
   function renderFallbackCard(item){
@@ -70,14 +105,14 @@
     return cardShell(item, `
       <div class="dd-dashboard-frame" style="position:relative; width:100%; height:100%;">
         <iframe src="${item.embedUrl}" title="${esc(item.title)}" loading="lazy" tabindex="-1" aria-hidden="true" style="width:100%; height:100%; border:0; pointer-events:none;"></iframe>
-        <span class="dd-provider">${ddStaticLabel(item)}</span>
+        ${ddBadgeHtml(item)}
       </div>`, '');
   }
 
   function renderArticleCard(item){
     return `
       <article class="dd-card" data-sector="${esc(item.sector||'')}" data-item-id="${esc(item.id)}" role="button" tabindex="0" aria-label="Open details: ${esc(item.title)}">
-        <div class="dd-card-media"><div class="dd-fallback" style="background:var(--teal); color:#fff;">Read the article →</div><span class="dd-provider">${ddStaticLabel(item)}</span></div>
+        <div class="dd-card-media"><div class="dd-fallback" style="background:var(--teal); color:#fff;">Read the article →</div>${ddBadgeHtml(item)}</div>
         <div class="card-body">
           <span class="dd-updated-tag">${fmtUpdated(item.updated)}</span>
           <h4>${item.title}</h4>
@@ -301,8 +336,8 @@
       return null;
     }
     const isModal = context === 'modal';
-    const tickSize = isModal ? 14 : 11;
-    const legendSize = isModal ? 14 : 11;
+    const tickSize = isModal ? 14 : 12;
+    const legendSize = isModal ? 14 : 12;
     const unit = item.unit || '';
     const showTitles = isModal;
 
@@ -348,12 +383,12 @@
           legend: {
             display: series.length > 1 || ['pie','doughnut','polarArea','treemap'].includes(type),
             position: 'bottom',
-            labels: { boxWidth: 10, font: { family: 'Public Sans', size: legendSize, weight: '600' }, padding: 16, usePointStyle: (type === 'pie' || type === 'doughnut'), color: '#000000' }
+            labels: { boxWidth: 10, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: legendSize, weight: '500' }, padding: 16, usePointStyle: (type === 'pie' || type === 'doughnut'), color: '#000000' }
           },
           tooltip: {
             backgroundColor: 'rgba(13,33,54,0.9)',
-            titleFont: { family: 'Public Sans', size: isModal ? 14 : 12 },
-            bodyFont: { family: 'Public Sans', size: isModal ? 14 : 11 },
+            titleFont: { family: "'Libre Franklin', -apple-system, sans-serif", size: isModal ? 14 : 12, weight: '500' },
+            bodyFont: { family: "'Libre Franklin', -apple-system, sans-serif", size: isModal ? 14 : 12, weight: '400' },
             padding: 10,
             cornerRadius: 4,
             callbacks: { label: tooltipLabel }
@@ -386,12 +421,11 @@
         stacked: stacked || undefined,
         border: { display: false },
         grid: { display: false, drawBorder: false, drawOnChartArea: false },
+        ...(type === 'horizontalBar' ? {} : { type: 'category' }),
         ticks: {
-          font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000',
+          font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000',
           maxRotation: 0, autoSkip: true, padding: 8,
-          callback: type === 'horizontalBar'
-            ? function(value){ const l = this.getLabelForValue(value); return ddWrapLabel(l, 24); }
-            : undefined
+          callback: function(value){ const l = this.getLabelForValue(value); return ddWrapLabel(l, 24); }
         }
       };
       baseConfig.options.scales[valAxis] = {
@@ -399,14 +433,14 @@
         border: { display: false },
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
-          font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8,
+          font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8,
           callback: function(value){ return ddFmtVal(value, tickUnit); }
         },
         beginAtZero: true
       };
       if(showTitles){
-        if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
-        if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+        if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
+        if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
       }
       baseConfig.options.interaction = { intersect: false, mode: 'index' };
     }
@@ -430,8 +464,8 @@
       });
       baseConfig.options.scales = cartesianValueScales(tickSize, unit);
       if(showTitles){
-        if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
-        if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#333' };
+        if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
+        if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
       }
       baseConfig.options.interaction = { intersect: false, mode: 'index' };
     }
@@ -453,13 +487,13 @@ if(['pie','doughnut','polarArea'].includes(type)){
         grid: { color: '#eee' },
         angleLines: { color: '#eee' },
         ticks: { display: false, beginAtZero: true },
-        pointLabels: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000' }
+        pointLabels: { font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000' }
       }
     };
   }
   baseConfig.options.plugins.legend.labels = {
     ...baseConfig.options.plugins.legend.labels,
-    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    font: { family: "'Libre Franklin', -apple-system, sans-serif", size: legendSize, weight: '500' },
     color: '#000000'
   };
 }
@@ -484,12 +518,12 @@ if(type === 'radar'){
       grid: { color: '#eee' },
       angleLines: { color: '#eee' },
       ticks: { display: false, beginAtZero: true },
-      pointLabels: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000' }
+      pointLabels: { font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000' }
     }
   };
   baseConfig.options.plugins.legend.labels = {
     ...baseConfig.options.plugins.legend.labels,
-    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    font: { family: "'Libre Franklin', -apple-system, sans-serif", size: legendSize, weight: '500' },
     color: '#000000'
   };
 }
@@ -509,7 +543,7 @@ if(type === 'scatter'){
   baseConfig.options.scales = pointScales(tickSize, unit, showTitles, item);
   baseConfig.options.plugins.legend.labels = {
     ...baseConfig.options.plugins.legend.labels,
-    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    font: { family: "'Libre Franklin', -apple-system, sans-serif", size: legendSize, weight: '500' },
     color: '#000000'
   };
 }
@@ -529,7 +563,7 @@ if(type === 'bubble'){
   baseConfig.options.scales = pointScales(tickSize, unit, showTitles, item);
   baseConfig.options.plugins.legend.labels = {
     ...baseConfig.options.plugins.legend.labels,
-    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    font: { family: "'Libre Franklin', -apple-system, sans-serif", size: legendSize, weight: '500' },
     color: '#000000'
   };
 }
@@ -558,34 +592,34 @@ if(type === 'combo'){
   baseConfig.options.scales.x = {
     border: { display: false },
     grid: { display: false, drawBorder: false, drawOnChartArea: false },
-    ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', maxRotation: 0, autoSkip: true, padding: 8 }
+    ticks: { font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', maxRotation: 0, autoSkip: true, padding: 8 }
   };
   baseConfig.options.scales.y = {
     border: { display: false },
     grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
-    ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8 },
+    ticks: { font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8 },
     beginAtZero: true
   };
   if(showTitles){
-    if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
-    if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
+    if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
+    if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
   }
   if(useRight){
     baseConfig.options.scales.y1 = {
       position: 'right',
       border: { display: false },
       grid: { drawOnChartArea: false, drawBorder: false },
-      ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8 },
+      ticks: { font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8 },
       beginAtZero: true
     };
     if(showTitles && item.rightAxisTitle){
-      baseConfig.options.scales.y1.title = { display: true, text: item.rightAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
+      baseConfig.options.scales.y1.title = { display: true, text: item.rightAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
     }
   }
   baseConfig.options.interaction = { intersect: false, mode: 'index' };
   baseConfig.options.plugins.legend.labels = {
     ...baseConfig.options.plugins.legend.labels,
-    font: { family: 'Public Sans', size: legendSize, weight: '600' },
+    font: { family: "'Libre Franklin', -apple-system, sans-serif", size: legendSize, weight: '500' },
     color: '#000000'
 };
 }
@@ -597,13 +631,13 @@ function cartesianValueScales(tickSize, unit){
       x: {
         border: { display: false },
         grid: { display: false, drawBorder: false, drawOnChartArea: false },
-        ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', maxRotation: 0, autoSkip: true, padding: 8 }
+        ticks: { font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', maxRotation: 0, autoSkip: true, padding: 8 }
       },
       y: {
         border: { display: false },
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
-          font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8,
+          font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8,
           callback: function(value){ return ddFmtVal(value, unit); }
         },
         beginAtZero: true
@@ -617,22 +651,22 @@ function cartesianValueScales(tickSize, unit){
         type: 'linear',
         border: { display: false },
         grid: { display: false, drawBorder: false, drawOnChartArea: false },
-        ticks: { font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8 }
+        ticks: { font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8 }
       },
       y: {
         type: 'linear',
         border: { display: false },
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
-          font: { family: 'Public Sans', size: tickSize, weight: '600' }, color: '#000000', padding: 8,
+          font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8,
           callback: function(value){ return ddFmtVal(value, unit); }
         },
         beginAtZero: false
       }
     };
     if(showTitles){
-      if(item.xAxisTitle) scales.x.title = { display: true, text: item.xAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
-      if(item.yAxisTitle) scales.y.title = { display: true, text: item.yAxisTitle, font: { family: 'Public Sans', size: 14, weight: '600' }, color: '#000000' };
+      if(item.xAxisTitle) scales.x.title = { display: true, text: item.xAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
+      if(item.yAxisTitle) scales.y.title = { display: true, text: item.yAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
     }
     return scales;
   }
@@ -925,18 +959,20 @@ function cartesianValueScales(tickSize, unit){
     }
 
     if(item.type === 'chart' && validateChartItem(item).ok){
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        if(modalOpenId !== id) return;
-        const canvas = document.getElementById('ddDetailChart');
-        if(!canvas || !window.Chart) return;
-        try {
-          const cfg = buildChartConfig(item, 'modal');
-          if(!cfg) return;
-          modalChart = new Chart(canvas, cfg);
-        } catch(err) {
-          console.warn(`[dd] failed to render modal chart "${item.id}":`, err);
-        }
-      }));
+      ddFontsReady().then(() => {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          if(modalOpenId !== id) return;
+          const canvas = document.getElementById('ddDetailChart');
+          if(!canvas || !window.Chart) return;
+          try {
+            const cfg = buildChartConfig(item, 'modal');
+            if(!cfg) return;
+            modalChart = new Chart(canvas, cfg);
+          } catch(err) {
+            console.warn(`[dd] failed to render modal chart "${item.id}":`, err);
+          }
+        }));
+      });
     }
     return true;
   }
@@ -1261,6 +1297,7 @@ function cartesianValueScales(tickSize, unit){
     renderSectors(SECTORS);
     wireLightboxClose();
     wireDetailModal();
+    await ddFontsReady();
     draw();
     openFromHash();
 

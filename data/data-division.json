@@ -6,9 +6,9 @@
     "how_to_add_an_article": "Copy an 'article' block, fill in title/excerpt/sector, and set 'link' to a page on this site (e.g. an Updates post) or an external report URL.",
     "how_to_choose_a_chart_type": "Pick the chart by what you want to say. bar: simple vertical comparisons across a few categories. horizontalBar: ranked comparisons and long category names (labels wrap, never rotate). groupedBar: compare several series side by side per category. stackedBar: parts of a whole per category, stacked vertically. stackedBar100: share of a whole per category (raw numbers in JSON, chart shows %). line: change over time; area: change over time with the volume filled in. steppedLine: values that jump between levels rather than gliding. radar: compare a few items across several indicators at once. pie / doughnut / polarArea: shares of one whole (doughnut has the hole). scatter: two measures plotted as x/y points. bubble: three measures at once (x, y and bubble size). combo: a count as bars plus a rate as a line on a second axis. Add \"sortDescending\": true to bar/horizontalBar to rank biggest first.",
     "chart_block_examples": "One tiny valid example per chartType, as strings (not real items). Every chart needs: \"type\": \"chart\", \"chartType\", \"labels\" (except scatter/bubble), \"series\": [{\"name\": ..., \"data\": [...]}]. Data lengths must match labels. Optional on any chart: \"unit\" (e.g. \"%\", \"USD\"), \"xAxisTitle\", \"yAxisTitle\". Optional per series: \"color\" (hex override). Combo series also take \"type\": \"bar\"|\"line\" and \"axis\": \"left\"|\"right\" (plus \"rightAxisTitle\"). bar/horizontalBar also take \"sortDescending\": true. Scatter/bubble series data are {\"x\": n, \"y\": n} (bubble adds \"r\": n). EXAMPLES (strings only): {\"type\":\"chart\",\"chartType\":\"bar\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"horizontalBar\",\"sortDescending\":true,\"labels\":[\"Long category name here\"],\"series\":[{\"name\":\"Share\",\"data\":[42]}]} | {\"type\":\"chart\",\"chartType\":\"groupedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar100\",\"unit\":\"%\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[60,45]}]} | {\"type\":\"chart\",\"chartType\":\"line\",\"xAxisTitle\":\"Year\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"area\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"steppedLine\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Level\",\"data\":[1,1,2]}]} | {\"type\":\"chart\",\"chartType\":\"radar\",\"labels\":[\"Reach\",\"Quality\",\"Speed\"],\"series\":[{\"name\":\"2023\",\"data\":[4,3,5]},{\"name\":\"2024\",\"data\":[5,4,4]}]} | {\"type\":\"chart\",\"chartType\":\"pie\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"doughnut\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"polarArea\",\"labels\":[\"A\",\"B\",\"C\"],\"series\":[{\"name\":\"Share\",\"data\":[30,50,20]}]} | {\"type\":\"chart\",\"chartType\":\"scatter\",\"xAxisTitle\":\"Cost\",\"yAxisTitle\":\"Return\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20},{\"x\":15,\"y\":25}]}]} | {\"type\":\"chart\",\"chartType\":\"bubble\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20,\"r\":15},{\"x\":30,\"y\":40,\"r\":45}]}]} | {\"type\":\"chart\",\"chartType\":\"combo\",\"rightAxisTitle\":\"Rate %\",\"labels\":[\"Q1\",\"Q2\"],\"series\":[{\"name\":\"Count\",\"type\":\"bar\",\"data\":[120,150]},{\"name\":\"Rate\",\"type\":\"line\",\"axis\":\"right\",\"data\":[62,71]}]}",
-    "card_fields_updated_and_labels": "Every item needs an \"updated\" month (\"YYYY-MM\", e.g. \"2026-09\"), shown on its card as \"Updated: Sep, 2026\". Set it to the month the underlying visual or data was last refreshed. Card corner badges are automatic, not typed in: embeds and anything explorable (Tableau, Power BI, custom HTML, maps, timelines, dashboards) show \"Interactive\"; images, site-drawn charts and plain datasets show \"Static\"."
+    "card_fields_updated_and_labels": "Every item needs an \"updated\" month (\"YYYY-MM\", e.g. \"2026-09\"), shown on its card as \"Updated: Sep, 2026\". Set it to the month the underlying visual or data was last refreshed. Every item also needs a \"mode\" field with exactly \"static\" or \"interactive\", shown as the corner badge on its thumbnail, e.g. \"mode\": \"interactive\". Use \"interactive\" for embeds and anything a viewer can click or explore (Tableau, Power BI, custom HTML, maps, timelines, dashboards); use \"static\" for images, site-drawn charts and plain datasets. If \"mode\" is missing or anything else, no badge is shown."
   },
-"sectors": [
+  "sectors": [
     "Crop Production",
     "Food",
     "Logistics",
@@ -30,7 +30,8 @@
     "SMEs",
     "Current Affairs",
     "Cross-sector",
-    "Government"
+    "Government",
+    "Finance"
   ],
   "items": [
     {
@@ -41,7 +42,8 @@
       "title": "The sectors we have worked in",
       "sector": "Cross-sector",
       "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
-      "image": "../assets/data-division/data-sectors.png"
+      "image": "../assets/data-division/data-sectors.png",
+      "mode": "static"
     },
     {
       "id": "pres-race-map",
@@ -51,7 +53,8 @@
       "title": "Presidential race map (2025)",
       "sector": "Current Affairs",
       "description": "An interactive map tracking reported results in the 2025 presidential election by constituency.",
-      "embedUrl": "https://flo.uri.sh/visualisation/24346727/embed"
+      "embedUrl": "https://flo.uri.sh/visualisation/24346727/embed",
+      "mode": "interactive"
     },
     {
       "id": "sme-formalisation",
@@ -78,7 +81,8 @@
             65
           ]
         }
-      ]
+      ],
+      "mode": "interactive"
     },
     {
       "id": "bds-split",
@@ -101,43 +105,16 @@
             58
           ]
         }
-      ]
-    },
-    {
-      "id": "sme-employment",
-      "updated": "2026-09",
-      "category": "Datasets & Visuals",
-      "type": "chart",
-      "title": "Beyond employment: the impact SMEs make",
-      "sector": "SMEs",
-      "description": "Estimated share of the workforce supported by SME activity.",
-      "chartType": "bar",
-      "labels": [
-        "Tanzania",
-        "Zambia",
-        "South Africa",
-        "Malawi",
-        "Zimbabwe"
       ],
-      "series": [
-        {
-          "name": "% of workforce",
-          "data": [
-            35,
-            70,
-            40,
-            47,
-            60
-          ]
-        }
-      ]
+      "mode": "interactive"
     },
     {
       "id": "savings-behaviour",
       "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "chart",
-      "title": "Thinking about starting a business? Have you started saving yet?",
+      "mode": "static",
+      "title": "How people fund their business",
       "sector": "SMEs",
       "description": "Reported primary funding source among aspiring entrepreneurs.",
       "chartType": "horizontalBar",
@@ -169,7 +146,18 @@
         }
       ]
     },
-{
+    {
+      "id": "mec-chairpersons",
+      "updated": "2025-07",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "Malawi Electoral Commission's chairperson timeline",
+      "sector": "Government",
+      "description": "The narrative of the (MEC) Malawi Electoral Commission (MEC) is a powerful testament to the impact of diverse and effective leadership. As the timeline illustrates, the MEC has been guided by six chairpersons, remarkably, half of whom have been women.",
+      "image": "../assets/data-division/mec-chairpersons.png",
+      "mode": "static"
+    },
+    {
       "id": "agroprocessing-malawi",
       "updated": "2026-09",
       "category": "Datasets & Visuals",
@@ -177,7 +165,8 @@
       "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
       "sector": "Agroprocessing",
       "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
-      "image": "../assets/data-division/agroprocessing-malawi.jpg"
+      "image": "../assets/data-division/agroprocessing-malawi.jpg",
+      "mode": "static"
     },
     {
       "id": "ngora-dashboard",
@@ -188,38 +177,112 @@
       "sector": "Current Affairs",
       "description": "The Non-Governmental Organizations Regulatory Authority (NGORA). This is a district overiew of all the NGOs that it regulates and oversees in Malawi. ",
       "provider": "Custom HTML",
-      "embedUrl": "https://equipgroup-mw.github.io/NGORA-Dashboard-Map/"
+      "embedUrl": "https://equipgroup-mw.github.io/NGORA-Dashboard-Map/",
+      "mode": "interactive"
     },
     {
-      "id": "groceries-dashboard",
-      "updated": "2026-09",
+      "id": "fuel-malawi",
+      "updated": "2026-06",
       "category": "Dashboards",
       "type": "dashboard",
-      "title": "Basic basket: grocery price tracker",
+      "title": "Malawi fuel price trend over the last decade (2013-2026)",
       "sector": "Current Affairs",
-      "description": "Monthly price movement for a basket of essential groceries across major markets.",
-      "provider": "Tableau",
-      "embedUrl": "https://public.tableau.com/views/CarColorEvolutionNorthAmerica-EquipRebrand/ColorRankOverTime?:showVizHome=no&:embed=true"
+      "description": "Annual price movement for a cost of a litre of petrol and diesel costs in Malawi.",
+      "provider": "Flourish",
+      "embedUrl": "https://flo.uri.sh/visualisation/27404849/embed",
+      "mode": "interactive"
     },
     {
       "id": "mp-race-timeline",
       "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "dashboard",
+      "mode": "interactive",
       "title": "Member of Parliament seats (official): 1994-2025",
       "sector": "Current Affairs",
       "description": "An official running timeline built from public reporting, for reference only.",
       "embedUrl": "https://flo.uri.sh/visualisation/24350201/embed"
     },
     {
-      "id": "impact-timeline",
-      "updated": "2026-09",
+      "id": "ms-financial-giants",
+      "updated": "2025-08",
       "category": "Datasets & Visuals",
       "type": "dashboard",
-      "title": "Our timeline",
-      "sector": "Cross-sector",
-      "description": "Equip Group's project timeline from founding to today.",
-      "embedUrl": "https://flo.uri.sh/visualisation/30481757/embed"
+      "title": "Malawi Stock Exchange (MSE): NICO vs Old Mutual in 2025",
+      "sector": "Finance",
+      "description": "A comparative visual analysis of NICO Holdings and Old Mutual on the Malawi Stock Exchange (MSE) during the 3rd quarter of 2025.",
+      "embedUrl": "https://flo.uri.sh/visualisation/26203420/embed",
+      "mode": "interactive"
+    },
+    {
+      "id": "fuel-africa",
+      "updated": "2026-05",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "The 10 highest fuel costs across Africa (2026)",
+      "sector": "Current Affairs",
+      "description": "See how fuel prices are looking in the African nations with the highest fuel costs",
+      "chartType": "horizontalBar",
+      "labels": [
+        "Malawi",
+        "Zimbabwe",
+        "Rwanda",
+        "Central African Republic",
+        "Sierra Leone",
+        "Senegal",
+        "Seychelles",
+        "Cabo Verde",
+        "Tanzania",
+        "South Africa"
+      ],
+      "series": [
+        {
+          "name": "Fuel Price (USD per liter)",
+          "data": [
+            3.83,
+            2.08,
+            2.01,
+            1.88,
+            1.78,
+            1.65,
+            1.63,
+            1.6,
+            1.59,
+            1.59
+          ]
+        }
+      ],
+      "mode": "interactive"
+    },
+    {
+      "id": "sme-employment",
+      "updated": "2026-09",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "Beyond employment: the impact SMEs make",
+      "sector": "SMEs",
+      "description": "Estimated share of the workforce supported by SME activity.",
+      "chartType": "bar",
+      "labels": [
+        "Tanzania",
+        "Zambia",
+        "South Africa",
+        "Malawi",
+        "Zimbabwe"
+      ],
+      "series": [
+        {
+          "name": "% of workforce",
+          "data": [
+            35,
+            70,
+            40,
+            47,
+            60
+          ]
+        }
+      ],
+      "mode": "interactive"
     }
   ]
 }
