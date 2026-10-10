@@ -42,7 +42,7 @@
       "title": "The sectors we have worked in",
       "sector": "Cross-sector",
       "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
-      "image": "../assets/data-division/data-sectors.png",
+      "image": "/assets/data-division/data-sectors.png",
       "mode": "static"
     },
     {
@@ -154,7 +154,7 @@
       "title": "Malawi Electoral Commission's chairperson timeline",
       "sector": "Government",
       "description": "The narrative of the (MEC) Malawi Electoral Commission (MEC) is a powerful testament to the impact of diverse and effective leadership. As the timeline illustrates, the MEC has been guided by six chairpersons, remarkably, half of whom have been women.",
-      "image": "../assets/data-division/mec-chairpersons.png",
+      "image": "/assets/data-division/mec-chairpersons.png",
       "mode": "static"
     },
     {
@@ -165,7 +165,7 @@
       "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
       "sector": "Agroprocessing",
       "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
-      "image": "../assets/data-division/agroprocessing-malawi.jpg",
+      "image": "/assets/data-division/agroprocessing-malawi.jpg",
       "mode": "static"
     },
     {
