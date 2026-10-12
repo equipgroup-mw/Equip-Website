@@ -42,7 +42,7 @@
       "title": "The sectors we have worked in",
       "sector": "Cross-sector",
       "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
-      "image": "/assets/data-division/data-sectors.png",
+      "image": "/assets/data-division/data-sectors.avif",
       "mode": "static",
       "source": "Equip Group internal records"
     },
@@ -163,7 +163,7 @@
       "title": "Malawi Electoral Commission's chairperson timeline",
       "sector": "Government",
       "description": "The narrative of the (MEC) Malawi Electoral Commission (MEC) is a powerful testament to the impact of diverse and effective leadership. As the timeline illustrates, the MEC has been guided by six chairpersons, remarkably, half of whom have been women.",
-      "image": "/assets/data-division/mec-chairpersons.png",
+      "image": "/assets/data-division/mec-chairpersons.avif",
       "mode": "static",
       "source": "Malawi Electoral Commission (2024)"
     },
@@ -175,7 +175,7 @@
       "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
       "sector": "Agroprocessing",
       "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
-      "image": "/assets/data-division/agroprocessing-malawi.jpg",
+      "image": "/assets/data-division/agroprocessing-malawi.avif",
       "mode": "static",
       "source": "Ministry of Trade report",
       "sourceUrl": "https://example.com"
@@ -314,7 +314,7 @@
       "title": "What a basket of 13 grocery items will cost you in various stores",
       "sector": "Retail",
       "description": "A price comparison of a standard basket of 13 essential grocery items in 2025 across major retailers in Malawi, including Chipiku, Shoprite, and Sana.",
-      "image": "/assets/data-division/groceries-basket-2025.png",
+      "image": "/assets/data-division/groceries-basket-2025.avif",
       "mode": "static",
       "source": "Equip Group groceries monitor (2025)"
     },
@@ -386,7 +386,7 @@
       "title": "Equip Group groceries monitor: 1KG Illovo sugar",
       "sector": "Retail",
       "description": "The price of a 1 kg packet of brown sugar has changed from MWK2,950 in 2025 to MWK4,600 in 2026, representing a 56% increase. Most Malawians buy brown sugar regularly, this means spending MWK1,650 more on the same item than they did a year ago.",
-      "image": "/assets/data-division/sugar-2026.jpeg",
+      "image": "/assets/data-division/sugar-2026.avif",
       "mode": "static",
       "source": "Equip Group groceries monitor (2026)"
     }
