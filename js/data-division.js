@@ -32,6 +32,12 @@
     } catch(err) {}
     return Promise.resolve();
   }
+  // Pagination constants
+  const PAGE_SIZE = 15;
+  let currentPage = 1;
+
+  // Pagination constants
+
   let ALL_ITEMS = [];
   let SECTORS = [];
   let activeCategory = 'All';
@@ -69,14 +75,23 @@
   }
 
   function cardShell(item, innerHtml, extraClass){
+    const sectorTag = item.sector ? `<span class="sector-tag">${esc(item.sector)}</span>` : '';
+    const sourceHtml = item.source ? `<div style="display:flex; gap:.625rem; align-items:center; min-width:0; margin-top:auto; padding-bottom:.875rem;">
+      <span style="flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:.72rem; font-weight:400; color:#3d4a5c;" title="${esc(item.source)}">Source: ${esc(item.source)}</span>
+    </div>` : '';
     return `
       <article class="dd-card ${extraClass||''}" data-sector="${esc(item.sector||'')}" data-item-id="${esc(item.id)}" role="button" tabindex="0" aria-label="Open details: ${esc(item.title)}">
         <div class="dd-card-media">${innerHtml}</div>
-        <div class="card-body">
-          <span class="dd-updated-tag">${fmtUpdated(item.updated)}</span>
+        <div class="card-body" style="display:flex; flex-direction:column; flex:1;">
+          <div class="card-meta-top" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+            <span class="dd-updated-tag">${fmtUpdated(item.updated)}</span>
+            ${item.sector ? `<span class="sector-tag">${esc(item.sector)}</span>` : ''}
+          </div>
           <h4>${item.title}</h4>
           <p class="update-desc" title="${esc(item.description||'')}">${item.description||''}</p>
-          ${item.sector ? `<span class="sector-tag">${esc(item.sector)}</span>` : ''}
+          ${item.source ? `<div style="display:flex; gap:.625rem; align-items:center; min-width:0; margin-top:auto; padding-bottom:.875rem;">
+            <span style="flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:.72rem; font-weight:400; color:#3d4a5c;" title="${esc(item.source)}">Source: ${esc(item.source)}</span>
+          </div>` : ''}
         </div>
       </article>`;
   }
@@ -143,11 +158,24 @@
     }
 
     if(!filtered.length){
+      teardownCards();
       grid.innerHTML = `<div class="dd-empty">Nothing matches yet — try a different filter or search term.</div>`;
+      renderPager(0);
       return;
     }
 
-    grid.innerHTML = filtered.map((item, i) => {
+    // Clamp current page if beyond last page
+    const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+    if(currentPage > totalPages) currentPage = totalPages;
+    if(currentPage < 1) currentPage = 1;
+
+    // Get current page items
+    const pageItems = paginate(filtered, currentPage, PAGE_SIZE);
+
+    // Teardown old cards before rendering new ones
+    teardownCards();
+
+    grid.innerHTML = pageItems.map((item, i) => {
       if(item.type === 'image') return renderImageCard(item);
       if(item.type === 'chart'){
         const v = validateChartItem(item);
@@ -162,12 +190,8 @@
       return '';
     }).join('');
 
-    // Destroy old chart instances
-    chartInstances.forEach(chart => { try { chart.destroy(); } catch(err) {} });
-    chartInstances = [];
-
     // draw charts after they exist in the DOM
-    filtered.forEach((item, i) => {
+    pageItems.forEach((item, i) => {
       if(item.type !== 'chart') return;
       if(!validateChartItem(item).ok) return;
       const ctx = document.getElementById(`chart-${item.id}-${i}`);
@@ -182,7 +206,131 @@
       }
     });
 
+    // Render pager
+    renderPager(filtered.length);
+
     wireLightbox();
+  }
+
+  function renderPager(totalFiltered){
+    const grid = document.getElementById('ddGrid');
+    let pager = document.getElementById('ddPager');
+    const totalPages = Math.ceil(totalFiltered / PAGE_SIZE);
+    
+    if(totalPages <= 1){
+      if(pager) pager.remove();
+      return;
+    }
+    
+    if(!pager){
+      pager = document.createElement('nav');
+      pager.id = 'ddPager';
+      pager.setAttribute('aria-label', 'Portal pages');
+      grid.parentNode.insertBefore(pager, grid.nextSibling);
+    }
+    
+    pager.innerHTML = `
+      <button type="button" class="dd-pager-btn" ${currentPage === 1 ? 'disabled' : ''} aria-disabled="${currentPage === 1}" aria-label="Previous page">← Previous</button>
+      <span class="dd-pager-text" aria-live="polite" aria-atomic="true">Page ${currentPage} of ${totalPages}</span>
+      <button type="button" class="dd-pager-btn" ${currentPage >= totalPages ? 'disabled' : ''} aria-disabled="${currentPage >= totalPages}" aria-label="Next page">Next →</button>
+    `;
+    
+    const prevBtn = pager.querySelector('button:first-child');
+    const nextBtn = pager.querySelector('button:last-child');
+    
+    prevBtn.addEventListener('click', () => {
+      if(currentPage > 1){
+        currentPage--;
+        draw();
+        scrollToFilterBar();
+      }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      if(currentPage < totalPages){
+        currentPage++;
+        draw();
+        scrollToFilterBar();
+      }
+    });
+  }
+
+  function scrollToFilterBar(){
+    const filterBar = document.querySelector('.dd-filters') || document.getElementById('ddFilters') || document.querySelector('.dd-filters-bar');
+    if(filterBar){
+      const headerOffset = 80;
+      const elementPosition = filterBar.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+    const countEl = document.getElementById('ddCount');
+    if(countEl){
+      countEl.setAttribute('tabindex', '-1');
+      countEl.focus({ preventScroll: true });
+    }
+  }
+
+  function renderPager(totalFiltered){
+    const grid = document.getElementById('ddGrid');
+    let pager = document.getElementById('ddPager');
+    const totalPages = Math.ceil(totalFiltered / PAGE_SIZE);
+    
+    if(totalPages <= 1){
+      if(pager) pager.remove();
+      return;
+    }
+    
+    if(!pager){
+      pager = document.createElement('nav');
+      pager.id = 'ddPager';
+      pager.setAttribute('aria-label', 'Portal pages');
+      grid.parentNode.insertBefore(pager, grid.nextSibling);
+    }
+    
+    const prevDisabled = currentPage === 1;
+    const nextDisabled = currentPage >= Math.ceil(totalFiltered / PAGE_SIZE);
+    
+    pager.innerHTML = `
+      <button type="button" class="dd-pager-btn" ${currentPage === 1 ? 'disabled' : ''} aria-disabled="${currentPage === 1}" aria-label="Previous page">← Previous</button>
+      <span class="dd-pager-text" aria-live="polite" aria-atomic="true">Page ${currentPage} of ${Math.ceil(totalFiltered / PAGE_SIZE)}</span>
+      <button type="button" class="dd-pager-btn" ${currentPage >= Math.ceil(totalFiltered / PAGE_SIZE) ? 'disabled' : ''} aria-disabled="${currentPage >= Math.ceil(totalFiltered / PAGE_SIZE)}" aria-label="Next page">Next →</button>
+    `;
+    
+    const prevBtn = pager.querySelector('button:first-child');
+    const nextBtn = pager.querySelector('button:last-child');
+    
+    prevBtn.addEventListener('click', () => {
+      if(currentPage > 1){
+        currentPage--;
+        draw();
+        scrollToFilterBar();
+      }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      const totalPages = Math.ceil(totalFiltered / PAGE_SIZE);
+      if(currentPage < totalPages){
+        currentPage++;
+        draw();
+        scrollToFilterBar();
+      }
+    });
+  }
+
+  function scrollToFilterBar(){
+    const filterBar = document.querySelector('.dd-filters') || document.getElementById('ddFilters') || document.querySelector('.dd-filters-bar');
+    if(filterBar){
+      const headerOffset = 80; // Account for sticky header
+      const elementPosition = filterBar.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+    // Move focus to results count
+    const countEl = document.getElementById('ddCount');
+    if(countEl){
+      countEl.setAttribute('tabindex', '-1');
+      countEl.focus({ preventScroll: true });
+    }
   }
 
   /* One brand palette for every chart: navy, gold, plum, plum-dark.
@@ -214,6 +362,35 @@
     const full = h.length === 3 ? h.split('').map(ch => ch + ch).join('') : h;
     const n = parseInt(full, 16);
     return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
+  }
+
+  function formatValue(value, item){
+    const unit = item.unit || '';
+    const prefix = item.prefix || '';
+    if(typeof value === 'number'){
+      // At most 2 decimals, trailing zeros dropped
+      let v = Number(value.toFixed(2)).toString();
+      if(v.includes('.')){
+        v = v.replace(/0+$/, '');
+        if(v.endsWith('.')) v = v.slice(0, -1);
+      }
+      // Thousands separators for 1000 and above (en-US)
+      if(Math.abs(Number(v)) >= 1000){
+        v = Number(v).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 0});
+      }
+      // Build result: prefix + value + space + unit (if unit is not '%')
+      if(unit === '%'){
+        return prefix + v + '%';
+      }
+      if(unit){
+        return prefix + v + ' ' + unit;
+      }
+      if(prefix){
+        return prefix + v;
+      }
+      return v;
+    }
+    return String(value);
   }
 
   function ddFmtVal(v, unit){
@@ -318,6 +495,74 @@
     return { type, labels, series };
   }
 
+  /* Pagination helpers */
+  function paginate(list, page, size){
+    const start = (page - 1) * size;
+    return list.slice(start, start + size);
+  }
+
+  function pageOfItem(list, id, size){
+    const index = list.findIndex(item => item.id === id);
+    if(index === -1) return 1;
+    return Math.floor(index / size) + 1;
+  }
+
+  /* Teardown function to clean up old cards before rendering new page/filter */
+  function teardownCards(){
+    // Destroy all chart instances
+    chartInstances.forEach(chart => { try { chart.destroy(); } catch(err) {} });
+    chartInstances = [];
+
+    // Remove iframes and images, clear event listeners
+    const grid = document.getElementById('ddGrid');
+    if(grid){
+      // Clear iframes
+      grid.querySelectorAll('iframe').forEach(iframe => {
+        try { iframe.src = 'about:blank'; } catch(err) {}
+      });
+      // Clear images
+      grid.querySelectorAll('img').forEach(img => {
+        try { img.src = ''; } catch(err) {}
+      });
+      // Remove all child nodes (this removes event listeners too)
+      grid.innerHTML = '';
+    }
+  }
+
+  /* Pagination helpers */
+  function paginate(list, page, size){
+    const start = (page - 1) * size;
+    return list.slice(start, start + size);
+  }
+
+  function pageOfItem(list, id, size){
+    const index = list.findIndex(item => item.id === id);
+    if(index === -1) return 1;
+    return Math.floor(index / size) + 1;
+  }
+
+  /* Teardown function to clean up old cards before rendering new page/filter */
+  function teardownCards(){
+    // Destroy all chart instances
+    chartInstances.forEach(chart => { try { chart.destroy(); } catch(err) {} });
+    chartInstances = [];
+
+    // Remove iframes and images, clear event listeners
+    const grid = document.getElementById('ddGrid');
+    if(grid){
+      // Clear iframes
+      grid.querySelectorAll('iframe').forEach(iframe => {
+        try { iframe.src = 'about:blank'; } catch(err) {}
+      });
+      // Clear images
+      grid.querySelectorAll('img').forEach(img => {
+        try { img.src = ''; } catch(err) {}
+      });
+      // Remove all child nodes (this removes event listeners too)
+      grid.innerHTML = '';
+    }
+  }
+
   function buildChartConfig(item, context) {
     const validity = validateChartItem(item);
     if(!validity.ok){
@@ -345,9 +590,12 @@
       const ds = ctx.dataset;
       const si = ctx.datasetIndex;
       const sName = ds.label ? ds.label + ': ' : '';
+      // Determine the value key based on indexAxis
+      const vKey = ctx.chart.options.indexAxis === 'y' ? 'x' : 'y';
+      const val = ctx.parsed[vKey] !== undefined ? ctx.parsed[vKey] : ctx.parsed;
       if(type === 'stackedBar100'){
-        const raw = ds._raw ? ds._raw[ctx.dataIndex] : ctx.parsed.y !== undefined ? ctx.parsed.y : ctx.parsed;
-        const pct = typeof ctx.parsed.y === 'number' ? ctx.parsed.y : ctx.parsed;
+        const raw = ds._raw ? ds._raw[ctx.dataIndex] : val;
+        const pct = typeof val === 'number' ? val : ctx.parsed;
         return `${sName}${raw} (${pct}%)`;
       }
       if(type === 'scatter'){
@@ -362,8 +610,7 @@
         const v = ctx.parsed;
         return `${ctx.label}: ${ddFmtVal(typeof v === 'number' ? v : v, unit)}`;
       }
-      const v = ctx.parsed.y !== undefined ? ctx.parsed.y : ctx.parsed;
-      return `${sName}${ddFmtVal(v, unit)}`;
+      return `${sName}${ddFmtVal(val, unit)}`;
     };
 
     const baseConfig = {
@@ -764,7 +1011,7 @@ function cartesianValueScales(tickSize, unit){
         inner = `<div class="dd-fallback">Dashboard coming soon</div>`;
       } else {
         inner = `
-          <div class="dd-modal__loading" data-dd-loading>Loading dashboard&hellip;</div>
+          
           <iframe src="${esc(item.embedUrl)}" title="${esc(item.title)} — embedded dashboard" loading="lazy" style="width:100%; height:100%; border:0;"></iframe>
           <div class="dd-modal__embed-fallback" data-dd-embed-fallback hidden>
             <p>This dashboard could not be displayed here.</p>
@@ -838,8 +1085,14 @@ function cartesianValueScales(tickSize, unit){
       ${item.sector ? `<div class="dd-modal__details-row"><div><p class="dd-modal__details-label">Sector</p><p class="dd-modal__details-value">${esc(item.sector)}</p></div></div>` : ''}
       ${item.description ? `<p class="dd-modal__details-desc">${item.description}</p>` : ''}
       ${modalTableHtml(item)}
+      ${item.source ? `<div class="dd-modal__details-row" style="display:flex; gap:2rem; flex-wrap:wrap; align-items:flex-start;">
+      <div style="flex:1; min-width:0;">
+        <p class="dd-modal__details-label">Source</p>
+        <p class="dd-modal__details-value" style="font-size:.875rem; line-height:1.5;">${item.sourceUrl ? `<a href="${esc(item.sourceUrl)}" target="_blank" rel="noopener noreferrer" style="color:#0d2136; text-decoration:underline;">${esc(item.source)}</a>` : esc(item.source)}</p>
+      </div>
+    </div>` : ''}
       ${item.type === 'dashboard' && item.provider ? `<div class="dd-modal__details-row"><div><p class="dd-modal__details-label">Provider</p><p class="dd-modal__details-value">${esc(item.provider)}</p></div></div>` : ''}
-      ${realDashboard ? `<p style="margin:0;"><a href="${esc(item.embedUrl)}" target="_blank" rel="noopener noreferrer">Open in new tab</a></p>` : ''}
+      ${realDashboard ? `<p style="margin:0;"><a href="${esc(item.embedUrl)}" target="_blank" rel="noopener noreferrer" style="background:#0d2136; color:#fff; font-weight:700; font-family:'Libre Franklin',sans-serif; font-size:.875rem; padding:.75rem 1.375rem; display:inline-block; text-decoration:none; white-space:nowrap; position:relative;">Open in new tab <span style="position:absolute; top:50%; right:.875rem; transform:translateY(-50%);">&#8599;</span></a></p>` : ''}
       ${item.type === 'article' && link ? `<p style="margin:1.5rem 0 0;"><a class="dd-modal__details-btn" href="${esc(link.href)}"${link.external ? ' target="_blank" rel="noopener noreferrer"' : ''}>Read the full article &rarr;</a></p>` : ''}`;
   }
 
@@ -1053,6 +1306,18 @@ function cartesianValueScales(tickSize, unit){
     if(portalTab && portalTab.getAttribute('aria-selected') !== 'true'){
       portalTab.click();
     }
+    // Ensure the item's page is shown before opening the detail
+    const filtered = ALL_ITEMS.filter(item => {
+      const matchCat = activeCategory === 'All' || item.category === activeCategory;
+      const matchSector = !activeSector || item.sector === activeSector;
+      const matchQuery = !activeQuery || (item.title + item.description + (item.sector||'')).toLowerCase().includes(activeQuery);
+      return matchCat && matchSector && matchQuery;
+    });
+    const page = pageOfItem(filtered, id, PAGE_SIZE);
+    if(page !== currentPage){
+      currentPage = page;
+      draw();
+    }
     openDetail(id, { pushHash: false });
     return true;
   }
@@ -1067,6 +1332,7 @@ function cartesianValueScales(tickSize, unit){
       tabWrap.querySelectorAll('.dd-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeCategory = btn.dataset.cat;
+      currentPage = 1; // Reset to page 1 on filter change
       updateClearButtonVisibility();
       draw();
     });
@@ -1175,6 +1441,8 @@ function cartesianValueScales(tickSize, unit){
     // Sector selection handler
     const selectSector = (sector) => {
       activeSector = sector;
+      currentPage = 1; // Reset to page 1 on sector change
+      currentPage = 1; // Reset to page 1 on sector change
       const options = sectorPanel.querySelectorAll('.dd-sector-option');
       options.forEach(opt => {
         opt.setAttribute('aria-selected', opt.dataset.sector === sector);
@@ -1235,6 +1503,8 @@ function cartesianValueScales(tickSize, unit){
       activeQuery = '';
       activeCategory = 'All';
       activeSector = '';
+      currentPage = 1;
+      currentPage = 1;
       
       // Reset tabs
       document.querySelectorAll('.dd-tab').forEach(b => {
@@ -1263,6 +1533,7 @@ function cartesianValueScales(tickSize, unit){
     // Update clear button visibility on search input
     searchInput.addEventListener('input', () => {
       activeQuery = searchInput.value.trim().toLowerCase();
+      currentPage = 1; // Reset to page 1 on search
       updateClearButtonVisibility();
       draw();
     });

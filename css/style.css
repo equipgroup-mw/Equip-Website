@@ -1520,7 +1520,15 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 }
 .dd-card{ background: var(--paper); border:1px solid var(--line); display:flex; flex-direction:column; }
 .dd-card-media{ aspect-ratio: 4/3; overflow:hidden; background: #fff; position:relative; }
-.dd-card-media img,
+.dd-card-media img{
+  object-fit: cover;
+  object-position: center center;
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+  outline:none;
+}
 .dd-card-media canvas,
 .dd-card-media iframe{
   display:block;
@@ -1544,7 +1552,7 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .dd-fallback{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color: var(--cream); font-weight:600; text-align:center; padding:1rem; }
 .dd-card.is-clickable .dd-card-media{ cursor: zoom-in; }
 .dd-dashboard-frame{ position:relative; width:100%; height:100%; background:var(--navy-deep); }
-.dd-provider{ position:absolute; top:.6rem; right:.6rem; background:rgba(10,21,38,.85); color:var(--soft-gold); font-size:.7rem; font-weight:700; padding:.25rem .55rem; letter-spacing:.02em; }
+.dd-provider{ position:absolute; top:.6rem; right:.6rem; background:#0d2136; color:#fff; font-size:.7rem; font-weight:700; padding:.25rem .55rem; letter-spacing:.02em; }
 .dd-updated-tag{ display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.03em; padding:.25rem .5rem; background:#0d2136; color:#fff; border:1px solid #0d2136; width:fit-content; }
 /* Portal cards: clamped text + sector label pinned to the bottom */
 .dd-card h4{
@@ -1568,7 +1576,14 @@ body.nav-open .site-header{ background:var(--navy-deep); }
   overflow:hidden;
   min-height:calc(3 * 1.5em);
 }
-.dd-card .sector-tag{ margin-top:auto; }
+.dd-card .sector-tag{ flex-shrink:0; }
+.card-meta-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  margin-bottom:.35rem;
+}
 .dd-empty{ grid-column: 1/-1; padding: 3rem; text-align:center; color: var(--ink-soft); border:1px dashed var(--line); }
 
 .dd-lightbox{ position:fixed; inset:0; z-index:1000; background:rgba(10,21,38,.92); display:flex; align-items:center; justify-content:center; padding:2rem; opacity:0; visibility:hidden; transition:opacity .25s var(--ease); }
@@ -2262,3 +2277,59 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
 @media (prefers-reduced-motion:reduce){
   .services-hero-curtain{ display:none; }
 }
+
+/* ------------------------ Pager ------------------------ */
+#ddPager{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.75rem;
+  margin-top:clamp(1rem, 3vw, 1.5rem);
+  padding-top:clamp(1rem, 2vw, 1.5rem);
+  border-top:1px solid var(--line);
+}
+
+.dd-pager-btn{
+  background:transparent;
+  border:1px solid #0d2136;
+  color:#0d2136;
+  font-family:var(--font-body);
+  font-size:.875rem;
+  font-weight:600;
+  padding:.5rem 1rem;
+  cursor:pointer;
+  transition:background .15s var(--ease), color .15s var(--ease);
+}
+.dd-pager-btn:hover:not(:disabled){
+  background:#0d2136;
+  color:#fff;
+}
+.dd-pager-btn:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+}
+.dd-pager-btn:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+
+.dd-pager-text{
+  font-family:var(--font-body);
+  font-size:.875rem;
+  font-weight:500;
+  color:var(--ink);
+  white-space:nowrap;
+}
+
+@media (max-width: 600px){
+  #ddPager{
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+  .dd-pager-btn{
+    padding:.5rem .875rem;
+    font-size:.8125rem;
+  }
+}
+
