@@ -48,7 +48,7 @@
     },
     {
       "id": "pres-race-map",
-      "updated": "2026-09",
+      "updated": "2025-09",
       "category": "Datasets & Visuals",
       "type": "dashboard",
       "title": "Presidential race map (2025)",
@@ -60,7 +60,7 @@
     },
     {
       "id": "sme-formalisation",
-      "updated": "2026-09",
+      "updated": "2025-05",
       "category": "Datasets & Visuals",
       "type": "chart",
       "title": "From chalkboards to cash flow: SME formalisation rates",
@@ -91,7 +91,7 @@
     },
     {
       "id": "bds-split",
-      "updated": "2026-09",
+      "updated": "2026-10",
       "category": "Datasets & Visuals",
       "type": "chart",
       "title": "Research & Project Management vs Business Development projects",
@@ -117,7 +117,7 @@
     },
     {
       "id": "savings-behaviour",
-      "updated": "2026-09",
+      "updated": "2025-05",
       "category": "Datasets & Visuals",
       "type": "chart",
       "mode": "interactive",
@@ -169,7 +169,7 @@
     },
     {
       "id": "agroprocessing-malawi",
-      "updated": "2026-09",
+      "updated": "2025-03",
       "category": "Datasets & Visuals",
       "type": "image",
       "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
@@ -182,7 +182,7 @@
     },
     {
       "id": "ngora-dashboard",
-      "updated": "2026-09",
+      "updated": "2026-03",
       "category": "Dashboards",
       "type": "dashboard",
       "title": "NGORA's national monitor of NGOs in Malawi ",
@@ -209,7 +209,7 @@
     },
     {
       "id": "mp-race-timeline",
-      "updated": "2026-09",
+      "updated": "2025-09",
       "category": "Datasets & Visuals",
       "type": "dashboard",
       "mode": "interactive",
@@ -276,7 +276,7 @@
     },
     {
       "id": "sme-employment",
-      "updated": "2026-09",
+      "updated": "2025-05",
       "category": "Datasets & Visuals",
       "type": "chart",
       "title": "Beyond employment: the impact SMEs make",
@@ -379,7 +379,7 @@
       "source": "Malawi Electoral Commission (2019)"
     },
     {
-      "id": "sugar-sept-202",
+      "id": "sugar-sept-2026",
       "updated": "2026-09",
       "category": "Datasets & Visuals",
       "type": "image",
