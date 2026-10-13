@@ -1519,23 +1519,52 @@ body.nav-open .site-header{ background:var(--navy-deep); }
   min-width:0;
 }
 .dd-card{ background: var(--paper); border:1px solid var(--line); display:flex; flex-direction:column; }
-.dd-card-media{ aspect-ratio: 4/3; overflow:hidden; background: #fff; position:relative; }
+.dd-card-media{
+  position: relative;
+  overflow: hidden;
+  line-height: 0;
+  background: #fff;
+  aspect-ratio: 4/3;
+}
+.dd-card-media::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px #fff;
+  pointer-events: none;
+  z-index: 2;
+}
+.dd-card-media img,
+.dd-card-media canvas,
+.dd-card-media iframe{
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  border: 0;
+  outline: 0;
+  display: block;
+  max-width: none;
+}
 .dd-card-media img{
   object-fit: cover;
-  object-position: center center;
-  display:block;
-  width:100%;
-  height:100%;
-  border:0;
-  outline:none;
+  object-position: center;
 }
 .dd-card-media canvas,
 .dd-card-media iframe{
-  display:block;
-  width:100%;
-  height:100%;
-  border:0;
-  outline:none;
+  background: #fff;
+  z-index: 1;
+}
+.dd-card-media .dd-dashboard-frame{
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  overflow: hidden;
+  background: #fff;
+  border: 0;
 }
 /* MP seats embed draws its own border at the bottom edge inside the
    iframe, which card CSS cannot remove: clip the outer 2px of that
@@ -1551,8 +1580,8 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 }
 .dd-fallback{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color: var(--cream); font-weight:600; text-align:center; padding:1rem; }
 .dd-card.is-clickable .dd-card-media{ cursor: zoom-in; }
-.dd-dashboard-frame{ position:relative; width:100%; height:100%; background:var(--navy-deep); }
-.dd-provider{ position:absolute; top:.6rem; right:.6rem; background:#0d2136; color:#fff; font-size:.7rem; font-weight:700; padding:.25rem .55rem; letter-spacing:.02em; }
+.dd-dashboard-frame{ position:relative; width:100%; height:100%; background:#fff; }
+.dd-provider{ position:absolute; top:.6rem; right:.6rem; z-index:3; display:inline-block; background:#0d2136; color:#fff; font-size:.7rem; font-weight:700; line-height:1.5; padding:.3rem .65rem; letter-spacing:.02em; border:0; border-radius:2px; white-space:nowrap; }
 .dd-updated-tag{ display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.03em; padding:.25rem .5rem; background:#0d2136; color:#fff; border:1px solid #0d2136; width:fit-content; }
 /* Portal cards: clamped text + sector label pinned to the bottom */
 .dd-card h4{

@@ -118,8 +118,8 @@
 
   function renderDashboardCard(item){
     return cardShell(item, `
-      <div class="dd-dashboard-frame" style="position:relative; width:100%; height:100%;">
-        <iframe src="${item.embedUrl}" title="${esc(item.title)}" loading="lazy" tabindex="-1" aria-hidden="true" style="width:100%; height:100%; border:0; pointer-events:none;"></iframe>
+      <div class="dd-dashboard-frame">
+        <iframe src="${item.embedUrl}" title="${esc(item.title)}" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
         ${ddBadgeHtml(item)}
       </div>`, '');
   }
@@ -608,9 +608,9 @@
       }
       if(type === 'pie' || type === 'doughnut' || type === 'polarArea'){
         const v = ctx.parsed;
-        return `${ctx.label}: ${ddFmtVal(typeof v === 'number' ? v : v, unit)}`;
+        return `${ctx.label}: ${formatValue(typeof v === 'number' ? v : v, item)}`;
       }
-      return `${sName}${ddFmtVal(val, unit)}`;
+      return `${sName}${formatValue(val, item)}`;
     };
 
     const baseConfig = {
@@ -626,6 +626,9 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        /* Let card clicks bubble: Chart.js handles hover via mousemove only,
+           never click, so the grid's delegated click listener always fires. */
+        events: ['mousemove', 'mouseout', 'touchstart', 'touchmove'],
         plugins: {
           legend: {
             display: series.length > 1 || ['pie','doughnut','polarArea','treemap'].includes(type),
@@ -638,6 +641,9 @@
             bodyFont: { family: "'Libre Franklin', -apple-system, sans-serif", size: isModal ? 14 : 12, weight: '400' },
             padding: 10,
             cornerRadius: 4,
+            mode: 'index',
+            axis: type === 'horizontalBar' ? 'y' : 'x',
+            intersect: false,
             callbacks: { label: tooltipLabel }
           }
         },
@@ -681,7 +687,7 @@
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
           font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8,
-          callback: function(value){ return ddFmtVal(value, tickUnit); }
+          callback: function(value){ return formatValue(value, item); }
         },
         beginAtZero: true
       };
@@ -689,7 +695,7 @@
         if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
         if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
       }
-      baseConfig.options.interaction = { intersect: false, mode: 'index' };
+      baseConfig.options.interaction = { intersect: false, mode: 'index', axis: type === 'horizontalBar' ? 'y' : 'x' };
     }
 
     /* Line family */
@@ -714,7 +720,7 @@
         if(item.xAxisTitle) baseConfig.options.scales.x.title = { display: true, text: item.xAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
         if(item.yAxisTitle) baseConfig.options.scales.y.title = { display: true, text: item.yAxisTitle, font: { family: "'Libre Franklin', -apple-system, sans-serif", size: 14, weight: '500' }, color: '#000000' };
       }
-      baseConfig.options.interaction = { intersect: false, mode: 'index' };
+      baseConfig.options.interaction = { intersect: false, mode: 'index', axis: type === 'horizontalBar' ? 'y' : 'x' };
     }
 
 /* Circular */
@@ -885,7 +891,7 @@ function cartesianValueScales(tickSize, unit){
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
           font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8,
-          callback: function(value){ return ddFmtVal(value, unit); }
+          callback: function(value){ return formatValue(value, item); }
         },
         beginAtZero: true
       }
@@ -906,7 +912,7 @@ function cartesianValueScales(tickSize, unit){
         grid: { color: '#eee', drawBorder: false, drawOnChartArea: true, drawTicks: false },
         ticks: {
           font: { family: "'Libre Franklin', -apple-system, sans-serif", size: tickSize, weight: '500' }, color: '#000000', padding: 8,
-          callback: function(value){ return ddFmtVal(value, unit); }
+          callback: function(value){ return formatValue(value, item); }
         },
         beginAtZero: false
       }
@@ -1026,9 +1032,9 @@ function cartesianValueScales(tickSize, unit){
     return { cls: visualClass, inner };
   }
 
-  function modalTableCell(v, unit){
+  function modalTableCell(v, item){
     if(v == null || v === '') return `<td style="text-align:right;">&ndash;</td>`;
-    if(typeof v === 'number') return `<td style="text-align:right;">${esc(ddFmtVal(v, unit))}</td>`;
+    if(typeof v === 'number') return `<td style="text-align:right;">${esc(formatValue(v, item))}</td>`;
     if(typeof v === 'object') return `<td style="text-align:right;">${esc(`(${v.x}, ${v.y}${v.r == null ? '' : ', ' + v.r})`)}</td>`;
     return `<td style="text-align:right;">${esc(v)}</td>`;
   }
@@ -1053,19 +1059,28 @@ function cartesianValueScales(tickSize, unit){
       ).join('')).join('');
       return wrap(`<thead><tr><th scope="col">Series</th><th scope="col" style="text-align:right;">X${unitNote}</th><th scope="col" style="text-align:right;">Y${unitNote}</th><th scope="col" style="text-align:right;">Size${unitNote}</th></tr></thead><tbody>${rows}</tbody>`);
     }
+    // Build table header based on unit/prefix
+    const prefix = item.prefix || '';
+    let valueHeader = 'VALUE';
+    if(unit === '%'){
+      valueHeader = 'VALUE (%)';
+    } else if(prefix){
+      valueHeader = `VALUE (${prefix.trim()})`;
+    }
+
     if(type === 'pie' || type === 'doughnut' || type === 'polarArea'){
       const s = item.series[0] || { data: [] };
       const rows = (item.labels || []).map((label, li) =>
-        `<tr><th scope="row" style="font-weight:400; text-transform:none; letter-spacing:0;">${esc(label)}</th>${modalTableCell(s.data[li], unit)}</tr>`
+        `<tr><th scope="row" style="font-weight:400; text-transform:none; letter-spacing:0;">${esc(label)}</th>${modalTableCell(s.data[li], item)}</tr>`
       ).join('');
-      return wrap(`<thead><tr><th scope="col">Label</th><th scope="col" style="text-align:right;">Value${unitNote}</th></tr></thead><tbody>${rows}</tbody>`);
+      return wrap(`<thead><tr><th scope="col">Label</th><th scope="col" style="text-align:right;">${valueHeader}</th></tr></thead><tbody>${rows}</tbody>`);
     }
     const multi = item.series.length > 1;
     const head = multi
       ? `<tr><th scope="col">Label</th>${item.series.map(s => `<th scope="col" style="text-align:right;">${esc(s.name)}</th>`).join('')}</tr>`
-      : `<tr><th scope="col">Label</th><th scope="col" style="text-align:right;">Value${unitNote}</th></tr>`;
+      : `<tr><th scope="col">Label</th><th scope="col" style="text-align:right;">${valueHeader}</th></tr>`;
     const rows = (item.labels || []).map((label, li) => {
-      const cells = item.series.map(s => modalTableCell(Array.isArray(s.data) ? s.data[li] : '', unit)).join('');
+      const cells = item.series.map(s => modalTableCell(Array.isArray(s.data) ? s.data[li] : '', item)).join('');
       const shown = typeof label === 'string' ? label : (Array.isArray(label) ? label.join(' ') : String(label));
       return `<tr><th scope="row" style="font-weight:400; text-transform:none; letter-spacing:0;">${esc(shown)}</th>${cells}</tr>`;
     }).join('');
@@ -1271,14 +1286,16 @@ function cartesianValueScales(tickSize, unit){
     if(grid && !grid.dataset.ddModalWired){
       grid.dataset.ddModalWired = '1';
       grid.addEventListener('click', (e) => {
-        if(e.target.closest('a, button')) return;
+        if(e.target.closest('a[href]')) return;
+        if(e.target.closest('button')) return;
         const card = e.target.closest('[data-item-id]');
         if(card) openDetail(card.getAttribute('data-item-id'));
       });
       grid.addEventListener('keydown', (e) => {
         if(e.key !== 'Enter' && e.key !== ' ') return;
         const card = e.target.closest ? e.target.closest('[data-item-id]') : null;
-        if(!card || card.tagName === 'A' || card.tagName === 'BUTTON') return;
+        if(!card) return;
+        if(card.tagName === 'A' || card.tagName === 'BUTTON') return;
         e.preventDefault();
         openDetail(card.getAttribute('data-item-id'));
       });
@@ -1608,7 +1625,8 @@ function cartesianValueScales(tickSize, unit){
      test page can render every chartType through the real code path. */
   try {
     window.__ddCharts = {
-      buildChartConfig, validateChartItem, normalizeChartItem, ddTypeName, DD_PALETTE
+      buildChartConfig, validateChartItem, normalizeChartItem, ddTypeName, DD_PALETTE,
+      modalTableHtml, modalDetailsHtml, formatValue
     };
   } catch(err) {}
 })();

@@ -1,0 +1,395 @@
+{
+  "_instructions": {
+    "how_to_add_an_HD_graphic": "Export your PowerPoint/Canva slide as a PNG or JPG (File > Export > Image, highest quality). Drop the file into /assets/data-division/. Then copy an 'image' block below, set 'image' to that file's path, fill in title/description/sector, save. It appears in the gallery and opens full-size when clicked.",
+    "how_to_add_a_dashboard": "If it's Power BI: in Power BI, choose File > Embed report > Publish to web (or use your organisation's secure embed link), copy the embed URL. Paste it into 'embedUrl' on a 'dashboard' block below. Works the same for Tableau Public, Looker Studio, or any tool that gives you an embeddable link.",
+    "how_to_add_an_interactive_chart_without_any_design_tool": "Copy a 'chart' block, change 'chartType' to bar / line / pie / doughnut, replace 'labels' with your categories and 'series' with your numbers. No image needed \u2014 it draws itself.",
+    "how_to_add_an_article": "Copy an 'article' block, fill in title/excerpt/sector, and set 'link' to a page on this site (e.g. an Updates post) or an external report URL.",
+    "how_to_choose_a_chart_type": "Pick the chart by what you want to say. bar: simple vertical comparisons across a few categories. horizontalBar: ranked comparisons and long category names (labels wrap, never rotate). groupedBar: compare several series side by side per category. stackedBar: parts of a whole per category, stacked vertically. stackedBar100: share of a whole per category (raw numbers in JSON, chart shows %). line: change over time; area: change over time with the volume filled in. steppedLine: values that jump between levels rather than gliding. radar: compare a few items across several indicators at once. pie / doughnut / polarArea: shares of one whole (doughnut has the hole). scatter: two measures plotted as x/y points. bubble: three measures at once (x, y and bubble size). combo: a count as bars plus a rate as a line on a second axis. Add \"sortDescending\": true to bar/horizontalBar to rank biggest first.",
+    "chart_block_examples": "One tiny valid example per chartType, as strings (not real items). Every chart needs: \"type\": \"chart\", \"chartType\", \"labels\" (except scatter/bubble), \"series\": [{\"name\": ..., \"data\": [...]}]. Data lengths must match labels. Optional on any chart: \"unit\" (e.g. \"%\", \"USD\"), \"xAxisTitle\", \"yAxisTitle\". Optional per series: \"color\" (hex override). Combo series also take \"type\": \"bar\"|\"line\" and \"axis\": \"left\"|\"right\" (plus \"rightAxisTitle\"). bar/horizontalBar also take \"sortDescending\": true. Scatter/bubble series data are {\"x\": n, \"y\": n} (bubble adds \"r\": n). EXAMPLES (strings only): {\"type\":\"chart\",\"chartType\":\"bar\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"horizontalBar\",\"sortDescending\":true,\"labels\":[\"Long category name here\"],\"series\":[{\"name\":\"Share\",\"data\":[42]}]} | {\"type\":\"chart\",\"chartType\":\"groupedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar100\",\"unit\":\"%\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[60,45]}]} | {\"type\":\"chart\",\"chartType\":\"line\",\"xAxisTitle\":\"Year\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"area\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"steppedLine\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Level\",\"data\":[1,1,2]}]} | {\"type\":\"chart\",\"chartType\":\"radar\",\"labels\":[\"Reach\",\"Quality\",\"Speed\"],\"series\":[{\"name\":\"2023\",\"data\":[4,3,5]},{\"name\":\"2024\",\"data\":[5,4,4]}]} | {\"type\":\"chart\",\"chartType\":\"pie\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"doughnut\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"polarArea\",\"labels\":[\"A\",\"B\",\"C\"],\"series\":[{\"name\":\"Share\",\"data\":[30,50,20]}]} | {\"type\":\"chart\",\"chartType\":\"scatter\",\"xAxisTitle\":\"Cost\",\"yAxisTitle\":\"Return\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20},{\"x\":15,\"y\":25}]}]} | {\"type\":\"chart\",\"chartType\":\"bubble\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20,\"r\":15},{\"x\":30,\"y\":40,\"r\":45}]}]} | {\"type\":\"chart\",\"chartType\":\"combo\",\"rightAxisTitle\":\"Rate %\",\"labels\":[\"Q1\",\"Q2\"],\"series\":[{\"name\":\"Count\",\"type\":\"bar\",\"data\":[120,150]},{\"name\":\"Rate\",\"type\":\"line\",\"axis\":\"right\",\"data\":[62,71]}]}",
+    "card_fields_updated_and_labels": "Every item needs an \"updated\" month (\"YYYY-MM\", e.g. \"2026-09\"), shown on its card as \"Updated: Sep, 2026\". Set it to the month the underlying visual or data was last refreshed. Every item also needs a \"mode\" field with exactly \"static\" or \"interactive\", shown as the corner badge on its thumbnail, e.g. \"mode\": \"interactive\". Use \"interactive\" for embeds and anything a viewer can click or explore (Tableau, Power BI, custom HTML, maps, timelines, dashboards); use \"static\" for images, site-drawn charts and plain datasets. If \"mode\" is missing or anything else, no badge is shown."
+  },
+  "sectors": [
+    "Crop Production",
+    "Food",
+    "Logistics",
+    "Construction",
+    "Horticulture",
+    "Tobacco",
+    "Retail",
+    "Renewable Energy",
+    "Agroprocessing",
+    "Manufacturing",
+    "Aquaculture",
+    "Tourism",
+    "Cotton",
+    "Livestock",
+    "Marketing",
+    "Education",
+    "Poultry",
+    "Media",
+    "SMEs",
+    "Current Affairs",
+    "Cross-sector",
+    "Government",
+    "Finance"
+  ],
+  "items": [
+    {
+      "id": "sme-sectors",
+      "updated": "2026-09",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "The sectors Equip Group have worked in",
+      "sector": "Cross-sector",
+      "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
+      "image": "/assets/data-division/data-sectors.avif",
+      "mode": "static",
+      "source": "Equip Group internal records"
+    },
+    {
+      "id": "pres-race-map",
+      "updated": "2025-09",
+      "category": "Datasets & Visuals",
+      "type": "dashboard",
+      "title": "Presidential race map (2025)",
+      "sector": "Current Affairs",
+      "description": "An interactive map tracking reported results in the 2025 presidential election by constituency.",
+      "embedUrl": "https://flo.uri.sh/visualisation/24346727/embed",
+      "mode": "interactive",
+      "source": "Malawi Electoral Commission (2025)"
+    },
+    {
+      "id": "sme-formalisation",
+      "updated": "2025-05",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "From chalkboards to cash flow: SME formalisation rates",
+      "sector": "SMEs",
+      "description": "Share of surveyed SMEs now keeping formal financial records, by country.",
+      "chartType": "bar",
+      "labels": [
+        "South Africa",
+        "Zimbabwe",
+        "Zambia",
+        "Malawi"
+      ],
+      "series": [
+        {
+          "name": "% formalised",
+          "data": [
+            69,
+            65,
+            58,
+            37
+          ]
+        }
+      ],
+      "mode": "interactive",
+      "unit": "%",
+      "source": "FinScope Survey 2019",
+      "sourceUrl": "https://example.com"
+    },
+    {
+      "id": "bds-split",
+      "updated": "2026-10",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "Research & Project Management vs Business Development projects",
+      "sector": "Cross-sector",
+      "description": "Share of completed engagements by division.",
+      "chartType": "doughnut",
+      "labels": [
+        "Research & Project Management",
+        "Business Development"
+      ],
+      "series": [
+        {
+          "name": "Share of projects",
+          "data": [
+            42,
+            58
+          ]
+        }
+      ],
+      "mode": "interactive",
+      "unit": "%",
+      "source": "Equip Group internal records"
+    },
+    {
+      "id": "savings-behaviour",
+      "updated": "2025-05",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "mode": "interactive",
+      "title": "How people fund their business in sub-Saharan Africa",
+      "sector": "SMEs",
+      "description": "Reported primary funding source among aspiring entrepreneurs.",
+      "chartType": "horizontalBar",
+      "labels": [
+        "Savings",
+        "Money from another business",
+        "Bank loan",
+        "Salary",
+        "Loan",
+        "Friends/family",
+        "Personal retirement policy",
+        "Retirement package",
+        "Other"
+      ],
+      "series": [
+        {
+          "name": "% of respondents",
+          "data": [
+            29,
+            22,
+            13,
+            12,
+            9,
+            7,
+            5,
+            5,
+            4
+          ]
+        }
+      ],
+      "unit": "%",
+      "source": "FinScope Survey 2019"
+    },
+    {
+      "id": "mec-chairpersons",
+      "updated": "2025-07",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "Malawi Electoral Commission's chairperson timeline",
+      "sector": "Government",
+      "description": "The narrative of the (MEC) Malawi Electoral Commission (MEC) is a powerful testament to the impact of diverse and effective leadership. As the timeline illustrates, the MEC has been guided by six chairpersons, remarkably, half of whom have been women.",
+      "image": "/assets/data-division/mec-chairpersons.avif",
+      "mode": "static",
+      "source": "Malawi Electoral Commission (2024)"
+    },
+    {
+      "id": "agroprocessing-malawi",
+      "updated": "2025-03",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
+      "sector": "Agroprocessing",
+      "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
+      "image": "/assets/data-division/agroprocessing-malawi.avif",
+      "mode": "static",
+      "source": "Ministry of Trade report",
+      "sourceUrl": "https://example.com"
+    },
+    {
+      "id": "ngora-dashboard",
+      "updated": "2026-03",
+      "category": "Dashboards",
+      "type": "dashboard",
+      "title": "NGORA's national monitor of NGOs in Malawi ",
+      "sector": "Current Affairs",
+      "description": "The Non-Governmental Organizations Regulatory Authority (NGORA). This is a district overiew of all the NGOs that it regulates and oversees in Malawi. ",
+      "provider": "Custom HTML",
+      "embedUrl": "https://equipgroup-mw.github.io/NGORA-Dashboard-Map/",
+      "mode": "interactive",
+      "source": "NGORA, Registerd NGOs (2026)",
+      "sourceUrl": "https://ngora.mw/registered-ngos/"
+    },
+    {
+      "id": "fuel-malawi",
+      "updated": "2026-06",
+      "category": "Dashboards",
+      "type": "dashboard",
+      "title": "Malawi fuel price trend over the last decade (2013-2026)",
+      "sector": "Current Affairs",
+      "description": "Annual price movement for a cost of a litre of petrol and diesel costs in Malawi.",
+      "provider": "Flourish",
+      "embedUrl": "https://flo.uri.sh/visualisation/27404849/embed",
+      "mode": "interactive",
+      "source": "Source: Malawi Energy Authority (MERA), (2013-2026)"
+    },
+    {
+      "id": "mp-race-timeline",
+      "updated": "2025-09",
+      "category": "Datasets & Visuals",
+      "type": "dashboard",
+      "mode": "interactive",
+      "title": "Member of Parliament seats (official): 1994-2025",
+      "sector": "Current Affairs",
+      "description": "An official running timeline built from public reporting, for reference only.",
+      "embedUrl": "https://flo.uri.sh/visualisation/24350201/embed",
+      "source": "Malawi Electoral Commission (2025)"
+    },
+    {
+      "id": "ms-financial-giants",
+      "updated": "2025-08",
+      "category": "Datasets & Visuals",
+      "type": "dashboard",
+      "title": "Malawi Stock Exchange (MSE): NICO vs Old Mutual in 2025",
+      "sector": "Finance",
+      "description": "A comparative visual analysis of NICO Holdings and Old Mutual on the Malawi Stock Exchange (MSE) during the 3rd quarter of 2025.",
+      "embedUrl": "https://flo.uri.sh/visualisation/26203420/embed",
+      "mode": "interactive",
+      "source": "Malawi Stock Exchange (2025)"
+    },
+    {
+      "id": "fuel-africa",
+      "updated": "2026-05",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "The 10 highest fuel costs across Africa (2026)",
+      "sector": "Current Affairs",
+      "mode": "interactive",
+      "description": "See how fuel prices are looking in the African nations with the highest fuel costs",
+      "chartType": "horizontalBar",
+      "labels": [
+        "Malawi",
+        "Zimbabwe",
+        "Rwanda",
+        "Central African Republic",
+        "Sierra Leone",
+        "Senegal",
+        "Seychelles",
+        "Cabo Verde",
+        "Tanzania",
+        "South Africa"
+      ],
+      "series": [
+        {
+          "name": "Fuel Price (USD per liter)",
+          "data": [
+            3.83,
+            2.08,
+            2.01,
+            1.88,
+            1.78,
+            1.65,
+            1.63,
+            1.6,
+            1.59,
+            1.59
+          ]
+        }
+      ],
+      "prefix": "$",
+      "source": "GlobalPetrolPrices.com | July, 2026",
+      "sourceUrl": "https://www.globalpetrolprices.com/gasoline_prices/"
+    },
+    {
+      "id": "sme-employment",
+      "updated": "2025-05",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "Beyond employment: the impact SMEs make",
+      "sector": "SMEs",
+      "description": "Estimated share of the workforce supported by SME activity.",
+      "chartType": "bar",
+      "labels": [
+        "Zambia",
+        "Zimbabwe",
+        "Malawi",
+        "South Africa",
+        "Tanzania"
+      ],
+      "series": [
+        {
+          "name": "% of workforce",
+          "data": [
+            70,
+            60,
+            47,
+            40,          
+            35
+          ]
+        }
+      ],
+      "mode": "interactive",
+      "unit": "%",
+      "source": "FinScope Survey (2019)"
+    },
+    {
+      "id": "groceries-basketket-2025",
+      "updated": "2026-03",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "What a basket of 13 grocery items will cost you in various stores",
+      "sector": "Retail",
+      "description": "A price comparison of a standard basket of 13 essential grocery items in 2025 across major retailers in Malawi, including Chipiku, Shoprite, and Sana.",
+      "image": "/assets/data-division/groceries-basket-2025.avif",
+      "mode": "static",
+      "source": "Equip Group groceries monitor (2025)"
+    },
+    {
+      "id": "mibawa-pole",
+      "updated": "2025-06",
+      "category": "Datasets & Visuals",
+      "type": "dashboard",
+      "title": "Who is Mibawa's most liked TV presenter?",
+      "sector": "Media",
+      "description": "Results from a poll by Mibawa's fanbase to see who their favourite presenter was in 2025",
+      "provider": "Flourish",
+      "embedUrl": "https://flo.uri.sh/visualisation/24565115/embed",
+      "mode": "interactive",
+      "source": "Mibawa official whatsapp channel (June, 2025)"
+    },
+    {
+      "id": "tax-us-groceries",
+      "updated": "2016-08",
+      "category": "Dashboards",
+      "type": "dashboard",
+      "title": "Where and how groceries are taxed in the USA?",
+      "sector": "Retail",
+      "description": "A state-by-state breakdown of grocery sales taxes across the US. Explore the interactive map to see where groceries are taxed, exempt, or subject to lower rates, and discover how these policies impact food security.",
+      "provider": "Tableau",
+      "embedUrl": "https://public.tableau.com/shared/PFRF8788N?:showVizHome=no&:embed=true",
+      "mode": "interactive",
+      "source": "Internal Revenue Service (IRS), (2016)"
+    },
+    {
+      "id": "women-parliament-seats-2019",
+      "updated": "2023-05",
+      "category": "Datasets & Visuals",
+      "type": "chart",
+      "title": "Women’s parliamentary representation: (1994-2019)",
+      "sector": "Government",
+      "description": "Women have the desire to lead and drive change, as shown by the growing percentage of parliamentary seats held by women",
+      "chartType": "bar",
+      "labels": [
+        "2019",
+        "2014",
+        "2009",
+        "2004",
+        "1999",
+        "1994"
+      ],
+      "series": [
+        {
+          "name": "% of seats",
+          "data": [
+            23,
+            17,
+            21,
+            14,          
+            8,
+            6
+          ]
+        }
+      ],
+      "mode": "interactive",
+      "unit": "%",
+      "source": "Malawi Electoral Commission (2019)"
+    },
+    {
+      "id": "sugar-sept-2026",
+      "updated": "2026-09",
+      "category": "Datasets & Visuals",
+      "type": "image",
+      "title": "Equip Group groceries monitor: 1KG Illovo sugar",
+      "sector": "Retail",
+      "description": "The price of a 1 kg packet of brown sugar has changed from MWK2,950 in 2025 to MWK4,600 in 2026, representing a 56% increase. Most Malawians buy brown sugar regularly, this means spending MWK1,650 more on the same item than they did a year ago.",
+      "image": "/assets/data-division/sugar-2026.avif",
+      "mode": "static",
+      "source": "Equip Group groceries monitor (2026)"
+    }
+  ],
+  "how_to_choose_a_chart_type": "undefined\n\nOptional data fields:\n\u2022 \"unit\" (suffix): \"%\" attaches with no space, any other text gets one space (e.g. \"kg\" gives \"12 kg\").\n\u2022 \"prefix\" (attached as written, so \"$\" gives \"$3.83\" and \"MWK \" gives \"MWK 127,764\").\n\nExamples:\n\u2022 formatValue(58,{unit:\"%\"}) gives \"58%\"\n\u2022 formatValue(3.83,{prefix:\"$\"}) gives \"$3.83\"\n\u2022 formatValue(12,{unit:\"kg\"}) gives \"12 kg\"\n\u2022 formatValue(127764,{prefix:\"MWK \"}) gives \"MWK 127,764\"\n\u2022 formatValue(1.65,{prefix:\"$\"}) gives \"$1.65\"\n\u2022 formatValue(0.5,{prefix:\"$\"}) gives \"$0.5\""
+}
