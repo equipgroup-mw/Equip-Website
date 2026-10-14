@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-root="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="artTitle">Article</title>
+<meta name="description" id="artDescription" content="">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/avif" href="assets/logos/favicon.avif">
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+</head>
+<body>
+<div id="header-slot"></div>
+<main id="main">
+  <div id="articleContent"></div>
+
+  <section class="bg-navy" style="padding-block:4rem;">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+      <h3 class="mt-0" style="max-width:26ch;">Explore more updates</h3>
+      <a href="updates/index.html" class="btn btn-gold">View all updates</a>
+    </div>
+  </section>
+
+  <section class="section" style="padding-block:3rem;">
+    <div class="container">
+      <h3 class="center" style="margin-bottom:2rem;">Trusted by the Best</h3>
+      <div data-logos></div>
+    </div>
+  </section>
+</main>
+<div id="footer-slot"></div>
+<script type="module">
+  const ROOT = document.documentElement.dataset.root || '';
+  import { loadArticles, findArticle, renderArticleDetail, buildArticleJsonLd } from './js/articles.js';
+  import { initHeroAnimations } from './js/hero-animations.js';
+  import './js/main.js';
+  import './js/carousel.js';
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  if (!id) window.location.href = 'updates/index.html';
+
+  let articles = [];
+  try {
+    articles = await loadArticles();
+  } catch (err) {
+    document.getElementById('articleContent').innerHTML =
+      `<section class="section"><div class="container"><h2>Article unavailable</h2>` +
+      `<p>We could not load this article right now. Please try again later or return to the updates page.</p>` +
+      `<p><a class="btn btn-gold" href="updates/index.html">Back to updates</a></p></div></section>`;
+    throw err;
+  }
+  const article = findArticle(articles, id);
+  if (!article) window.location.href = 'updates/index.html';
+
+  document.getElementById('artTitle').textContent = `${article.title} — Equip Group`;
+  document.getElementById('artDescription').content = article.excerpt || article.title;
+  const jsonLd = document.createElement('script');
+  jsonLd.type = 'application/ld+json';
+  jsonLd.textContent = JSON.stringify(buildArticleJsonLd(article, window.location.href));
+  document.head.appendChild(jsonLd);
+  document.getElementById('articleContent').innerHTML = renderArticleDetail(article, articles);
+
+  initHeroAnimations();
+
+  const logoWrapper = document.querySelector('[data-logos]');
+  if (logoWrapper) {
+    const { LogoMarquee } = await import('./js/logo-marquee.js');
+    const res = await fetch(ROOT + 'data/logos.json');
+    const { logos } = await res.json();
+    const marqueeEl = logoWrapper.querySelector('.logo-marquee') || (() => {
+      logoWrapper.innerHTML = `
+        <div class="logo-marquee" role="region" aria-label="Trusted partners" tabindex="0"></div>
+        <button class="marquee-arrow marquee-arrow--prev" aria-label="Previous partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="marquee-arrow marquee-arrow--next" aria-label="Next partner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      `;
+      return logoWrapper.querySelector('.logo-marquee');
+    })();
+    marqueeEl.innerHTML = logos.map(l => `
+      <div class="logo-item" style="flex:0 0 auto;">
+        <img src="${ROOT}${l.image}" alt="${l.name}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
+      </div>
+    `).join('');
+    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
+  }
+</script>
+</body>
+</html>

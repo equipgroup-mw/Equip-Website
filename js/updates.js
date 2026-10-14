@@ -8,6 +8,7 @@
   const ROOT = document.documentElement.dataset.root || '';
   let ALL = [];
   let PODCAST_SERIES = {};
+  let ARTICLES = [];
   let activeType = 'All';
   let activeQuery = '';
 
@@ -47,6 +48,33 @@
 
   function isExternalUrl(url){
     return /^https?:\/\//i.test(url || '');
+  }
+
+  /* Article routing (AR): match an updates item to its articles.json record.
+     Explicit articleId wins; otherwise equal image (articles.json mainImage
+     takes precedence, legacy top-level image still matches), otherwise equal
+     title. Announcements never match — only type "article" is routed. Pure. */
+  function matchArticleRecord(item, articles){
+    if(!item || item.type !== 'article') return null;
+    const list = Array.isArray(articles) ? articles : [];
+    if(item.articleId){
+      const byId = list.find(a => a.id === item.articleId);
+      if(byId) return byId;
+    }
+    const artImage = (a) => (a.mainImage && a.mainImage.src) || a.image;
+    const byImage = list.find(a => artImage(a) && item.image && artImage(a) === item.image);
+    if(byImage) return byImage;
+    return list.find(a => a.title && item.title && a.title === item.title) || null;
+  }
+
+  /* Href for an article card's Read Now. Explicit non-empty link wins
+     (safety fallback); otherwise the routed article.html URL, or null when
+     no record matches (renders the spacer, as before). Pure. */
+  function articleDetailHref(item, articles, root){
+    if(!item || item.type !== 'article') return null;
+    if(item.link) return null;
+    const rec = matchArticleRecord(item, articles);
+    return rec ? ((root || '') + 'article.html?id=' + rec.id) : null;
   }
   function linkTargetAttrs(url){
     return isExternalUrl(url) ? ' target="_blank" rel="noopener noreferrer"' : '';
@@ -154,6 +182,18 @@
         holder = `<div class="pc-platforms-holder" id="${holderId}" hidden><div class="pc-platforms" data-count="1">${submenuBtn('link', applyUrl, 'Apply', applyLabel)}</div></div>`;
       }
       if(st === 'closed') badges += `<span class="update-closed-badge">Closed</span>`;
+    } else if(item.type === 'article'){
+      if(item.link){
+        const href = isExternalUrl(item.link) ? item.link : (ROOT + item.link.replace(/^\//,''));
+        ctaInner = `<a class="pc-cta" href="${href}"${linkTargetAttrs(item.link)}>Read Now</a>`;
+      } else {
+        const artHref = articleDetailHref(item, ARTICLES, ROOT);
+        if(artHref){
+          ctaInner = `<a class="pc-cta" href="${artHref}">Read Now</a>`;
+        } else {
+          ctaInner = `<div class="update-cta--empty" aria-hidden="true"><span class="pc-cta" style="visibility:hidden">Read Now</span></div>`;
+        }
+      }
     } else {
       if(item.link){
         const href = isExternalUrl(item.link) ? item.link : (ROOT + item.link.replace(/^\//,''));
@@ -568,6 +608,19 @@
     if (json.podcastSeries) {
       json.podcastSeries.forEach(s => { PODCAST_SERIES[s.id] = s; });
     }
+    /* Article records are optional at runtime: a failed fetch only disables
+       article.html routing (linkless article cards fall back to the spacer). */
+    try {
+      const artRes = await fetch(ROOT + 'data/articles.json');
+      if(artRes.ok){
+        const artJson = await artRes.json();
+        if(Array.isArray(artJson.articles)) ARTICLES = artJson.articles;
+      } else {
+        console.warn(`[updates] articles.json HTTP ${artRes.status} — article routing disabled.`);
+      }
+    } catch(err) {
+      console.warn('[updates] could not load articles.json — article routing disabled.', err);
+    }
     const fromURL = readURL();
     wireControls();
     syncControls();
@@ -586,7 +639,7 @@
   try {
     window.__updates = {
       card, submenuGroup, platformSelector, platformButtons, submenuBtn, platformIcon,
-      triggerCardAction, restoreSwap
+      triggerCardAction, restoreSwap, matchArticleRecord, articleDetailHref
     };
   } catch(err) {}
 })();

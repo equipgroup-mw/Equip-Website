@@ -1911,6 +1911,45 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .update-cta{ margin-top:auto; padding-top:.85rem; }
 .update-cta--empty{ min-height:0; }
 
+/* ---------------- Article detail figures ---------------- */
+figure.article-figure{ margin:0 0 2rem; }
+figure.article-figure img{ width:100%; aspect-ratio:3/2; object-fit:cover; display:block; }
+.image-caption{ font-size:13px; color:#3d4a5c; line-height:1.4; text-align:left; padding-top:.5rem; margin:.5rem 0 0; border-top:1px solid var(--line); }
+.portal-link{ margin:.5rem 0 0; font-size:.85rem; font-weight:600; }
+.portal-link a{ color:var(--navy); text-decoration:underline; text-underline-offset:3px; }
+.portal-link a:hover{ color:var(--gold-dark); }
+.portal-link a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+/* ---------------- Article detail body + sidebar (UX pass) ---------------- */
+/* Related/latest card images fill their 3:2 frame — no letterboxing. */
+.update-card .card-media{ overflow:hidden; }
+.update-card .card-media img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+/* Calmer body H2s (site h2 runs up to ~44px): 28px with breathing room. */
+#articleContent .case-study-section h2{ font-size:1.75rem; margin:2.5rem 0 .75rem; }
+#articleContent h2[id]{ scroll-margin-top:100px; }
+/* Sticky sidebar: clears the 84px site header + breathing room. */
+.article-sidebar{ position:sticky; top:104px; align-self:start; }
+.article-sidebar h4{ font-size:.85rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); margin:0 0 .75rem; }
+.article-toc{ margin-bottom:1.75rem; }
+.article-toc ul{ list-style:none; margin:0; padding:0; display:grid; gap:.45rem; }
+.article-toc a{ color:var(--navy); font-size:.92rem; font-weight:500; text-decoration:none; border-left:2px solid var(--line); padding-left:.7rem; display:block; }
+.article-toc a:hover{ color:var(--gold-dark); border-left-color:var(--gold); }
+.article-toc a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.article-back{ margin:0 0 1.75rem; }
+.article-back a{ color:var(--navy); font-size:.92rem; font-weight:600; text-decoration:none; }
+.article-back a:hover{ text-decoration:underline; text-underline-offset:3px; }
+.article-back a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.article-share{ margin-bottom:1.75rem; }
+.share-row{ display:flex; gap:.5rem; flex-wrap:wrap; }
+.share-row button, .share-row a{ width:38px; height:38px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:2px; background:#fff; color:var(--navy); cursor:pointer; transition:background .2s, color .2s, border-color .2s; }
+.share-row button:hover, .share-row a:hover{ background:var(--navy); border-color:var(--navy); color:#fff; }
+.share-row button:focus-visible, .share-row a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.share-feedback{ font-size:.85rem; font-weight:600; color:var(--navy); margin:.6rem 0 0; min-height:1.2em; }
+.article-loading{ padding:clamp(2rem, 5vw, 4rem) 0; color:var(--ink-soft); font-size:1rem; }
+@media (max-width: 640px){
+  .article-sidebar{ position:static; }
+}
+
 /* ---------------- Podcast card redesign (locked dimensions) ---------------- */
 .podcast-card .card-media{ position:relative; }
 .podcast-card .update-type-badge{ position:absolute; top:.5rem; left:.5rem; background:rgba(10,21,38,.85); color:var(--soft-gold); font-size:.65rem; font-weight:700; padding:.2rem .5rem; letter-spacing:.02em; text-transform:capitalize; }
