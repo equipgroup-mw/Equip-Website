@@ -68,14 +68,44 @@
     return 'BY ' + formatPeople(people);
   }
 
-  function platformSelector(links){
+  /* Inline platform icons (no font, no CDN): 17px, currentColor resolves to
+     the button navy at rest and white on hover. Key-first mapping, URL sniff
+     as fallback: youtube/spotify/apple keys, mailto → mail, else globe. */
+  const UB_ICONS = {
+    youtube: '<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12 10 15.2z"/></svg>',
+    spotify: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="2"/><path d="M8 10.5c2.7-.8 5.3-.5 7.5.8M8.3 13.2c2.2-.6 4.2-.3 6 .8M8.6 15.7c1.7-.5 3.2-.2 4.6.7" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    apple: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/><path d="M7.5 16.5a6.4 6.4 0 0 1 0-9M16.5 7.5a6.4 6.4 0 0 1 0 9M4.8 19.2a10.2 10.2 0 0 1 0-14.4M19.2 4.8a10.2 10.2 0 0 1 0 14.4" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    globe: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z" stroke-width="1.6"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke-width="1.8"/><path d="M3.5 7l8.5 6 8.5-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+
+  function platformIcon(key, url){
+    const k = String(key || '').toLowerCase();
+    const u = String(url || '').toLowerCase();
+    if(k.includes('youtube')) return UB_ICONS.youtube;
+    if(k.includes('spotify')) return UB_ICONS.spotify;
+    if(k.includes('apple')) return UB_ICONS.apple;
+    if(k.includes('mail') || u.startsWith('mailto:')) return UB_ICONS.mail;
+    return UB_ICONS.globe;
+  }
+
+  /* One submenu anchor: real link, icon left of label, no arrow glyph. */
+  function submenuBtn(key, url, verb, label){
+    const text = label || PLATFORM_MAP[key] || key;
+    const ext = isExternalUrl(url);
+    return `<a class="pc-platform-btn" href="${url}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''} aria-label="${verb} on ${text}">${platformIcon(key, url)}<span>${text}</span></a>`;
+  }
+
+  function submenuGroup(links, verb){
     if(!links) return '';
     const entries = Object.entries(links).filter(([,url])=>url);
     if(!entries.length) return '';
-    const buttons = entries.map(([key,url]) =>
-      `<a class="pc-platform-btn" href="${url}" target="_blank" rel="noopener">${PLATFORM_MAP[key]||key}</a>`
-    ).join('');
-    return `<div class="pc-platforms">${buttons}</div>`;
+    const buttons = entries.map(([key,url]) => submenuBtn(key, url, verb)).join('');
+    return `<div class="pc-platforms" data-count="${entries.length}">${buttons}</div>`;
+  }
+
+  function platformSelector(links, verb){
+    return submenuGroup(links, verb || 'Listen');
   }
 
   /* Reveal-button opener reusing the Listen Now component. */
@@ -105,10 +135,10 @@
       badges += `<span class="pc-episodes">${epCount} Episode${epCount!==1?'s':''}</span>`;
       if(peopleStr) byline = `<span class="pc-people">${peopleStr}</span>`;
       ctaInner = revealOpener('▶ Listen Now', holderId);
-      holder = `<div class="pc-platforms-holder" id="${holderId}">${platformSelector(item.links)}</div>`;
+      holder = `<div class="pc-platforms-holder" id="${holderId}" hidden>${platformSelector(item.links, 'Listen')}</div>`;
     } else if(item.type === 'webinar'){
       ctaInner = revealOpener('▶ Watch Now', holderId);
-      holder = `<div class="pc-platforms-holder" id="${holderId}">${platformButtons(item.links)}</div>`;
+      holder = `<div class="pc-platforms-holder" id="${holderId}" hidden>${submenuGroup(item.links, 'Watch')}</div>`;
     } else if(item.type === 'opportunity'){
       const st = deadlineStatus(item.deadline);
       if(st === 'closed'){
@@ -119,9 +149,9 @@
         else if(item.deadline) deadlineHtml = `<span class="deadline-flag">Apply by ${fmtUpdateDate(item.deadline)}</span>`;
         const applyUrl = item.link || (ROOT + 'contact.html');
         const ext = isExternalUrl(applyUrl);
-        const applyLabel = ext ? 'Application form ↗' : 'Contact us →';
+        const applyLabel = ext ? 'Application form' : 'Contact us';
         ctaInner = revealOpener('Apply Now', holderId);
-        holder = `<div class="pc-platforms-holder" id="${holderId}"><div class="pc-platforms"><a class="pc-platform-btn" href="${applyUrl}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>${applyLabel}</a></div></div>`;
+        holder = `<div class="pc-platforms-holder" id="${holderId}" hidden><div class="pc-platforms" data-count="1">${submenuBtn('link', applyUrl, 'Apply', applyLabel)}</div></div>`;
       }
       if(st === 'closed') badges += `<span class="update-closed-badge">Closed</span>`;
     } else {
@@ -146,10 +176,48 @@
     </article>`;
   }
 
-  function platformButtons(links){
-    if(!links) return '';
-    return `<div class="platform-row">${Object.entries(links).filter(([,url])=>url).map(([key,url]) =>
-      `<a class="platform-btn" href="${url}" target="_blank" rel="noopener">${PLATFORM_MAP[key]||key} ↗</a>`).join('')}</div>`;
+  function platformButtons(links, verb){
+    return submenuGroup(links, verb || 'Watch');
+  }
+
+  /* Button-swap reveal: the main button hides (hidden attr, kept in DOM) and
+     the submenu takes its exact box. restoreSwap brings the main back. */
+  function restoreSwap(cardEl, focusMain){
+    if(!cardEl) return;
+    const main = cardEl.querySelector('.pc-cta[aria-expanded]');
+    const holder = cardEl.querySelector('.pc-platforms-holder');
+    if(holder && !holder.hasAttribute('hidden')) holder.setAttribute('hidden', '');
+    if(main){
+      if(main.hasAttribute('hidden')) main.removeAttribute('hidden');
+      main.setAttribute('aria-expanded', 'false');
+      if(focusMain){
+        try { main.focus({ preventScroll: true }); } catch(err) { main.focus(); }
+      }
+    }
+  }
+
+  function closeAllSwaps(exceptCard){
+    const grid = document.getElementById('updatesGrid');
+    if(!grid) return;
+    grid.querySelectorAll('.update-card').forEach(c => {
+      if(c !== exceptCard) restoreSwap(c, false);
+    });
+  }
+
+  /* Card-level action (UC): reuses the card's own main control — the toggle's
+     click handler for Listen/Watch/Apply, the Read Now link for articles.
+     Open-submenu, disabled-button and linkless cards deliberately do nothing. */
+  function triggerCardAction(cardEl){
+    if(!cardEl) return;
+    if(cardEl.querySelector('.pc-cta[aria-expanded="true"]')) return;
+    if(cardEl.querySelector('button.pc-cta:disabled')) return;
+    const mainBtn = cardEl.querySelector('.pc-cta[aria-expanded]');
+    if(mainBtn){
+      if(!mainBtn.disabled) mainBtn.click();
+      return;
+    }
+    const readLink = cardEl.querySelector('a.pc-cta[href]');
+    if(readLink) readLink.click();
   }
 
   const PAGE_SIZE = 15;
@@ -317,17 +385,44 @@
       }
     }
 
+    /* UC: only actionable cards are focusable — toggle mains and Read Now
+       links qualify; disabled-button and spacer cards never match. */
+    grid.querySelectorAll('.update-card').forEach(cardEl => {
+      if(cardEl.querySelector('.pc-cta[aria-expanded], a.pc-cta[href]')){
+        cardEl.setAttribute('tabindex', '0');
+      }
+    });
+
     grid.querySelectorAll('.pc-cta[aria-expanded]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const cardEl = btn.closest('.update-card');
         const holder = document.getElementById(btn.getAttribute('aria-controls'));
         const isOpen = btn.getAttribute('aria-expanded') === 'true';
-        grid.querySelectorAll('.pc-platforms-holder.pc-platforms-open').forEach(h => h.classList.remove('pc-platforms-open'));
-        grid.querySelectorAll('.pc-cta[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false'));
-        if(!isOpen && holder){
-          holder.classList.add('pc-platforms-open');
+        closeAllSwaps(cardEl);
+        if(!isOpen && holder && cardEl){
+          btn.setAttribute('hidden', '');
           btn.setAttribute('aria-expanded', 'true');
+          holder.removeAttribute('hidden');
+          const first = holder.querySelector('a.pc-platform-btn');
+          if(first) first.focus();
+        }
+      });
+    });
+
+    grid.querySelectorAll('.update-card').forEach(cardEl => {
+      cardEl.addEventListener('focusout', (e) => {
+        if(cardEl.querySelector('.pc-cta[aria-expanded="true"]')
+          && e.relatedTarget && !cardEl.contains(e.relatedTarget)){
+          restoreSwap(cardEl, false);
+        }
+      });
+      cardEl.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape'
+          && cardEl.querySelector('.pc-cta[aria-expanded="true"]')){
+          e.stopPropagation();
+          restoreSwap(cardEl, true);
         }
       });
     });
@@ -335,10 +430,13 @@
 
   document.addEventListener('click', (e) => {
     const grid = document.getElementById('updatesGrid');
-    if(grid && !e.target.closest('.update-card')){
-      grid.querySelectorAll('.pc-platforms-holder.pc-platforms-open').forEach(h => h.classList.remove('pc-platforms-open'));
-      grid.querySelectorAll('.pc-cta[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false'));
-    }
+    if(!grid) return;
+    grid.querySelectorAll('.update-card').forEach(cardEl => {
+      if(cardEl.querySelector('.pc-cta[aria-expanded="true"]')
+        && !cardEl.contains(e.target)){
+        restoreSwap(cardEl, false);
+      }
+    });
   });
 
   function wireControls(){
@@ -424,6 +522,25 @@
         draw();
         writeURL('push');
       });
+      /* UC: one delegated listener — the grid persists across re-renders.
+         Genuine interactive elements keep their own behaviour (no double
+         fire); media clicks pass through since only a/button/form controls
+         and iframes are skipped. */
+      grid.addEventListener('click', (e) => {
+        const cardEl = e.target.closest ? e.target.closest('.update-card') : null;
+        if(!cardEl || !grid.contains(cardEl)) return;
+        if(e.target.closest('a, button, iframe, input, select, textarea')) return;
+        triggerCardAction(cardEl);
+      });
+      /* UC keyboard: only when the card element itself is focused — inner
+         buttons/links already handle Enter/Space natively. */
+      grid.addEventListener('keydown', (e) => {
+        if(e.key !== 'Enter' && e.key !== ' ') return;
+        const cardEl = e.target.closest ? e.target.closest('.update-card') : null;
+        if(!cardEl || e.target !== cardEl) return;
+        e.preventDefault();
+        triggerCardAction(cardEl);
+      });
     }
 
     window.addEventListener('popstate', () => {
@@ -463,4 +580,13 @@
   }
 
   document.addEventListener('partials:ready', init);
+
+  /* Test hook for the updates harness: exposes the render helpers so a
+     test page can build cards through the real code path. */
+  try {
+    window.__updates = {
+      card, submenuGroup, platformSelector, platformButtons, submenuBtn, platformIcon,
+      triggerCardAction, restoreSwap
+    };
+  } catch(err) {}
 })();

@@ -1890,6 +1890,10 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 #updatesGrid{ grid-auto-rows:1fr; }
 @media (max-width:620px){ #updatesGrid{ grid-auto-rows:auto; } }
 .update-card .card-media{ position:relative; aspect-ratio:3/2; }
+/* UC: pointer only on actionable (focusable) cards — closed-opportunity and
+   no-link cards keep the default cursor. */
+.update-card[tabindex="0"]{ cursor:pointer; }
+.update-card[tabindex="0"]:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 .update-card .card-media img{ display:block; }
 .update-card .update-embed{ aspect-ratio:3/2; }
 .update-card h4{ font-size:var(--step-1); }
@@ -1914,6 +1918,13 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .pc-people{ font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--plum); margin-bottom:.1rem; overflow-wrap:anywhere; }
 .pc-cta{ display:inline-flex; align-items:center; justify-content:center; gap:.3rem; width:100%; font-size:.78rem; line-height:1.2; font-weight:700; padding:.4rem .75rem; border:1px solid var(--navy); color:var(--navy); background:transparent; cursor:pointer; transition: background .2s, color .2s, border-color .2s; white-space:nowrap; text-decoration:none; }
 .pc-cta:hover{ background:var(--navy); color:#fff; border-color:var(--navy); }
+/* Card-hover fires the exact same button animation as button-hover (Task UB-1).
+   Element-qualified (button/a) so the invisible spacer span never matches;
+   :not(:disabled) so the closed-opportunity button never animates. */
+.update-card:hover button.pc-cta:not(:disabled),
+.update-card:hover a.pc-cta{ background:var(--navy); color:#fff; border-color:var(--navy); }
+.update-card:hover button.pc-cta:disabled,
+.update-card:hover button.pc-cta[aria-disabled="true"]{ background:var(--light-grey); border-color:var(--light-grey); color:var(--ink-soft); }
 .pc-cta:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 .pc-cta:disabled{ background:var(--light-grey); border-color:var(--light-grey); color:var(--ink-soft); cursor:not-allowed; opacity:.75; }
 .pc-cta:disabled:hover{ background:var(--light-grey); border-color:var(--light-grey); color:var(--ink-soft); }
@@ -1923,6 +1934,21 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .pc-platform-btn{ display:inline-flex; align-items:center; gap:.3rem; font-size:.72rem; font-weight:700; padding:.3rem .6rem; border:1px solid var(--line); color:var(--navy); text-decoration:none; }
 .pc-platform-btn:hover{ background:var(--navy); color:#fff; border-color:var(--navy); }
 .pc-platform-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+/* ---------------- Updates: button-swap reveal + equal-width submenu (UB-2/UB-3) ---------------- */
+/* Swap mechanics: hidden attr (not DOM removal); holder takes the main button's exact box. */
+.pc-cta[hidden]{ display:none; }
+.pc-platforms-holder[hidden]{ display:none; }
+.pc-platforms-holder:not([hidden]){ max-height:none; opacity:1; overflow:visible; }
+/* Submenu fills the same width the main button occupied; wrapped flex row. */
+.pc-platforms{ display:flex; flex-wrap:wrap; gap:8px; width:100%; justify-content:flex-start; }
+.pc-platforms .pc-platform-btn{ flex:1 1 0; min-width:0; gap:.45rem; justify-content:center; overflow:hidden; }
+.pc-platforms .pc-platform-btn svg{ width:17px; height:17px; flex-shrink:0; }
+.pc-platforms .pc-platform-btn span{ overflow:hidden; text-overflow:ellipsis; }
+/* 1 button = full width, 2 = halves; 3+ = exact thirds so a 4th starts row 2 at one-third, left-aligned. */
+.pc-platforms[data-count="1"] .pc-platform-btn{ flex:1 1 100%; }
+.pc-platforms[data-count="2"] .pc-platform-btn{ flex:1 1 calc((100% - 8px) / 2); }
+.pc-platforms[data-count]:not([data-count="1"]):not([data-count="2"]) .pc-platform-btn{ flex:0 1 calc((100% - 16px) / 3); }
 
 /* ---------------- Updates page: hero filter shortcuts ---------------- */
 .visually-hidden{ position:absolute !important; width:1px !important; height:1px !important; padding:0 !important; margin:-1px !important; overflow:hidden !important; clip:rect(0 0 0 0) !important; white-space:nowrap !important; border:0 !important; }
