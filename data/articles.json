@@ -1,90 +1,168 @@
 {
   "_instructions": "One file for every article detail page (article.html?id=<slug>). Mirror of data/case-studies.json conventions: top-level article array, stable string ids (slugs), plain-paragraph body text (blank line separates paragraphs — the renderer escapes and wraps them, no raw HTML). To publish: copy a record, set a unique id, fill title/excerpt/date, describe mainImage {src, alt, caption}, write 3–5 sections, save. No code changes needed. Story images: 1200 x 800 px (3:2), WebP/JPG/AVIF under 250 KB, key content in the central 80%; every story image needs both real alt text AND a caption — they are different things. Sections take at most one image ({src, alt, caption}), rendered under the heading before the body; omit it and the section renders with no gap. 'related' takes article ids (internal cards) or full https URLs (new-tab links); unknown ids are skipped.",
   "articles": [
-    {
-      "id": "agro-processing-malawi",
-      "title": "Agro-Processing in Malawi: Untapped Potential in a Growing Sector",
-      "excerpt": "What the data behind agro-processing investment means for policymakers and investors in Malawi.",
-      "date": "2025-09-02",
-      "readTime": "6 min read",
-      "tags": ["Agroprocessing", "Malawi", "Investment"],
+        {
+      "id": "fuel-prices-across-africa",
+      "author": "Danford Mponda",
+      "title": "Pump Politics: What Fuel Prices Across Africa Reveal About Living Costs",
+      "excerpt": "Fuel is the one price that shows up in every other price. Comparing pump prices across African capitals separates the global story from the local one.",
+      "date": "2026-02-10",
+      "readTime": "4 min read",
+      "tags": ["Fuel", "Prices", "Africa"],
       "mainImage": {
-        "src": "assets/data-division/agroprocessing-malawi.avif",
-        "alt": "Packaged, processed agricultural goods arranged for display",
-        "caption": "Agro-processed goods on display in Malawi. Most of what the country harvests still leaves the farm gate with little value added.",
-        "portalUrl": "services/data-division.html#item-agroprocessing-malawi"
+        "src": "assets/images/updates/fuel.jpg",
+        "alt": "A fuel pump at a service station",
+        "caption": "Pump prices across the African countries in our tracker. Every litre Malawi pumps begins its journey on a ship.",
+        "portalUrl": "services/data-division.html#item-fuel-africa"
       },
       "sections": [
         {
-          "heading": "Why agro-processing matters now",
-          "body": "Agriculture remains the backbone of Malawi's economy, yet most of what the country grows leaves the farm gate with little value added. Agro-processing — turning raw crops into packaged, graded and shelf-ready goods — is where farm incomes, jobs and export earnings are won or lost.\n\nThis piece looks at the numbers behind the sector and what they mean for policymakers and investors weighing where to put their next kwacha."
+          "heading": "The one price that shows up in all the others",
+          "body": "Fuel is not just another line in the household budget. It is the line that sets every other one: the minibus fare, the price of maize in the market, the cost of moving a bag of cement from Lilongwe to Mzuzu. When the pump price moves, the rest of the price list follows — usually within weeks.\n\nThat is why we track pump prices across the continent, not just at home. Comparing what motorists pay in different African capitals separates the global story (crude, freight) from the local one (levies, exchange rates, subsidy choices)."
+        },
+        {
+          "heading": "What the comparison shows",
+          "body": "The range across the countries we track is striking. Motorists in some capitals pay less than half what others do for the same litre — and the cheapest pumps are rarely in the richest countries. What they are, consistently, is coastal: economies with ports, and in a few cases refineries, that receive fuel without the long inland haul that landlocked neighbours must absorb.\n\nSet side by side, the prices read like a map of geography, infrastructure and tax policy stacked on top of a shared global crude price.",
+          "image": {
+            "src": "assets/data-division/fuel-africa.avif",
+            "alt": "A chart of fuel pump prices by country",
+            "caption": "Pump prices in US dollars per litre across the tracker's countries. Landlocked economies sit consistently toward the top of the range.",
+            "portalUrl": "services/data-division.html#item-fuel-africa"
+          }
+        },
+        {
+          "heading": "Why landlocked pays more",
+          "body": "Every litre Malawi pumps started life on a ship. Fuel lands at Beira or Nacala, then travels hundreds of kilometres up the corridor by road and rail — and freight, border costs and handling fees stack on top of the landed price before it ever reaches a Malawian pump. Levies and the kwacha's movements against the dollar do the rest.\n\nNone of this is unique to Malawi; Zambia, Zimbabwe and Uganda tell versions of the same story. But seeing the premium quantified, country by country, is a useful corrective to the idea that pump prices are simply a policy choice."
+        },
+        {
+          "heading": "What to watch",
+          "body": "Three things move this chart: the global crude price, the exchange rate, and government decisions on levies and price adjustments. Any one of them alone nudges the pump; when two or more move in the same direction, prices jump.\n\nFor households and businesses alike, the practical takeaway is to treat the pump price as an early indicator. It moves first, and the rest of the economy follows — which makes it one of the most valuable single numbers on this site."
+        }
+      ],
+      "pullQuote": "Fuel is the one price that shows up in every other price. Track the pump, and you have a head start on the whole economy.",
+      "related": ["full-basket-malawi-economy"]
+    },
+    {
+      "id": "sme-formalisation-gap",
+      "author": "Chikondi Kateta",
+      "title": "The Formalisation Gap: Why Malawi's Small Businesses Stay Invisible",
+      "excerpt": "Most of Malawi's economic activity is real on the street but invisible to the register. What regional comparisons reveal about why businesses stay informal — and what would change their minds.",
+      "date": "2025-11-20",
+      "readTime": "5 min read",
+      "tags": ["SMEs", "Formalisation", "Malawi"],
+      "mainImage": {
+        "src": "assets/images/updates/sme-formalization.jpg",
+        "alt": "A small business owner at her shop counter",
+        "caption": "A trading business in one of Malawi's commercial centres. Whether it appears in any official register is another question entirely.",
+        "portalUrl": "services/data-division.html#item-sme-formalisation"
+      },
+      "sections": [
+        {
+          "heading": "The invisible majority",
+          "body": "Walk down any commercial street in Blantyre or Lilongwe and count the businesses. Then count the ones that appear in any official register. The gap between those two numbers is the formalisation gap — economic activity that is real on the street but invisible to the tax authority, the credit system and the national statistics.\n\nThe businesses in that gap are not marginal. They employ people, move goods and hold inventory. What they don't do is exist, as far as most formal institutions are concerned."
+        },
+        {
+          "heading": "How Malawi compares in the region",
+          "body": "Set against regional peers, Malawi's formalisation rate sits near the bottom of the group — behind South Africa by a wide margin, and trailing Zambia and Zimbabwe as well.\n\nThe comparison matters because it rules out convenient explanations. The barriers Malawian business owners name — cost, distance to a registry, paperwork, low perceived benefit — are the same barriers their neighbours name. Malawi simply has more of them, applied to a smaller and more dispersed business base.",
+          "image": {
+            "src": "assets/data-division/sme-formalisation.avif",
+            "alt": "A chart comparing SME formalisation rates across countries",
+            "caption": "Formalisation outcomes across the four economies in our comparison. The pattern is regional; the magnitude is not.",
+            "portalUrl": "services/data-division.html#item-sme-formalisation"
+          }
+        },
+        {
+          "heading": "Why businesses stay informal",
+          "body": "Registration costs money and time, and the benefits are distant. A certificate unlocks doors — to a bank account, to a contract, to legal recourse — but none of those doors is on the trader's critical path this month.\n\nFormalising also means becoming visible: to taxes, to inspections, to obligations that arrive whether or not the revenue does. For a business running on thin margins, that trade can look like all cost and no return — and the rational response is to stay exactly where it is."
+        },
+        {
+          "heading": "The payoff nobody sees",
+          "body": "The long-run case for formalising is strong, and the data shows business owners are not unaware of it. Registration is the doorway to credit on better terms, to government and corporate contracts, to legal protection and to insurance. What it has never been is cheap, fast and obviously worth it at the same time.\n\nThe countries that moved their numbers made registration genuinely easy and paired it with a benefit the owner could feel within months, not years. That combination — not enforcement — is what closes the gap."
+        }
+      ],
+      "pullQuote": "The informal sector isn't a problem to be erased. It is a signal that formalising costs more than it pays.",
+      "related": ["agro-processing-malawi"]
+    },
+    {
+      "id": "mec-leadership-timeline",
+      "author": "Lusungu Masawanie",
+      "title": "Leading the Commission: A Timeline of MEC Chairpersons",
+      "excerpt": "How long chairs serve, who appoints them and under what circumstances they leave tells a quiet but revealing story about Malawi's democratic institutions.",
+      "date": "2026-05-06",
+      "readTime": "4 min read",
+      "tags": ["Governance", "Elections", "Malawi"],
+      "mainImage": {
+        "src": "assets/data-division/mec-chairpersons.avif",
+        "alt": "A chronological timeline of leadership positions",
+        "caption": "Every chairperson of the Malawi Electoral Commission, laid out by years served. The full interactive timeline lives in the Data Division portal.",
+        "portalUrl": "services/data-division.html#item-mec-chairpersons"
+      },
+      "sections": [
+        {
+          "heading": "Why the chairperson matters",
+          "body": "The Malawi Electoral Commission earns its credibility one election at a time, and the person chairing it carries more of that weight than anyone else. The chair is the public face of every voter registration, every ballot dispute and every result announcement.\n\nThat is why the question of who holds the office — and for how long — is never merely administrative. It is a running record of how the country's electoral institutions have matured, or failed to."
+        },
+        {
+          "heading": "Three decades of leadership",
+          "body": "Since the commission's founding, the chairperson's office has passed through a succession of hands. Some chairs served full terms spanning multiple electoral cycles; others arrived amid controversy or stepped away before completing their tenure. A few presided over landmark elections; others navigated the quieter years between them.\n\nLaid end to end, the tenures reveal a rhythm that no single appointment shows — including the periods of overlap, transition and reconstitution that the official narrative tends to smooth over.",
+          "image": {
+            "src": "assets/data-division/mec-chairpersons.avif",
+            "alt": "A timeline graphic showing successive commission chairs and their years of service",
+            "caption": "Successive MEC chairpersons and their years of service. Gaps and overlaps mark transitions and reconstitutions, not errors.",
+            "portalUrl": "services/data-division.html#item-mec-chairpersons"
+          }
+        },
+        {
+          "heading": "Patterns across the tenures",
+          "body": "A few patterns stand out. Tenures cluster around electoral cycles, with appointments and departures rarely falling in the middle of one. The circumstances of departure vary more than the circumstances of arrival — and it is in those departures that the institutional story lives.\n\nRead as a whole, the timeline suggests gradual institutionalisation. Each handover, whatever its friction, has been followed by another commission that ran the next election — which is, by the standards of the region's history, no small thing."
+        },
+        {
+          "heading": "Why we build timelines like this",
+          "body": "This timeline began as scattered public records — gazette notices, news reports, commission statements — none of which contradicted each other, but none of which added up to anything usable either. Assembling them into a single verified sequence is exactly the kind of work our Data Division does.\n\nThe point is not the trivia. It is that a citizen, a journalist or a researcher should be able to see the shape of an institution's history in one glance, without first spending a week in the archives."
+        }
+      ],
+      "pullQuote": "Institutions are judged by their handovers. A timeline of leadership is a timeline of institutional maturity."
+    },
+    {
+      "id": "how-malawians-save",
+      "author": "Rollins Chitika",
+      "title": "How Malawians Save: Money Behind the Mattress and the Bank",
+      "excerpt": "Bank accounts, village savings groups, cash at home, mobile wallets — Malawian households don't pick one, they build a portfolio. What the data says about how and why.",
+      "date": "2026-07-21",
+      "readTime": "5 min read",
+      "tags": ["Households", "Savings", "Malawi"],
+      "mainImage": {
+        "src": "assets/images/updates/savings-behaviour.jpg",
+        "alt": "People at a community savings group meeting",
+        "caption": "A village savings group meeting. For many Malawian households, the group is not a substitute for a bank — it is the bank.",
+        "portalUrl": "services/data-division.html#item-savings-behaviour"
+      },
+      "sections": [
+        {
+          "heading": "Behind the mattress and in the bank",
+          "body": "Ask a Malawian household where their savings are kept and the honest answer is: in several places at once. A bank account for the school fees, a village savings group for the emergencies, some cash at home for the small daily shocks, perhaps a mobile wallet for receiving money from a relative in the city.\n\nHouseholds don't choose one. They build a portfolio — and each instrument in it has a job the others can't do."
         },
         {
           "heading": "What the data shows",
-          "body": "Malawi's agro-processing base is narrow relative to the size of its harvest. A small number of product lines dominate formal processing, while large volumes of perishable produce move through informal channels with no cold chain, grading or packaging.\n\nBenchmarking against regional peers underlines the gap: countries that invested early in processing infrastructure capture far more value per tonne harvested, and their processors anchor rural employment well beyond the farm.",
+          "body": "Across the households in our savings behaviour data, informal instruments remain central. Savings groups and cash at home together account for a larger share of household savings behaviour than formal bank accounts do — a fact that surprises outsiders more than it surprises anyone who has ever needed a loan approved the same afternoon.\n\nMobile money is the fastest-moving piece of the picture: still used more for moving money than for storing it, but growing, and increasingly the bridge between the informal and formal ends of the portfolio.",
           "image": {
-            "src": "assets/data-division/groceries-basket-2025.avif",
-            "alt": "A basket of packaged grocery items on a store shelf",
-            "caption": "A standard basket of grocery items in a Malawian store. Formal retail sets the volume and consistency bar that local processors must meet.",
-          "portalUrl": "services/data-division.html#item-groceries-basketket-2025"
+            "src": "assets/data-division/savings-behaviour.avif",
+            "alt": "A chart showing where households keep their savings",
+            "caption": "Where households keep their savings, by share of households. Informal groups and cash at home remain at the centre of the picture.",
+            "portalUrl": "services/data-division.html#item-savings-behaviour"
           }
         },
         {
-          "heading": "The constraints holding it back",
-          "body": "Reliable power, access to finance for processing equipment, and consistent quality standards come up in every conversation with operators. Post-harvest losses remain high for perishables, and small processors struggle to meet the volume and consistency requirements of formal retail and export buyers.\n\nNone of these constraints is new — but taken together they explain why investment has flowed more slowly than the opportunity justifies."
+          "heading": "Trust, distance and cost",
+          "body": "The persistence of informal savings is not a knowledge problem. Households understand banks perfectly well; they simply find that the maths doesn't favour them. A branch can be hours away, minimum balances and fees eat into small deposits, and a withdrawal takes a queue.\n\nA savings group, by contrast, meets in the village, charges no monthly fee, approves loans the same day on the strength of people who know the borrower, and returns the interest to the members themselves. As a piece of financial engineering, it is hard to argue with."
         },
         {
-          "heading": "What would unlock investment",
-          "body": "The opportunity sits at the intersection of three moves: targeted infrastructure for aggregation and cold storage, finance products sized for small and mid-size processors, and standards support that helps local brands reach supermarket shelves.\n\nFor policymakers, the prize is rural jobs and import substitution. For investors, it is an early position in a sector whose fundamentals — land, labour and unmet demand — already point in the right direction."
+          "heading": "What it means for policy and products",
+          "body": "The lesson for financial inclusion is not to replace the informal instruments but to build around them. Products that link to existing groups, ride on mobile money rails, and price for small balances have a real constituency. Products that ask households to abandon what works for them do not.\n\nFor policymakers, the data reframes the question. The challenge is not under-saving — Malawian households save diligently, in kwacha and in kind. The challenge is that much of that saving sits outside the system that could multiply it."
         }
       ],
-      "pullQuote": "Malawi doesn't have a harvest problem. It has a value-addition problem — and that is precisely where the opportunity lies.",
-      "related": ["dummy-article-two"]
-    },
-    {
-      "id": "dummy-article-two",
-      "title": "What a Full Basket Says About Malawi's Economy",
-      "excerpt": "Tracking 13 everyday grocery items across major retailers, Equip's groceries monitor reads the economy off the shelf — starting with sugar's 56% jump.",
-      "date": "2026-01-15",
-      "readTime": "3 min read",
-      "tags": ["Retail", "Prices", "Malawi"],
-      "mainImage": {
-        "src": "assets/data-division/groceries-basket-2025.avif",
-        "alt": "A basket of packaged grocery items on a store shelf",
-        "caption": "A standard basket of 13 grocery items, tracked across major Malawian retailers. Equip's groceries monitor reads the economy off the shelf.",
-        "portalUrl": "services/data-division.html#item-groceries-basketket-2025"
-      },
-      "sections": [
-        {
-          "heading": "Reading the economy off the shelf",
-          "body": "Every month, our field team prices the same basket of 13 essential grocery items across major retailers — Chipiku, Shoprite and Sana among them. The basket does not pretend to be a full consumer price index. Its value is narrower and more immediate: it shows, shelf by shelf, what Malawian households are actually paying for the goods they cannot do without.\n\nWhen the total moves, it moves for reasons — a levy here, a transport cost there, a harvest shortfall somewhere up the chain. Reading the basket is reading those reasons early."
-        },
-        {
-          "heading": "Sugar: the 56% jump",
-          "body": "The headline of the latest round is brown sugar. A 1 kg packet that sold for MWK2,950 in 2025 now goes for MWK4,600 — a 56% increase, or MWK1,650 more for the same packet. Brown sugar is not a luxury; most households buy it regularly, which makes the jump one of the most keenly felt price moves in the basket.\n\nSingle-commodity spikes like this are worth isolating, because they hit differently from broad inflation: there is no substitution, only paying more.",
-          "image": {
-            "src": "assets/data-division/sugar-2026.avif",
-            "alt": "A 1 kg packet of brown sugar",
-            "caption": "Brown sugar rose from MWK2,950 in 2025 to MWK4,600 in 2026 — MWK1,650 more for a staple most households buy regularly.",
-            "portalUrl": "services/data-division.html#item-sugar-sept-2026"
-          }
-        },
-        {
-          "heading": "Beyond a single packet",
-          "body": "Sugar makes the headline, but the basket matters as a whole. Staples move on harvests and transport costs; processed goods move on energy, packaging and import costs. Watching the two groups separately tells you whether pressure is coming from the field or the factory.\n\nThis round, the pressure is broad: it is not one shelf but several, which is what turns a price story into a household-budget story."
-        },
-        {
-          "heading": "What to watch next",
-          "body": "The next round will show whether sugar stabilises at its new level or keeps climbing — and whether the pressure spreads further across the basket. Either way, the shelf remains the fastest place to read where the economy is heading.\n\nFor policymakers and retailers alike, the message is the same: watch the basket, and you will rarely be surprised.",
-          "image": {
-            "src": "assets/data-division/data-sectors.avif",
-            "alt": "A sector-by-sector map of industries",
-            "caption": "Price pressure touches nearly every sector — the same breadth of industries Equip's teams work across."
-          }
-        }
-      ],
-      "pullQuote": "Watch the basket, and you will rarely be surprised by where the economy is heading.",
-      "related": ["agro-processing-malawi"]
+      "pullQuote": "Households are not under-banked by ignorance. They are brilliantly, pragmatically diversified.",
+      "related": ["full-basket-malawi-economy"]
     }
   ]
 }

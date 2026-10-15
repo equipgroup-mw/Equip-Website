@@ -31,7 +31,7 @@
 <div id="footer-slot"></div>
 <script type="module">
   const ROOT = document.documentElement.dataset.root || '';
-  import { loadArticles, findArticle, renderArticleDetail, renderNotFound, wireArticleShare, buildArticleJsonLd } from './js/articles.js';
+  import { loadArticles, findArticle, renderArticleDetail, renderNotFound, wireSharePopup, buildArticleJsonLd } from './js/articles.js';
   import { initHeroAnimations } from './js/hero-animations.js';
   import './js/main.js';
   import './js/carousel.js';
@@ -67,7 +67,7 @@
     jsonLd.textContent = JSON.stringify(buildArticleJsonLd(article, window.location.href));
     document.head.appendChild(jsonLd);
     content.innerHTML = renderArticleDetail(article, articles);
-    wireArticleShare(content);
+    wireSharePopup(content);
   }
 
   initHeroAnimations();

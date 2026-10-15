@@ -1,0 +1,91 @@
+{
+  "_instructions": "One file for every article detail page (article.html?id=<slug>). Mirror of data/case-studies.json conventions: top-level article array, stable string ids (slugs), plain-paragraph body text (blank line separates paragraphs — the renderer escapes and wraps them, no raw HTML). To publish: copy a record, set a unique id, fill title/excerpt/date, describe mainImage {src, alt, caption}, write 3–5 sections, save. No code changes needed. Story images: 1200 x 800 px (3:2), WebP/JPG/AVIF under 250 KB, key content in the central 80%; every story image needs both real alt text AND a caption — they are different things. Sections take at most one image ({src, alt, caption}), rendered under the heading before the body; omit it and the section renders with no gap. 'related' takes article ids (internal cards) or full https URLs (new-tab links); unknown ids are skipped.",
+  "articles": [
+    {
+      "id": "agro-processing-malawi",
+      "author": "Jacque",
+      "title": "Agro-Processing in Malawi: Untapped Potential in a Growing Sector",
+      "excerpt": "What the data behind agro-processing investment means for policymakers and investors in Malawi.",
+      "date": "2025-09-02",
+      "readTime": "6 min read",
+      "tags": ["Agroprocessing", "Malawi", "Investment"],
+      "mainImage": {
+        "src": "assets/data-division/agroprocessing-malawi.avif",
+        "alt": "Packaged, processed agricultural goods arranged for display",
+        "caption": "Agro-processed goods on display in Malawi. Most of what the country harvests still leaves the farm gate with little value added.",
+        "portalUrl": "services/data-division.html#item-agroprocessing-malawi"
+      },
+      "sections": [
+        {
+          "heading": "Why agro-processing matters now",
+          "body": "Agriculture remains the backbone of Malawi's economy, yet most of what the country grows leaves the farm gate with little value added. Agro-processing — turning raw crops into packaged, graded and shelf-ready goods — is where farm incomes, jobs and export earnings are won or lost.\n\nThis piece looks at the numbers behind the sector and what they mean for policymakers and investors weighing where to put their next kwacha."
+        },
+        {
+          "heading": "What the data shows",
+          "body": "Malawi's agro-processing base is narrow relative to the size of its harvest. A small number of product lines dominate formal processing, while large volumes of perishable produce move through informal channels with no cold chain, grading or packaging.\n\nBenchmarking against regional peers underlines the gap: countries that invested early in processing infrastructure capture far more value per tonne harvested, and their processors anchor rural employment well beyond the farm.",
+          "image": {
+            "src": "assets/data-division/groceries-basket-2025.avif",
+            "alt": "A basket of packaged grocery items on a store shelf",
+            "caption": "A standard basket of grocery items in a Malawian store. Formal retail sets the volume and consistency bar that local processors must meet.",
+          "portalUrl": "services/data-division.html#item-groceries-basketket-2025"
+          }
+        },
+        {
+          "heading": "The constraints holding it back",
+          "body": "Reliable power, access to finance for processing equipment, and consistent quality standards come up in every conversation with operators. Post-harvest losses remain high for perishables, and small processors struggle to meet the volume and consistency requirements of formal retail and export buyers.\n\nNone of these constraints is new — but taken together they explain why investment has flowed more slowly than the opportunity justifies."
+        },
+        {
+          "heading": "What would unlock investment",
+          "body": "The opportunity sits at the intersection of three moves: targeted infrastructure for aggregation and cold storage, finance products sized for small and mid-size processors, and standards support that helps local brands reach supermarket shelves.\n\nFor policymakers, the prize is rural jobs and import substitution. For investors, it is an early position in a sector whose fundamentals — land, labour and unmet demand — already point in the right direction."
+        }
+      ],
+      "pullQuote": "Malawi doesn't have a harvest problem. It has a value-addition problem — and that is precisely where the opportunity lies.",
+      "related": ["dummy-article-two"]
+    },
+    {
+      "id": "dummy-article-two",
+      "title": "What a Full Basket Says About Malawi's Economy",
+      "excerpt": "Tracking 13 everyday grocery items across major retailers, Equip's groceries monitor reads the economy off the shelf — starting with sugar's 56% jump.",
+      "date": "2026-01-15",
+      "readTime": "3 min read",
+      "tags": ["Retail", "Prices", "Malawi"],
+      "mainImage": {
+        "src": "assets/data-division/groceries-basket-2025.avif",
+        "alt": "A basket of packaged grocery items on a store shelf",
+        "caption": "A standard basket of 13 grocery items, tracked across major Malawian retailers. Equip's groceries monitor reads the economy off the shelf.",
+        "portalUrl": "services/data-division.html#item-groceries-basketket-2025"
+      },
+      "sections": [
+        {
+          "heading": "Reading the economy off the shelf",
+          "body": "Every month, our field team prices the same basket of 13 essential grocery items across major retailers — Chipiku, Shoprite and Sana among them. The basket does not pretend to be a full consumer price index. Its value is narrower and more immediate: it shows, shelf by shelf, what Malawian households are actually paying for the goods they cannot do without.\n\nWhen the total moves, it moves for reasons — a levy here, a transport cost there, a harvest shortfall somewhere up the chain. Reading the basket is reading those reasons early."
+        },
+        {
+          "heading": "Sugar: the 56% jump",
+          "body": "The headline of the latest round is brown sugar. A 1 kg packet that sold for MWK2,950 in 2025 now goes for MWK4,600 — a 56% increase, or MWK1,650 more for the same packet. Brown sugar is not a luxury; most households buy it regularly, which makes the jump one of the most keenly felt price moves in the basket.\n\nSingle-commodity spikes like this are worth isolating, because they hit differently from broad inflation: there is no substitution, only paying more.",
+          "image": {
+            "src": "assets/data-division/sugar-2026.avif",
+            "alt": "A 1 kg packet of brown sugar",
+            "caption": "Brown sugar rose from MWK2,950 in 2025 to MWK4,600 in 2026 — MWK1,650 more for a staple most households buy regularly.",
+            "portalUrl": "services/data-division.html#item-sugar-sept-2026"
+          }
+        },
+        {
+          "heading": "Beyond a single packet",
+          "body": "Sugar makes the headline, but the basket matters as a whole. Staples move on harvests and transport costs; processed goods move on energy, packaging and import costs. Watching the two groups separately tells you whether pressure is coming from the field or the factory.\n\nThis round, the pressure is broad: it is not one shelf but several, which is what turns a price story into a household-budget story."
+        },
+        {
+          "heading": "What to watch next",
+          "body": "The next round will show whether sugar stabilises at its new level or keeps climbing — and whether the pressure spreads further across the basket. Either way, the shelf remains the fastest place to read where the economy is heading.\n\nFor policymakers and retailers alike, the message is the same: watch the basket, and you will rarely be surprised.",
+          "image": {
+            "src": "assets/data-division/data-sectors.avif",
+            "alt": "A sector-by-sector map of industries",
+            "caption": "Price pressure touches nearly every sector — the same breadth of industries Equip's teams work across."
+          }
+        }
+      ],
+      "pullQuote": "Watch the basket, and you will rarely be surprised by where the economy is heading.",
+      "related": ["agro-processing-malawi"]
+    }
+  ]
+}

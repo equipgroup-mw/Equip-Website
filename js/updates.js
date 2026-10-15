@@ -8,7 +8,6 @@
   const ROOT = document.documentElement.dataset.root || '';
   let ALL = [];
   let PODCAST_SERIES = {};
-  let ARTICLES = [];
   let activeType = 'All';
   let activeQuery = '';
 
@@ -50,31 +49,42 @@
     return /^https?:\/\//i.test(url || '');
   }
 
-  /* Article routing (AR): match an updates item to its articles.json record.
-     Explicit articleId wins; otherwise equal image (articles.json mainImage
-     takes precedence, legacy top-level image still matches), otherwise equal
-     title. Announcements never match — only type "article" is routed. Pure. */
-  function matchArticleRecord(item, articles){
-    if(!item || item.type !== 'article') return null;
-    const list = Array.isArray(articles) ? articles : [];
-    if(item.articleId){
-      const byId = list.find(a => a.id === item.articleId);
-      if(byId) return byId;
-    }
-    const artImage = (a) => (a.mainImage && a.mainImage.src) || a.image;
-    const byImage = list.find(a => artImage(a) && item.image && artImage(a) === item.image);
-    if(byImage) return byImage;
-    return list.find(a => a.title && item.title && a.title === item.title) || null;
+  /* Single source of truth (MG): articles live in data/articles.json.
+     Convert one article record into the card-item shape the renderer
+     expects. Pure. */
+  function articleToCardItem(rec){
+    if(!rec) return null;
+    return {
+      type: 'article',
+      id: rec.id,
+      title: rec.title,
+      excerpt: rec.excerpt,
+      image: rec.mainImage && rec.mainImage.src,
+      date: rec.date
+    };
   }
 
-  /* Href for an article card's Read Now. Explicit non-empty link wins
-     (safety fallback); otherwise the routed article.html URL, or null when
-     no record matches (renders the spacer, as before). Pure. */
-  function articleDetailHref(item, articles, root){
-    if(!item || item.type !== 'article') return null;
-    if(item.link) return null;
-    const rec = matchArticleRecord(item, articles);
-    return rec ? ((root || '') + 'article.html?id=' + rec.id) : null;
+  /* Merge updates items + article records into one feed. Stale type:article
+     items in updates.json are skipped with a warning (articles belong in
+     data/articles.json); draft records are excluded from the feed (their
+     detail pages still work — nothing here filters those). Pure. */
+  function mergeFeed(updatesItems, articleRecords){
+    const list = Array.isArray(updatesItems) ? updatesItems : [];
+    const arts = Array.isArray(articleRecords) ? articleRecords : [];
+    const out = [];
+    for(const it of list){
+      if(it && it.type === 'article'){
+        console.warn('[updates] skipping type:"article" item in data/updates.json — articles belong in data/articles.json.', it.title || it);
+        continue;
+      }
+      out.push(it);
+    }
+    for(const rec of arts){
+      if(rec && rec.draft === true) continue;
+      const card = articleToCardItem(rec);
+      if(card) out.push(card);
+    }
+    return out;
   }
   function linkTargetAttrs(url){
     return isExternalUrl(url) ? ' target="_blank" rel="noopener noreferrer"' : '';
@@ -183,16 +193,10 @@
       }
       if(st === 'closed') badges += `<span class="update-closed-badge">Closed</span>`;
     } else if(item.type === 'article'){
-      if(item.link){
-        const href = isExternalUrl(item.link) ? item.link : (ROOT + item.link.replace(/^\//,''));
-        ctaInner = `<a class="pc-cta" href="${href}"${linkTargetAttrs(item.link)}>Read Now</a>`;
+      if(item.id){
+        ctaInner = `<a class="pc-cta" href="${ROOT}article.html?id=${item.id}">Read Now</a>`;
       } else {
-        const artHref = articleDetailHref(item, ARTICLES, ROOT);
-        if(artHref){
-          ctaInner = `<a class="pc-cta" href="${artHref}">Read Now</a>`;
-        } else {
-          ctaInner = `<div class="update-cta--empty" aria-hidden="true"><span class="pc-cta" style="visibility:hidden">Read Now</span></div>`;
-        }
+        ctaInner = `<div class="update-cta--empty" aria-hidden="true"><span class="pc-cta" style="visibility:hidden">Read Now</span></div>`;
       }
     } else {
       if(item.link){
@@ -602,25 +606,47 @@
   }
 
   async function init(){
-    const res = await fetch(ROOT + 'data/updates.json');
-    const json = await res.json();
+    /* Fetch both feeds in parallel; each file fails independently. */
+    const [upSettled, artSettled] = await Promise.allSettled([
+      fetch(ROOT + 'data/updates.json'),
+      fetch(ROOT + 'data/articles.json')
+    ]);
+    let json = null;
+    if(upSettled.status === 'fulfilled'){
+      try {
+        if(!upSettled.value.ok) throw new Error(`HTTP ${upSettled.value.status}`);
+        json = await upSettled.value.json();
+      } catch(err) {
+        console.warn('[updates] could not load data/updates.json — catalogue unavailable.', err);
+        json = null;
+      }
+    } else {
+      console.warn('[updates] could not load data/updates.json — catalogue unavailable.', upSettled.reason);
+    }
+    if(!json || !Array.isArray(json.items)){
+      const grid = document.getElementById('updatesGrid');
+      if(grid) grid.innerHTML = `<div class="dd-empty"><p>Updates are unavailable right now. Please try again later.</p></div>`;
+      const countEl = document.getElementById('ddCount');
+      if(countEl) countEl.textContent = '0 results';
+      return;
+    }
     ALL = json.items;
     if (json.podcastSeries) {
       json.podcastSeries.forEach(s => { PODCAST_SERIES[s.id] = s; });
     }
-    /* Article records are optional at runtime: a failed fetch only disables
-       article.html routing (linkless article cards fall back to the spacer). */
-    try {
-      const artRes = await fetch(ROOT + 'data/articles.json');
-      if(artRes.ok){
-        const artJson = await artRes.json();
-        if(Array.isArray(artJson.articles)) ARTICLES = artJson.articles;
-      } else {
-        console.warn(`[updates] articles.json HTTP ${artRes.status} — article routing disabled.`);
+    let articleRecords = [];
+    if(artSettled.status === 'fulfilled'){
+      try {
+        if(!artSettled.value.ok) throw new Error(`HTTP ${artSettled.value.status}`);
+        const artJson = await artSettled.value.json();
+        if(Array.isArray(artJson.articles)) articleRecords = artJson.articles;
+      } catch(err) {
+        console.warn('[updates] could not load data/articles.json — showing updates.json items only.', err);
       }
-    } catch(err) {
-      console.warn('[updates] could not load articles.json — article routing disabled.', err);
+    } else {
+      console.warn('[updates] could not load data/articles.json — showing updates.json items only.', artSettled.reason);
     }
+    ALL = mergeFeed(ALL, articleRecords);
     const fromURL = readURL();
     wireControls();
     syncControls();
@@ -639,7 +665,7 @@
   try {
     window.__updates = {
       card, submenuGroup, platformSelector, platformButtons, submenuBtn, platformIcon,
-      triggerCardAction, restoreSwap, matchArticleRecord, articleDetailHref
+      triggerCardAction, restoreSwap, articleToCardItem, mergeFeed
     };
   } catch(err) {}
 })();

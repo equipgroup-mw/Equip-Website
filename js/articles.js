@@ -1,12 +1,12 @@
 /* articles.js — article detail system, modelled on js/case-studies.js.
    One module + one data file (data/articles.json): loadArticles() fetches,
-   renderArticleDetail() builds the fixed hero + byline + captioned figures +
-   body + sticky sidebar (TOC, back link, share, tags), renderArticleCard()
-   builds Updates-style cards for the latest-articles section.
+   renderArticleDetail() builds the fixed hero + centred column (back link,
+   byline + Share button, cover figure, body, tag strip, share popup) +
+   latest-articles section, renderArticleCard() builds Updates-style cards.
    Section bodies are plain paragraphs (blank line separates paragraphs);
    everything is escaped. Story images always render inside a <figure> with
    a visible caption (+ optional portal link); sections without images render
-   no figure. Read time is calculated from word count, never typed in. */
+   no figure. There is no sidebar and no typed-in read time. */
 
 const ROOT = document.documentElement.dataset.root || '';
 
@@ -50,16 +50,7 @@ export function articleAuthor(article) {
   return a || 'EQUIP Team';
 }
 
-/* Read time from section-body word count at ~200 wpm, rounded up, min 1.
-   The manual readTime JSON field is deprecated and ignored. Pure. */
-export function calcReadTime(article) {
-  const words = (article && Array.isArray(article.sections) ? article.sections : [])
-    .map(s => String((s && s.body) || '').split(/\s+/).filter(Boolean).length)
-    .reduce((t, n) => t + n, 0);
-  return `${Math.max(1, Math.ceil(words / 200))} min read`;
-}
-
-/* Slug for a section heading (TOC anchor ids). Pure. */
+/* Slug for a section heading (stable deep-link ids). Pure. */
 export function slugifyHeading(text) {
   return String(text || '').toLowerCase().trim()
     .replace(/[^a-z0-9]+/g, '-')
@@ -86,10 +77,11 @@ function imgSrc(src) {
 /* One captioned story figure. Only ever called with a real image object, so
    imageless sections produce no figure element and no gap. An optional
    portalUrl renders a same-tab "Explore in the Data Division portal →" link
-   under the caption (generic wording — correct for static visuals too). */
-function storyFigure(img) {
+   under the caption (generic wording — correct for static visuals too).
+   Cover figures get the 16:9 capped frame; body figures keep natural ratio. */
+function storyFigure(img, cover) {
   return `
-    <figure class="article-figure">
+    <figure class="${cover ? 'article-cover' : 'article-figure'}">
       <img src="${imgSrc(img.src)}" alt="${esc(img.alt)}" loading="lazy" onerror="this.closest('figure').style.display='none'">
       <figcaption class="image-caption">${esc(img.caption)}</figcaption>
       ${img.portalUrl ? `<p class="portal-link"><a href="${imgSrc(img.portalUrl)}">Explore in the Data Division portal →</a></p>` : ''}
@@ -128,7 +120,6 @@ export function renderArticleCard(article) {
 
 export function renderArticleDetail(article, articles) {
   const author = articleAuthor(article);
-  const readTime = calcReadTime(article);
   const seen = {};
   const sections = (article.sections || []).map(s => {
     let slug = slugifyHeading(s.heading);
@@ -158,45 +149,40 @@ export function renderArticleDetail(article, articles) {
 
     <section class="section">
       <div class="container">
-        <div class="grid cs-detail-grid" style="grid-template-columns: 2fr 1fr; gap:3rem;">
-          <div>
-            <p style="font-size:.95rem; font-weight:600; color:var(--ink-soft); margin:0 0 1.5rem;">${esc(author)} · ${fmtArticleDate(article.date)} · ${esc(readTime)}</p>
-            ${article.mainImage ? storyFigure(article.mainImage) : ''}
-            ${sections.map(s => `
-              <div class="case-study-section" style="margin-bottom:2.5rem;">
-                <h2 id="${esc(s.slug)}">${esc(s.heading)}</h2>
-                ${s.image ? storyFigure(s.image) : ''}
-                <div class="prose">${paragraphs(s.body)}</div>
-              </div>`).join('')}
-            ${article.pullQuote ? `<blockquote style="margin:2.5rem 0; padding:1rem 0 1rem 1.5rem; border-left:3px solid var(--navy); font-family:var(--font-display); font-style:italic; font-size:clamp(1.2rem, 2vw, 1.5rem); line-height:1.4; color:var(--navy);">${esc(article.pullQuote)}</blockquote>` : ''}
+        <div class="article-column">
+          <p class="article-backlink"><a href="${imgSrc('updates/index.html')}">← Back to updates</a></p>
+          <div class="article-byline-row">
+            <p class="article-byline">${fmtArticleDate(article.date)} · By ${esc(author)}</p>
+            <button type="button" class="btn-share" data-share-open>Share</button>
           </div>
-          <aside class="article-sidebar">
-            <nav class="article-toc" aria-label="On this page">
-              <h4>On this page</h4>
-              <ul>
-                ${sections.map(s => `<li><a href="#${esc(s.slug)}">${esc(s.heading)}</a></li>`).join('')}
-              </ul>
-            </nav>
-            <p class="article-back"><a href="${imgSrc('updates/index.html')}">← Back to updates</a></p>
-            <div class="article-share">
-              <h4>Share</h4>
-              <div class="share-row" role="group" aria-label="Share this article">
-                <button type="button" data-share-copy aria-label="Copy link">${UB_SHARE_ICONS.copy}</button>
-                <a data-share="linkedin" data-title="${esc(article.title)}" aria-label="Share on LinkedIn">${UB_SHARE_ICONS.linkedin}</a>
-                <a data-share="facebook" data-title="${esc(article.title)}" aria-label="Share on Facebook">${UB_SHARE_ICONS.facebook}</a>
-                <a data-share="x" data-title="${esc(article.title)}" aria-label="Share on X">${UB_SHARE_ICONS.x}</a>
-                <a data-share="whatsapp" data-title="${esc(article.title)}" aria-label="Share on WhatsApp">${UB_SHARE_ICONS.whatsapp}</a>
-              </div>
-              <p class="share-feedback" role="status" aria-live="polite" hidden></p>
-            </div>
-            ${tags.length ? `<div class="article-tags"><h4>Tags</h4><div style="display:flex; flex-wrap:wrap; gap:.5rem;">${tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div></div>` : ''}
-          </aside>
+          ${article.mainImage ? storyFigure(article.mainImage, true) : ''}
+          ${sections.map(s => `
+            <div class="case-study-section" style="margin-bottom:2.5rem;">
+              <h2 id="${esc(s.slug)}">${esc(s.heading)}</h2>
+              ${s.image ? storyFigure(s.image, false) : ''}
+              <div class="prose">${paragraphs(s.body)}</div>
+            </div>`).join('')}
+          ${article.pullQuote ? `<blockquote style="margin:2.5rem 0; padding:1rem 0 1rem 1.5rem; border-left:3px solid var(--navy); font-family:var(--font-display); font-style:italic; font-size:clamp(1.2rem, 2vw, 1.5rem); line-height:1.4; color:var(--navy);">${esc(article.pullQuote)}</blockquote>` : ''}
+          ${tags.length ? `<div class="article-tags">${tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
         </div>
         ${latestCards ? `
         <div style="margin-top:3rem;">
           <h2>Latest articles</h2>
           <div class="grid grid-3">${latestCards}</div>
         </div>` : ''}
+        <div class="share-backdrop" data-share-backdrop hidden>
+          <div class="share-panel" role="dialog" aria-modal="true" aria-label="Share this article">
+            <button type="button" class="share-close" data-share-close aria-label="Close share dialog"><span aria-hidden="true">×</span></button>
+            <ul class="share-options">
+              <li><button type="button" data-share-copy aria-label="Copy link">${UB_SHARE_ICONS.copy}<span>Copy link</span></button></li>
+              <li><a data-share="linkedin" data-title="${esc(article.title)}" aria-label="Share on LinkedIn">${UB_SHARE_ICONS.linkedin}<span>LinkedIn</span></a></li>
+              <li><a data-share="facebook" data-title="${esc(article.title)}" aria-label="Share on Facebook">${UB_SHARE_ICONS.facebook}<span>Facebook</span></a></li>
+              <li><a data-share="x" data-title="${esc(article.title)}" aria-label="Share on X">${UB_SHARE_ICONS.x}<span>X</span></a></li>
+              <li><a data-share="whatsapp" data-title="${esc(article.title)}" aria-label="Share on WhatsApp">${UB_SHARE_ICONS.whatsapp}<span>WhatsApp</span></a></li>
+            </ul>
+            <p class="share-feedback" role="status" aria-live="polite" hidden></p>
+          </div>
+        </div>
       </div>
     </section>`;
 }
@@ -234,13 +220,20 @@ export function shareUrls(pageUrl, title) {
   };
 }
 
-/* Wire the share block rendered above: fills social hrefs from the live URL,
-   handles copy-link (Clipboard API with textarea fallback + live feedback).
+/* Wire the share popup rendered above: fills social hrefs from the live URL,
+   opens/closes via Share button, × button, backdrop click and Escape, traps
+   Tab focus inside while open, locks body scroll, and handles copy-link
+   (Clipboard API with textarea fallback + live feedback).
    Called once by the router after injecting the detail markup. */
-export function wireArticleShare(rootEl) {
-  if (!rootEl || !rootEl.querySelectorAll) return;
+export function wireSharePopup(rootEl) {
+  if (!rootEl || !rootEl.querySelector) return;
+  const openBtn = rootEl.querySelector('[data-share-open]');
+  const backdrop = rootEl.querySelector('[data-share-backdrop]');
+  if (!openBtn || !backdrop) return;
+  const panel = backdrop.querySelector('.share-panel');
+  const closeBtn = backdrop.querySelector('[data-share-close]');
   const pageUrl = window.location.href;
-  rootEl.querySelectorAll('a[data-share]').forEach(a => {
+  backdrop.querySelectorAll('a[data-share]').forEach(a => {
     const net = a.getAttribute('data-share');
     const title = a.getAttribute('data-title') || '';
     const full = shareUrls(pageUrl, title)[net];
@@ -248,6 +241,47 @@ export function wireArticleShare(rootEl) {
     a.setAttribute('href', full);
     a.setAttribute('target', '_blank');
     a.setAttribute('rel', 'noopener noreferrer');
+  });
+  let prevOverflow = '';
+  function focusables() {
+    return [...backdrop.querySelectorAll('button:not([disabled]), a[href]')]
+      .filter(el => !el.hasAttribute('hidden'));
+  }
+  function open() {
+    prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    backdrop.hidden = false;
+    if (closeBtn) closeBtn.focus();
+  }
+  function close() {
+    if (backdrop.hidden) return;
+    backdrop.hidden = true;
+    document.body.style.overflow = prevOverflow;
+    openBtn.focus();
+  }
+  openBtn.addEventListener('click', open);
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) close();
+  });
+  backdrop.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      close();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const f = focusables();
+    if (!f.length) return;
+    const first = f[0];
+    const last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
   const btn = rootEl.querySelector('[data-share-copy]');
   const note = rootEl.querySelector('[data-share-note], .share-feedback');

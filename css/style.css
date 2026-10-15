@@ -1912,8 +1912,12 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .update-cta--empty{ min-height:0; }
 
 /* ---------------- Article detail figures ---------------- */
-figure.article-figure{ margin:0 0 2rem; }
-figure.article-figure img{ width:100%; aspect-ratio:3/2; object-fit:cover; display:block; }
+figure.article-cover{ margin:0 0 2rem; }
+figure.article-cover img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; max-height:420px; }
+/* Body figures keep natural ratio (charts keep text); inline-block shrink-wrap
+   makes caption + portal link match the rendered image width, never wider. */
+figure.article-figure{ display:inline-block; max-width:100%; margin:0 0 2rem; }
+figure.article-figure img{ width:auto; max-width:100%; max-height:min(70vh, 480px); display:block; }
 .image-caption{ font-size:13px; color:#3d4a5c; line-height:1.4; text-align:left; padding-top:.5rem; margin:.5rem 0 0; border-top:1px solid var(--line); }
 .portal-link{ margin:.5rem 0 0; font-size:.85rem; font-weight:600; }
 .portal-link a{ color:var(--navy); text-decoration:underline; text-underline-offset:3px; }
@@ -1928,26 +1932,38 @@ figure.article-figure img{ width:100%; aspect-ratio:3/2; object-fit:cover; displ
 #articleContent .case-study-section h2{ font-size:1.75rem; margin:2.5rem 0 .75rem; }
 #articleContent h2[id]{ scroll-margin-top:100px; }
 /* Sticky sidebar: clears the 84px site header + breathing room. */
-.article-sidebar{ position:sticky; top:104px; align-self:start; }
-.article-sidebar h4{ font-size:.85rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); margin:0 0 .75rem; }
-.article-toc{ margin-bottom:1.75rem; }
-.article-toc ul{ list-style:none; margin:0; padding:0; display:grid; gap:.45rem; }
-.article-toc a{ color:var(--navy); font-size:.92rem; font-weight:500; text-decoration:none; border-left:2px solid var(--line); padding-left:.7rem; display:block; }
-.article-toc a:hover{ color:var(--gold-dark); border-left-color:var(--gold); }
-.article-toc a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-.article-back{ margin:0 0 1.75rem; }
-.article-back a{ color:var(--navy); font-size:.92rem; font-weight:600; text-decoration:none; }
-.article-back a:hover{ text-decoration:underline; text-underline-offset:3px; }
-.article-back a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-.article-share{ margin-bottom:1.75rem; }
-.share-row{ display:flex; gap:.5rem; flex-wrap:wrap; }
-.share-row button, .share-row a{ width:38px; height:38px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:2px; background:#fff; color:var(--navy); cursor:pointer; transition:background .2s, color .2s, border-color .2s; }
-.share-row button:hover, .share-row a:hover{ background:var(--navy); border-color:var(--navy); color:#fff; }
-.share-row button:focus-visible, .share-row a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-.share-feedback{ font-size:.85rem; font-weight:600; color:var(--navy); margin:.6rem 0 0; min-height:1.2em; }
+/* ---------------- Article single column + share popup (UX2) ---------------- */
+.article-column{ max-width:720px; margin-inline:auto; padding-inline:clamp(1.25rem, 4vw, 2rem); text-align:left; }
+.article-backlink{ margin:2.5rem 0 1.25rem; }
+.article-backlink a{ display:inline-block; color:var(--navy); font-size:13px; font-weight:600; text-decoration:none; padding:.85rem 0; }
+.article-backlink a:hover{ text-decoration:underline; text-underline-offset:3px; }
+.article-backlink a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.article-byline-row{ display:flex; justify-content:space-between; align-items:center; gap:1rem; margin:0 0 1.5rem; }
+.article-byline{ font-size:.95rem; font-weight:600; color:var(--ink-soft); margin:0; }
+.btn-share{ display:inline-flex; align-items:center; gap:.45rem; font-size:.82rem; font-weight:700; line-height:1.2; padding:.55rem 1.1rem; min-height:44px; border:1px solid var(--navy); border-radius:2px; background:transparent; color:var(--navy); cursor:pointer; white-space:nowrap; transition:background .2s, color .2s, border-color .2s; }
+.btn-share:hover{ background:var(--navy); color:#fff; border-color:var(--navy); }
+.btn-share:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.article-tags{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:1rem 0; margin:0 0 3rem; display:flex; flex-wrap:wrap; gap:.5rem; }
+/* Share popup: dimmed + blurred backdrop, small centred panel. No transitions
+   anywhere here, so prefers-reduced-motion is satisfied inherently. */
+.share-backdrop{ position:fixed; inset:0; z-index:1200; display:flex; align-items:center; justify-content:center; padding:1rem; background:rgba(13,33,54,.55); }
+@supports (backdrop-filter: blur(4px)){
+  .share-backdrop{ backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+}
+.share-backdrop[hidden]{ display:none; }
+.share-panel{ position:relative; width:100%; max-width:340px; background:#fff; border-radius:4px; padding:1rem 1rem 1.25rem; box-shadow:0 24px 64px rgba(7,16,25,.35); }
+.share-close{ position:absolute; top:.6rem; right:.6rem; width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center; border:1.5px solid currentColor; border-radius:50%; background:#fff; color:var(--navy); font-size:1.4rem; line-height:1; cursor:pointer; }
+.share-close:hover{ background:var(--navy); border-color:var(--navy); color:#fff; }
+.share-close:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.share-options{ list-style:none; margin:2.75rem 0 0; padding:0; display:grid; gap:.15rem; }
+.share-options a, .share-options button{ display:flex; align-items:center; gap:12px; width:100%; min-height:44px; padding:.65rem .5rem; background:none; border:0; border-radius:0; box-shadow:none; color:var(--navy); font-size:.95rem; font-weight:600; text-decoration:none; cursor:pointer; text-align:left; }
+.share-options a:hover, .share-options button:hover{ background:rgba(13,33,54,.06); }
+.share-options a:focus-visible, .share-options button:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.share-options svg{ width:19px; height:19px; flex-shrink:0; }
+.share-feedback{ font-size:.85rem; font-weight:600; color:var(--navy); margin:.5rem 0 0; min-height:1.2em; }
 .article-loading{ padding:clamp(2rem, 5vw, 4rem) 0; color:var(--ink-soft); font-size:1rem; }
 @media (max-width: 640px){
-  .article-sidebar{ position:static; }
+  .article-byline-row{ flex-direction:column; align-items:flex-start; }
 }
 
 /* ---------------- Podcast card redesign (locked dimensions) ---------------- */

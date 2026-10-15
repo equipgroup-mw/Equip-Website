@@ -1,0 +1,139 @@
+{
+  "_instructions": "One file for everything on the Updates page. Copy the block that matches what you're publishing, fill it in, save. 'type' controls which tab it appears under and how the card is drawn. For podcasts and webinars, this site never hosts the audio/video itself — put the real links (YouTube, Spotify, Apple Podcasts, Zoom recording, etc.) in 'links', and optionally an 'embedUrl' (a YouTube/Spotify embed link) to show a preview player right on the page. podcastSeries defines the show metadata; podcast items reference seriesId. Card images: 1200 x 800 px (3:2), WebP or JPG under 250 KB; keep text, logos and faces inside the central 80% safe zone. Optional per-item \"imagePosition\" field (any CSS object-position value, e.g. \"top\" or \"50% 20%\") controls the image focal point; default center.",
+  "podcastSeries": [
+    {
+      "id": "equip-insights",
+      "title": "Equip Insights",
+      "description": "Conversations with leaders shaping Malawi's economy — entrepreneurs, investors, policymakers, and development practitioners.",
+      "coverArt": "assets/images/updates/equip-insights-cover.jpg",
+      "totalEpisodes": 12,
+      "latestEpisodeDate": "2025-08-15",
+      "people": ["Rollins Chitika"],
+      "links": { "spotify": "https://open.spotify.com/show/REPLACE_WITH_YOUR_SHOW_ID", "apple": "https://podcasts.apple.com/podcast/idREPLACE", "youtube": "https://youtube.com/@equipgroup" }
+    },
+    {
+      "id": "series-2",
+      "title": "Series 2",
+      "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
+      "coverArt": "assets/images/updates/business-unfiltered-cover.jpg",
+      "totalEpisodes": 8,
+      "latestEpisodeDate": "2025-07-22",
+      "people": ["Rollins Chitika", "Charles Phiri"],
+      "links": { "spotify": "https://open.spotify.com/show/REPLACE", "youtube": "https://youtube.com/@equipgroup" }
+    },
+    {
+      "id": "series-3",
+      "title": "Series 3",
+      "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
+      "coverArt": "assets/images/updates/series-03.png",
+      "totalEpisodes": 9,
+      "latestEpisodeDate": "2025-07-22",
+      "people": ["Maxwell Mkumba"],
+      "links": { "spotify": "https://open.spotify.com/show/REPLACE", "youtube": "https://youtube.com/@equipgroup" }
+    },
+    {
+      "id": "series-1",
+      "title": "Start. Build. Grow. Podcast",
+      "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
+      "coverArt": "assets/images/updates/equip-podcast1.avif",
+      "totalEpisodes": 1,
+      "latestEpisodeDate": "2025-09-28",
+      "people": ["Rollins Chitika"],
+      "links": { "spotify": "https://open.spotify.com/show/7FfGHGdnobPUSU8JuHdB8K", "youtube": "https://youtu.be/qP2k4bybDAY", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast/id6817039751" }
+    }
+  ],
+
+  
+  "items": [
+    {
+      "type": "webinar",
+      "title": "Exploring Poultry Business Opportunities Webinar",
+      "date": "2026-08-28",
+      "excerpt": "Expert insights from industry leaders, interactive discussion and networking for young people exploring poultry as a business.",
+      "image": "assets/images/updates/poultry-webinar.jpeg",
+      "embedUrl": "",
+      "links": { "youtube": "https://youtube.com/@equipgroup", "zoom": "" }
+    },
+    {
+      "type": "opportunity",
+      "title": "Join our network of expert consultants",
+      "date": "2025-10-24",
+      "excerpt": "Equip Group is expanding its consulting network and inviting experienced experts across energy, agribusiness, finance, ICT and other sectors to join.",
+      "image": "assets/images/updates/join-network.jpg",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog",
+      "deadline": "2026-12-31"
+    },
+    {
+      "type": "article",
+      "title": "Agro-Processing in Malawi: Untapped Potential in a Growing Sector",
+      "date": "2025-09-02",
+      "excerpt": "What the data behind agro-processing investment means for policymakers and investors in Malawi.",
+      "image": "assets/data-division/agroprocessing-malawi.jpg"
+    },
+    {
+      "type": "opportunity",
+      "title": "Consultant call: Monitoring & Evaluation specialist",
+      "date": "2025-08-15",
+      "excerpt": "We're looking for a short-term M&E specialist to support an agribusiness programme evaluation. Applications open to independent consultants and firms.",
+      "image": "assets/images/updates/opportunity-me.jpg",
+      "link": "/contact.html",
+      "deadline": "2025-09-30"
+    },
+    {
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 12,
+      "title": "10 Entrepreneurial Archetypes That Stunt Your Growth",
+      "date": "2026-07-10",
+      "excerpt": "A deep dive into the common psychological and operational archetypes that hold entrepreneurs back from scaling their businesses effectively.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+
+    {
+      "type": "podcast",
+      "seriesId": "series-3",
+      "episodeNumber": 15,
+      "title": "Breaking The Boundaries Of Media To Make Your Brand Standout",
+      "date": "2026-07-25",
+      "excerpt": "Learn unconventional media strategies and creative approaches to cut through the noise, capture attention, and position your brand as a market leader.",
+      "image": "assets/images/updates/series-03.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+
+    {
+      "type": "podcast",
+      "seriesId": "series-2",
+      "episodeNumber": 8,
+      "title": "Partnerships: How To Build Together",
+      "date": "2026-07-22",
+      "excerpt": "Discover the secrets to finding the right partners, aligning visions, and building sustainable business relationships that withstand the test of time and turbulence.",
+      "image": "assets/images/updates/series-02.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH" }
+    },
+
+    {
+      "type": "podcast",
+      "seriesId": "series-1",
+      "episodeNumber": 1,
+      "title": "Start. Build. Grow. Podcast",
+      "date": "2026-09-28",
+      "excerpt": "Discover the secrets to finding the right partners, aligning visions, and building sustainable business relationships that withstand the test of time and turbulence.",
+      "image": "assets/images/updates/equip-podcast1.png",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/show/7FfGHGdnobPUSU8JuHdB8K", "youtube": "https://youtu.be/qP2k4bybDAY", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast/id6817039751"}
+    },
+    {
+      "type": "webinar",
+      "title": "Artificial Intelligence in Poultry",
+      "date": "2026-09-29",
+      "excerpt": "Led by SACAU, in partnership with Equip and the Southern African Poultry Initiative (SAPI), this webinar will explore how AI and digital tools are used in poultry, from bird health and biosecurity to climate control, feed formulation, sales, and distribution.",
+      "image": "assets/images/updates/ai-poultry.jpg",
+      "embedUrl": "",
+      "links": { "youtube": "https://docs.google.com/forms/d/e/1FAIpQLScICE7PkMFM7cTCVDNBFaZkkl5_LDBSJEGCyTZduAqrwmYChQ/closedform" }
+    }
+  ]
+}
