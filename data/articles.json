@@ -10,7 +10,7 @@
       "readTime": "4 min read",
       "tags": ["Fuel", "Prices", "Africa"],
       "mainImage": {
-        "src": "assets/images/updates/fuel.jpg",
+        "src": "assets/images/updates/fuel.avif",
         "alt": "A fuel pump at a service station",
         "caption": "Pump prices across the African countries in our tracker. Every litre Malawi pumps begins its journey on a ship.",
         "portalUrl": "services/data-division.html#item-fuel-africa"
@@ -51,7 +51,7 @@
       "readTime": "5 min read",
       "tags": ["SMEs", "Formalisation", "Malawi"],
       "mainImage": {
-        "src": "assets/images/updates/sme-formalization.jpg",
+        "src": "assets/images/updates/sme-formalization.avif",
         "alt": "A small business owner at her shop counter",
         "caption": "A trading business in one of Malawi's commercial centres. Whether it appears in any official register is another question entirely.",
         "portalUrl": "services/data-division.html#item-sme-formalisation"
@@ -132,7 +132,7 @@
       "readTime": "5 min read",
       "tags": ["Households", "Savings", "Malawi"],
       "mainImage": {
-        "src": "assets/images/updates/savings-behaviour.jpg",
+        "src": "assets/images/updates/savings-behaviour.avif",
         "alt": "People at a community savings group meeting",
         "caption": "A village savings group meeting. For many Malawian households, the group is not a substitute for a bank — it is the bank.",
         "portalUrl": "services/data-division.html#item-savings-behaviour"
