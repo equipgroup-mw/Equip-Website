@@ -1272,11 +1272,35 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .carousel-arrows svg{ width:16px; height:16px; }
 
 .testimonial-card{ width: calc(33.333% - 1.17rem); background: transparent; border: none; padding: 0; display:flex; flex-direction:column; gap:1rem; justify-content:space-between; min-height: 180px; flex-shrink:0; }
-.testimonial-card .quote-mark{ font-family: var(--font-display); font-size: 4.2rem; color: var(--gold); line-height:.4; }
+.testimonial-card .quote-mark{ font-family: var(--font-display); font-size: 4.2rem; color: var(--gold); line-height:1; }
 .testimonial-card p{ font-family: var(--font-display); font-style: italic; font-size: var(--step-0); color: var(--navy); max-width:none; }
 .testimonial-who b{ display:block; color:var(--ink-soft); font-size:.95rem; }
 .testimonial-who span{ font-size:.85rem; color: var(--ink-soft); }
-@media (max-width:640px){ .testimonial-card{ width: calc(100% - 0); } }
+@media (max-width: 768px){
+  section.section--compact.bg-white .section-head{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .carousel-track{
+    gap: 1rem;
+  }
+  .testimonial-card{
+    width: 100%;
+    flex: 0 0 100%;
+  }
+  .carousel-controls{
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .carousel-dots{
+    justify-content: center;
+  }
+  .carousel-arrows button{
+    width: 44px;
+    height: 44px;
+  }
+}
 
 .logo-track{ display:flex; align-items:center; gap: clamp(2.5rem,6vw,5rem); }
 .logo-track > *{ height: 40px; display:flex; align-items:center; }
@@ -2211,13 +2235,43 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
   .mobile-nav-chevron{ transition: none !important; }
 }
 
-/* Case study mobile layout: Project Details on top, single column */
-.cs-detail-grid{ grid-template-columns: 2fr 1fr; gap:3rem; }
+/* Case study mobile layout: hero metric row stays centred */
 @media (max-width: 640px){
-  .cs-detail-grid{ grid-template-columns: 1fr; }
-  .cs-detail-grid aside{ order: -1; }
   .hero-content .metric-row{ display:grid !important; grid-template-columns: repeat(2, 1fr); gap:1rem 2rem; justify-items:center; }
   .hero-content .metric-row > div{ text-align:center; min-width:auto; }
+}
+
+/* ---------------- Case study detail: article-style single column ---------------- */
+#caseStudyContent .case-study-section h2{ font-size:1.75rem; margin:2.5rem 0 .75rem; }
+#caseStudyContent .case-study-section .prose p{ color:var(--ink-soft); font-size:var(--step-0); line-height:1.7; margin:0 0 1em; }
+.cs-details{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:1rem 1.5rem;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:1rem 0;
+  margin:0 0 2rem;
+}
+.cs-details-label{
+  display:block;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-bottom:.35rem;
+}
+.cs-details-value{
+  display:block;
+  font-size:.95rem;
+  font-weight:600;
+  color:var(--navy);
+  overflow-wrap:break-word;
+}
+@media (max-width: 640px){
+  .cs-details{ grid-template-columns:repeat(2, minmax(0, 1fr)); gap:.85rem 1rem; }
+  .cs-details-value{ font-size:.9rem; }
 }
 
 /* ---------------- Mobile Nav Media Query ---------------- */
@@ -2268,7 +2322,57 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
 .service-hero-content p{ font-size:clamp(.85rem, 1.3vw, 1.05rem); line-height:1.55; color:rgba(255,255,255,.88); margin:0; text-align:left; letter-spacing:.01em; }
 .service-hero-content hr.rule{ border:0; height:2px; background:var(--soft-gold); width:3rem; margin:0; }
 @media (max-width:900px){ .services-hero-grid{ grid-template-columns:repeat(2,1fr); height:auto; } .service-hero-card{ height:100dvh; } }
-@media (max-width:640px){ .services-hero-grid{ grid-template-columns:1fr; } .service-hero-card{ height:100dvh; } .service-hero-content{ padding:1.5rem; } .service-hero-content h3{ font-size:clamp(1.2rem, 5vw, 1.8rem); } .service-hero-content p{ font-size:clamp(.8rem, 4vw, .95rem); } }
+@media (max-width: 768px) {
+  .services-hero-section {
+    height: 100vh;
+    height: 100svh;            /* small-viewport height, so the bottom isn't hidden behind the browser bar */
+    min-height: 0;
+  }
+  .services-hero-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));  /* minmax(0,…) stops text from forcing a column wider */
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  .service-hero-card {
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    padding: 0;                /* padding now lives on the content only, so it no longer stacks */
+    background-position: center 25%;
+  }
+  .service-hero-content {
+    width: 100%;
+    text-align: left;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+  .service-hero-content hr.rule {
+    width: 2rem;
+    margin: 0;
+  }
+  .service-hero-content h3 {
+    font-size: clamp(1rem, 4.6vw, 1.25rem);
+    line-height: 1.15;
+    margin: 0;
+    overflow-wrap: break-word;
+  }
+  .service-hero-content p {
+    font-size: clamp(.78rem, 3.4vw, .9rem);
+    line-height: 1.4;
+    margin: 0;
+    max-width: none;
+    /* all three are needed for line-clamping to work */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+  }
+}
 
 /* ---------------- Stats band — column layout ---------------- */
 .stats-section{
@@ -2384,6 +2488,27 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
 .services-hero-curtain .rule{ width:48px; height:2px; background:var(--gold); border:0; margin:0 auto 1.5rem; }
 .services-hero-curtain h2{ font-family:var(--font-display); font-size:clamp(3rem, 8vw, 6rem); color:#fff; margin:0; }
 .services-hero-section.is-visible .services-hero-curtain{ transform:translateY(-100%); pointer-events:none; transition-delay:2s; }
+
+/* Services hero curtain pinned state (scroll-jacking replacement for autoplay) */
+.services-hero-curtain.pinned {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  width: 100%;
+  z-index: 10;
+}
+.services-hero-curtain.revealed {
+  transform: translateY(-100%);
+}
+
+/* Mobile services grid (<=768px): 2x2 card layout, curtain hidden */
+@media (max-width: 768px) {
+  .services-hero-curtain {
+    display: none;
+  }
+}
 @media (prefers-reduced-motion:reduce){
   .services-hero-curtain{ display:none; }
 }

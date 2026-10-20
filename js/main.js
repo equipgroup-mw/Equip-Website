@@ -275,8 +275,75 @@ function buildMobileServices(departments){
     wireDropdown();
     wireMobileNav();
     wireHeaderBehaviour();
+    wireServicesScroll();
     setYear();
 
     document.dispatchEvent(new CustomEvent('partials:ready'));
   });
 })();
+
+/* ------------------------------------------------------------------ */
+/* Services hero scroll-pin                                           */
+/* When the services section reaches the top of the viewport, the
+   curtain pins to the top. Scrolling further translates the curtain
+   up (-100%) to reveal the service cards underneath. Scrolling back
+   up reverses the effect. Disabled on mobile (<=768px).            */
+/* ------------------------------------------------------------------ */
+function wireServicesScroll(){
+  const section = document.querySelector('.services-hero-section');
+  const curtain = document.querySelector('.services-hero-curtain');
+  if(!section || !curtain) return;
+
+  if(window.matchMedia('(max-width: 768px)').matches) return;
+
+  let isPinned = false;
+  let isRevealed = false;
+  let ticking = false;
+
+  function update(){
+    const rect = section.getBoundingClientRect();
+    const curtainHeight = curtain.offsetHeight;
+
+    if(rect.top <= 0 && rect.bottom > curtainHeight){
+      if(!isPinned){
+        curtain.classList.add('pinned');
+        isPinned = true;
+      }
+      const scrolledPast = Math.abs(Math.min(rect.top, 0));
+      if(scrolledPast >= curtainHeight){
+        if(!isRevealed){
+          curtain.classList.add('revealed');
+          isRevealed = true;
+        }
+      } else {
+        if(isRevealed){
+          curtain.classList.remove('revealed');
+          isRevealed = false;
+        }
+      }
+    } else {
+      if(isPinned){
+        curtain.classList.remove('pinned');
+        isPinned = false;
+      }
+      if(isRevealed){
+        curtain.classList.remove('revealed');
+        isRevealed = false;
+      }
+    }
+  }
+
+  function onScroll(){
+    if(!ticking){
+      window.requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+}

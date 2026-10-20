@@ -23,9 +23,9 @@
 <main id="main">
   <div id="caseStudyContent"></div>
 
-  <section class="bg-navy" style="padding-block:4rem;">
+  <section style="padding-block:4rem; border-top:1px solid rgba(246,244,238,.12); background-image: url('assets/images/discover.webp'); background-size: cover; background-position: center;">
     <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
-      <h3 class="mt-0" style="max-width:26ch;">Explore more case studies</h3>
+      <h3 class="mt-0" style="max-width:26ch; color:var(--gold);">Explore more case studies</h3>
       <a href="services/business-development.html" class="btn btn-gold">View all projects</a>
     </div>
   </section>
@@ -40,7 +40,7 @@
 <div id="footer-slot"></div>
 <script type="module">
   const ROOT = document.documentElement.dataset.root || '';
-  import { loadCaseStudies, renderCaseStudyDetail } from './js/case-studies.js';
+  import { loadCaseStudies, renderCaseStudyDetail, relatedCaseStudies, wireCaseStudyPagination } from './js/case-studies.js';
   import { initHeroAnimations } from './js/hero-animations.js';
   import './js/main.js';
   import './js/carousel.js';
@@ -55,7 +55,10 @@
 
   document.getElementById('csTitle').textContent = `${study.title} — Equip Group`;
   document.getElementById('csDescription').content = study.title + ' — ' + study.client + ' — ' + study.period;
-  document.getElementById('caseStudyContent').innerHTML = renderCaseStudyDetail(study);
+  const content = document.getElementById('caseStudyContent');
+  const related = relatedCaseStudies(allStudies, study);
+  content.innerHTML = renderCaseStudyDetail(study, related);
+  wireCaseStudyPagination(content, related);
 
   initHeroAnimations();
 

@@ -120,6 +120,14 @@
       "bio": "Blessings manages Equip's projects from conception to completion — ensuring timely delivery, quality control, and stakeholder satisfaction. She coordinates cross-functional teams and maintains project documentation. Background in project management for development initiatives in Africa.",
       "linkedin": "https://linkedin.com/in/blessings-akimu",
       "expertise": ["Project Management", "Stakeholder Communication", "Quality Assurance", "Development Methodologies"]
+    },
+    {
+      "name": "Chikondi Kateta",
+      "role": "Project Officer",
+      "photo": "assets/team/chikondi-kateta.avif",
+      "bio": "Chikondi supports Business Development projects with a focus on market systems and value chain analysis. He has worked on agricultural commercialization programs across Malawi and Zambia. Strong in field coordination, partner management, and results reporting.",
+      "linkedin": "https://www.linkedin.com/in/chikondideborahkateta/",
+      "expertise": ["Market Systems", "Value Chains", "Field Coordination", "Agriculture"]
     }
   ]
 }

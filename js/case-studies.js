@@ -66,30 +66,71 @@ export function renderCaseStudyCard(cs, { link = true } = {}) {
   `;
 }
 
-export function renderCaseStudyDetail(cs) {
-  const color = getServiceColor(cs.serviceSlug);
+/* Listing page for a project's department, used by the "← Back to projects" link. */
+const SERVICE_LISTINGS = {
+  'business-development': 'services/business-development.html',
+  'research-project-management': 'services/research-project-management.html',
+  'data-division': 'services/data-division.html'
+};
+export function caseStudyListingHref(serviceSlug) {
+  return ROOT + (SERVICE_LISTINGS[serviceSlug] || 'services/business-development.html');
+}
+
+/* Sort key for ordering projects newest → oldest.
+   Primary field: publishedAt (YYYY-MM-DD). Fallback: the last year in the
+   period string ("2022–2024" → 2024, "2022–Present" → current year). */
+export function caseStudySortKey(cs) {
+  if (!cs) return 0;
+  if (cs.publishedAt) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(cs.publishedAt));
+    if (m) return parseInt(m[1], 10) * 10000 + parseInt(m[2], 10) * 100 + parseInt(m[3], 10);
+  }
+  const years = String(cs.period || '').match(/\d{4}/g);
+  if (!years || !years.length) return 0;
+  const endYear = /present/i.test(cs.period || '')
+    ? new Date().getFullYear()
+    : parseInt(years[years.length - 1], 10);
+  return endYear ? endYear * 10000 + 1231 : 0;
+}
+
+/* Other projects in the SAME department, excluding the current one, newest first. */
+export function relatedCaseStudies(all, current) {
+  const list = Array.isArray(all) ? all : [];
+  const slug = current && current.serviceSlug;
+  return list
+    .filter(cs => cs && cs.id !== (current && current.id) && cs.serviceSlug === slug)
+    .sort((a, b) => caseStudySortKey(b) - caseStudySortKey(a));
+}
+
+const CS_PER_PAGE = 3;
+
+/* Detail page — same layout language as the article page (article.html):
+   hero → back link → details strip → cover figure → body → more projects. */
+export function renderCaseStudyDetail(cs, related) {
   const accentClass = ACCENT_CLASS_MAP[cs.serviceSlug] || 'hero--accent-plum';
   const posterSrc = ROOT + 'assets/images/' + (POSTER_MAP[cs.serviceSlug] || 'hero-bds.avif');
   const videoSrc = ROOT + 'assets/videos/' + (VIDEO_MAP[cs.serviceSlug] || 'hero-bds-video.webm');
-  const teamNames = cs.team.map(id => {
-    const nameMap = {
-      'rollins-chitika': 'Rollins Chitika',
-      'matilda-nhlane': 'Matilda Nhlane',
-      'tereza-chaponda': 'Tereza Chaponda',
-      'ipyana-mkandawire': 'Ipyana Mkandawire',
-      'mervis-msukwa': 'Mervis Msukwa',
-      'sophie-chisa': 'Sophie Chisa',
-      'lusungu-masawanie': 'Lusungu Masawanie',
-      'lizzie-mwanandi': 'Lizzie Mwanandi',
-      'pacharo-njoloma': 'Pacharo Njoloma',
-      'dorica-nyasulu': 'Dorica Nyasulu',
-      'jacqueline-chibambo': 'Jacqueline Chibambo',
-      'maxwell-mkumba': 'Maxwell Mkumba',
-      'danford-mponda': 'Danford Mponda',
-      'haywood-liuma': 'Haywood Liuma'
-    };
-    return nameMap[id] || id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  });
+  const siblings = Array.isArray(related) ? related : [];
+
+  const details = [
+    ['Client', cs.client],
+    ['Period', cs.period],
+    ['Location', cs.location],
+    ['Service', String(cs.eyebrow || '').split('•')[0].trim()]
+  ].filter(([, value]) => value);
+
+  const cover = cs.heroImage ? `
+    <figure class="article-cover">
+      <img src="${ROOT}${cs.heroImage}" alt="${cs.heroImageAlt || cs.title}" loading="lazy" onerror="this.closest('figure').style.display='none'">
+      ${cs.coverCaption ? `<figcaption class="image-caption">${cs.coverCaption}</figcaption>` : ''}
+    </figure>` : '';
+
+  const sections = [
+    ['The Challenge', cs.challenge],
+    ['Our Approach', cs.approach],
+    ['The Solution', cs.solution],
+    ['Results & Impact', cs.results]
+  ].filter(([, body]) => body);
 
   return `
     <section class="hero hero--compact ${accentClass} hero--case-study" data-hero>
@@ -114,45 +155,75 @@ export function renderCaseStudyDetail(cs) {
 
     <section class="section">
       <div class="container">
-        <div class="grid cs-detail-grid" style="grid-template-columns: 2fr 1fr; gap:3rem;">
-          <div>
-            <div class="case-study-section" style="margin-bottom:3rem;">
-              <h2>The Challenge</h2>
-              <div class="prose" style="color:var(--ink-soft); line-height:1.7;">${cs.challenge}</div>
-            </div>
-            <div class="case-study-section" style="margin-bottom:3rem;">
-              <h2>Our Approach</h2>
-              <div class="prose" style="color:var(--ink-soft); line-height:1.7;">${cs.approach}</div>
-            </div>
-            <div class="case-study-section" style="margin-bottom:3rem;">
-              <h2>The Solution</h2>
-              <div class="prose" style="color:var(--ink-soft); line-height:1.7;">${cs.solution}</div>
-            </div>
+        <div class="article-column">
+          <p class="article-backlink"><a href="${caseStudyListingHref(cs.serviceSlug)}">← Back to projects</a></p>
+          ${details.length ? `<div class="cs-details">
+            ${details.map(([label, value]) => `
+              <div class="cs-details-item">
+                <span class="cs-details-label">${label}</span>
+                <span class="cs-details-value">${value}</span>
+              </div>`).join('')}
+          </div>` : ''}
+          ${cover}
+          ${sections.map(([heading, body]) => `
             <div class="case-study-section">
-              <h2>Results & Impact</h2>
-              <div class="prose" style="color:var(--ink-soft); line-height:1.7;">${cs.results}</div>
-            </div>
-          </div>
-          <aside>
-            <div class="card" style="position:sticky; top:100px;">
-              <div class="card-body">
-                <h4>Project Details</h4>
-                <dl style="display:grid; grid-template-columns:auto 1fr; gap:.5rem 1rem; font-size:.9rem; margin-bottom:1.5rem;">
-                  <dt style="color:var(--ink-soft);">Client</dt><dd style="font-weight:600;">${cs.client}</dd>
-                  <dt style="color:var(--ink-soft);">Period</dt><dd>${cs.period}</dd>
-                  <dt style="color:var(--ink-soft);">Location</dt><dd>${cs.location}</dd>
-                  <dt style="color:var(--ink-soft);">Service</dt><dd>${cs.eyebrow.split('•')[0].trim()}</dd>
-                </dl>
-                <hr class="rule" style="margin:1rem 0;">
-                <h4>Team</h4>
-                <div class="team-mini" style="display:flex; flex-wrap:wrap; gap:.5rem;">
-                  ${teamNames.map(n => `<span class="tag">${n}</span>`).join('')}
-                </div>
-              </div>
-            </div>
-          </aside>
+              <h2>${heading}</h2>
+              <div class="prose">${body}</div>
+            </div>`).join('')}
         </div>
+        ${siblings.length ? `
+        <div style="margin-top:3rem;">
+          <h2>More Projects</h2>
+          <div class="grid grid-3" data-cs-more></div>
+          <nav class="up-pagination" data-cs-pagination aria-label="More projects pages" hidden>
+            <button type="button" class="up-page-btn" data-cs-prev aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+            <span class="up-page-info" data-cs-page-info aria-live="polite"></span>
+            <button type="button" class="up-page-btn" data-cs-next aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </nav>
+        </div>` : ''}
       </div>
     </section>
   `;
+}
+
+/* Wire the "More Projects" pagination: re-renders the card set per page
+   (destroying the current cards, not hiding them). */
+export function wireCaseStudyPagination(rootEl, related) {
+  if (!rootEl || !rootEl.querySelector) return;
+  const grid = rootEl.querySelector('[data-cs-more]');
+  const nav = rootEl.querySelector('[data-cs-pagination]');
+  if (!grid || !nav) return;
+  const list = Array.isArray(related) ? related : [];
+  const pages = Math.ceil(list.length / CS_PER_PAGE);
+  const prev = nav.querySelector('[data-cs-prev]');
+  const next = nav.querySelector('[data-cs-next]');
+  const info = nav.querySelector('[data-cs-page-info]');
+  let page = 1;
+
+  function renderPage(n) {
+    page = Math.max(1, Math.min(pages, n));
+    // Replace the cards outright — the old set is destroyed, not hidden.
+    grid.innerHTML = list
+      .slice((page - 1) * CS_PER_PAGE, page * CS_PER_PAGE)
+      .map(cs => renderCaseStudyCard(cs, { link: true }))
+      .join('');
+    if (info) info.textContent = `Page ${page} of ${pages}`;
+    if (prev) {
+      prev.disabled = page <= 1;
+      prev.setAttribute('aria-disabled', String(page <= 1));
+    }
+    if (next) {
+      next.disabled = page >= pages;
+      next.setAttribute('aria-disabled', String(page >= pages));
+    }
+  }
+
+  if (pages <= 1) {
+    nav.hidden = true;
+  } else {
+    nav.hidden = false;
+  }
+  if (prev) prev.addEventListener('click', () => renderPage(page - 1));
+  if (next) next.addEventListener('click', () => renderPage(page + 1));
+  renderPage(1);
 }
