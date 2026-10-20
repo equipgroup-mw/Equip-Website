@@ -53,6 +53,7 @@
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
 
   --ease: cubic-bezier(.4,0,.2,1);
+  --card-scale: 0.9;
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
@@ -995,8 +996,10 @@ body.nav-open .site-header{ background:var(--navy-deep); }
       transform-origin:center;
     }
   }
+
   /* Hide scroll cue on very short viewports to avoid overlap */
   @media (max-height:520px){
+
     .hero--compact .scroll-cue,
     .hero .scroll-cue{ display:none; }
   }
@@ -2578,3 +2581,80 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
   }
 }
 
+
+/* ==========================================================================
+   COMPACT CARDS — body-shrink pass.  Desktop (≥901px) only.
+   Root cause of the previous attempt: this block sat mid-file and equal-
+   specificity rules further down (.update-card .update-desc 16px,
+   .update-card .card-media 3/2, .update-date 14px, .card-body h4) won the
+   cascade.  This block is now the LAST thing in the file, so it wins ties.
+   Scope: .update-card (Updates grid + Latest articles + pagination grids),
+          .case-study-card (More Projects, service "Projects", listing),
+          #homeUpdatesPreview .card (index.html 3-card Updates snapshot).
+   Excluded by design (measured before/after, required unchanged):
+          .dd-card + .dd-card-media, team/stat/service-card/testimonial,
+          badges + tags (.update-type-badge, .update-closed-badge,
+          .pc-episodes, .tag, .platform-btn, .sector-tag),
+          phones ≤900px (16px body floor already applies there).
+   Tuning surface: the --card-* custom properties below; every number is the
+   target value from review (NOT a flat --card-scale multiply).  Images keep
+   their original aspect ratios (3/2 update cards, 16/9 project cards) and
+   object-fit: cover; grid columns/gaps and container width are untouched;
+   equal-height rows stay (grid 1fr rows + .update-cta margin-top:auto).
+   ========================================================================== */
+@media (min-width: 901px){
+  .update-card, .case-study-card, #homeUpdatesPreview .card{
+    --card-body-pad:   .7rem;  /* .card-body padding, was .9rem */
+    --card-body-gap:   .23rem; /* .card-body flex gap, was .35rem (~1/3 less) */
+    --card-title-size: 1.2rem; /* h4, was 22.4px (~1.4rem) */
+    --card-title-lh:   1.25;   /* was 1.3 */
+    --card-desc-size:  14px;   /* .update-desc, was 16px */
+    --card-desc-lh:    1.45;   /* was 1.6 */
+    --card-meta-size:  13px;   /* .update-date + .deadline-flag, was 14px */
+    --card-byline-size:.7rem;  /* .pc-people, was .72rem (11.52px→11.2px ≥11px) */
+    --card-cta-space:  .5rem;  /* .update-cta padding-top, was .85rem */
+    --card-cta-min:    35px;   /* .pc-cta comfortable click target, 34–36px */
+  }
+
+  .update-card .card-body,
+  .case-study-card .card-body,
+  #homeUpdatesPreview .card-body{
+    padding: var(--card-body-pad);
+    gap: var(--card-body-gap);
+  }
+  .update-card h4,
+  .case-study-card h4,
+  #homeUpdatesPreview h4{
+    font-size: var(--card-title-size);
+    line-height: var(--card-title-lh);
+  }
+  .update-card .update-desc{
+    font-size: var(--card-desc-size);
+    line-height: var(--card-desc-lh);
+  }
+  #homeUpdatesPreview .card-body p{
+    font-size: var(--card-desc-size);
+    line-height: var(--card-desc-lh);
+  }
+  .update-card .update-date{
+    font-size: var(--card-meta-size);
+    line-height: var(--card-desc-lh);
+  }
+  .update-card .deadline-flag{ font-size: var(--card-meta-size); }
+  .update-card .pc-people{ font-size: var(--card-byline-size); }
+  .update-card .update-cta{ padding-top: var(--card-cta-space); }
+  .update-card .pc-cta{ min-height: var(--card-cta-min); }
+
+  /* case-study-card CTA/meta are inline-styled in js/case-studies.js; inline
+     styles can only be beaten with !important — the two !importants below are
+     that unavoidable case (documented, no other !important used). */
+  .case-study-card .card-body > p{
+    font-size: var(--card-meta-size) !important;
+    line-height: var(--card-desc-lh) !important;
+  }
+  .case-study-card .card-body > div:last-child{ padding-top: .5rem !important; }
+  .case-study-card .card-body a.btn{
+    padding-top: .45rem;
+    padding-bottom: .45rem;
+  }
+}
