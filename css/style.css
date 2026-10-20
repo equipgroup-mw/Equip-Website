@@ -850,8 +850,7 @@ body.nav-open .site-header{ background:var(--navy-deep); }
    column row (stats or feature blurbs) running full-width beneath it. ---- */
 .hero{
   position: relative;
-  min-height: 100dvh;
-  height: 100dvh;
+  min-height: 100svh; /* tall content grows the hero, preventing overlap with next section */
   display:flex; flex-direction:column; justify-content:flex-end;
   color: var(--cream);
   overflow:hidden;
@@ -1029,9 +1028,9 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 
 .divider-feature{ border-top:1px solid var(--line); padding-top:1.5rem; }
 /* Services grid - 4-column icon layout */
-.services-grid-section{ min-height: 95vh; max-height: 900px; overflow:visible; display:flex; flex-direction:column; justify-content:center; }
-.services-grid{ display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding-top: 3rem; }
-.service-card{ display:flex; flex-direction:column; align-items:flex-start; gap: .75rem; padding: 1.5rem; border-right: 1px solid var(--line); }
+.services-grid-section{ height: auto; min-height: 0; max-height: none; overflow:visible; display:flex; flex-direction:column; justify-content:flex-start; }
+.services-grid{ display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; padding-top: 3rem; align-items: start; }
+.service-card{ display:flex; flex-direction:column; align-items:flex-start; gap: .75rem; padding: 1.5rem; border-right: 1px solid var(--line); height: auto; }
 .service-card:last-child{ border-right: 0; }
 .service-num-icon{ display:flex; align-items:center; gap:.5rem; }
 .service-num{ font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; color: var(--gold); line-height: 1; }
@@ -1069,10 +1068,13 @@ body.nav-open .site-header{ background:var(--navy-deep); }
    SERVICE PAGES — Mobile layout (≤900px)
    ======================================================================== */
 @media (max-width: 900px){
-  /* Consistent gutters: 20px on phones, 32px on tablets */
+  /* Consistent gutters: single left gutter via .container (var--gutter),
+     .services-grid-section rules removed to avoid double‑gutter overlap. */
   .services-grid-section,
   .section:has(.services-grid),
-  .section:has(.services-grid-3x2),
+  .section:has(.services-grid-3x2){
+    /* padding-left/right deliberately omitted — .container supplies the gutter */
+  }
   .section:has(.dd-tab-switcher),
   .section:has(.dd-toolbar),
   .section:has(#ddProjectsGrid),
@@ -1081,10 +1083,18 @@ body.nav-open .site-header{ background:var(--navy-deep); }
     padding-right: clamp(1.25rem, 4vw, 2rem);
   }
 
-  /* Consistent vertical rhythm: ~64px top/bottom on phones */
+  /* Consistent vertical rhythm: ~4rem top/bottom on phones;
+     no section touches or overlaps its neighbour. */
   .services-grid-section,
   .section:has(.services-grid),
   .section:has(.services-grid-3x2){
+    padding-top: clamp(4rem, 6vw, 5rem);
+    padding-bottom: clamp(4rem, 6vw, 5rem);
+  }
+  .section:has(.dd-tab-switcher),
+  .section:has(.dd-toolbar),
+  .section:has(#ddProjectsGrid),
+  .section:has(#ddGrid){
     padding-top: clamp(3rem, 6vw, 4rem);
     padding-bottom: clamp(3rem, 6vw, 4rem);
   }
