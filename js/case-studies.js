@@ -227,3 +227,40 @@ export function wireCaseStudyPagination(rootEl, related) {
   if (next) next.addEventListener('click', () => renderPage(page + 1));
   renderPage(1);
 }
+
+/* Wire the "Featured Projects" pagination on service pages: re-renders the
+   card set per page (destroying the current cards, not hiding them). */
+export function wireFeaturedPagination(gridEl, navEl, studies, { perPage = 3 } = {}) {
+  if (!gridEl || !navEl) return;
+  const prev = navEl.querySelector('[data-fp-prev]');
+  const next = navEl.querySelector('[data-fp-next]');
+  const info = navEl.querySelector('[data-fp-page-info]');
+  let page = 1;
+  const pages = Math.max(1, Math.ceil(studies.length / perPage));
+
+  function renderPage(n) {
+    page = Math.max(1, Math.min(pages, n));
+    gridEl.innerHTML = studies
+      .slice((page - 1) * perPage, page * perPage)
+      .map(cs => renderCaseStudyCard(cs, { link: true }))
+      .join('');
+    if (info) info.textContent = `Page ${page} of ${pages}`;
+    if (prev) {
+      prev.disabled = page <= 1;
+      prev.setAttribute('aria-disabled', String(page <= 1));
+    }
+    if (next) {
+      next.disabled = page >= pages;
+      next.setAttribute('aria-disabled', String(page >= pages));
+    }
+  }
+
+  if (pages <= 1) {
+    navEl.hidden = true;
+  } else {
+    navEl.hidden = false;
+  }
+  if (prev) prev.addEventListener('click', () => renderPage(page - 1));
+  if (next) next.addEventListener('click', () => renderPage(page + 1));
+  renderPage(1);
+}

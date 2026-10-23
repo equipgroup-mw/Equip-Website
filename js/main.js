@@ -264,6 +264,22 @@ function buildMobileServices(departments){
     if(el) el.textContent = new Date().getFullYear();
   }
 
+  /* Highlight the nav link whose href matches the current path, so "Our Work"
+     (and any other nav link) shows its current-page state. Works for root and
+     nested pages because injectPartial rewrites root-absolute hrefs to be
+     relative to the page. */
+  function setActiveNavLink(){
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('#mainNav a[href], .mobile-nav-link[href]').forEach(a=>{
+      try{
+        const hrefPath = new URL(a.href, window.location.href).pathname;
+        a.setAttribute('aria-current', hrefPath === currentPath ? 'page' : null);
+      }catch(e){
+        /* ignore unparseable hrefs */
+      }
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     await injectPartial('#header-slot', 'partials/header.html');
     await injectPartial('#footer-slot', 'partials/footer.html');
@@ -277,6 +293,7 @@ function buildMobileServices(departments){
     wireHeaderBehaviour();
     wireServicesScroll();
     setYear();
+    setActiveNavLink();
 
     document.dispatchEvent(new CustomEvent('partials:ready'));
   });

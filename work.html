@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" data-root="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Work — Equip Group</title>
+<meta name="description" content="Equip Group's projects and case studies — business development, research and project management, and data division work across Malawi and the region.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/avif" href="assets/logos/favicon.avif">
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Our Work — Equip Group",
+  "description": "Equip Group's projects and case studies — business development, research and project management, and data division work across Malawi and the region.",
+  "publisher": { "@type": "Organization", "name": "Equip Group", "url": "https://equipgroup.co" },
+  "url": "https://equipgroup.co/work.html"
+}
+</script>
+<link rel="canonical" href="work.html">
+<meta property="og:title" content="Our Work — Equip Group">
+<meta property="og:description" content="Equip Group's projects and case studies — business development, research and project management, and data division work across Malawi and the region.">
+<meta property="og:type" content="website">
+</head>
+<body>
+<div id="header-slot"></div>
+
+<main id="main">
+  <section class="hero hero--compact hero--updates" data-hero>
+    <div class="hero-bg"><img src="assets/images/hero-work.png" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Our Pride & Joy</p>
+        <h1>Our Projects</h1>
+        <p class="hero-lede">A selection of Equip Group's projects and case studies — business development, research and project management, and data division work across Malawi and the region.</p>
+      </div>
+      <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><span class="line"></span></div>
+    </div>
+  </section>
+
+  <div class="work-toolbar dd-toolbar updates-toolbar">
+    <div class="container dd-toolbar-inner">
+      <div class="dd-search">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="search" id="workSearch" placeholder="Search projects…" aria-label="Search projects">
+      </div>
+      <div class="work-tabs" id="workTabs"></div>
+      <div class="up-sort">
+        <label class="up-sort-label" for="workSort">Sort by</label>
+        <select id="workSort" class="up-sort-select">
+          <option value="newest" selected>Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="title-asc">Title A to Z</option>
+          <option value="title-desc">Title Z to A</option>
+        </select>
+      </div>
+      <span class="dd-count" id="workCount"></span>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:1.5rem; padding-bottom:1.5rem;">
+    <div class="container">
+      <h2 class="visually-hidden" id="workGridHeading" tabindex="-1">Results</h2>
+      <div class="grid grid-3" id="workGrid"></div>
+      <nav class="up-pagination" id="workPagination" aria-label="Work pages" hidden>
+        <button type="button" class="up-page-btn" id="workPrev" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        <span class="up-page-info" id="workPageInfo" aria-live="polite"></span>
+        <button type="button" class="up-page-btn" id="workNext" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      </nav>
+    </div>
+  </section>
+
+  <section style="padding-block:4rem; border-top:1px solid rgba(246,244,238,.12); background-image: url('assets/images/discover.webp'); background-size: cover; background-position: center;">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+      <h3 class="mt-0" style="max-width:26ch; color:#a8935a;">Have a project we should know about?</h3>
+      <a href="contact.html" class="btn btn-gold">Let's talk</a>
+    </div>
+  </section>
+</main>
+
+<div id="footer-slot"></div>
+<script src="js/main.js"></script>
+<script type="module" src="js/work.js"></script>
+<script type="module">
+  import { initHeroAnimations } from 'js/hero-animations.js';
+  initHeroAnimations();
+</script>
+</body>
+</html>
