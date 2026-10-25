@@ -1972,7 +1972,7 @@ figure.article-figure img{ width:auto; max-width:100%; max-height:min(70vh, 480p
 .article-backlink a:hover{ text-decoration:underline; text-underline-offset:3px; }
 .article-backlink a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 /* "View all projects" link on service pages — matches existing text-link style */
-.view-all{ display:inline-block; color:var(--navy); font-size:13px; font-weight:600; text-decoration:none; padding:.85rem 0; }
+.view-all{ display:inline-block; color:var(--navy); font-size:var(--step--1); font-weight:600; text-decoration:none; }
 .view-all:hover{ text-decoration:underline; text-underline-offset:3px; }
 .view-all:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 .article-byline-row{ display:flex; justify-content:space-between; align-items:center; gap:1rem; margin:0 0 1.5rem; }
@@ -2111,10 +2111,6 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
 /* Scroll targets sit below the fixed header (+ sticky toolbar for the grid) */
 .updates-toolbar{ scroll-margin-top:calc(var(--header-h) + .75rem); }
 #updatesGrid{ scroll-margin-top:calc(var(--header-h) + 4.5rem); }
-#featured-projects{ scroll-margin-top:calc(var(--header-h) + .75rem); }
-.view-all{ display:inline-block; color:var(--navy); font-size:var(--step--1); font-weight:600; text-decoration:none; }
-.view-all:hover{ text-decoration:underline; text-underline-offset:3px; }
-.view-all:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
 #featured-projects{ scroll-margin-top:calc(var(--header-h) + .75rem); }
 
 @media (max-width:700px){
