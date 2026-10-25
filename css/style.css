@@ -1358,7 +1358,7 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .footer-top > *{ min-width: 0; }
 @media (max-width: 900px){ .footer-top{ grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px){ .footer-top{ grid-template-columns: 1fr; gap: 2rem; } }
-.footer-nav h5{ color: var(--soft-gold); font-size: .82rem; font-weight:700; letter-spacing:.08em; text-transform: uppercase; margin: 0 0 1rem; }
+.footer-nav h5{ color: var(--gold); font-size: .82rem; font-weight:700; letter-spacing:.08em; text-transform: uppercase; margin: 0 0 1rem; }
 .footer-link{ display:block; margin-bottom:.65rem; font-size: .92rem; line-height: 1.45; color: rgba(246,244,238,.9); text-decoration: none; }
 .footer-link:hover{ color: var(--cream); text-decoration: underline; text-underline-offset: 3px; }
 .footer-link:focus-visible{ outline: 2px solid var(--soft-gold); outline-offset: 3px; }
