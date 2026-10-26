@@ -1,13 +1,5 @@
 {
-  "_instructions": {
-    "how_to_add_an_HD_graphic": "Export your PowerPoint/Canva slide as a PNG or JPG (File > Export > Image, highest quality). Drop the file into /assets/data-division/. Then copy an 'image' block below, set 'image' to that file's path, fill in title/description/sector, save. It appears in the gallery and opens full-size when clicked.",
-    "how_to_add_a_dashboard": "If it's Power BI: in Power BI, choose File > Embed report > Publish to web (or use your organisation's secure embed link), copy the embed URL. Paste it into 'embedUrl' on a 'dashboard' block below. Works the same for Tableau Public, Looker Studio, or any tool that gives you an embeddable link.",
-    "how_to_add_an_interactive_chart_without_any_design_tool": "Copy a 'chart' block, change 'chartType' to bar / line / pie / doughnut, replace 'labels' with your categories and 'series' with your numbers. No image needed \u2014 it draws itself.",
-    "how_to_add_an_article": "Copy an 'article' block, fill in title/excerpt/sector, and set 'link' to a page on this site (e.g. an Updates post) or an external report URL.",
-    "how_to_choose_a_chart_type": "Pick the chart by what you want to say. bar: simple vertical comparisons across a few categories. horizontalBar: ranked comparisons and long category names (labels wrap, never rotate). groupedBar: compare several series side by side per category. stackedBar: parts of a whole per category, stacked vertically. stackedBar100: share of a whole per category (raw numbers in JSON, chart shows %). line: change over time; area: change over time with the volume filled in. steppedLine: values that jump between levels rather than gliding. radar: compare a few items across several indicators at once. pie / doughnut / polarArea: shares of one whole (doughnut has the hole). scatter: two measures plotted as x/y points. bubble: three measures at once (x, y and bubble size). combo: a count as bars plus a rate as a line on a second axis. Add \"sortDescending\": true to bar/horizontalBar to rank biggest first.",
-    "chart_block_examples": "One tiny valid example per chartType, as strings (not real items). Every chart needs: \"type\": \"chart\", \"chartType\", \"labels\" (except scatter/bubble), \"series\": [{\"name\": ..., \"data\": [...]}]. Data lengths must match labels. Optional on any chart: \"unit\" (e.g. \"%\", \"USD\"), \"xAxisTitle\", \"yAxisTitle\". Optional per series: \"color\" (hex override). Combo series also take \"type\": \"bar\"|\"line\" and \"axis\": \"left\"|\"right\" (plus \"rightAxisTitle\"). bar/horizontalBar also take \"sortDescending\": true. Scatter/bubble series data are {\"x\": n, \"y\": n} (bubble adds \"r\": n). EXAMPLES (strings only): {\"type\":\"chart\",\"chartType\":\"bar\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"horizontalBar\",\"sortDescending\":true,\"labels\":[\"Long category name here\"],\"series\":[{\"name\":\"Share\",\"data\":[42]}]} | {\"type\":\"chart\",\"chartType\":\"groupedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[30,45]}]} | {\"type\":\"chart\",\"chartType\":\"stackedBar100\",\"unit\":\"%\",\"labels\":[\"2023\",\"2024\"],\"series\":[{\"name\":\"Urban\",\"data\":[40,55]},{\"name\":\"Rural\",\"data\":[60,45]}]} | {\"type\":\"chart\",\"chartType\":\"line\",\"xAxisTitle\":\"Year\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"area\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Index\",\"data\":[12,19,15]}]} | {\"type\":\"chart\",\"chartType\":\"steppedLine\",\"labels\":[\"2021\",\"2022\",\"2023\"],\"series\":[{\"name\":\"Level\",\"data\":[1,1,2]}]} | {\"type\":\"chart\",\"chartType\":\"radar\",\"labels\":[\"Reach\",\"Quality\",\"Speed\"],\"series\":[{\"name\":\"2023\",\"data\":[4,3,5]},{\"name\":\"2024\",\"data\":[5,4,4]}]} | {\"type\":\"chart\",\"chartType\":\"pie\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"doughnut\",\"labels\":[\"A\",\"B\"],\"series\":[{\"name\":\"Share\",\"data\":[30,70]}]} | {\"type\":\"chart\",\"chartType\":\"polarArea\",\"labels\":[\"A\",\"B\",\"C\"],\"series\":[{\"name\":\"Share\",\"data\":[30,50,20]}]} | {\"type\":\"chart\",\"chartType\":\"scatter\",\"xAxisTitle\":\"Cost\",\"yAxisTitle\":\"Return\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20},{\"x\":15,\"y\":25}]}]} | {\"type\":\"chart\",\"chartType\":\"bubble\",\"series\":[{\"name\":\"Projects\",\"data\":[{\"x\":10,\"y\":20,\"r\":15},{\"x\":30,\"y\":40,\"r\":45}]}]} | {\"type\":\"chart\",\"chartType\":\"combo\",\"rightAxisTitle\":\"Rate %\",\"labels\":[\"Q1\",\"Q2\"],\"series\":[{\"name\":\"Count\",\"type\":\"bar\",\"data\":[120,150]},{\"name\":\"Rate\",\"type\":\"line\",\"axis\":\"right\",\"data\":[62,71]}]}",
-    "card_fields_updated_and_labels": "Every item needs an \"updated\" month (\"YYYY-MM\", e.g. \"2026-09\"), shown on its card as \"Updated: Sep, 2026\". Set it to the month the underlying visual or data was last refreshed. Every item also needs a \"mode\" field with exactly \"static\" or \"interactive\", shown as the corner badge on its thumbnail, e.g. \"mode\": \"interactive\". Use \"interactive\" for embeds and anything a viewer can click or explore (Tableau, Power BI, custom HTML, maps, timelines, dashboards); use \"static\" for images, site-drawn charts and plain datasets. If \"mode\" is missing or anything else, no badge is shown."
-  },
+  "_instructions": "HOW TO ADD AN ITEM: copy an existing item of the same type in Catalogue Items and edit it. Every item needs an Updated month (YYYY-MM, e.g. 2026-09), shown on the card as 'Updated: Sep, 2026'; set it to the month the visual or data was last refreshed. Every item also needs a Mode of exactly static or interactive, shown as the corner badge on the thumbnail. Use interactive for embeds and anything a viewer can click or explore (Tableau, Power BI, custom HTML, maps, dashboards) and static for images, charts and plain datasets. If Mode is missing or anything else, no badge is shown. HD GRAPHIC: export your PowerPoint or Canva slide as a PNG or JPG (File > Export > Image, highest quality), upload it through the Image field, set the type to image, and fill in title, description and sector. It appears in the gallery and opens full-size when clicked. DASHBOARD: for Power BI, choose File > Embed report > Publish to web (or use your organisation's secure embed link) and copy the embed URL. Paste it into Embed URL on an item of type dashboard. The same works for Tableau Public, Looker Studio or any tool that gives you an embeddable link. CHART (no design tool needed): set the type to chart and choose bar, line or pie. Add your categories under Chart Labels and your numbers under Chart Series; each series must have the same number of values as there are labels. No image needed, the chart draws itself. Use bar to compare a few categories, line for change over time, and pie for shares of one whole. Optional: Unit Suffix (e.g. % or kg), Value Prefix (e.g. $), axis titles, and Sort Descending to rank bars biggest first. ARTICLE: set the type to article, fill in title, excerpt and sector, and set Link to a page on this site (e.g. an Updates post) or an external report URL.",
   "sectors": [
     "Crop Production",
     "Food",
@@ -42,7 +34,7 @@
       "title": "The sectors Equip Group have worked in",
       "sector": "Cross-sector",
       "description": "A sector-by-sector map of every industry Equip's Business Development and Research teams have supported since 2019.",
-      "image": "/assets/data-division/data-sectors.avif",
+      "image": "assets/data-division/data-sectors.avif",
       "mode": "static",
       "source": "Equip Group internal records"
     },
@@ -163,7 +155,7 @@
       "title": "Malawi Electoral Commission's chairperson timeline",
       "sector": "Government",
       "description": "The narrative of the (MEC) Malawi Electoral Commission (MEC) is a powerful testament to the impact of diverse and effective leadership. As the timeline illustrates, the MEC has been guided by six chairpersons, remarkably, half of whom have been women.",
-      "image": "/assets/data-division/mec-chairpersons.avif",
+      "image": "assets/data-division/mec-chairpersons.avif",
       "mode": "static",
       "source": "Malawi Electoral Commission (2024)"
     },
@@ -175,7 +167,7 @@
       "title": "Raw potential: the numbers behind Agro-Processing in Malawi",
       "sector": "Agroprocessing",
       "description": "Agro-Processing in Malawi: untapped potential in a growing sector, benchmarked against South Africa.",
-      "image": "/assets/data-division/agroprocessing-malawi.avif",
+      "image": "assets/data-division/agroprocessing-malawi.avif",
       "mode": "static",
       "source": "Ministry of Trade report",
       "sourceUrl": "https://example.com"
@@ -314,7 +306,7 @@
       "title": "What a basket of 13 grocery items will cost you in various stores",
       "sector": "Retail",
       "description": "A price comparison of a standard basket of 13 essential grocery items in 2025 across major retailers in Malawi, including Chipiku, Shoprite, and Sana.",
-      "image": "/assets/data-division/groceries-basket-2025.avif",
+      "image": "assets/data-division/groceries-basket-2025.avif",
       "mode": "static",
       "source": "Equip Group groceries monitor (2025)"
     },
@@ -386,7 +378,7 @@
       "title": "Equip Group groceries monitor: 1KG Illovo sugar",
       "sector": "Retail",
       "description": "The price of a 1 kg packet of brown sugar has changed from MWK2,950 in 2025 to MWK4,600 in 2026, representing a 56% increase. Most Malawians buy brown sugar regularly, this means spending MWK1,650 more on the same item than they did a year ago.",
-      "image": "/assets/data-division/sugar-2026.avif",
+      "image": "assets/data-division/sugar-2026.avif",
       "mode": "static",
       "source": "Equip Group groceries monitor (2026)"
     }
