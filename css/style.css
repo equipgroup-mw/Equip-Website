@@ -2744,3 +2744,21 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
     padding-bottom: .45rem;
   }
 }
+
+/* What we do: tighter spacing (BDS + Research pages) */
+#service-overview:has(.services-grid--2col){ padding-block: 7rem !important; }
+#service-overview:has(.services-grid--2col) .section-head{ margin-bottom: 2.5rem !important; }
+#service-overview:has(.services-grid--2col) .section-head h2{ margin-bottom: 0 !important; }
+#service-overview:has(.services-grid--2col) .rule{ margin-bottom: .5rem !important; }
+#service-overview:has(.services-grid--2col) .services-grid{ padding-top: 0 !important; gap: .5rem 1.5rem !important; }
+#service-overview:has(.services-grid--2col) .service-card{ padding: 2.75rem 1rem !important; gap: .4rem !important; }
+#service-overview:has(.services-grid--2col) .service-card h4{ min-height: 0 !important; }
+#service-overview:has(.services-grid--2col) .service-num{ font-size: 2rem !important; }
+#service-overview:has(.services-grid--2col) .service-icon{ width: 28px !important; height: 28px !important; }
+
+
+/* Fix: container shrinking inside the flex-column services section */
+.services-grid-section > .container{
+  width: 100%;
+  max-width: var(--maxw);
+}
