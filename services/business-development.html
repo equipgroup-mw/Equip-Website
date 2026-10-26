@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Business Development — Equip Group</title>
 <meta name="description" content="Equip Group's Business Development arm helps startups and SMEs launch, secure investment, and scale sustainably.">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=20261026">
 <link rel="icon" type="image/avif" href="../assets/logos/favicon.avif">
 <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script type="application/ld+json">
@@ -53,7 +53,7 @@
   <section class="section services-grid-section" id="service-overview">
     <div class="container">
       <div class="section-head"><div><hr class="rule"><h2>What we do</h2></div></div>
-      <div class="services-grid">
+      <div class="services-grid services-grid--2col">
         <div class="service-card">
           <div class="service-num-icon"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M22 9L12 5L2 9l10 4zv6" /><path d="M6 10.6V16a6 3 0 0 0 12 0v-5.4" /></svg><span class="service-num">01</span></div>
           <h4>Business incubation</h4>
@@ -90,10 +90,16 @@
     </div>
   </section>
 
-  <section class="bg-navy" style="padding-block:4rem;">
-    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
-      <h3 class="mt-0">Discover tailored business solutions</h3>
-      <a href="../contact.html" class="btn btn-gold">Let's talk</a>
+  <section class="section cta-band" id="cta-band">
+    <div class="container cta-band__inner">
+      <div class="cta-band__content">
+        <hr class="rule"><h2 style="color:#fff;">Ready to start, build or grow your business?</h2>
+        <p style="color:#fff;">Or maybe you need help getting investor-ready, sharpening your strategy or tightening your financial management? Talk to our team.</p>
+        <a href="../contact.html" class="btn btn-gold">Talk to us</a>
+      </div>
+      <div class="cta-band__image">
+        <img src="../assets/images/data-cms.jpg" alt="" onerror="this.parentElement.style.background='var(--navy-mid)'">
+      </div>
     </div>
   </section>
 
@@ -173,5 +179,8 @@
     }, { passive: true });
   })();
 </script>
+</main>
+<div class="mobile-cta-bar" id="mobileCtaBar" aria-hidden="true"></div>
+<div id="footer-slot"></div>
 </body>
 </html>

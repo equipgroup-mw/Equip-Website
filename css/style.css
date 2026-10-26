@@ -997,8 +997,51 @@ body.nav-open .site-header{ background:var(--navy-deep); }
       animation:none;
       transform:scaleY(1);
       transform-origin:center;
-    }
+}
+}
+
+/* ===== What we do: 2-col pages share Data Division's compact item styling (desktop) ===== */
+@media (min-width: 901px){
+  .services-grid--2col .service-card{ padding: 1rem 1.25rem; gap: .45rem; height: auto; border: none; }
+  .services-grid--2col .service-num-icon{ gap: .35rem; margin-bottom: 0; }
+  .services-grid--2col .service-num{ font-size: clamp(1.25rem, 2.5vw, 2rem); }
+  .services-grid--2col .service-icon{ width: clamp(24px, 2.5vw, 32px); height: clamp(24px, 2.5vw, 32px); }
+  .services-grid--2col .service-card h4{ font-size: clamp(.85rem, 1.5vw, 1.05rem); line-height: 1.2; min-height: 2.4em; }
+  .services-grid--2col .service-card p{ font-size: clamp(.78rem, 1.2vw, .92rem); line-height: 1.4; max-width: none; }
+}
+
+
+/* ===== What we do: phones keep a single column and no forced heading height ===== */
+@media (max-width: 900px){
+  .services-grid--2col .service-card h4{ min-height: 0; }
+}
+
+
+/* ===== What we do: TABLET PORTRAIT = 2 columns on all three service pages =====
+   The earlier "@media (max-width:900px)" block forces 1 column with !important,
+   so this block must also use !important to override it. Phones (<=640px) stay 1 column. */
+@media (min-width: 641px) and (max-width: 900px){
+  .services-grid,
+  .services-grid-3x2,
+  .services-grid--2col{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1.25rem 1.5rem !important;
   }
+  .services-grid .service-card,
+  .services-grid-3x2 .service-card,
+  .services-grid--2col .service-card{
+    border: 0 !important;
+    padding: 1rem 1.25rem;
+    max-width: none;
+  }
+  .services-grid .service-card p,
+  .services-grid-3x2 .service-card p,
+  .services-grid--2col .service-card p{
+    max-width: none;
+    font-size: clamp(.9rem, 1.9vw, 1rem);
+    line-height: 1.5;
+  }
+}
 
   /* Hide scroll cue on very short viewports to avoid overlap */
   @media (max-height:520px){
@@ -1035,7 +1078,7 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .divider-feature{ border-top:1px solid var(--line); padding-top:1.5rem; }
 /* Services grid - 4-column icon layout */
 .services-grid-section{ height: auto; min-height: 0; max-height: none; overflow:visible; display:flex; flex-direction:column; justify-content:flex-start; }
-.services-grid{ display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; padding-top: 3rem; align-items: stretch; grid-auto-rows: 1fr; }
+.services-grid{ display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding-top: 3rem; align-items: stretch; grid-auto-rows: 1fr; }
 .service-card{ display:flex; flex-direction:column; align-items:flex-start; gap: .75rem; padding: 1.5rem; height: auto; border: none; }
 .service-card:last-child{ border-right: 0; }
 .service-num-icon{ display:flex; align-items:center; gap:.5rem; }
@@ -1044,21 +1087,63 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .service-card h4{ color: var(--navy); font-size: clamp(1rem, 2vw, 1.25rem); margin: 0; font-weight: 600; line-height: 1.3; min-height: clamp(3.5rem, 4vw, 4.5rem); }
 .service-card p{ color: var(--ink-soft); margin: 0; font-size: clamp(.9rem, 1.5vw, 1.05rem); max-width: 28ch; line-height: 1.6; flex: 1; }
 .sector-tag{ display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.03em; padding:.25rem .5rem; background:var(--gold-dark); color:#fff; border:1px solid var(--gold-dark); width:fit-content; }
-@media (max-width: 900px){ .services-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; } }
-@media (max-width: 640px){ .services-grid{ grid-template-columns: 1fr; gap: 0; } }
-.services-grid-3x2{ grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding-top: 1.5rem; align-items: stretch; grid-auto-rows: 1fr; }
+@media (max-width: 900px){ .services-grid-3x2{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; } }
+@media (max-width: 640px){ .services-grid-3x2{ grid-template-columns: 1fr; } }
+@media (max-width: 900px){ .services-grid--2col{ grid-template-columns: 1fr; gap: 1.5rem; } }
+@media (max-width: 640px){ .services-grid--2col{ grid-template-columns: 1fr; } }
+.services-grid-3x2{ grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding-top: 1.5rem; align-items: stretch; grid-auto-rows: 1fr; }
+.services-grid--2col{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding-top: 1.5rem; align-items: stretch; grid-auto-rows: 1fr; }
 .services-grid-3x2 .service-card{ padding: 1rem 1.25rem; gap: .45rem; height: auto; border: none; }
 .services-grid-3x2 .service-num-icon{ gap:.35rem; margin-bottom:0; }
 .services-grid-3x2 .service-num{ font-size: clamp(1.25rem, 2.5vw, 2rem); }
 .services-grid-3x2 .service-icon{ width: clamp(24px, 2.5vw, 32px); height: clamp(24px, 2.5vw, 32px); color: var(--gold); flex-shrink: 0; }
 .services-grid-3x2 .service-card h4{ font-size: clamp(.85rem, 1.5vw, 1.05rem); line-height:1.2; margin: 0; font-weight: 600; min-height: clamp(3rem, 4vw, 4rem); }
 .services-grid-3x2 .service-card p{ font-size: clamp(.78rem, 1.2vw, .92rem); line-height:1.4; max-width: 30ch; }
-@media (max-width: 900px){ .services-grid-3x2{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px){ .services-grid-3x2{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; } }
 @media (max-width: 640px){ .services-grid-3x2{ grid-template-columns: 1fr; } }
 
 /* ========================================================================
-   SERVICE PAGES — Mobile layout (≤900px)
+   SHARED CTA BAND (used on all three service pages)
    ======================================================================== */
+.cta-band{
+  padding-block: 4rem;
+  border-top: 1px solid rgba(246,244,238,.12);
+  background-image: url('../assets/images/discover.webp');
+  background-size: cover;
+  background-position: center;
+}
+.cta-band__inner{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.cta-band__content{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cta-band__content .rule{ background: var(--gold); }
+.cta-band__content h2{ color: #fff; margin: 0; }
+.cta-band__content p{ color: #fff; margin: 0; }
+.cta-band__image{ position: relative; aspect-ratio: 4/3; }
+.cta-band__image img{ width: 100%; height: 100%; object-fit: cover; }
+.cta-band__image img[onerror]{ /* fallback handled by inline onerror */ }
+
+@media (max-width: 1024px){
+  .cta-band__inner{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  .cta-band__image{ order: -1; /* image on top */ }
+  .cta-band__content{ text-align: center; }
+}
+
+/* Ensure the image doesn't take over the screen on mobile */
+.cta-band__image img{
+  max-height: 60vh;
+  object-fit: cover;
+}
 @media (max-width: 900px){
   /* Consistent gutters: single left gutter via .container (var--gutter),
      .services-grid-section rules removed to avoid double‑gutter overlap. */

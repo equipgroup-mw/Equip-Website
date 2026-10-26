@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Division</title>
 <meta name="description" content="Equip Group's Data Division: interactive charts, dashboards, HD data visuals and research articles turning complex data into strategic clarity.">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=20261026">
 <link rel="icon" type="image/avif" href="../assets/logos/favicon.avif">
 <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script type="application/ld+json">
@@ -138,14 +138,16 @@
     </section>
   </div>
 
-  <section class="section cta-dark" style="padding-block:4rem; border-top:1px solid rgba(246,244,238,.12); background-image:url('../assets/images/discover.webp'); background-size:cover; background-position:center;">
-    <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
-      <div>
+  <section class="section cta-band" id="cta-band">
+    <div class="container cta-band__inner">
+      <div class="cta-band__content">
         <hr class="rule"><h2 style="color:#fff;">Need visuals or dashboards like these?</h2>
         <p style="color:#fff;">Or maybe you need help collecting data or bolstering your current (M&E) process? Talk to our team.</p>
         <a href="../contact.html" class="btn btn-gold">Talk to us</a>
       </div>
-      <div class="card-media" style="aspect-ratio:4/3;"><img src="../assets/images/data-cms.jpg" alt="" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
+      <div class="cta-band__image">
+        <img src="../assets/images/data-cms.jpg" alt="" onerror="this.parentElement.style.background='var(--navy-mid)'">
+      </div>
     </div>
   </section>
 
