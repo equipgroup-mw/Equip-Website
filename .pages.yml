@@ -1,0 +1,826 @@
+# ============================================================================
+#  Pages CMS configuration — Equip Group website
+#  ---------------------------------------------------------------------------
+#  Every entry below points at a content file that already exists in this
+#  repository.  Nothing is created, moved or renamed by this config.
+#
+#  Why every entry is `type: file` (not `collection`):
+#  Every content set on this site lives in ONE JSON file (data/*.json) whose
+#  top level is an object holding an array (e.g. { "_instructions": ..., "articles": [...] }).
+#  A Pages CMS collection needs a FOLDER of same-schema files, which this repo
+#  does not have (there are no Markdown posts and no content/ folder).  Each
+#  JSON file is therefore exposed as a `file` entry with `format: json`, and the
+#  array inside it is exposed as a repeated (`list: true`) object field.  That
+#  keeps the stored JSON byte-shape identical, so the site's existing JS keeps
+#  working after an edit.
+#
+#  Cross-links (related articles, podcast series id) are plain string id
+#  lists, not `reference` fields: a Pages CMS `reference` is collection-backed
+#  and this repo has no collections to point at.
+#
+#  NOTE: data/case-studies.json stores challenge / approach / solution / results
+#  as PLAIN TEXT (no HTML). Paragraphs are separated by a blank line and the
+#  page turns them into <p> tags when it renders.
+#
+#  NOTE: Pages CMS rebuilds each file from the fields declared here, so any key
+#  in a JSON file that is not declared below is dropped on save.  Keep this
+#  config in step with the data files.
+# ============================================================================
+
+# Image paths are stored relative (no leading slash) to match the data files.
+# The FIRST media entry is the default for image fields; other folders are
+# selected per field with `options: { media: <name> }`.
+media:
+  - name: images
+    input: assets/images
+    output: assets/images
+  - name: logos
+    input: assets/logos
+    output: assets/logos
+  - name: data-division
+    input: assets/data-division
+    output: assets/data-division
+
+content:
+  # ==========================================================================
+  #  Site
+  # ==========================================================================
+  - name: site
+    label: Site
+    type: group
+    items:
+      # ------------------------------------------------------------------
+      - name: navigation
+        label: Navigation & Departments
+        type: file
+        path: data/nav.json
+        format: json
+        fields:
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: departments
+            label: Departments
+            type: object
+            list: true
+            fields:
+              - name: name
+                label: Department Name
+                type: string
+                required: true
+              - name: description
+                label: Short Description
+                type: text
+              - name: external
+                label: External Link
+                type: boolean
+              - name: path
+                label: Internal Path
+                type: string
+              - name: url
+                label: External URL
+                type: string
+
+      # ------------------------------------------------------------------
+      - name: testimonials
+        label: Testimonials
+        type: file
+        path: data/testimonials.json
+        format: json
+        fields:
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: testimonials
+            label: Testimonials
+            type: object
+            list: true
+            fields:
+              - name: quote
+                label: Quote
+                type: text
+                required: true
+              - name: name
+                label: Name
+                type: string
+                required: true
+              - name: title
+                label: Title / Role
+                type: string
+                required: true
+
+      # ------------------------------------------------------------------
+      - name: logos
+        label: Partner Logos
+        type: file
+        path: data/logos.json
+        format: json
+        fields:
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: logos
+            label: Logos
+            type: object
+            list: true
+            fields:
+              - name: name
+                label: Organization Name
+                type: string
+                required: true
+              - name: image
+                label: Logo Image
+                type: image
+                required: true
+                options:
+                  media: logos
+
+      # ------------------------------------------------------------------
+      - name: team
+        label: Team Members
+        type: file
+        path: data/team.json
+        format: json
+        fields:
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: team
+            label: Team Members
+            type: object
+            list: true
+            fields:
+              - name: name
+                label: Name
+                type: string
+                required: true
+              - name: role
+                label: Role
+                type: string
+                required: true
+              - name: photo
+                label: Photo
+                type: image
+                required: true
+              - name: bio
+                label: Bio
+                type: text
+              - name: linkedin
+                label: LinkedIn URL
+                type: string
+              - name: expertise
+                label: Expertise
+                type: string
+                list: true
+
+  # ==========================================================================
+  #  Editorial
+  # ==========================================================================
+  - name: editorial
+    label: Editorial
+    type: group
+    items:
+      # ------------------------------------------------------------------
+      - name: articles
+        label: Articles
+        type: file
+        path: data/articles.json
+        format: json
+        fields:
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: articles
+            label: Articles
+            type: object
+            list: true
+            fields:
+              - name: id
+                label: Article ID (slug)
+                type: string
+                required: true
+                description: "Slug used by the page as article.html?id=<id>. Use lowercase letters, digits and dashes."
+                pattern:
+                  regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                  message: "Use lowercase letters, digits and dashes only (e.g. my-first-article)."
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: author
+                label: Author
+                type: string
+                description: "Shown as 'By <author>'. Leave empty to fall back to 'EQUIP Team'."
+              - name: excerpt
+                label: Excerpt
+                type: text
+                required: true
+              - name: date
+                label: Publish Date
+                type: date
+                required: true
+              - name: readTime
+                label: Read Time
+                type: string
+              - name: tags
+                label: Tags
+                type: string
+                list: true
+              - name: mainImage
+                label: Main Image
+                component: image-with-alt-caption-portal
+                required: true
+              - name: sections
+                label: Sections
+                type: object
+                list: true
+                fields:
+                  - name: heading
+                    label: Section Heading
+                    type: string
+                    required: true
+                  - name: body
+                    label: Body Text
+                    type: text
+                    required: true
+                  - name: image
+                    label: Section Image
+                    component: image-with-alt-caption-portal
+              - name: pullQuote
+                label: Pull Quote
+                type: text
+              - name: related
+                label: Related Article IDs
+                type: string
+                list: true
+                description: "Article ids (the `id` field of another article). Stored in the data file but not rendered by the current article template."
+
+      # ------------------------------------------------------------------
+      - name: case-studies
+        label: Case Studies
+        type: file
+        path: data/case-studies.json
+        format: json
+        fields:
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: caseStudies
+            label: Case Studies
+            type: object
+            list: true
+            fields:
+              - name: id
+                label: Case Study ID (slug)
+                type: string
+                required: true
+                description: "Slug used by the page as case-study.html?id=<id>. Use lowercase letters, digits and dashes."
+                pattern:
+                  regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                  message: "Use lowercase letters, digits and dashes only (e.g. cross-border-traders)."
+              - name: serviceSlug
+                label: Service
+                type: select
+                required: true
+                description: "Decides which service page the case study belongs to."
+                options:
+                  values:
+                    - business-development
+                    - research-project-management
+                    - data-division
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: client
+                label: Client
+                type: string
+                required: true
+              - name: clientLogo
+                label: Client Logo
+                type: image
+                description: "Stored in the data file; not rendered by the current case study template."
+                options:
+                  media: logos
+              - name: period
+                label: Period
+                type: string
+              - name: location
+                label: Location
+                type: string
+              - name: tags
+                label: Tags
+                type: string
+                list: true
+                description: "Stored in the data file; not rendered by the current case study template."
+              - name: eyebrow
+                label: Eyebrow
+                type: string
+              - name: heroImage
+                label: Hero Image
+                type: image
+                required: true
+              - name: heroImageAlt
+                label: Hero Image Alt Text
+                type: string
+                required: true
+              - name: coverCaption
+                label: Cover Caption
+                type: text
+                description: "Caption shown under the cover image on the case study page."
+              - name: challenge
+                label: The Challenge
+                type: text
+                required: true
+                description: "Plain text. Leave a blank line between paragraphs."
+              - name: approach
+                label: Our Approach
+                type: text
+                required: true
+                description: "Plain text. Leave a blank line between paragraphs."
+              - name: solution
+                label: The Solution
+                type: text
+                required: true
+                description: "Plain text. Leave a blank line between paragraphs."
+              - name: results
+                label: Results & Impact
+                type: text
+                required: true
+                description: "Plain text. Leave a blank line between paragraphs."
+              - name: metrics
+                label: Metrics
+                type: object
+                list: true
+                fields:
+                  - name: label
+                    label: Metric Label
+                    type: string
+                    required: true
+                  - name: value
+                    label: Metric Value
+                    type: string
+                    required: true
+                  - name: description
+                    label: Metric Description
+                    type: text
+              - name: team
+                label: Team Members
+                type: string
+                list: true
+                description: "Team member slugs. Stored in the data file; not rendered by the current case study template."
+              - name: featured
+                label: Featured
+                type: boolean
+              - name: publishedAt
+                label: Published Date
+                type: date
+
+      # ------------------------------------------------------------------
+      - name: updates
+        label: Updates & News
+        type: file
+        path: data/updates.json
+        format: json
+        fields:
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: podcastSeries
+            label: Podcast Series
+            type: object
+            list: true
+            fields:
+              - name: id
+                label: Series ID
+                type: string
+                required: true
+              - name: title
+                label: Series Title
+                type: string
+                required: true
+              - name: description
+                label: Series Description
+                type: text
+              - name: coverArt
+                label: Cover Art
+                type: image
+              - name: totalEpisodes
+                label: Total Episodes
+                type: number
+              - name: latestEpisodeDate
+                label: Latest Episode Date
+                type: date
+              - name: people
+                label: People
+                type: string
+                list: true
+              - name: links
+                label: Links
+                component: streaming-links
+          - name: items
+            label: Update Items
+            type: object
+            list: true
+            fields:
+              - name: type
+                label: Item Type
+                type: select
+                options:
+                  values:
+                    - article
+                    - announcement
+                    - opportunity
+                    - podcast
+                    - webinar
+                required: true
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: date
+                label: Date
+                type: date
+                required: true
+              - name: excerpt
+                label: Excerpt
+                type: text
+                required: true
+              - name: image
+                label: Image
+                type: image
+              - name: embedUrl
+                label: Embed URL
+                type: string
+              - name: link
+                label: Link
+                type: string
+              - name: deadline
+                label: Deadline
+                type: date
+              - name: links
+                label: Links
+                component: streaming-links
+              - name: seriesId
+                label: Series ID
+                type: string
+                description: "Must match the `id` of a podcast series above (used by podcast cards)."
+              - name: episodeNumber
+                label: Episode Number
+                type: number
+              - name: imagePosition
+                label: Image Position
+                type: string
+                description: "CSS object-position for the thumbnail (e.g. 'center top'). Optional."
+
+  # ==========================================================================
+  #  Data Division
+  # ==========================================================================
+  - name: data-division
+    label: Data Division
+    type: group
+    items:
+      - name: catalogue
+        label: Portal Catalogue
+        type: file
+        path: data/data-division.json
+        format: json
+        fields:
+          # In data-division.json this key must be ONE text string (not an object).
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: sectors
+            label: Sectors
+            type: string
+            list: true
+          - name: how_to_choose_a_chart_type
+            label: Optional data fields (unit / prefix)
+            type: text
+          # One block per item type. The block name is stored in each item as "type",
+          # so existing data keeps working and each type only shows its own fields.
+          - name: items
+            label: Catalogue Items
+            type: block
+            list: true
+            blockKey: type
+            blocks:
+              - name: image
+                label: Image / HD graphic
+                fields:
+                  - name: id
+                    label: Item ID
+                    type: string
+                    required: true
+                    description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
+                    pattern:
+                      regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                      message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+                  - name: category
+                    label: Category
+                    type: select
+                    required: true
+                    options:
+                      values:
+                        - Dashboards
+                        - Datasets & Visuals
+                  - name: updated
+                    label: Updated (YYYY-MM)
+                    type: string
+                    required: true
+                    description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
+                    pattern:
+                      regex: '^\d{4}-(0[1-9]|1[0-2])$'
+                      message: "Use the format YYYY-MM, e.g. 2026-09."
+                  - name: mode
+                    label: Mode
+                    type: select
+                    required: true
+                    description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
+                    options:
+                      values:
+                        - static
+                        - interactive
+                  - name: sector
+                    label: Sector
+                    type: string
+                  - name: description
+                    label: Description
+                    type: text
+                  - name: image
+                    label: Image
+                    type: image
+                    required: true
+                    options:
+                      media: data-division
+                  - name: source
+                    label: Source
+                    type: string
+                  - name: sourceUrl
+                    label: Source URL
+                    type: string
+              - name: chart
+                label: Chart
+                fields:
+                  - name: id
+                    label: Item ID
+                    type: string
+                    required: true
+                    description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
+                    pattern:
+                      regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                      message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+                  - name: category
+                    label: Category
+                    type: select
+                    required: true
+                    options:
+                      values:
+                        - Dashboards
+                        - Datasets & Visuals
+                  - name: updated
+                    label: Updated (YYYY-MM)
+                    type: string
+                    required: true
+                    description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
+                    pattern:
+                      regex: '^\d{4}-(0[1-9]|1[0-2])$'
+                      message: "Use the format YYYY-MM, e.g. 2026-09."
+                  - name: mode
+                    label: Mode
+                    type: select
+                    required: true
+                    description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
+                    options:
+                      values:
+                        - static
+                        - interactive
+                  - name: sector
+                    label: Sector
+                    type: string
+                  - name: description
+                    label: Description
+                    type: text
+                  - name: chartType
+                    label: Chart Type
+                    type: select
+                    required: true
+                    options:
+                      values:
+                        - bar
+                        - horizontalBar
+                        - line
+                        - pie
+                        - doughnut
+                  - name: labels
+                    label: Chart Labels
+                    type: string
+                    list: true
+                    description: "One label per value in each series."
+                  - name: series
+                    label: Chart Series
+                    type: object
+                    list: true
+                    description: "Each series needs the same number of values as there are labels."
+                    fields:
+                      - name: name
+                        label: Series Name
+                        type: string
+                      - name: data
+                        label: Data Values
+                        type: number
+                        list: true
+                      - name: color
+                        label: Colour override (hex)
+                        type: string
+                        description: "Optional. Leave empty to use the brand palette."
+                  - name: unit
+                    label: Unit Suffix
+                    type: string
+                    description: "Attached to values with no space when '%', with a space otherwise (e.g. 'kg')."
+                  - name: prefix
+                    label: Value Prefix
+                    type: string
+                    description: "Attached to values as written (e.g. '$' or 'MWK ')."
+                  - name: sortDescending
+                    label: Sort Descending
+                    type: boolean
+                    description: "Ranks bar charts biggest first."
+                  - name: xAxisTitle
+                    label: X Axis Title
+                    type: string
+                  - name: yAxisTitle
+                    label: Y Axis Title
+                    type: string
+                  - name: source
+                    label: Source
+                    type: string
+                  - name: sourceUrl
+                    label: Source URL
+                    type: string
+              - name: dashboard
+                label: Dashboard embed
+                fields:
+                  - name: id
+                    label: Item ID
+                    type: string
+                    required: true
+                    description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
+                    pattern:
+                      regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                      message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+                  - name: category
+                    label: Category
+                    type: select
+                    required: true
+                    options:
+                      values:
+                        - Dashboards
+                        - Datasets & Visuals
+                  - name: updated
+                    label: Updated (YYYY-MM)
+                    type: string
+                    required: true
+                    description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
+                    pattern:
+                      regex: '^\d{4}-(0[1-9]|1[0-2])$'
+                      message: "Use the format YYYY-MM, e.g. 2026-09."
+                  - name: mode
+                    label: Mode
+                    type: select
+                    required: true
+                    description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
+                    options:
+                      values:
+                        - static
+                        - interactive
+                  - name: sector
+                    label: Sector
+                    type: string
+                  - name: description
+                    label: Description
+                    type: text
+                  - name: embedUrl
+                    label: Embed URL
+                    type: string
+                    required: true
+                  - name: provider
+                    label: Provider
+                    type: string
+                    description: "e.g. Flourish, Tableau, Power BI, Custom HTML."
+                  - name: source
+                    label: Source
+                    type: string
+                  - name: sourceUrl
+                    label: Source URL
+                    type: string
+              - name: article
+                label: Article link
+                fields:
+                  - name: id
+                    label: Item ID
+                    type: string
+                    required: true
+                    description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
+                    pattern:
+                      regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                      message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+                  - name: category
+                    label: Category
+                    type: select
+                    required: true
+                    options:
+                      values:
+                        - Dashboards
+                        - Datasets & Visuals
+                  - name: updated
+                    label: Updated (YYYY-MM)
+                    type: string
+                    required: true
+                    description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
+                    pattern:
+                      regex: '^\d{4}-(0[1-9]|1[0-2])$'
+                      message: "Use the format YYYY-MM, e.g. 2026-09."
+                  - name: mode
+                    label: Mode
+                    type: select
+                    required: true
+                    description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
+                    options:
+                      values:
+                        - static
+                        - interactive
+                  - name: sector
+                    label: Sector
+                    type: string
+                  - name: description
+                    label: Description
+                    type: text
+                  - name: link
+                    label: Link
+                    type: string
+                    required: true
+                    description: "A page on this site (e.g. an Updates post) or an external report URL."
+                  - name: source
+                    label: Source
+                    type: string
+                  - name: sourceUrl
+                    label: Source URL
+                    type: string
+
+components:
+  image-with-alt-caption-portal:
+    type: object
+    label: Image
+    fields:
+      - name: src
+        label: Image Path
+        type: image
+        required: true
+      - name: alt
+        label: Alt Text
+        type: string
+        required: true
+      - name: caption
+        label: Caption
+        type: text
+      - name: portalUrl
+        label: Data Division Portal URL
+        type: string
+        description: "Optional deep link into the portal, e.g. services/data-division.html#item-fuel-africa"
+
+  streaming-links:
+    type: object
+    label: Links
+    fields:
+      - name: spotify
+        label: Spotify URL
+        type: string
+      - name: apple
+        label: Apple Podcasts URL (series)
+        type: string
+      - name: applePodcasts
+        label: Apple Podcasts URL (episode)
+        type: string
+      - name: youtube
+        label: YouTube URL
+        type: string
+      - name: zoom
+        label: Zoom URL
+        type: string
