@@ -374,132 +374,283 @@ content:
           - name: how_to_choose_a_chart_type
             label: Optional data fields (unit / prefix)
             type: text
+          # One block per item type. The block name is stored in each item as "type",
+          # so existing data keeps working and each type only shows its own fields.
           - name: items
             label: Catalogue Items
-            type: object
+            type: block
             list: true
-            fields:
-              - name: id
-                label: Item ID
-                type: string
-                required: true
-                description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
-                pattern:
-                  regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
-                  message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
-              - name: title
-                label: Title
-                type: string
-                required: true
-              - name: type
-                label: Content Type
-                type: select
-                options:
-                  - image
-                  - chart
-                  - dashboard
-                  - article
-                required: true
-              - name: category
-                label: Category
-                type: select
-                options:
-                  - Dashboards
-                  - Datasets & Visuals
-                required: true
-              - name: updated
-                label: Updated (YYYY-MM)
-                type: string
-                required: true
-                description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
-                pattern:
-                  regex: '^\d{4}-(0[1-9]|1[0-2])$'
-                  message: "Use the format YYYY-MM, e.g. 2026-09."
-              - name: mode
-                label: Mode
-                type: select
-                options:
-                  - static
-                  - interactive
-                required: true
-                description: "Use 'interactive' for embeds and anything clickable; 'static' for images, charts and plain datasets."
-              - name: sector
-                label: Sector
-                type: string
-              - name: description
-                label: Description
-                type: text
+            blockKey: type
+            blocks:
               - name: image
-                label: Image
-                type: image
-                description: "Only for items of type 'image'."
-                options:
-                  media: data-division
-              - name: embedUrl
-                label: Embed URL
-                type: string
-                description: "Only for items of type 'dashboard'."
-              - name: link
-                label: Link
-                type: string
-                description: "Only for items of type 'article'."
-              - name: source
-                label: Source
-                type: string
-              - name: sourceUrl
-                label: Source URL
-                type: string
-              - name: provider
-                label: Provider
-                type: string
-              - name: chartType
-                label: Chart Type
-                type: select
-                description: "Only for items of type 'chart'."
-                options:
-                  - bar
-                  - line
-                  - pie
-              - name: labels
-                label: Chart Labels
-                type: string
-                list: true
-                description: "Only for charts. One label per value in each series."
-              - name: series
-                label: Chart Series
-                type: object
-                list: true
-                description: "Only for charts. Each series needs the same number of values as there are labels."
+                label: Image / HD graphic
                 fields:
-                  - name: name
-                    label: Series Name
+                  - name: id
+                    label: Item ID
                     type: string
-                  - name: data
-                    label: Data Values
-                    type: number
+                    required: true
+                    description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
+                    pattern:
+                      regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                      message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+                  - name: category
+                    label: Category
+                    type: select
+                    required: true
+                    options:
+                      - Dashboards
+                      - Datasets & Visuals
+                  - name: updated
+                    label: Updated (YYYY-MM)
+                    type: string
+                    required: true
+                    description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
+                    pattern:
+                      regex: '^\d{4}-(0[1-9]|1[0-2])$'
+                      message: "Use the format YYYY-MM, e.g. 2026-09."
+                  - name: mode
+                    label: Mode
+                    type: select
+                    required: true
+                    description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
+                    options:
+                      - static
+                      - interactive
+                  - name: sector
+                    label: Sector
+                    type: string
+                  - name: description
+                    label: Description
+                    type: text
+                  - name: image
+                    label: Image
+                    type: image
+                    required: true
+                    options:
+                      media: data-division
+                  - name: source
+                    label: Source
+                    type: string
+                  - name: sourceUrl
+                    label: Source URL
+                    type: string
+              - name: chart
+                label: Chart
+                fields:
+                  - name: id
+                    label: Item ID
+                    type: string
+                    required: true
+                    description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
+                    pattern:
+                      regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                      message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+                  - name: category
+                    label: Category
+                    type: select
+                    required: true
+                    options:
+                      - Dashboards
+                      - Datasets & Visuals
+                  - name: updated
+                    label: Updated (YYYY-MM)
+                    type: string
+                    required: true
+                    description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
+                    pattern:
+                      regex: '^\d{4}-(0[1-9]|1[0-2])$'
+                      message: "Use the format YYYY-MM, e.g. 2026-09."
+                  - name: mode
+                    label: Mode
+                    type: select
+                    required: true
+                    description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
+                    options:
+                      - static
+                      - interactive
+                  - name: sector
+                    label: Sector
+                    type: string
+                  - name: description
+                    label: Description
+                    type: text
+                  - name: chartType
+                    label: Chart Type
+                    type: select
+                    required: true
+                    options:
+                      - bar
+                      - horizontalBar
+                      - line
+                      - pie
+                      - doughnut
+                  - name: labels
+                    label: Chart Labels
+                    type: string
                     list: true
-                  - name: color
-                    label: Colour override (hex)
+                    description: "One label per value in each series."
+                  - name: series
+                    label: Chart Series
+                    type: object
+                    list: true
+                    description: "Each series needs the same number of values as there are labels."
+                    fields:
+                      - name: name
+                        label: Series Name
+                        type: string
+                      - name: data
+                        label: Data Values
+                        type: number
+                        list: true
+                      - name: color
+                        label: Colour override (hex)
+                        type: string
+                        description: "Optional. Leave empty to use the brand palette."
+                  - name: unit
+                    label: Unit Suffix
                     type: string
-                    description: "Optional. Leave empty to use the brand palette."
-              - name: unit
-                label: Unit Suffix
-                type: string
-                description: "Attached to values with no space when '%', with a space otherwise (e.g. 'kg')."
-              - name: prefix
-                label: Value Prefix
-                type: string
-                description: "Attached to values as written (e.g. '$' or 'MWW ')."
-              - name: sortDescending
-                label: Sort Descending
-                type: boolean
-                description: "Ranks bar charts biggest first."
-              - name: xAxisTitle
-                label: X Axis Title
-                type: string
-              - name: yAxisTitle
-                label: Y Axis Title
-                type: string
+                    description: "Attached to values with no space when '%', with a space otherwise (e.g. 'kg')."
+                  - name: prefix
+                    label: Value Prefix
+                    type: string
+                    description: "Attached to values as written (e.g. '$' or 'MWK ')."
+                  - name: sortDescending
+                    label: Sort Descending
+                    type: boolean
+                    description: "Ranks bar charts biggest first."
+                  - name: xAxisTitle
+                    label: X Axis Title
+                    type: string
+                  - name: yAxisTitle
+                    label: Y Axis Title
+                    type: string
+                  - name: source
+                    label: Source
+                    type: string
+                  - name: sourceUrl
+                    label: Source URL
+                    type: string
+              - name: dashboard
+                label: Dashboard embed
+                fields:
+                  - name: id
+                    label: Item ID
+                    type: string
+                    required: true
+                    description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
+                    pattern:
+                      regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                      message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+                  - name: category
+                    label: Category
+                    type: select
+                    required: true
+                    options:
+                      - Dashboards
+                      - Datasets & Visuals
+                  - name: updated
+                    label: Updated (YYYY-MM)
+                    type: string
+                    required: true
+                    description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
+                    pattern:
+                      regex: '^\d{4}-(0[1-9]|1[0-2])$'
+                      message: "Use the format YYYY-MM, e.g. 2026-09."
+                  - name: mode
+                    label: Mode
+                    type: select
+                    required: true
+                    description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
+                    options:
+                      - static
+                      - interactive
+                  - name: sector
+                    label: Sector
+                    type: string
+                  - name: description
+                    label: Description
+                    type: text
+                  - name: embedUrl
+                    label: Embed URL
+                    type: string
+                    required: true
+                  - name: provider
+                    label: Provider
+                    type: string
+                    description: "e.g. Flourish, Tableau, Power BI, Custom HTML."
+                  - name: source
+                    label: Source
+                    type: string
+                  - name: sourceUrl
+                    label: Source URL
+                    type: string
+              - name: article
+                label: Article link
+                fields:
+                  - name: id
+                    label: Item ID
+                    type: string
+                    required: true
+                    description: "Used as the portal anchor: data-division.html#item-<id>. Use lowercase letters, digits and dashes."
+                    pattern:
+                      regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                      message: "Use lowercase letters, digits and dashes only (e.g. fuel-africa)."
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+                  - name: category
+                    label: Category
+                    type: select
+                    required: true
+                    options:
+                      - Dashboards
+                      - Datasets & Visuals
+                  - name: updated
+                    label: Updated (YYYY-MM)
+                    type: string
+                    required: true
+                    description: "Month the visual or data was last refreshed, e.g. 2026-09. Shown as 'Updated: Sep, 2026'."
+                    pattern:
+                      regex: '^\d{4}-(0[1-9]|1[0-2])$'
+                      message: "Use the format YYYY-MM, e.g. 2026-09."
+                  - name: mode
+                    label: Mode
+                    type: select
+                    required: true
+                    description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
+                    options:
+                      - static
+                      - interactive
+                  - name: sector
+                    label: Sector
+                    type: string
+                  - name: description
+                    label: Description
+                    type: text
+                  - name: link
+                    label: Link
+                    type: string
+                    required: true
+                    description: "A page on this site (e.g. an Updates post) or an external report URL."
+                  - name: source
+                    label: Source
+                    type: string
+                  - name: sourceUrl
+                    label: Source URL
+                    type: string
 
 components:
   image-with-alt-caption-portal:
