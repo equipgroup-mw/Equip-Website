@@ -18,8 +18,9 @@
 #  lists, not `reference` fields: a Pages CMS `reference` is collection-backed
 #  and this repo has no collections to point at.
 #
-#  NOTE: data/case-studies.json is intentionally NOT managed by this CMS for
-#  now.  Edit it by hand until it is added back.
+#  NOTE: data/case-studies.json stores challenge / approach / solution / results
+#  as PLAIN TEXT (no HTML). Paragraphs are separated by a blank line and the
+#  page turns them into <p> tags when it renders.
 #
 #  NOTE: Pages CMS rebuilds each file from the fields declared here, so any key
 #  in a JSON file that is not declared below is dropped on save.  Keep this
@@ -255,6 +256,127 @@ content:
                 description: "Article ids (the `id` field of another article). Stored in the data file but not rendered by the current article template."
 
       # ------------------------------------------------------------------
+      - name: case-studies
+        label: Case Studies
+        type: file
+        path: data/case-studies.json
+        format: json
+        fields:
+          - name: _instructions
+            label: Editor Instructions
+            type: text
+          - name: caseStudies
+            label: Case Studies
+            type: object
+            list: true
+            fields:
+              - name: id
+                label: Case Study ID (slug)
+                type: string
+                required: true
+                description: "Slug used by the page as case-study.html?id=<id>. Use lowercase letters, digits and dashes."
+                pattern:
+                  regex: '^[a-z0-9]+(-[a-z0-9]+)*$'
+                  message: "Use lowercase letters, digits and dashes only (e.g. cross-border-traders)."
+              - name: serviceSlug
+                label: Service
+                type: select
+                required: true
+                description: "Decides which service page the case study belongs to."
+                options:
+                  values:
+                    - business-development
+                    - research-project-management
+                    - data-division
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: client
+                label: Client
+                type: string
+                required: true
+              - name: clientLogo
+                label: Client Logo
+                type: image
+                description: "Stored in the data file; not rendered by the current case study template."
+                options:
+                  media: logos
+              - name: period
+                label: Period
+                type: string
+              - name: location
+                label: Location
+                type: string
+              - name: tags
+                label: Tags
+                type: string
+                list: true
+                description: "Stored in the data file; not rendered by the current case study template."
+              - name: eyebrow
+                label: Eyebrow
+                type: string
+              - name: heroImage
+                label: Hero Image
+                type: image
+                required: true
+              - name: heroImageAlt
+                label: Hero Image Alt Text
+                type: string
+                required: true
+              - name: coverCaption
+                label: Cover Caption
+                type: text
+                description: "Caption shown under the cover image on the case study page."
+              - name: challenge
+                label: The Challenge
+                type: text
+                required: true
+                description: "Plain text. Leave a blank line between paragraphs."
+              - name: approach
+                label: Our Approach
+                type: text
+                required: true
+                description: "Plain text. Leave a blank line between paragraphs."
+              - name: solution
+                label: The Solution
+                type: text
+                required: true
+                description: "Plain text. Leave a blank line between paragraphs."
+              - name: results
+                label: Results & Impact
+                type: text
+                required: true
+                description: "Plain text. Leave a blank line between paragraphs."
+              - name: metrics
+                label: Metrics
+                type: object
+                list: true
+                fields:
+                  - name: label
+                    label: Metric Label
+                    type: string
+                    required: true
+                  - name: value
+                    label: Metric Value
+                    type: string
+                    required: true
+                  - name: description
+                    label: Metric Description
+                    type: text
+              - name: team
+                label: Team Members
+                type: string
+                list: true
+                description: "Team member slugs. Stored in the data file; not rendered by the current case study template."
+              - name: featured
+                label: Featured
+                type: boolean
+              - name: publishedAt
+                label: Published Date
+                type: date
+
+      # ------------------------------------------------------------------
       - name: updates
         label: Updates & News
         type: file
@@ -305,11 +427,12 @@ content:
                 label: Item Type
                 type: select
                 options:
-                  - article
-                  - announcement
-                  - opportunity
-                  - podcast
-                  - webinar
+                  values:
+                    - article
+                    - announcement
+                    - opportunity
+                    - podcast
+                    - webinar
                 required: true
               - name: title
                 label: Title
@@ -402,8 +525,9 @@ content:
                     type: select
                     required: true
                     options:
-                      - Dashboards
-                      - Datasets & Visuals
+                      values:
+                        - Dashboards
+                        - Datasets & Visuals
                   - name: updated
                     label: Updated (YYYY-MM)
                     type: string
@@ -418,8 +542,9 @@ content:
                     required: true
                     description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
                     options:
-                      - static
-                      - interactive
+                      values:
+                        - static
+                        - interactive
                   - name: sector
                     label: Sector
                     type: string
@@ -458,8 +583,9 @@ content:
                     type: select
                     required: true
                     options:
-                      - Dashboards
-                      - Datasets & Visuals
+                      values:
+                        - Dashboards
+                        - Datasets & Visuals
                   - name: updated
                     label: Updated (YYYY-MM)
                     type: string
@@ -474,8 +600,9 @@ content:
                     required: true
                     description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
                     options:
-                      - static
-                      - interactive
+                      values:
+                        - static
+                        - interactive
                   - name: sector
                     label: Sector
                     type: string
@@ -487,11 +614,12 @@ content:
                     type: select
                     required: true
                     options:
-                      - bar
-                      - horizontalBar
-                      - line
-                      - pie
-                      - doughnut
+                      values:
+                        - bar
+                        - horizontalBar
+                        - line
+                        - pie
+                        - doughnut
                   - name: labels
                     label: Chart Labels
                     type: string
@@ -558,8 +686,9 @@ content:
                     type: select
                     required: true
                     options:
-                      - Dashboards
-                      - Datasets & Visuals
+                      values:
+                        - Dashboards
+                        - Datasets & Visuals
                   - name: updated
                     label: Updated (YYYY-MM)
                     type: string
@@ -574,8 +703,9 @@ content:
                     required: true
                     description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
                     options:
-                      - static
-                      - interactive
+                      values:
+                        - static
+                        - interactive
                   - name: sector
                     label: Sector
                     type: string
@@ -616,8 +746,9 @@ content:
                     type: select
                     required: true
                     options:
-                      - Dashboards
-                      - Datasets & Visuals
+                      values:
+                        - Dashboards
+                        - Datasets & Visuals
                   - name: updated
                     label: Updated (YYYY-MM)
                     type: string
@@ -632,8 +763,9 @@ content:
                     required: true
                     description: "Use 'interactive' for embeds and anything clickable; 'static' for images and plain datasets."
                     options:
-                      - static
-                      - interactive
+                      values:
+                        - static
+                        - interactive
                   - name: sector
                     label: Sector
                     type: string
