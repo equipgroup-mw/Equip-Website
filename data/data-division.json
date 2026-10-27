@@ -388,6 +388,19 @@
       "description": "The price of a 1 kg packet of brown sugar has changed from MWK2,950 in 2025 to MWK4,600 in 2026, representing a 56% increase. Most Malawians buy brown sugar regularly, this means spending MWK1,650 more on the same item than they did a year ago.",
       "image": "assets/data-division/sugar-2026.avif",
       "source": "Equip Group groceries monitor (2026)"
+    },
+    {
+      "type": "image",
+      "id": "tobacco-mem-sept-2026",
+      "title": "Tobacco revenue dropped by 39% in 2026 compared to 2025",
+      "category": "Datasets & Visuals",
+      "updated": "2026-09",
+      "mode": "static",
+      "sector": "Tobacco",
+      "description": "Tobacco remains Malawi’s main export and a key source of foreign exchange. However, the 2026 selling season saw export earnings fall from US$380.56 million in 2025 to US$233.32 million.\n\nThe decline reflects both lower sales volumes and lower average prices per kilogram. With tobacco bringing in less foreign exchange, pressure on the country’s ability to import essential goods, including fuel, has increased.",
+      "image": "assets/data-division/tobacco-mem-2026.jpg",
+      "source": "Malawi Economic Monitor, 2026",
+      "sourceUrl": "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099090126055035864"
     }
   ]
 }
