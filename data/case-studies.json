@@ -9,22 +9,46 @@
       "clientLogo": "assets/logos/colead.svg",
       "period": "2022–2024",
       "location": "Malawi, Zambia",
-      "tags": ["Agribusiness", "Market Access", "SME Development"],
+      "tags": [
+        "Agribusiness",
+        "Market Access",
+        "SME Development"
+      ],
+      "eyebrow": "Business Development • Agribusiness",
       "heroImage": "assets/images/case-studies/colead-hero.jpg",
       "heroImageAlt": "COLEAD project team working with smallholder farmers in Malawi",
       "coverCaption": "Field team with smallholder farmers in Malawi and Zambia.",
-      "eyebrow": "Business Development • Agribusiness",
       "challenge": "<p>Smallholder farmers in Malawi and Zambia lacked structured market linkages, resulting in post-harvest losses of up to 40% and incomes well below potential. Fragmented value chains meant farmers had no reliable buyers, no access to quality inputs, and no voice in market negotiations.</p>",
       "approach": "<p>We designed a multi-stakeholder platform connecting farmers, aggregators, processors, and export markets. The approach combined business model design for farmer cooperatives, investment readiness support for agri-SMEs, and policy advocacy for enabling regulations. We embedded field officers in target districts to build trust and ensure context-appropriate solutions.</p>",
       "solution": "<p>Established 12 aggregation centers with cold storage and grading facilities. Trained 3,200+ farmers on post-harvest handling and group marketing. Facilitated off-take agreements with 5 regional buyers and 2 export companies. Supported 3 agri-SMEs to secure $380K in working capital. Advocated for simplified export licensing, reducing processing time from 21 to 7 days.</p>",
       "results": "<p>3,200 farmers connected to formal markets with average income increase of 47%. Post-harvest losses reduced from 40% to under 12%. $2.1M in new trade volume generated in Year 2. Three farmer cooperatives graduated to independent commercial entities. The model is now being replicated in Tanzania and Mozambique by development partners.</p>",
       "metrics": [
-        { "label": "Farmers Reached", "value": "3,200+", "description": "Smallholders linked to formal buyers" },
-        { "label": "Income Increase", "value": "47%", "description": "Average across cohorts after 18 months" },
-        { "label": "Aggregation Centers", "value": "12", "description": "Built and operational with cold storage" },
-        { "label": "Trade Volume", "value": "$2.1M", "description": "New formal market transactions in Year 2" }
+        {
+          "label": "Farmers Reached",
+          "value": "3,200+",
+          "description": "Smallholders linked to formal buyers"
+        },
+        {
+          "label": "Income Increase",
+          "value": "47%",
+          "description": "Average across cohorts after 18 months"
+        },
+        {
+          "label": "Aggregation Centers",
+          "value": "12",
+          "description": "Built and operational with cold storage"
+        },
+        {
+          "label": "Trade Volume",
+          "value": "$2.1M",
+          "description": "New formal market transactions in Year 2"
+        }
       ],
-      "team": ["rollins-chitika", "matilda-nhlane", "pacharo-njoloma"],
+      "team": [
+        "rollins-chitika",
+        "matilda-nhlane",
+        "pacharo-njoloma"
+      ],
       "featured": true,
       "publishedAt": "2024-06-15"
     },
@@ -36,22 +60,46 @@
       "clientLogo": "assets/logos/un-women.svg",
       "period": "2021–2023",
       "location": "Malawi (Lilongwe, Mchinji, Kasungu)",
-      "tags": ["Incubation", "Gender Equality", "Agribusiness"],
+      "tags": [
+        "Incubation",
+        "Gender Equality",
+        "Agribusiness"
+      ],
+      "eyebrow": "Business Development • Incubation",
       "heroImage": "assets/images/case-studies/phuka-hero.jpg",
       "heroImageAlt": "Women entrepreneurs in Phuka incubator training session",
       "coverCaption": "Incubator cohort at work in Lilongwe, Malawi.",
-      "eyebrow": "Business Development • Incubation",
       "challenge": "<p>Women agripreneurs in central Malawi faced systemic barriers: limited access to finance (only 12% had formal credit), no business training, cultural norms restricting land ownership, and exclusion from high-value value chains. Existing incubator programs were urban-centric and not tailored to agricultural seasonality.</p>",
       "approach": "<p>Co-designed a women-only incubator with UN Women and Standard Bank, combining residential bootcamps (aligned to agricultural calendar), blended finance (grants + loan guarantees), and a mentorship network of female agribusiness leaders. Curriculum covered financial literacy, climate-smart production, digital marketing, and cooperative governance.</p>",
       "solution": "<p>Delivered 4 cohorts over 24 months, each with 25 women. Provided $1,500 seed grants per graduate + access to Standard Bank's 'Women in Ag' loan facility at 12% (vs market 24%). Built a peer network of 100 alumni with quarterly reunions. Partnered with Malawi Bureau of Standards for product certification support.</p>",
       "results": "<p>100 women graduated; 87% launched or formalized agribusinesses. Collective revenue grew from $0 to $420K annually. 63% accessed formal credit for first time. 12 graduates now employ 5+ staff each. Program recognized by African Development Bank as a model for gender-transformative incubation.</p>",
       "metrics": [
-        { "label": "Women Graduated", "value": "100", "description": "Across 4 cohorts in 24 months" },
-        { "label": "Business Launch Rate", "value": "87%", "description": "Graduates with active agribusinesses" },
-        { "label": "Collective Revenue", "value": "$420K", "description": "Annual revenue across all graduate businesses" },
-        { "label": "First-time Credit Access", "value": "63%", "description": "Graduates accessing formal loans" }
+        {
+          "label": "Women Graduated",
+          "value": "100",
+          "description": "Across 4 cohorts in 24 months"
+        },
+        {
+          "label": "Business Launch Rate",
+          "value": "87%",
+          "description": "Graduates with active agribusinesses"
+        },
+        {
+          "label": "Collective Revenue",
+          "value": "$420K",
+          "description": "Annual revenue across all graduate businesses"
+        },
+        {
+          "label": "First-time Credit Access",
+          "value": "63%",
+          "description": "Graduates accessing formal loans"
+        }
       ],
-      "team": ["tereza-chaponda", "sophie-chisa", "lizzie-mwanandi"],
+      "team": [
+        "tereza-chaponda",
+        "sophie-chisa",
+        "lizzie-mwanandi"
+      ],
       "featured": true,
       "publishedAt": "2023-11-20"
     },
@@ -63,22 +111,46 @@
       "clientLogo": "assets/logos/agra.svg",
       "period": "2020–2023",
       "location": "Malawi (Central & Southern Regions)",
-      "tags": ["Monitoring & Evaluation", "Market Systems", "Agriculture"],
+      "tags": [
+        "Monitoring & Evaluation",
+        "Market Systems",
+        "Agriculture"
+      ],
+      "eyebrow": "Research & Project Management • M&E",
       "heroImage": "assets/images/case-studies/mafeco-hero.jpg",
       "heroImageAlt": "MAFECO field team conducting farmer surveys",
       "coverCaption": "Monitoring & evaluation fieldwork across Malawi's central and southern regions.",
-      "eyebrow": "Research & Project Management • M&E",
       "challenge": "<p>AGRA's MAFECO program aimed to improve market access for 150,000 smallholder farmers across Malawi. The program lacked a robust M&E framework to track whether interventions (input subsidies, market linkages, policy reform) were actually changing farmer outcomes. Donor reporting was compliance-driven, not learning-oriented.</p>",
       "approach": "<p>Designed a theory-based M&E system with real-time data collection via mobile tools. Established sentinel indicators for each result chain: input access → productivity → marketable surplus → income. Built a dashboard for program staff to monitor quarterly, not just annually. Trained 40 MAFECO staff on adaptive management — using data to course-correct mid-season.</p>",
       "solution": "<p>Deployed KoBoToolbox surveys to 1,200 sentinel farmers. Integrated satellite vegetation indices (NDVI) as proxy for yields. Conducted annual outcome harvests with qualitative most-significant-change stories. Produced 12 quarterly learning briefs and 3 annual reports that directly influenced AGRA's regional strategy.</p>",
       "results": "<p>Maize productivity increased 38% in target areas vs 12% in control. Formal market sales rose from 22% to 54% of harvest. Program pivoted Year 2 based on data: shifted from input subsidies to aggregation model, improving cost-effectiveness 3x. M&E system adopted by AGRA Malawi as standard for all grantees.</p>",
       "metrics": [
-        { "label": "Sentinel Farmers", "value": "1,200", "description": "Tracked quarterly via mobile surveys" },
-        { "label": "Productivity Gain", "value": "38%", "description": "Maize yield increase in target areas" },
-        { "label": "Formal Market Sales", "value": "54%", "description": "Share of harvest sold to formal buyers (from 22%)" },
-        { "label": "Cost-Effectiveness", "value": "3x", "description": "Improvement after Year 2 pivot" }
+        {
+          "label": "Sentinel Farmers",
+          "value": "1,200",
+          "description": "Tracked quarterly via mobile surveys"
+        },
+        {
+          "label": "Productivity Gain",
+          "value": "38%",
+          "description": "Maize yield increase in target areas"
+        },
+        {
+          "label": "Formal Market Sales",
+          "value": "54%",
+          "description": "Share of harvest sold to formal buyers (from 22%)"
+        },
+        {
+          "label": "Cost-Effectiveness",
+          "value": "3x",
+          "description": "Improvement after Year 2 pivot"
+        }
       ],
-      "team": ["ipyana-mkandawire", "jacqueline-chibambo", "danford-mponda"],
+      "team": [
+        "ipyana-mkandawire",
+        "jacqueline-chibambo",
+        "danford-mponda"
+      ],
       "featured": true,
       "publishedAt": "2023-09-10"
     },
@@ -90,22 +162,46 @@
       "clientLogo": "assets/logos/ifc.svg",
       "period": "2021–2025",
       "location": "Malawi (7 districts)",
-      "tags": ["Project Implementation", "Climate Resilience", "Value Chains"],
+      "tags": [
+        "Project Implementation",
+        "Climate Resilience",
+        "Value Chains"
+      ],
+      "eyebrow": "Research & Project Management • Implementation",
       "heroImage": "assets/images/case-studies/sapp2-hero.jpg",
       "heroImageAlt": "SAPP II project site with irrigation infrastructure",
       "coverCaption": "Project delivery across seven districts in Malawi.",
-      "eyebrow": "Research & Project Management • Implementation",
       "challenge": "<p>SAPP II, a $45M IFAD programme, aimed to boost climate-resilient agriculture for 200,000 households. Mid-term review revealed weak coordination across 7 district teams, delayed procurement, and poor integration of climate adaptation into value chain activities. Risk of missing logframe targets.</p>",
       "approach": "<p>Embedded a full-time implementation support team: 2 coordinators, 1 M&E specialist, 1 procurement advisor. Introduced monthly district coordination meetings with standardized dashboards. Redesigned procurement plans with 90-day rolling windows. Integrated climate vulnerability assessments into all value chain selection criteria.</p>",
       "solution": "<p>Facilitated construction of 15 solar-powered irrigation schemes (1,200 ha). Trained 18,000 farmers on conservation agriculture. Established 35 farmer field schools for seed multiplication. Negotiated 12 off-take agreements for pigeon pea, soy, and groundnut. Developed a digital grievance redress mechanism accessible via USSD.</p>",
       "results": "<p>Disbursement rate improved from 34% to 78% in 18 months. 42,000 households adopted climate-smart practices (target: 35,000). Pigeon pea exports to India resumed after 5-year gap, earning $1.2M for farmers. IFAD rated implementation 'Highly Satisfactory' at 2024 supervision mission.</p>",
       "metrics": [
-        { "label": "Disbursement Rate", "value": "78%", "description": "From 34% at mid-term review" },
-        { "label": "Households Reached", "value": "42,000", "description": "Adopted climate-smart practices" },
-        { "label": "Irrigation Schemes", "value": "15", "description": "Solar-powered, 1,200 ha total" },
-        { "label": "Export Revenue", "value": "$1.2M", "description": "Pigeon pea exports to India" }
+        {
+          "label": "Disbursement Rate",
+          "value": "78%",
+          "description": "From 34% at mid-term review"
+        },
+        {
+          "label": "Households Reached",
+          "value": "42,000",
+          "description": "Adopted climate-smart practices"
+        },
+        {
+          "label": "Irrigation Schemes",
+          "value": "15",
+          "description": "Solar-powered, 1,200 ha total"
+        },
+        {
+          "label": "Export Revenue",
+          "value": "$1.2M",
+          "description": "Pigeon pea exports to India"
+        }
       ],
-      "team": ["rollins-chitika", "maxwell-mkumba", "haywood-liuma"],
+      "team": [
+        "rollins-chitika",
+        "maxwell-mkumba",
+        "haywood-liuma"
+      ],
       "featured": true,
       "publishedAt": "2024-03-22"
     },
@@ -117,22 +213,46 @@
       "clientLogo": "assets/logos/world-bank.svg",
       "period": "2023–2024",
       "location": "Malawi (National)",
-      "tags": ["Data Visualization", "Interactive Dashboards", "Policy Research"],
+      "tags": [
+        "Data Visualization",
+        "Interactive Dashboards",
+        "Policy Research"
+      ],
+      "eyebrow": "Data Division • Interactive Dashboards",
       "heroImage": "assets/images/case-studies/agroprocessing-hero.jpg",
       "heroImageAlt": "Interactive dashboard showing agro-processing investment opportunities",
       "coverCaption": "Interactive dashboards built for Malawi's agro-processing value chain.",
-      "eyebrow": "Data Division • Interactive Dashboards",
       "challenge": "<p>Policy makers and investors lacked a clear, evidence-based picture of Malawi's agro-processing sector. Data was scattered across ministries, in PDFs, and incompatible formats. No single view showed: which value chains have scale, where infrastructure gaps are, what investment returns look like, or how Malawi benchmarks against peers.</p>",
       "approach": "<p>Built a living data portal combining: (1) custom survey of 120 processors, (2) trade data from MRA/NSO, (3) infrastructure mapping from Roads Authority/ESCOM, (4) benchmarking against South Africa, Kenya, Zambia. Designed for non-technical users — ministers, MPs, investors — with guided narratives and exportable charts.</p>",
       "solution": "<p>Delivered 3 interactive Power BI dashboards (Sector Overview, Investment Heatmap, Policy Tracker) embedded in a public portal. Created 12 print-ready policy briefs auto-generated from dashboard data. Built a 'scenario explorer' letting users model impact of policy changes (e.g., tariff reduction, electricity cost) on processor viability.</p>",
       "results": "<p>Portal cited in 2024 National Budget Speech and 3 Parliamentary Committee reports. Directly informed $15M World Bank Agro-Processing Project design. 3 investors used heatmap to shortlist sites; 1 broke ground on $4M tomato processing plant in Salima. Ministry of Trade adopted dashboard for quarterly sector monitoring.</p>",
       "metrics": [
-        { "label": "Data Sources Integrated", "value": "14", "description": "Govt, private, satellite, trade databases" },
-        { "label": "Policy Documents Informed", "value": "5", "description": "Budget speech, Acts, strategies, project designs" },
-        { "label": "Investment Catalyzed", "value": "$19M+", "description": "World Bank project + private investment" },
-        { "label": "Portal Users (6 mo)", "value": "2,400+", "description": "Govt officials, investors, researchers" }
+        {
+          "label": "Data Sources Integrated",
+          "value": "14",
+          "description": "Govt, private, satellite, trade databases"
+        },
+        {
+          "label": "Policy Documents Informed",
+          "value": "5",
+          "description": "Budget speech, Acts, strategies, project designs"
+        },
+        {
+          "label": "Investment Catalyzed",
+          "value": "$19M+",
+          "description": "World Bank project + private investment"
+        },
+        {
+          "label": "Portal Users (6 mo)",
+          "value": "2,400+",
+          "description": "Govt officials, investors, researchers"
+        }
       ],
-      "team": ["lusungu-masawanie", "danford-mponda", "haywood-liuma"],
+      "team": [
+        "lusungu-masawanie",
+        "danford-mponda",
+        "haywood-liuma"
+      ],
       "featured": true,
       "publishedAt": "2024-08-01"
     },
@@ -144,22 +264,46 @@
       "clientLogo": "assets/logos/mse.svg",
       "period": "2022–Present",
       "location": "Malawi (National)",
-      "tags": ["Live Data", "Financial Markets", "Power BI"],
+      "tags": [
+        "Live Data",
+        "Financial Markets",
+        "Power BI"
+      ],
+      "eyebrow": "Data Division • Live Dashboards",
       "heroImage": "assets/images/case-studies/mse-hero.jpg",
       "heroImageAlt": "MSE Tracker dashboard showing live index performance",
       "coverCaption": "Live dashboards for the Malawi Stock Exchange and Reserve Bank of Malawi.",
-      "eyebrow": "Data Division • Live Dashboards",
       "challenge": "<p>The Malawi Stock Exchange had no real-time public dashboard. Investors relied on end-of-day PDFs or third-party sites with delayed data. Retail participation was low (< 5,000 active accounts) partly due to information opacity. MSE needed a modern, accessible market data platform.</p>",
       "approach": "<p>Partnered with MSE's data vendor to secure a real-time feed. Built a Power BI dashboard with: live index & top movers, company fundamentals, sector heatmaps, historical charts with drawing tools, and a 'my watchlist' feature. Optimized for mobile — 60% of target users access via phone. Embedded on MSE website and as standalone PWA.</p>",
       "solution": "<p>Launched MSE Tracker v1 in 2022, v2 in 2024 with IPO calendar, dividend tracker, and bond module. Added Chichewa language toggle. Integrated with MSE's trading engine for T+0 price updates. Built admin CMS so MSE staff can post announcements, corporate actions, and market holidays without developers.</p>",
       "results": "<p>Dashboard visits grew from 200/mo to 18,000/mo. Retail investor accounts increased 34% since launch. MSE uses it for investor roadshows. Reserve Bank cites it in Monetary Policy Statements. Won 'Best Capital Market Innovation' at 2023 SADC Capital Markets Awards.</p>",
       "metrics": [
-        { "label": "Monthly Active Users", "value": "18,000+", "description": "From 200 at launch (90x growth)" },
-        { "label": "Retail Account Growth", "value": "34%", "description": "New investor accounts since launch" },
-        { "label": "Data Latency", "value": "< 1 sec", "description": "Real-time feed from trading engine" },
-        { "label": "Awards", "value": "1", "description": "SADC Capital Markets Innovation Award" }
+        {
+          "label": "Monthly Active Users",
+          "value": "18,000+",
+          "description": "From 200 at launch (90x growth)"
+        },
+        {
+          "label": "Retail Account Growth",
+          "value": "34%",
+          "description": "New investor accounts since launch"
+        },
+        {
+          "label": "Data Latency",
+          "value": "< 1 sec",
+          "description": "Real-time feed from trading engine"
+        },
+        {
+          "label": "Awards",
+          "value": "1",
+          "description": "SADC Capital Markets Innovation Award"
+        }
       ],
-      "team": ["danford-mponda", "lusungu-masawanie", "maxwell-mkumba"],
+      "team": [
+        "danford-mponda",
+        "lusungu-masawanie",
+        "maxwell-mkumba"
+      ],
       "featured": true,
       "publishedAt": "2024-01-15"
     },
@@ -171,22 +315,46 @@
       "clientLogo": "assets/logos/development-fund.svg",
       "period": "2022–2024",
       "location": "Malawi (Dowa, Ntchisi, Nkhotakota)",
-      "tags": ["Cooperatives", "Business Models", "Food Security"],
+      "tags": [
+        "Cooperatives",
+        "Business Models",
+        "Food Security"
+      ],
+      "eyebrow": "Business Development • Cooperatives",
       "heroImage": "assets/images/case-studies/farmer-org-commercialisation-hero.jpg",
       "heroImageAlt": "Farmer organisation members weighing and bagging produce for collective sale",
       "coverCaption": "Farmer organisation members preparing produce for collective marketing.",
-      "eyebrow": "Business Development • Cooperatives",
       "challenge": "<p>Eighteen farmer organisations in central Malawi were selling individually at the farm gate, accepting whatever price vendors offered. Weak governance, no business plans and no access to bulk inputs kept margins thin and left members exposed to price shocks.</p>",
       "approach": "<p>We treated each organisation as a small business. Every group received a diagnostic, a three-year business plan and tailored governance coaching. Collective input purchasing and joint marketing were introduced step by step, so members could see the gains before committing more of their harvest.</p>",
       "solution": "<p>Developed and costed 18 business plans. Trained 90 board and committee members on governance and record keeping. Set up bulk input purchasing for seed and fertiliser. Linked 14 organisations to structured buyers through seasonal sales agreements and introduced simple group ledgers for transparent accounts.</p>",
       "results": "<p>Collective sales volumes rose 2.4x over two seasons and average member margins improved by 31%. Fourteen of the 18 organisations now operate profitably without grant support. Three organisations have registered as cooperatives and opened bank accounts in their own names.</p>",
       "metrics": [
-        { "label": "Farmer Organisations", "value": "18", "description": "Supported with business plans and governance coaching" },
-        { "label": "Members Reached", "value": "4,500", "description": "Smallholders in collective marketing groups" },
-        { "label": "Margin Improvement", "value": "31%", "description": "Average increase in member margins" },
-        { "label": "Operating Profitably", "value": "14 of 18", "description": "Organisations covering costs without grants" }
+        {
+          "label": "Farmer Organisations",
+          "value": "18",
+          "description": "Supported with business plans and governance coaching"
+        },
+        {
+          "label": "Members Reached",
+          "value": "4,500",
+          "description": "Smallholders in collective marketing groups"
+        },
+        {
+          "label": "Margin Improvement",
+          "value": "31%",
+          "description": "Average increase in member margins"
+        },
+        {
+          "label": "Operating Profitably",
+          "value": "14 of 18",
+          "description": "Organisations covering costs without grants"
+        }
       ],
-      "team": ["rollins-chitika", "pacharo-njoloma", "matilda-nhlane"],
+      "team": [
+        "rollins-chitika",
+        "pacharo-njoloma",
+        "matilda-nhlane"
+      ],
       "featured": false,
       "publishedAt": "2024-05-08"
     },
@@ -198,22 +366,46 @@
       "clientLogo": "assets/logos/giz.svg",
       "period": "2023–2025",
       "location": "Malawi (Central Region)",
-      "tags": ["Soybean", "Aggregators", "Private Sector Partnerships"],
+      "tags": [
+        "Soybean",
+        "Aggregators",
+        "Private Sector Partnerships"
+      ],
+      "eyebrow": "Business Development • Value Chain Partnerships",
       "heroImage": "assets/images/case-studies/soy-aggregator-partnerships-hero.jpg",
       "heroImageAlt": "Soybean aggregator grading and weighing grain at a collection point",
       "coverCaption": "Grading soybeans at an aggregation point in the Central Region.",
-      "eyebrow": "Business Development • Value Chain Partnerships",
       "challenge": "<p>Malawian soybean processors were importing raw material because local supply was inconsistent and of uneven quality. Farmers, meanwhile, were side-selling to opportunistic vendors, with 58% of grain leaving formal channels before it reached a processor.</p>",
       "approach": "<p>We brought processors and aggregators to the same table and designed partnerships both sides could rely on. The work combined aggregator capacity building, a shared quality standard, standard forward-contract templates and access to working capital through a partner bank.</p>",
       "solution": "<p>Trained 25 aggregators on grading, storage and contract management. Facilitated 8 forward contracts between aggregators and processors. Introduced a three-grade quality standard with simple moisture testing at collection points. Arranged a working capital facility so aggregators could pay farmers on delivery.</p>",
       "results": "<p>Side-selling fell from 58% to 21% among participating farmers. About 6,400 tonnes were delivered under contract, and processors raised local sourcing from 35% to 62% of their intake. Five of the eight contracts have been renewed for the following season.</p>",
       "metrics": [
-        { "label": "Aggregators Trained", "value": "25", "description": "On grading, storage and contract management" },
-        { "label": "Forward Contracts", "value": "8", "description": "Between aggregators and processors" },
-        { "label": "Volume Contracted", "value": "6,400 t", "description": "Delivered under formal agreements" },
-        { "label": "Local Sourcing", "value": "62%", "description": "Processor intake sourced domestically (from 35%)" }
+        {
+          "label": "Aggregators Trained",
+          "value": "25",
+          "description": "On grading, storage and contract management"
+        },
+        {
+          "label": "Forward Contracts",
+          "value": "8",
+          "description": "Between aggregators and processors"
+        },
+        {
+          "label": "Volume Contracted",
+          "value": "6,400 t",
+          "description": "Delivered under formal agreements"
+        },
+        {
+          "label": "Local Sourcing",
+          "value": "62%",
+          "description": "Processor intake sourced domestically (from 35%)"
+        }
       ],
-      "team": ["rollins-chitika", "matilda-nhlane", "pacharo-njoloma"],
+      "team": [
+        "rollins-chitika",
+        "matilda-nhlane",
+        "pacharo-njoloma"
+      ],
       "featured": false,
       "publishedAt": "2025-02-14"
     },
@@ -225,22 +417,46 @@
       "clientLogo": "assets/logos/mastercard-foundation.svg",
       "period": "2022–2025",
       "location": "Malawi (Lilongwe, Mzuzu, Blantyre)",
-      "tags": ["Youth Employment", "Accelerator", "Agri-Enterprise"],
+      "tags": [
+        "Youth Employment",
+        "Accelerator",
+        "Agri-Enterprise"
+      ],
+      "eyebrow": "Business Development • Youth Enterprise",
       "heroImage": "assets/images/case-studies/youth-agri-accelerator-hero.jpg",
       "heroImageAlt": "Young entrepreneurs presenting business plans at an accelerator demo day",
       "coverCaption": "Demo day for the youth agri-enterprise cohort.",
-      "eyebrow": "Business Development • Youth Enterprise",
       "challenge": "<p>Young people in Malawi's cities and peri-urban areas saw agribusiness as low-status and high-risk. Promising ideas in processing, packaging and agri-services stalled for lack of mentoring, seed capital and first customers.</p>",
       "approach": "<p>We designed a 12-month accelerator that treated agriculture as a growth sector for young entrepreneurs. The model paired structured training with mentors from established agribusinesses, small seed grants and facilitated introductions to first buyers, with a strong emphasis on practical customer validation.</p>",
       "solution": "<p>Ran 3 cohorts of 40 young entrepreneurs each. Delivered training on financial management, costing and pitching. Matched every participant with a mentor and provided $1,000 seed grants against validated business plans. Hosted two buyer showcase events with retailers, hotels and exporters.</p>",
       "results": "<p>All 120 enterprises completed the programme, creating about 410 jobs, and 74% were still operating 12 months after graduation. Combined revenue reached roughly $310K in the final year. Several graduates now supply regional retail chains.</p>",
       "metrics": [
-        { "label": "Youth Enterprises", "value": "120", "description": "Supported across 3 cohorts" },
-        { "label": "Jobs Created", "value": "410", "description": "Full-time and seasonal roles" },
-        { "label": "12-Month Survival", "value": "74%", "description": "Enterprises still operating a year after graduation" },
-        { "label": "Annual Revenue", "value": "$310K", "description": "Combined revenue in the final year" }
+        {
+          "label": "Youth Enterprises",
+          "value": "120",
+          "description": "Supported across 3 cohorts"
+        },
+        {
+          "label": "Jobs Created",
+          "value": "410",
+          "description": "Full-time and seasonal roles"
+        },
+        {
+          "label": "12-Month Survival",
+          "value": "74%",
+          "description": "Enterprises still operating a year after graduation"
+        },
+        {
+          "label": "Annual Revenue",
+          "value": "$310K",
+          "description": "Combined revenue in the final year"
+        }
       ],
-      "team": ["tereza-chaponda", "sophie-chisa", "lizzie-mwanandi"],
+      "team": [
+        "tereza-chaponda",
+        "sophie-chisa",
+        "lizzie-mwanandi"
+      ],
       "featured": false,
       "publishedAt": "2025-06-30"
     },
@@ -252,22 +468,46 @@
       "clientLogo": "assets/logos/sat.svg",
       "period": "2021–2023",
       "location": "Malawi–Mozambique–Zambia border posts (Mwanza, Mchinji)",
-      "tags": ["Regional Trade", "Women Traders", "Trade Facilitation"],
+      "tags": [
+        "Regional Trade",
+        "Women Traders",
+        "Trade Facilitation"
+      ],
+      "eyebrow": "Business Development • Regional Trade",
       "heroImage": "assets/images/case-studies/cross-border-traders-hero.jpg",
       "heroImageAlt": "Women traders at a border information desk receiving trade guidance",
       "coverCaption": "A border information desk supporting small-scale cross-border traders.",
-      "eyebrow": "Business Development • Regional Trade",
       "challenge": "<p>Thousands of small-scale traders, most of them women, move goods across Malawi's borders every week. Many paid unofficial charges and lost hours at checkpoints because they did not know the simplified trade regime existed or how to use it.</p>",
       "approach": "<p>We worked with trader associations and border agencies to bring information and services to where traders actually operate. The approach combined peer-led training, border information desks and a regular dialogue between traders and officials to keep rules and practice aligned.</p>",
       "solution": "<p>Trained 1,500 traders on documentation, rights and the simplified trade regime. Opened 6 border information desks staffed by trained trader leaders. Launched an SMS bulletin on prices and regulation changes. Convened quarterly trader–agency dialogues that fed practical recommendations into national trade facilitation planning.</p>",
       "results": "<p>About 1,100 traders obtained simplified trade documentation. Average clearance time fell from around 5 hours to 1.5 hours, and traders reported a 45% drop in unofficial charges. The information desk model has been adopted at two additional border posts.</p>",
       "metrics": [
-        { "label": "Traders Trained", "value": "1,500", "description": "On documentation, rights and procedures" },
-        { "label": "Information Desks", "value": "6", "description": "Operating at border posts" },
-        { "label": "Documents Issued", "value": "1,100", "description": "Simplified trade documentation obtained" },
-        { "label": "Faster Clearance", "value": "70%", "description": "Average time cut from 5 hours to 1.5 hours" }
+        {
+          "label": "Traders Trained",
+          "value": "1,500",
+          "description": "On documentation, rights and procedures"
+        },
+        {
+          "label": "Information Desks",
+          "value": "6",
+          "description": "Operating at border posts"
+        },
+        {
+          "label": "Documents Issued",
+          "value": "1,100",
+          "description": "Simplified trade documentation obtained"
+        },
+        {
+          "label": "Faster Clearance",
+          "value": "70%",
+          "description": "Average time cut from 5 hours to 1.5 hours"
+        }
       ],
-      "team": ["tereza-chaponda", "matilda-nhlane", "sophie-chisa"],
+      "team": [
+        "tereza-chaponda",
+        "matilda-nhlane",
+        "sophie-chisa"
+      ],
       "featured": false,
       "publishedAt": "2023-09-05"
     },
@@ -279,22 +519,46 @@
       "clientLogo": "assets/logos/mastercard-foundation.svg",
       "period": "2022–2025",
       "location": "Malawi (6 districts)",
-      "tags": ["Impact Evaluation", "Youth", "Mixed Methods"],
+      "tags": [
+        "Impact Evaluation",
+        "Youth",
+        "Mixed Methods"
+      ],
+      "eyebrow": "Research & Project Management • Evaluation",
       "heroImage": "assets/images/case-studies/youth-livelihoods-evaluation-hero.png",
       "heroImageAlt": "Enumerators interviewing young people during an evaluation survey",
       "coverCaption": "Enumerators conducting follow-up interviews with young programme participants.",
-      "eyebrow": "Research & Project Management • Evaluation",
       "challenge": "<p>A multi-year youth livelihoods programme needed credible evidence on what was changing for participants. Earlier reporting counted trainees and activities but could not show whether incomes, employment or aspirations had actually moved, or for whom.</p>",
       "approach": "<p>We designed a three-round mixed-methods evaluation, with a baseline, midline and endline tracking the same panel of young people alongside a comparison group. Quantitative surveys were complemented by case studies and focus groups to explain the patterns behind the numbers.</p>",
       "solution": "<p>Surveyed 2,400 young people across three rounds on mobile tools with built-in validation. Held 48 focus group discussions and 30 in-depth interviews. Delivered 9 learning briefs between rounds so findings could shape delivery in real time, not only at close-out.</p>",
       "results": "<p>Panel retention reached 92%, which is high for a mobile youth population. Midline findings led the programme to shift resources toward mentoring and market linkages, which showed the strongest income effects. The endline report was used in the funder's portfolio review.</p>",
       "metrics": [
-        { "label": "Youth Surveyed", "value": "2,400", "description": "Panel tracked across 3 rounds" },
-        { "label": "Panel Retention", "value": "92%", "description": "Respondents reached at endline" },
-        { "label": "Learning Briefs", "value": "9", "description": "Delivered between evaluation rounds" },
-        { "label": "Qualitative Interviews", "value": "78", "description": "48 focus groups and 30 in-depth interviews" }
+        {
+          "label": "Youth Surveyed",
+          "value": "2,400",
+          "description": "Panel tracked across 3 rounds"
+        },
+        {
+          "label": "Panel Retention",
+          "value": "92%",
+          "description": "Respondents reached at endline"
+        },
+        {
+          "label": "Learning Briefs",
+          "value": "9",
+          "description": "Delivered between evaluation rounds"
+        },
+        {
+          "label": "Qualitative Interviews",
+          "value": "78",
+          "description": "48 focus groups and 30 in-depth interviews"
+        }
       ],
-      "team": ["ipyana-mkandawire", "jacqueline-chibambo", "danford-mponda"],
+      "team": [
+        "ipyana-mkandawire",
+        "jacqueline-chibambo",
+        "danford-mponda"
+      ],
       "featured": false,
       "publishedAt": "2025-07-18"
     },
@@ -306,22 +570,46 @@
       "clientLogo": "assets/logos/ifad.svg",
       "period": "2025–2026",
       "location": "Malawi (7 districts)",
-      "tags": ["Market Study", "Value Chains", "Commercialisation"],
+      "tags": [
+        "Market Study",
+        "Value Chains",
+        "Commercialisation"
+      ],
+      "eyebrow": "Research & Project Management • Market Research",
       "heroImage": "assets/images/case-studies/sapp2-commercialisation-study-hero.jpg",
       "heroImageAlt": "Research team interviewing a processor about sourcing and capacity",
       "coverCaption": "Fieldwork with processors for the SAPP II commercialisation strategy.",
-      "eyebrow": "Research & Project Management • Market Research",
       "challenge": "<p>SAPP II needed a commercialisation strategy for soybean, groundnut, pigeon pea and goat value chains, but there was little current data on what processors need, what they pay and where they struggle to source quality raw material.</p>",
       "approach": "<p>We combined a structured processor survey with value chain mapping and buyer interviews. The questionnaire was built as a digital form for KoBoCollect so enumerators could collect data offline and supervisors could review quality daily.</p>",
       "solution": "<p>Surveyed 85 processors across the four value chains. Mapped sourcing, pricing, capacity utilisation and quality constraints for each chain. Held validation workshops with district teams and private sector buyers. Translated the findings into prioritised investment and market linkage options for each value chain.</p>",
       "results": "<p>The study gave the programme a shared evidence base for the commercialisation strategy, with 12 prioritised investment opportunities across the four value chains. District teams now use the processor database to plan off-take agreements.</p>",
       "metrics": [
-        { "label": "Value Chains", "value": "4", "description": "Soybean, groundnut, pigeon pea and goats" },
-        { "label": "Processors Surveyed", "value": "85", "description": "Across the programme districts" },
-        { "label": "Investment Options", "value": "12", "description": "Prioritised with district teams and buyers" },
-        { "label": "Districts Covered", "value": "7", "description": "SAPP II programme area" }
+        {
+          "label": "Value Chains",
+          "value": "4",
+          "description": "Soybean, groundnut, pigeon pea and goats"
+        },
+        {
+          "label": "Processors Surveyed",
+          "value": "85",
+          "description": "Across the programme districts"
+        },
+        {
+          "label": "Investment Options",
+          "value": "12",
+          "description": "Prioritised with district teams and buyers"
+        },
+        {
+          "label": "Districts Covered",
+          "value": "7",
+          "description": "SAPP II programme area"
+        }
       ],
-      "team": ["rollins-chitika", "maxwell-mkumba", "danford-mponda"],
+      "team": [
+        "rollins-chitika",
+        "maxwell-mkumba",
+        "danford-mponda"
+      ],
       "featured": false,
       "publishedAt": "2026-04-10"
     },
@@ -333,22 +621,46 @@
       "clientLogo": "assets/logos/development-fund.svg",
       "period": "2020–2022",
       "location": "Malawi (4 districts)",
-      "tags": ["Final Evaluation", "Food Security", "Climate Resilience"],
+      "tags": [
+        "Final Evaluation",
+        "Food Security",
+        "Climate Resilience"
+      ],
+      "eyebrow": "Research & Project Management • Evaluation",
       "heroImage": "assets/images/case-studies/food-security-final-evaluation-hero.jpg",
       "heroImageAlt": "Evaluation team holding a focus group with farming households",
       "coverCaption": "Focus group discussion with farming households during the final evaluation.",
-      "eyebrow": "Research & Project Management • Evaluation",
       "challenge": "<p>After four years of delivery, the programme needed an independent assessment of its contribution to household food security and climate resilience, and clear lessons for the next phase. Existing monitoring data covered activities well but outcomes poorly.</p>",
       "approach": "<p>We designed a mixed-methods final evaluation aligned to the OECD-DAC criteria. A household survey measured food security and resilience outcomes, while focus groups and key informant interviews explored sustainability, equity and what partners would do differently.</p>",
       "solution": "<p>Surveyed 1,800 households across four districts and facilitated 48 focus group discussions. Analysed dietary diversity and coping strategy trends against the baseline. Ran a participatory validation workshop with partners and community representatives before finalising the report.</p>",
       "results": "<p>Household dietary diversity scores improved by 22% against the baseline. Partners adopted 11 of the 14 recommendations in the design of the next phase, including a stronger focus on women's access to productive assets.</p>",
       "metrics": [
-        { "label": "Households Surveyed", "value": "1,800", "description": "Across 4 districts" },
-        { "label": "Focus Groups", "value": "48", "description": "With farmers, women and youth" },
-        { "label": "Dietary Diversity", "value": "+22%", "description": "Improvement against baseline" },
-        { "label": "Recommendations Adopted", "value": "11 of 14", "description": "Reflected in next-phase design" }
+        {
+          "label": "Households Surveyed",
+          "value": "1,800",
+          "description": "Across 4 districts"
+        },
+        {
+          "label": "Focus Groups",
+          "value": "48",
+          "description": "With farmers, women and youth"
+        },
+        {
+          "label": "Dietary Diversity",
+          "value": "+22%",
+          "description": "Improvement against baseline"
+        },
+        {
+          "label": "Recommendations Adopted",
+          "value": "11 of 14",
+          "description": "Reflected in next-phase design"
+        }
       ],
-      "team": ["ipyana-mkandawire", "jacqueline-chibambo", "haywood-liuma"],
+      "team": [
+        "ipyana-mkandawire",
+        "jacqueline-chibambo",
+        "haywood-liuma"
+      ],
       "featured": false,
       "publishedAt": "2022-11-25"
     },
@@ -360,22 +672,46 @@
       "clientLogo": "assets/logos/giz.svg",
       "period": "2023–2025",
       "location": "Malawi (5 districts)",
-      "tags": ["Baseline Survey", "Climate-Smart Agriculture", "Digital Data Collection"],
+      "tags": [
+        "Baseline Survey",
+        "Climate-Smart Agriculture",
+        "Digital Data Collection"
+      ],
+      "eyebrow": "Research & Project Management • Baseline & Monitoring",
       "heroImage": "assets/images/case-studies/csa-baseline-monitoring-hero.jpg",
       "heroImageAlt": "Enumerator collecting household data on a tablet in a farm field",
       "coverCaption": "Digital household data collection for the climate-smart agriculture baseline.",
-      "eyebrow": "Research & Project Management • Baseline & Monitoring",
       "challenge": "<p>A climate-smart agriculture programme was about to start without a reliable baseline. Previous surveys used paper forms, which meant slow data entry, frequent errors and results that arrived long after programme decisions had been made.</p>",
       "approach": "<p>We built the baseline and the monitoring system together so the baseline could feed straight into routine tracking. Surveys ran on mobile tools with skip logic and range checks, and a simple dashboard let programme staff follow indicators by district without waiting for reports.</p>",
       "solution": "<p>Baselined 3,000 households against 42 indicators covering practices, yields, resilience and income. Trained and supervised 60 enumerators using daily data quality checks. Set up an indicator tracking dashboard and trained GIZ partner staff to run follow-up rounds themselves.</p>",
       "results": "<p>Data entry errors fell by 68% compared with the previous paper-based exercise, and baseline results were available within three weeks of fieldwork ending. Partner staff completed the first monitoring round independently.</p>",
       "metrics": [
-        { "label": "Households Baselined", "value": "3,000", "description": "Across 5 districts" },
-        { "label": "Indicators Tracked", "value": "42", "description": "Practices, yields, resilience and income" },
-        { "label": "Fewer Data Errors", "value": "68%", "description": "Versus the previous paper-based approach" },
-        { "label": "Results Turnaround", "value": "3 weeks", "description": "From end of fieldwork to baseline report" }
+        {
+          "label": "Households Baselined",
+          "value": "3,000",
+          "description": "Across 5 districts"
+        },
+        {
+          "label": "Indicators Tracked",
+          "value": "42",
+          "description": "Practices, yields, resilience and income"
+        },
+        {
+          "label": "Fewer Data Errors",
+          "value": "68%",
+          "description": "Versus the previous paper-based approach"
+        },
+        {
+          "label": "Results Turnaround",
+          "value": "3 weeks",
+          "description": "From end of fieldwork to baseline report"
+        }
       ],
-      "team": ["ipyana-mkandawire", "danford-mponda", "maxwell-mkumba"],
+      "team": [
+        "ipyana-mkandawire",
+        "danford-mponda",
+        "maxwell-mkumba"
+      ],
       "featured": false,
       "publishedAt": "2025-10-03"
     },
@@ -387,22 +723,46 @@
       "clientLogo": "assets/logos/elim-group.svg",
       "period": "2026–Present",
       "location": "Malawi (Banana farm operations)",
-      "tags": ["Farm Analytics", "Interactive Mapping", "Automation"],
+      "tags": [
+        "Farm Analytics",
+        "Interactive Mapping",
+        "Automation"
+      ],
+      "eyebrow": "Data Division • Farm Data Systems",
       "heroImage": "assets/images/case-studies/elim-farms-data-hub-hero.avif",
       "heroImageAlt": "Interactive farm map showing banana blocks coloured by harvest status",
       "coverCaption": "Interactive block-level farm map and operations dashboard for Elim Farms.",
-      "eyebrow": "Data Division • Farm Data Systems",
       "challenge": "<p>Records for a commercial banana operation were scattered across spreadsheets and notebooks. Managers could not see harvests, irrigation, pump use, land and finances in one place, and the monthly report took days of manual assembly.</p>",
       "approach": "<p>We built a single data hub that follows how the farm actually works. Field teams keep capturing data in tools they already use, while a live layer links it to farm blocks on a map and to a multi-tab operations dashboard. Reporting is generated automatically from the same data.</p>",
       "solution": "<p>Built an interactive D3.js farm map with GeoJSON block boundaries connected to live Google Sheets data. Delivered a six-tab operations dashboard covering harvesting, tagging, pump log, irrigation, land and financials. Automated the monthly report with a Google Apps Script generator that fills a Docs template, exports a PDF, saves it to Drive and sends it by email and Telegram. Packaged access as an installable data hub app in Equip brand style.</p>",
       "results": "<p>Managers now see block-level performance in one view, and the monthly report is produced by the system and not assembled by hand. The same data feeds the map, the dashboard and the report, so the numbers always agree.</p>",
       "metrics": [
-        { "label": "Dashboard Modules", "value": "6", "description": "Harvesting, tagging, pump log, irrigation, land, financials" },
-        { "label": "Report Placeholders", "value": "60+", "description": "Fields auto-populated in each monthly report" },
-        { "label": "Delivery Channels", "value": "3", "description": "Drive, email and Telegram" },
-        { "label": "Report Turnaround", "value": "< 5 min", "description": "From data to finished PDF, down from days" }
+        {
+          "label": "Dashboard Modules",
+          "value": "6",
+          "description": "Harvesting, tagging, pump log, irrigation, land, financials"
+        },
+        {
+          "label": "Report Placeholders",
+          "value": "60+",
+          "description": "Fields auto-populated in each monthly report"
+        },
+        {
+          "label": "Delivery Channels",
+          "value": "3",
+          "description": "Drive, email and Telegram"
+        },
+        {
+          "label": "Report Turnaround",
+          "value": "< 5 min",
+          "description": "From data to finished PDF, down from days"
+        }
       ],
-      "team": ["danford-mponda", "lusungu-masawanie", "haywood-liuma"],
+      "team": [
+        "danford-mponda",
+        "lusungu-masawanie",
+        "haywood-liuma"
+      ],
       "featured": false,
       "publishedAt": "2026-07-06"
     },
@@ -414,22 +774,46 @@
       "clientLogo": "assets/logos/equip.svg",
       "period": "2026",
       "location": "Malawi",
-      "tags": ["SMS Data Collection", "Chatbot", "Livestock"],
+      "tags": [
+        "SMS Data Collection",
+        "Chatbot",
+        "Livestock"
+      ],
+      "eyebrow": "Data Division • Field Data Systems",
       "heroImage": "assets/images/case-studies/sms-poultry-monitoring-hero.avif",
       "heroImageAlt": "Poultry farmer sending a daily update by SMS and a dashboard showing flock progress",
       "coverCaption": "SMS reporting from poultry farmers feeding a live monitoring dashboard.",
-      "eyebrow": "Data Division • Field Data Systems",
       "challenge": "<p>Poultry farmers needed to be monitored through a full production cycle, but many do not have smartphones or reliable internet. App-based tools excluded the farmers who most needed support, and paper records arrived late or not at all.</p>",
       "approach": "<p>We moved the data collection to the one channel every farmer already uses. A bilingual SMS chatbot asks short questions in English or Chichewa, and every answer flows straight into a live dashboard. Google Forms offers a second route for farmers and field officers who prefer it.</p>",
       "solution": "<p>Built a Flask SMS chatbot with bilingual question flows, a Google Apps Script backend writing to structured data and dashboard sheets, and a per-farmer dashboard with day-of-cycle calculations. Farmers are identified by phone number or email, so each sees only their own data. After comparing Power BI licensing options, we chose a Chart.js and GitHub Pages dashboard for sustainability and lower running costs.</p>",
       "results": "<p>Farmers report in their own language from any phone, and programme staff see flock progress by farmer and by day of cycle as the data arrives. The dashboard runs without per-user licence fees, so it can be extended to new cohorts easily.</p>",
       "metrics": [
-        { "label": "Languages", "value": "2", "description": "English and Chichewa chatbot flows" },
-        { "label": "Handset Requirement", "value": "Any phone", "description": "No smartphone or internet needed to report" },
-        { "label": "Dashboard Licences", "value": "$0", "description": "Chart.js on GitHub Pages, no per-user fees" },
-        { "label": "Data Entry Routes", "value": "2", "description": "SMS chatbot and Google Forms" }
+        {
+          "label": "Languages",
+          "value": "2",
+          "description": "English and Chichewa chatbot flows"
+        },
+        {
+          "label": "Handset Requirement",
+          "value": "Any phone",
+          "description": "No smartphone or internet needed to report"
+        },
+        {
+          "label": "Dashboard Licences",
+          "value": "$0",
+          "description": "Chart.js on GitHub Pages, no per-user fees"
+        },
+        {
+          "label": "Data Entry Routes",
+          "value": "2",
+          "description": "SMS chatbot and Google Forms"
+        }
       ],
-      "team": ["danford-mponda", "rollins-chitika", "lusungu-masawanie"],
+      "team": [
+        "danford-mponda",
+        "rollins-chitika",
+        "lusungu-masawanie"
+      ],
       "featured": false,
       "publishedAt": "2026-08-12"
     },
@@ -441,22 +825,46 @@
       "clientLogo": "assets/logos/zantchito.svg",
       "period": "2026",
       "location": "Malawi",
-      "tags": ["Data Validation", "Impact Measurement", "Progressive Web App"],
+      "tags": [
+        "Data Validation",
+        "Impact Measurement",
+        "Progressive Web App"
+      ],
+      "eyebrow": "Data Division • Data Quality",
       "heroImage": "assets/images/case-studies/zantchito-impact-validation-hero.jpg",
       "heroImageAlt": "Tabbed impact data validation dashboard showing checks and charts",
       "coverCaption": "Six-section dashboard for validating impact data before reporting.",
-      "eyebrow": "Data Division • Data Quality",
       "challenge": "<p>Impact data submitted by field teams contained gaps, duplicates and inconsistencies. These were usually found late, when reports were already being written, and checking them by hand across several sheets was slow and error-prone.</p>",
       "approach": "<p>We moved validation to the front of the process. A lightweight dashboard reads the submitted data as it arrives, applies agreed checks and shows exactly what needs fixing and by whom, so reporting starts from data the team can trust.</p>",
       "solution": "<p>Built an installable progressive web app using vanilla JavaScript, Chart.js and PapaParse for in-browser CSV handling. Organised the dashboard into six tabbed sections so teams can move from overview to record-level issues quickly. The app needs no server, which keeps hosting simple and costs close to zero.</p>",
       "results": "<p>Field and programme teams now review data quality in a shared view before any analysis begins. Errors are caught earlier, and each reporting cycle starts with cleaner data.</p>",
       "metrics": [
-        { "label": "Dashboard Sections", "value": "6", "description": "From overview to record-level checks" },
-        { "label": "Platform", "value": "PWA", "description": "Installable on phone, tablet and desktop" },
-        { "label": "Backend Servers", "value": "0", "description": "Runs entirely in the browser" },
-        { "label": "Validation Effort", "value": "-60%", "description": "Estimated reduction in manual checking time" }
+        {
+          "label": "Dashboard Sections",
+          "value": "6",
+          "description": "From overview to record-level checks"
+        },
+        {
+          "label": "Platform",
+          "value": "PWA",
+          "description": "Installable on phone, tablet and desktop"
+        },
+        {
+          "label": "Backend Servers",
+          "value": "0",
+          "description": "Runs entirely in the browser"
+        },
+        {
+          "label": "Validation Effort",
+          "value": "-60%",
+          "description": "Estimated reduction in manual checking time"
+        }
       ],
-      "team": ["danford-mponda", "lusungu-masawanie", "maxwell-mkumba"],
+      "team": [
+        "danford-mponda",
+        "lusungu-masawanie",
+        "maxwell-mkumba"
+      ],
       "featured": false,
       "publishedAt": "2026-06-20"
     },
@@ -468,24 +876,90 @@
       "clientLogo": "assets/logos/apatsa.svg",
       "period": "2026",
       "location": "Malawi",
-      "tags": ["Performance Monitoring", "Cooperatives", "Live Dashboards"],
+      "tags": [
+        "Performance Monitoring",
+        "Cooperatives",
+        "Live Dashboards"
+      ],
+      "eyebrow": "Data Division • Live Dashboards",
       "heroImage": "assets/images/case-studies/apatsa-cooperatives-dashboard-hero.jpg",
       "heroImageAlt": "Performance dashboard comparing secondary cooperatives across key indicators",
       "coverCaption": "Live performance dashboard for APATSA's secondary cooperatives.",
-      "eyebrow": "Data Division • Live Dashboards",
       "challenge": "<p>Performance data for secondary cooperatives sat in spreadsheets that only a few staff could interpret. Leadership could not easily compare cooperatives, spot those falling behind or share a simple picture of progress with partners.</p>",
       "approach": "<p>We designed a dashboard around the questions leaders ask most: who is performing, who needs support and what is changing over time. It sits directly on top of the data teams already maintain, so there is no new system to learn and no duplicate data entry.</p>",
       "solution": "<p>Built a navy-and-gold performance dashboard with Chart.js, connected to a live Google Sheets CSV feed so every update appears automatically. Added comparison views across cooperatives and trend charts for key indicators. Kept the interface clean enough for non-technical board members to use on their own.</p>",
       "results": "<p>Leadership and partners now share one live picture of cooperative performance, and support is directed to the cooperatives that need it. Updating the sheet is all it takes to refresh the dashboard.</p>",
       "metrics": [
-        { "label": "Data Refresh", "value": "Live", "description": "Updates as the source sheet changes" },
-        { "label": "Hosting Cost", "value": "$0", "description": "Static dashboard with no server or licences" },
-        { "label": "Views", "value": "3", "description": "Overview, cooperative comparison and trends" },
-        { "label": "Reporting Prep", "value": "-70%", "description": "Estimated reduction in time spent preparing updates" }
+        {
+          "label": "Data Refresh",
+          "value": "Live",
+          "description": "Updates as the source sheet changes"
+        },
+        {
+          "label": "Hosting Cost",
+          "value": "$0",
+          "description": "Static dashboard with no server or licences"
+        },
+        {
+          "label": "Views",
+          "value": "3",
+          "description": "Overview, cooperative comparison and trends"
+        },
+        {
+          "label": "Reporting Prep",
+          "value": "-70%",
+          "description": "Estimated reduction in time spent preparing updates"
+        }
       ],
-      "team": ["danford-mponda", "lusungu-masawanie", "haywood-liuma"],
+      "team": [
+        "danford-mponda",
+        "lusungu-masawanie",
+        "haywood-liuma"
+      ],
       "featured": false,
       "publishedAt": "2026-09-02"
+    },
+    {
+      "id": "horticulture-value-chains-2026",
+      "serviceSlug": "business-development",
+      "title": "Strengthening Horticulture Value Chains in Kenya and Tanzania",
+      "client": "Green Harvest Alliance (GHA)",
+      "period": "2021-2023",
+      "location": "Kenya, Tanzania",
+      "tags": [
+        "SME",
+        "Market Access"
+      ],
+      "eyebrow": "Business Development • Regional Trade",
+      "heroImage": "assets/images/aqfehxwme1lcwuw22pub.avif",
+      "heroImageAlt": "GHA field agronomists conducting training with smallholder vegetable farmers in Kenya",
+      "coverCaption": "Field agronomists working with smallholder horticulture farmers in Kenya and Tanzania.",
+      "challenge": "<P>Smallholder horticulture farmers in Kenya and Tanzania faced severe constraints in accessing profitable markets. Despite growing demand for fresh produce in urban centers and export markets, farmers struggled with fragmented supply chains, inadequate post-harvest handling infrastructure, and limited knowledge of market requirements. Post-harvest losses reached 35–45% for perishable vegetables, and smallholders received prices 50–60% below market value due to intermediary exploitation and lack of collective bargaining power. Women farmers, who represented over 60% of the horticulture workforce, were particularly disadvantaged, with limited access to training, finance, and market information.</P>",
+      "approach": "<P>We designed and implemented a comprehensive horticulture value chain strengthening program centered on three interconnected pillars. First, we established farmer producer organizations (FPOs) with professional governance structures and business management systems, enabling collective marketing and input procurement. Second, we introduced post-harvest handling protocols and invested in decentralized collection centers equipped with cooling facilities and grading stations. Third, we facilitated market linkages through buyer-seller forums, contract farming arrangements, and digital market information systems. Our team embedded technical advisors in target regions to provide hands-on support for crop diversification, pest management, and compliance with food safety standards. We also worked with financial institutions to develop tailored credit products for horticulture SMEs.</P>",
+      "solution": "<P>The program established 18 farmer producer organizations with a combined membership of 4,500+ smallholders. We constructed and equipped 15 collection centers with solar-powered cold storage and grading facilities. Over 4,200 farmers received training on good agricultural practices, post-harvest handling, and collective marketing. We facilitated 8 off-take agreements with supermarket chains, hotels, and export companies. Twelve horticulture SMEs accessed $520K in working capital through our investment readiness support. Policy engagement resulted in streamlined county-level licensing procedures for produce transport, reducing delays from 14 to 4 days.</P>",
+      "results": "<P>Farmers connected to formal markets experienced an average income increase of 52%. Post-harvest losses declined from 42% to under 15% across participating FPOs. The program generated $3.4M in new formal market transactions by Year 2. Five FPOs achieved independent commercial viability and secured their own buyer contracts. Women's participation in FPO leadership reached 48%, exceeding our 40% target. The model has been adopted by county governments in Kenya and is being scaled to three additional regions in Tanzania through a follow-on partnership with DANIDA.</P>",
+      "metrics": [
+        {
+          "label": "Farmers Organized",
+          "value": "4,500+",
+          "description": "Smallholders mobilized into producer organizations"
+        },
+        {
+          "label": "Income Increase",
+          "value": "52%",
+          "description": "Average across cohorts after 24 months"
+        },
+        {
+          "label": "Collection Centers",
+          "value": "15",
+          "description": "Built and operational with cold storage"
+        }
+      ],
+      "team": [
+        "Rollins Chitika"
+      ],
+      "featured": true,
+      "publishedAt": "2024-03-22"
     }
   ]
 }
