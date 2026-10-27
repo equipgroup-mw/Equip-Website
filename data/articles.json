@@ -1,14 +1,18 @@
 {
   "_instructions": "One file for every article detail page (article.html?id=<slug>). Mirror of data/case-studies.json conventions: top-level article array, stable string ids (slugs), plain-paragraph body text (blank line separates paragraphs — the renderer escapes and wraps them, no raw HTML). To publish: copy a record, set a unique id, fill title/excerpt/date, describe mainImage {src, alt, caption}, write 3–5 sections, save. No code changes needed. Story images: 1200 x 800 px (3:2), WebP/JPG/AVIF under 250 KB, key content in the central 80%; every story image needs both real alt text AND a caption — they are different things. Sections take at most one image ({src, alt, caption}), rendered under the heading before the body; omit it and the section renders with no gap. 'related' takes article ids (internal cards) or full https URLs (new-tab links); unknown ids are skipped.",
   "articles": [
-        {
+    {
       "id": "fuel-prices-across-africa",
-      "author": "Danford Mponda",
       "title": "Pump Politics: What Fuel Prices Across Africa Reveal",
-      "excerpt": "Fuel is the one price that shows up in every other price. Comparing pump prices across African capitals separates the global story from the local one.",
+      "author": "Danford Mponda",
+      "excerpt": "Fuel is the one price that shows up in every other price. Comparing pump prices across African capitals separates the global story from the local one. ",
       "date": "2026-02-10",
       "readTime": "4 min read",
-      "tags": ["Fuel", "Prices", "Africa"],
+      "tags": [
+        "Fuel",
+        "Prices",
+        "Africa"
+      ],
       "mainImage": {
         "src": "assets/images/updates/fuel.avif",
         "alt": "A fuel pump at a service station",
@@ -40,16 +44,22 @@
         }
       ],
       "pullQuote": "Fuel is the one price that shows up in every other price. Track the pump, and you have a head start on the whole economy.",
-      "related": ["full-basket-malawi-economy"]
+      "related": [
+        "full-basket-malawi-economy"
+      ]
     },
     {
       "id": "sme-formalisation-gap",
-      "author": "Chikondi Kateta",
       "title": "The Formalisation Gap: Malawi's Small Businesses Stay Invisible",
+      "author": "Chikondi Kateta",
       "excerpt": "Most of Malawi's economic activity is real on the street but invisible to the register. What regional comparisons reveal about why businesses stay informal — and what would change their minds.",
       "date": "2025-11-20",
       "readTime": "5 min read",
-      "tags": ["SMEs", "Formalisation", "Malawi"],
+      "tags": [
+        "SMEs",
+        "Formalisation",
+        "Malawi"
+      ],
       "mainImage": {
         "src": "assets/images/updates/sme-formalization.avif",
         "alt": "A small business owner at her shop counter",
@@ -81,16 +91,22 @@
         }
       ],
       "pullQuote": "The informal sector isn't a problem to be erased. It is a signal that formalising costs more than it pays.",
-      "related": ["agro-processing-malawi"]
+      "related": [
+        "agro-processing-malawi"
+      ]
     },
     {
       "id": "mec-leadership-timeline",
-      "author": "Lusungu Masawanie",
       "title": "Leading the Commission: A Timeline of MEC Chairpersons",
+      "author": "Lusungu Masawanie",
       "excerpt": "How long chairs serve, who appoints them and under what circumstances they leave tells a quiet but revealing story about Malawi's democratic institutions.",
       "date": "2026-05-06",
       "readTime": "4 min read",
-      "tags": ["Governance", "Elections", "Malawi"],
+      "tags": [
+        "Governance",
+        "Elections",
+        "Malawi"
+      ],
       "mainImage": {
         "src": "assets/data-division/mec-chairpersons.avif",
         "alt": "A chronological timeline of leadership positions",
@@ -114,7 +130,12 @@
         },
         {
           "heading": "Patterns across the tenures",
-          "body": "A few patterns stand out. Tenures cluster around electoral cycles, with appointments and departures rarely falling in the middle of one. The circumstances of departure vary more than the circumstances of arrival — and it is in those departures that the institutional story lives.\n\nRead as a whole, the timeline suggests gradual institutionalisation. Each handover, whatever its friction, has been followed by another commission that ran the next election — which is, by the standards of the region's history, no small thing."
+          "body": "A few patterns stand out. Tenures cluster around electoral cycles, with appointments and departures rarely falling in the middle of one. The circumstances of departure vary more than the circumstances of arrival — and it is in those departures that the institutional story lives.\n\nRead as a whole, the timeline suggests gradual institutionalisation. Each handover, whatever its friction, has been followed by another commission that ran the next election — which is, by the standards of the region's history, no small thing.",
+          "image": {
+            "src": "assets/images/MECNEW-CHAIR.jpg",
+            "alt": "Current MEC chairperson Annabel Mtalimanja",
+            "caption": "Current MEC chairperson Annabel Mtalimanja"
+          }
         },
         {
           "heading": "Why we build timelines like this",
@@ -125,12 +146,16 @@
     },
     {
       "id": "how-malawians-save",
-      "author": "Rollins Chitika",
       "title": "How Malawians Save: Money Under the Mattress and the Bank",
+      "author": "Rollins Chitika",
       "excerpt": "Bank accounts, village savings groups, cash at home, mobile wallets — Malawian households don't pick one, they build a portfolio. What the data says about how and why.",
       "date": "2026-07-21",
       "readTime": "5 min read",
-      "tags": ["Households", "Savings", "Malawi"],
+      "tags": [
+        "Households",
+        "Savings",
+        "Malawi"
+      ],
       "mainImage": {
         "src": "assets/images/updates/savings-behaviour.avif",
         "alt": "People at a community savings group meeting",
@@ -162,7 +187,9 @@
         }
       ],
       "pullQuote": "Households are not under-banked by ignorance. They are brilliantly, pragmatically diversified.",
-      "related": ["full-basket-malawi-economy"]
+      "related": [
+        "full-basket-malawi-economy"
+      ]
     }
   ]
 }
