@@ -335,22 +335,22 @@ content:
                 label: The Challenge
                 type: text
                 required: true
-                description: "Plain text. Leave a blank line between paragraphs."
+                description: "Plain text, enclose the text with <p></p> eg. <p>This project is blah blah blah balh</p>, otherwise it will break the webpage. Leave a blank line between paragraphs."
               - name: approach
                 label: Our Approach
                 type: text
                 required: true
-                description: "Plain text. Leave a blank line between paragraphs."
+                description: "Plain text, enclose the text with <p></p> eg. <p>This project is blah blah blah balh</p>, otherwise it will break the webpage. Leave a blank line between paragraphs."
               - name: solution
                 label: The Solution
                 type: text
                 required: true
-                description: "Plain text. Leave a blank line between paragraphs."
+                description: "Plain text, enclose the text with <p></p> eg. <p>This project is blah blah blah balh</p>, otherwise it will break the webpage. Leave a blank line between paragraphs."
               - name: results
                 label: Results & Impact
                 type: text
                 required: true
-                description: "Plain text. Leave a blank line between paragraphs."
+                description: "Plain text, enclose the text with <p></p> eg. <p>This project is blah blah blah balh</p>, otherwise it will break the webpage. Leave a blank line between paragraphs."
               - name: metrics
                 label: Metrics
                 type: object
