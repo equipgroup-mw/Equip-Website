@@ -37,6 +37,9 @@ media:
   - name: logos
     input: assets/logos
     output: assets/logos
+  - name: videos
+    input: assets/videos
+    output: assets/videos
   - name: data-division
     input: assets/data-division
     output: assets/data-division
