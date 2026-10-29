@@ -1,19 +1,31 @@
 /**
  * updates.js
- * Renders the Updates hub from /data/updates.json. Podcast cards display
- * actual people (not series names), compact platform selectors, and
- * locked card dimensions.
+ * Renders the Updates hub from /data/updates.json.
+ * Podcasts: one card per SERIES (title, description, people and show-level
+ * platform links from podcastSeries; episode count and latest date counted
+ * from the episode items).
+ * Webinars: upcoming = only the registration form link; past = only the
+ * video/recording links.
+ * Podcast, webinar and opportunity cards (click anywhere except the button)
+ * open a popup. Each popup has its own shareable URL: #<id> where <id> is the
+ * item's "id" in updates.json (podcasts: the series id).
  */
 (function(){
   const ROOT = document.documentElement.dataset.root || '';
   let ALL = [];
   let PODCAST_SERIES = {};
+  let EPISODES = {};                 // seriesId -> episodes, newest first
+  let MODALS = Object.create(null);  // modal id -> { kind:'podcast'|'webinar'|'opportunity', ... }
   let activeType = 'All';
   let activeQuery = '';
+  let lastSearch = window.location.search;
+
+  /* Image fallback: try data-fb (if present) once, then fall back to navy. */
+  const IMG_ONERROR = "if(this.dataset.fb){var f=this.dataset.fb;this.removeAttribute('data-fb');this.src=f}else{this.parentElement.style.background='var(--navy)'}";
 
   const TYPE_LABELS = { article:'Article', announcement:'Announcement', opportunity:'Opportunity', podcast:'Podcast', webinar:'Webinar' };
   const TYPE_LABELS_PLURAL = { article:'Articles', announcement:'Announcements', opportunity:'Opportunities', podcast:'Podcasts', webinar:'Webinars' };
-  const PLATFORM_MAP = { youtube:'YouTube', spotify:'Spotify', applePodcasts:'Apple Podcasts', zoom:'Recording' };
+  const PLATFORM_MAP = { youtube:'YouTube', spotify:'Spotify', applePodcasts:'Apple Podcasts', apple:'Apple Podcasts', zoom:'Recording', form:'Registration form' };
 
   /* Shared date format: "29 Sept 2026". Fixed month names ("Sept" is
      intentional) so browser locale can never change the output. */
@@ -45,8 +57,24 @@
     return 'open';
   }
 
+  /* A webinar is "upcoming" from today onward (Malawi time); the day of the
+     event still counts as upcoming. Date-only strings compare lexically. */
+  function webinarStatus(date){
+    if(!date) return 'past';
+    const d = String(date).slice(0, 10);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(d)) return 'past';
+    return d >= malawiTodayStr() ? 'upcoming' : 'past';
+  }
+
   function isExternalUrl(url){
     return /^https?:\/\//i.test(url || '');
+  }
+
+  /* Opportunity apply link: external URLs as-is, internal ones relative to
+     the site root (works on sub-folder hosting too). */
+  function applyUrlFor(item){
+    const link = item.link || 'contact.html';
+    return isExternalUrl(link) ? link : ROOT + String(link).replace(/^\//, '');
   }
 
   /* Single source of truth (MG): articles live in data/articles.json.
@@ -127,11 +155,13 @@
     return UB_ICONS.globe;
   }
 
-  /* One submenu anchor: real link, icon left of label, no arrow glyph. */
+  /* One submenu anchor: real link, icon left of label, no arrow glyph.
+     Empty verb → aria-label is just the label (e.g. "Registration form"). */
   function submenuBtn(key, url, verb, label){
-    const text = label || PLATFORM_MAP[key] || key;
+    const text = label || PLATFORM_MAP[key] || PLATFORM_MAP[String(key).toLowerCase()] || key;
     const ext = isExternalUrl(url);
-    return `<a class="pc-platform-btn" href="${url}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''} aria-label="${verb} on ${text}">${platformIcon(key, url)}<span>${text}</span></a>`;
+    const aria = verb ? `${verb} on ${text}` : text;
+    return `<a class="pc-platform-btn" href="${url}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''} aria-label="${aria}">${platformIcon(key, url)}<span>${text}</span></a>`;
   }
 
   function submenuGroup(links, verb){
@@ -151,32 +181,371 @@
     return `<button class="pc-cta" type="button" aria-expanded="false" aria-controls="${holderId}">${label}</button>`;
   }
 
+  function esc(s){
+    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function imgSrc(p){
+    return p ? ROOT + String(p).replace(/^\//, '') : '';
+  }
+  function slugify(s){
+    return String(s || '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'item';
+  }
+
+  /* ---------- Webinar links: upcoming = form only, past = video only ---------- */
+  function isFormLink(key, url){
+    if(/^(form|register|registration|rsvp|signup)$/i.test(String(key || ''))) return true;
+    return /docs\.google\.com\/forms|forms\.gle|eventbrite\./i.test(String(url || ''));
+  }
+  function webinarEntries(item){
+    const entries = Object.entries(item.links || {}).filter(([, url]) => url);
+    if(webinarStatus(item.date) === 'upcoming'){
+      return entries.filter(([k, u]) => isFormLink(k, u));
+    }
+    return entries.filter(([k, u]) => !isFormLink(k, u));
+  }
+  function webinarVerb(item){
+    return webinarStatus(item.date) === 'upcoming' ? '' : 'Watch';
+  }
+  function webinarGroup(item, entries){
+    const verb = webinarVerb(item);
+    return `<div class="pc-platforms" data-count="${entries.length}">${entries.map(([k, u]) => submenuBtn(k, u, verb)).join('')}</div>`;
+  }
+
+  /* Build the feed: ONE card per podcast series (count and latest date come
+     from the episodes); webinars and opportunities get a popup id taken from
+     their own "id" in updates.json (falls back to a slug of the title, with a
+     console warning). Episodes with an unknown seriesId are not shown
+     (warned); a series with no episodes is hidden. */
+  function buildFeed(items){
+    EPISODES = {};
+    MODALS = Object.create(null);
+    const rest = [];
+    const usedIds = {};
+
+    function claimId(it){
+      let id = it.id ? String(it.id) : slugify(it.title);
+      if(!it.id){
+        console.warn('[updates] "' + (it.title || 'untitled') + '" has no "id" in updates.json; using "' + id + '" for its popup URL. Add an "id" to keep the link stable.');
+      }
+      if(usedIds[id]){
+        console.warn('[updates] duplicate id "' + id + '" in updates.json — ids must be unique.');
+        usedIds[id] += 1;
+        id = id + '-' + usedIds[id];
+      } else {
+        usedIds[id] = 1;
+      }
+      return id;
+    }
+
+    items.forEach(it => {
+      if(it && it.type === 'podcast'){
+        (EPISODES[it.seriesId] = EPISODES[it.seriesId] || []).push(it);
+      } else if(it && (it.type === 'webinar' || it.type === 'opportunity')){
+        const id = claimId(it);
+        it.modalId = id;
+        MODALS[id] = { kind: it.type, item: it };
+        rest.push(it);
+      } else {
+        rest.push(it);
+      }
+    });
+    Object.keys(EPISODES).forEach(id => {
+      EPISODES[id].sort((a, b) =>
+        String(b.date || '').localeCompare(String(a.date || '')) ||
+        (b.episodeNumber || 0) - (a.episodeNumber || 0));
+      if(!PODCAST_SERIES[id]){
+        console.warn('[updates] podcast episode(s) with unknown seriesId "' + id + '" are not shown.', EPISODES[id]);
+      }
+    });
+    Object.values(PODCAST_SERIES).forEach(s => {
+      const eps = EPISODES[s.id] || [];
+      if(!eps.length) return;
+      const latest = eps[0];
+      const modalId = claimId({ id: s.id, title: s.title });
+      MODALS[modalId] = { kind: 'podcast', seriesId: s.id };
+      rest.push({
+        type: 'podcast',
+        seriesId: s.id,
+        modalId: modalId,
+        title: s.title,
+        excerpt: s.description || '',
+        image: s.coverArt || latest.image,
+        fallbackImage: latest.image,
+        imagePosition: s.imagePosition || '',
+        date: latest.date,
+        links: s.links,
+        searchText: [(s.people || []).join(' ')].concat(eps.map(e => (e.title || '') + ' ' + (e.excerpt || ''))).join(' ')
+      });
+    });
+    return rest;
+  }
+
+  /* ---------- Popup (podcast series, webinar, opportunity) with shareable URL hash ---------- */
+  let modalEl = null;
+  let modalId = null;
+  let modalPushed = false;
+  let modalReturnFocus = null;
+
+  function modalURL(id){
+    return window.location.pathname + window.location.search + (id ? '#' + encodeURIComponent(id) : '');
+  }
+  function hashId(){
+    let h = (window.location.hash || '').replace(/^#/, '');
+    try { h = decodeURIComponent(h); } catch(err){}
+    return h;
+  }
+
+  function modalLinks(links, verb){
+    if(!links) return '';
+    const entries = Object.entries(links).filter(([, url]) => url);
+    if(!entries.length) return '';
+    return `<div class="pcm-links">${entries.map(([key, url]) => submenuBtn(key, url, verb)).join('')}</div>`;
+  }
+
+  /* Episode row: no thumbnail, all available platform pills as compact
+     "Listen" buttons. Keeps the row scannable in the split-view layout. */
+  function episodeRow(ep){
+    const num = ep.episodeNumber ? `<span class="pcm-ep-num">Episode ${esc(ep.episodeNumber)}</span>` : '';
+    const entries = Object.entries(ep.links || {}).filter(([, url]) => url);
+    const pills = entries.length
+      ? `<div class="pcm-ep-links">${entries.map(([k, u]) => submenuBtn(k, u, 'Listen')).join('')}</div>`
+      : '';
+    return `<li class="pcm-episode">
+      <div class="pcm-ep-body">
+        <div class="pcm-ep-meta">${num}<span class="pcm-ep-date">${fmtUpdateDate(ep.date)}</span></div>
+        <h4>${ep.title}</h4>
+        ${ep.excerpt ? `<p>${ep.excerpt}</p>` : ''}
+        ${pills}
+      </div>
+    </li>`;
+  }
+
+  function podcastModalHtml(series){
+    const eps = EPISODES[series.id] || [];
+    const latest = eps[0];
+    const cover = series.coverArt || (latest && latest.image) || '';
+    const fb = latest && latest.image ? imgSrc(latest.image) : '';
+    const people = peopleLabel(series.people);
+    const metaBits = [`${eps.length} episode${eps.length !== 1 ? 's' : ''}`];
+    if(latest) metaBits.push('Latest: ' + fmtUpdateDate(latest.date));
+    const showLinks = modalLinks(series.links, 'Listen');
+    return `
+      <header class="pcm-head">
+        <div class="pcm-cover"><img src="${imgSrc(cover)}"${fb ? ` data-fb="${esc(fb)}"` : ''} alt="" onerror="${IMG_ONERROR}"></div>
+        <div class="pcm-info">
+          <p class="pcm-kicker">Podcast</p>
+          <h2 id="pcmTitle">${series.title}</h2>
+          ${people ? `<span class="pc-people">${people}</span>` : ''}
+          <p class="pcm-meta">${metaBits.join(' · ')}</p>
+          ${series.description ? `<p class="pcm-desc">${series.description}</p>` : ''}
+          ${showLinks ? `<p class="pcm-links-label">Listen to the full podcast</p>${showLinks}` : ''}
+        </div>
+      </header>
+      <section class="pcm-episodes" aria-label="Episodes">
+        <h3>All episodes</h3>
+        <ul>${eps.map(episodeRow).join('')}</ul>
+      </section>`;
+  }
+
+  /* Shared layout for webinar + opportunity popups (portrait image). */
+  function posterModalHtml(o){
+    return `
+      <header class="pcm-head">
+        <div class="pcm-cover pcm-cover--portrait"><img src="${imgSrc(o.image)}" alt="" onerror="${IMG_ONERROR}"></div>
+        <div class="pcm-info">
+          <p class="pcm-kicker">${o.kicker}</p>
+          <h2 id="pcmTitle">${o.title}</h2>
+          ${o.meta ? `<p class="pcm-meta">${o.meta}</p>` : ''}
+          ${o.desc ? `<p class="pcm-desc">${o.desc}</p>` : ''}
+          ${o.linksHtml}
+        </div>
+      </header>${o.embed || ''}`;
+  }
+
+  function webinarModalHtml(item){
+    const upcoming = webinarStatus(item.date) === 'upcoming';
+    const entries = webinarEntries(item);
+    const time = item.time ? ` • ${esc(item.time)}` : '';
+    const verb = webinarVerb(item);
+    const linksHtml = entries.length
+      ? `<p class="pcm-links-label">${upcoming ? 'Register for this webinar' : 'Watch the recording'}</p><div class="pcm-links">${entries.map(([k, u]) => submenuBtn(k, u, verb)).join('')}</div>`
+      : `<p class="pcm-note">${upcoming ? 'Registration details coming soon.' : 'The recording will be available here soon.'}</p>`;
+    const embed = (!upcoming && item.embedUrl)
+      ? `<div class="pcm-embed"><iframe src="${esc(item.embedUrl)}" title="${esc(item.title)}" loading="lazy" allowfullscreen></iframe></div>`
+      : '';
+    return posterModalHtml({
+      kicker: upcoming ? 'Upcoming webinar' : 'Webinar',
+      title: item.title,
+      meta: upcoming ? `Live: ${fmtUpdateDate(item.date)}${time}` : fmtUpdateDate(item.date),
+      desc: item.excerpt,
+      image: item.image,
+      linksHtml,
+      embed
+    });
+  }
+
+  function opportunityModalHtml(item){
+    const st = deadlineStatus(item.deadline);
+    const closed = st === 'closed';
+    let meta = '';
+    if(closed) meta = `Applications closed on ${fmtUpdateDate(item.deadline)}`;
+    else if(st === 'today') meta = 'Closes today';
+    else if(item.deadline) meta = `Apply by ${fmtUpdateDate(item.deadline)}`;
+    const applyUrl = applyUrlFor(item);
+    const applyLabel = isExternalUrl(applyUrl) ? 'Application form' : 'Contact us';
+    const linksHtml = closed
+      ? `<p class="pcm-note">This opportunity is now closed.</p>`
+      : `<p class="pcm-links-label">Apply for this opportunity</p><div class="pcm-links">${submenuBtn('link', applyUrl, 'Apply', applyLabel)}</div>`;
+    return posterModalHtml({
+      kicker: closed ? 'Opportunity · Closed' : 'Opportunity',
+      title: item.title,
+      meta,
+      desc: item.excerpt,
+      image: item.image,
+      linksHtml
+    });
+  }
+
+  function modalKeydown(e){
+    if(!modalEl) return;
+    if(e.key === 'Escape'){ e.preventDefault(); dismissModal(); return; }
+    if(e.key !== 'Tab') return;
+    const f = Array.from(modalEl.querySelectorAll('a[href], button:not([disabled])')).filter(n => n.offsetParent !== null);
+    if(!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if(!modalEl.contains(document.activeElement)){ e.preventDefault(); first.focus(); }
+    else if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+
+  /* Removes the popup from the page only (no URL changes). */
+  function closeModalDom(skipFocus){
+    if(!modalEl) return;
+    document.removeEventListener('keydown', modalKeydown);
+    modalEl.remove();
+    modalEl = null;
+    modalId = null;
+    modalPushed = false;
+    document.body.classList.remove('pcm-open');
+    if(!skipFocus && modalReturnFocus && document.contains(modalReturnFocus)){
+      try { modalReturnFocus.focus({ preventScroll: true }); } catch(err){}
+    }
+    modalReturnFocus = null;
+  }
+
+  /* User-initiated close (×, backdrop, Escape): if we pushed a history entry
+     when opening, go back (popstate then removes the popup); otherwise just
+     close and drop the hash. */
+  function dismissModal(){
+    if(!modalEl) return;
+    if(modalPushed){
+      modalPushed = false;
+      try { window.history.back(); return; } catch(err){}
+    }
+    closeModalDom();
+    try { window.history.replaceState({ updates: true }, '', modalURL('')); } catch(err){}
+  }
+
+  function mountModal(innerHtml, id, triggerEl, fromURL, kind){
+    closeModalDom(true);
+    modalReturnFocus = triggerEl || document.activeElement;
+    const kindClass = kind === 'podcast'
+      ? ' pcm--podcast'
+      : (kind === 'webinar' || kind === 'opportunity')
+        ? ' pcm--tall'
+        : '';
+    const el = document.createElement('div');
+    el.className = 'pcm-backdrop';
+    el.innerHTML = `
+      <div class="pcm${kindClass}" role="dialog" aria-modal="true" aria-labelledby="pcmTitle" tabindex="-1">
+        <button type="button" class="pcm-close" aria-label="Close">×</button>
+        <div class="pcm-scroll">${innerHtml}</div>
+      </div>`;
+    el.addEventListener('click', (e) => {
+      if(e.target === el || e.target.closest('.pcm-close')) dismissModal();
+    });
+    document.body.appendChild(el);
+    document.body.classList.add('pcm-open');
+    modalEl = el;
+    modalId = id;
+    document.addEventListener('keydown', modalKeydown);
+    if(!fromURL){
+      try {
+        window.history.pushState({ updates: true, modal: id }, '', modalURL(id));
+        modalPushed = true;
+      } catch(err){ modalPushed = false; }
+    }
+    const closeBtn = el.querySelector('.pcm-close');
+    if(closeBtn) closeBtn.focus();
+  }
+
+  function openModal(id, triggerEl, fromURL){
+    const entry = MODALS[id];
+    if(!entry) return;
+    let html = '';
+    if(entry.kind === 'podcast'){
+      const series = getSeries(entry.seriesId);
+      if(!series) return;
+      html = podcastModalHtml(series);
+    } else if(entry.kind === 'webinar'){
+      html = webinarModalHtml(entry.item);
+    } else if(entry.kind === 'opportunity'){
+      html = opportunityModalHtml(entry.item);
+    } else {
+      return;
+    }
+    mountModal(html, id, triggerEl, !!fromURL, entry.kind);
+  }
+
+  /* Open/close the popup to match the URL hash (deep links, back/forward). */
+  function syncModalFromURL(){
+    const id = hashId();
+    if(id && MODALS[id]){
+      if(modalId !== id) openModal(id, null, true);
+    } else if(modalEl){
+      closeModalDom();
+    }
+  }
+
   function card(item, index){
     const typeLabel = TYPE_LABELS[item.type] || item.type;
     const holderId = `up-links-${index}`;
     const isPodcast = item.type === 'podcast';
     const media = item.embedUrl
       ? `<div class="update-embed"><iframe src="${item.embedUrl}" title="${item.title}" loading="lazy" allowfullscreen></iframe></div>`
-      : `<img src="${ROOT}${(item.image||'').replace(/^\//,'')}" alt="" loading="lazy"${item.imagePosition ? ` style="object-position:${item.imagePosition}"` : ''} onerror="this.parentElement.style.background='var(--navy)'">`;
+      : `<img src="${ROOT}${(item.image||'').replace(/^\//,'')}" alt="" loading="lazy"${item.imagePosition ? ` style="object-position:${item.imagePosition}"` : ''}${item.fallbackImage ? ` data-fb="${ROOT}${item.fallbackImage.replace(/^\//,'')}"` : ''} onerror="${IMG_ONERROR}">`;
 
     let badges = `<span class="update-type-badge">${typeLabel}</span>`;
     let byline = '';
     let deadlineHtml = '';
     let ctaInner = '';
     let holder = '';
+    const modalAttr = item.modalId ? ` data-modal-id="${esc(item.modalId)}" aria-haspopup="dialog"` : '';
+    const emptyCta = `<div class="update-cta--empty" aria-hidden="true"><span class="pc-cta" style="visibility:hidden">Read Now</span></div>`;
 
     if(isPodcast){
       const series = getSeries(item.seriesId);
       const people = series ? (series.people || []) : [];
-      const epCount = series ? series.totalEpisodes : 0;
+      const epCount = (EPISODES[item.seriesId] || []).length;
       const peopleStr = peopleLabel(people);
       badges += `<span class="pc-episodes">${epCount} Episode${epCount!==1?'s':''}</span>`;
       if(peopleStr) byline = `<span class="pc-people">${peopleStr}</span>`;
       ctaInner = revealOpener('▶ Listen Now', holderId);
       holder = `<div class="pc-platforms-holder" id="${holderId}" hidden>${platformSelector(item.links, 'Listen')}</div>`;
     } else if(item.type === 'webinar'){
-      ctaInner = revealOpener('▶ Watch Now', holderId);
-      holder = `<div class="pc-platforms-holder" id="${holderId}" hidden>${submenuGroup(item.links, 'Watch')}</div>`;
+      const upcoming = webinarStatus(item.date) === 'upcoming';
+      const wEntries = webinarEntries(item);
+      if(upcoming){
+        badges += `<span class="update-status-badge update-status-upcoming">Upcoming</span>`;
+        const time = item.time ? ` • ${esc(item.time)}` : '';
+        deadlineHtml = `<span class="webinar-schedule">Live: ${fmtUpdateDate(item.date)}${time}</span>`;
+      }
+      if(wEntries.length){
+        ctaInner = revealOpener(upcoming ? 'Register Now' : '▶ Watch Now', holderId);
+        holder = `<div class="pc-platforms-holder" id="${holderId}" hidden>${webinarGroup(item, wEntries)}</div>`;
+      } else {
+        ctaInner = emptyCta;
+      }
     } else if(item.type === 'opportunity'){
       const st = deadlineStatus(item.deadline);
       if(st === 'closed'){
@@ -185,9 +554,8 @@
       } else {
         if(st === 'today') deadlineHtml = `<span class="deadline-flag">Closes today</span>`;
         else if(item.deadline) deadlineHtml = `<span class="deadline-flag">Apply by ${fmtUpdateDate(item.deadline)}</span>`;
-        const applyUrl = item.link || (ROOT + 'contact.html');
-        const ext = isExternalUrl(applyUrl);
-        const applyLabel = ext ? 'Application form' : 'Contact us';
+        const applyUrl = applyUrlFor(item);
+        const applyLabel = isExternalUrl(applyUrl) ? 'Application form' : 'Contact us';
         ctaInner = revealOpener('Apply Now', holderId);
         holder = `<div class="pc-platforms-holder" id="${holderId}" hidden><div class="pc-platforms" data-count="1">${submenuBtn('link', applyUrl, 'Apply', applyLabel)}</div></div>`;
       }
@@ -196,18 +564,18 @@
       if(item.id){
         ctaInner = `<a class="pc-cta" href="${ROOT}article.html?id=${item.id}">Read Now</a>`;
       } else {
-        ctaInner = `<div class="update-cta--empty" aria-hidden="true"><span class="pc-cta" style="visibility:hidden">Read Now</span></div>`;
+        ctaInner = emptyCta;
       }
     } else {
       if(item.link){
         const href = isExternalUrl(item.link) ? item.link : (ROOT + item.link.replace(/^\//,''));
         ctaInner = `<a class="pc-cta" href="${href}"${linkTargetAttrs(item.link)}>Read Now</a>`;
       } else {
-        ctaInner = `<div class="update-cta--empty" aria-hidden="true"><span class="pc-cta" style="visibility:hidden">Read Now</span></div>`;
+        ctaInner = emptyCta;
       }
     }
 
-    return `<article class="card update-card${isPodcast ? ' podcast-card' : ''}">
+    return `<article class="card update-card${isPodcast ? ' podcast-card' : ''}"${modalAttr}>
       <div class="card-media">${media}${badges}</div>
       <div class="card-body">
         ${byline}
@@ -248,11 +616,17 @@
     });
   }
 
-  /* Card-level action (UC): reuses the card's own main control — the toggle's
-     click handler for Listen/Watch/Apply, the Read Now link for articles.
-     Open-submenu, disabled-button and linkless cards deliberately do nothing. */
+  /* Card-level action (UC): podcast, webinar and opportunity cards open their
+     popup; other cards reuse their own main control — the Read Now link for
+     articles. Linkless cards deliberately do nothing. */
   function triggerCardAction(cardEl){
     if(!cardEl) return;
+    const mid = cardEl.getAttribute('data-modal-id');
+    if(mid){
+      restoreSwap(cardEl, false);
+      openModal(mid, cardEl, false);
+      return;
+    }
     if(cardEl.querySelector('.pc-cta[aria-expanded="true"]')) return;
     if(cardEl.querySelector('button.pc-cta:disabled')) return;
     const mainBtn = cardEl.querySelector('.pc-cta[aria-expanded]');
@@ -292,7 +666,7 @@
       const matchType = activeShortcut
         ? SHORTCUTS[activeShortcut].types.includes(i.type)
         : (activeType === 'All' || i.type === activeType);
-      const matchQuery = !activeQuery || ((i.title || '') + ' ' + (i.excerpt || '')).toLowerCase().includes(activeQuery);
+      const matchQuery = !activeQuery || ((i.title || '') + ' ' + (i.excerpt || '') + ' ' + (i.searchText || '')).toLowerCase().includes(activeQuery);
       return matchType && matchQuery;
     });
   }
@@ -352,6 +726,7 @@
     if(activePage > 1) params.set('page', String(activePage));
     const query = params.toString();
     const url = window.location.pathname + (query ? '?' + query : '');
+    lastSearch = query ? '?' + query : '';
     try {
       if(mode === 'push') window.history.pushState({ updates: true }, '', url);
       else window.history.replaceState({ updates: true }, '', url);
@@ -429,10 +804,10 @@
       }
     }
 
-    /* UC: only actionable cards are focusable — toggle mains and Read Now
-       links qualify; disabled-button and spacer cards never match. */
+    /* UC: only actionable cards are focusable — popup cards, toggle mains and
+       Read Now links qualify; spacer cards never match. */
     grid.querySelectorAll('.update-card').forEach(cardEl => {
-      if(cardEl.querySelector('.pc-cta[aria-expanded], a.pc-cta[href]')){
+      if(cardEl.hasAttribute('data-modal-id') || cardEl.querySelector('.pc-cta[aria-expanded], a.pc-cta[href]')){
         cardEl.setAttribute('tabindex', '0');
       }
     });
@@ -587,10 +962,17 @@
       });
     }
 
+    /* Back/forward: redraw only when the filters/sort/page (query string)
+       changed; a popup opening or closing only changes the hash, so the
+       grid is left alone. */
     window.addEventListener('popstate', () => {
-      readURL();
-      syncControls();
-      draw();
+      if(window.location.search !== lastSearch){
+        lastSearch = window.location.search;
+        readURL();
+        syncControls();
+        draw();
+      }
+      syncModalFromURL();
     });
   }
 
@@ -647,7 +1029,9 @@
       console.warn('[updates] could not load data/articles.json — showing updates.json items only.', artSettled.reason);
     }
     ALL = mergeFeed(ALL, articleRecords);
+    ALL = buildFeed(ALL);
     const fromURL = readURL();
+    lastSearch = window.location.search;
     wireControls();
     syncControls();
     draw();
@@ -656,6 +1040,8 @@
       writeURL('replace');
       smoothScrollTo(document.querySelector('.updates-toolbar'));
     }
+    /* Deep link: #<id> opens that item's popup on load. */
+    syncModalFromURL();
   }
 
   document.addEventListener('partials:ready', init);
@@ -665,7 +1051,13 @@
   try {
     window.__updates = {
       card, submenuGroup, platformSelector, platformButtons, submenuBtn, platformIcon,
-      triggerCardAction, restoreSwap, articleToCardItem, mergeFeed
+      triggerCardAction, restoreSwap, articleToCardItem, mergeFeed,
+      openModal, dismissModal, buildFeed, buildPodcastFeed: buildFeed, webinarStatus, webinarEntries,
+      openSeriesModal: (seriesId, el) => {
+        const key = Object.keys(MODALS).find(k => MODALS[k].kind === 'podcast' && MODALS[k].seriesId === seriesId);
+        if(key) openModal(key, el, false);
+      },
+      closeSeriesModal: dismissModal
     };
   } catch(err) {}
 })();

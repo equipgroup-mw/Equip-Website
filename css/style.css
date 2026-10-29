@@ -2029,6 +2029,38 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .update-cta{ margin-top:auto; padding-top:.85rem; }
 .update-cta--empty{ min-height:0; }
 
+/* Top-right status badge on the card image overlay (matches opportunity
+   badge placement). */
+.update-status-badge{
+  position:absolute;
+  top:.6rem;
+  right:.6rem;
+  z-index:2;
+  display:inline-block;
+  padding:.3rem .65rem;
+  font-size:.68rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  line-height:1.2;
+  border-radius:2px;
+  pointer-events:none;
+}
+.update-status-upcoming{
+  background:#a8935a;
+  color:#0d2136;
+}
+
+/* Upcoming webinar schedule line above the CTA. Reuses the maroon/plum
+   opportunity-date treatment; falls back if that var isn't defined. */
+.webinar-schedule{
+  display:block;
+  font-size:.85rem;
+  font-weight:700;
+  color:var(--maroon, #7d2a32);
+  margin:.35rem 0 .75rem;
+}
+
 /* ---------------- Article detail figures ---------------- */
 figure.article-cover{ margin:0 0 2rem; }
 figure.article-cover img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; max-height:420px; }
@@ -2761,4 +2793,294 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
 .services-grid-section > .container{
   width: 100%;
   max-width: var(--maxw);
+}
+
+/* ---------------- Podcast series popup ---------------- */
+body.pcm-open{ overflow:hidden; }
+.pcm-backdrop{ position:fixed; inset:0; z-index:1200; display:flex; align-items:center; justify-content:center; padding:clamp(.5rem, 2vw, 1.5rem); background:rgba(13,33,54,.55); }
+@supports (backdrop-filter: blur(4px)){
+  .pcm-backdrop{ backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+}
+.pcm{ position:relative; width:100%; max-width:960px; max-height:90vh; max-height:90dvh; background:#fff; border-radius:4px; box-shadow:0 24px 64px rgba(7,16,25,.35); display:flex; flex-direction:column; overflow:hidden; }
+
+/* Taller popup for webinar + opportunity series cards. */
+.pcm--tall{ max-height:94vh; max-height:94dvh; }
+.pcm:focus{ outline:none; }
+.pcm-close{ position:absolute; top:.75rem; right:.75rem; z-index:2; width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center; border:1.5px solid currentColor; border-radius:50%; background:#fff; color:var(--navy); font-size:1.4rem; line-height:1; cursor:pointer; }
+.pcm-close:hover{ background:var(--navy); border-color:var(--navy); color:#fff; }
+.pcm-close:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.pcm-scroll{ overflow-y:auto; padding:clamp(1.25rem, 3vw, 2.25rem); }
+
+.pcm-head{ display:grid; grid-template-columns:minmax(0, 300px) minmax(0, 1fr); gap:clamp(1.25rem, 3vw, 2rem); align-items:start; }
+/* Path B — fixed frame, whole image visible, white letterbox bands.
+   Webinar/opportunity posters keep this portrait frame + contain. */
+.pcm-cover{
+  aspect-ratio:4/5;
+  overflow:hidden;
+  background:#ffffff;
+}
+.pcm-cover img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  background:#ffffff;
+  display:block;
+}
+/* Podcast covers: square frame, capped so it doesn't dominate the sticky
+   left pane. Crops to 1:1 with object-fit:cover — no empty bands. */
+.pcm--podcast .pcm-cover{
+  aspect-ratio:1/1;
+  width:100%;
+  max-width:280px;
+  max-height:280px;
+  margin-inline:0;
+  background:var(--navy);
+}
+.pcm--podcast .pcm-cover img{
+  object-fit:cover;
+  object-position:center;
+  background:transparent;
+}
+.pcm-info{ padding-right:2.75rem; }
+.pcm-kicker{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--gold-dark); margin:0 0 .5rem; }
+.pcm h2{ font-size:clamp(1.5rem, 3vw, 2.1rem); line-height:1.15; margin:0 0 .5rem; }
+.pcm-meta{ font-size:.9rem; font-weight:600; color:var(--navy); margin:.35rem 0 1rem; }
+.pcm-desc{ font-size:1rem; line-height:1.6; max-width:none; margin:0 0 1.25rem; }
+.pcm-links-label{ font-size:.78rem; font-weight:700; color:var(--navy); margin:0 0 .5rem; }
+.pcm-links{ display:flex; flex-wrap:wrap; gap:.5rem; }
+.pcm-links .pc-platform-btn{ font-size:.8rem; padding:.45rem .85rem; gap:.45rem; }
+
+.pcm-episodes{ margin-top:clamp(1.5rem, 3vw, 2.25rem); border-top:1px solid var(--line); padding-top:1.25rem; }
+.pcm-episodes h3{ font-size:1.25rem; margin:0 0 .5rem; }
+.pcm-episodes ul{ list-style:none; margin:0; padding:0; }
+.pcm-episode{ display:grid; grid-template-columns:140px minmax(0, 1fr); gap:1rem; padding:1.1rem 0; border-bottom:1px solid var(--line); }
+.pcm-episode:last-child{ border-bottom:0; }
+.pcm-ep-media{ aspect-ratio:3/2; overflow:hidden; background:var(--navy); }
+.pcm-ep-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+.pcm-ep-meta{ display:flex; flex-wrap:wrap; gap:.75rem; font-size:.78rem; font-weight:700; margin-bottom:.25rem; }
+.pcm-ep-num{ color:var(--gold-dark); }
+.pcm-ep-date{ color:var(--navy); font-weight:500; }
+.pcm-episode h4{ font-size:1.1rem; line-height:1.25; margin:0 0 .35rem; }
+.pcm-episode p{ font-size:.9rem; line-height:1.5; max-width:none; margin:0 0 .75rem; }
+
+@media (max-width: 720px){
+  .pcm-head{ grid-template-columns:1fr; }
+  .pcm-info{ padding-right:0; }
+  .pcm-cover{ margin-top:2rem; }
+}
+@media (max-width: 640px){
+  .pcm{ max-height:94vh; max-height:94dvh; }
+  .pcm-episode{ grid-template-columns:1fr; gap:.75rem; }
+  .pcm-ep-media{ aspect-ratio:16/9; }
+  .pcm-links .pc-platform-btn{ min-height:44px; }
+}
+
+.pcm-note{ font-size:.9rem; font-weight:600; color:var(--navy); margin:0; }
+.pcm-embed{ margin-top:clamp(1.25rem, 3vw, 1.75rem); aspect-ratio:16/9; background:var(--navy); }
+.pcm-embed iframe{ width:100%; height:100%; border:0; display:block; }
+
+/* Updates cards: description is exactly 3 lines. */
+.update-card .update-desc{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  line-clamp:3;
+  overflow:hidden;
+  min-height:calc(3 * 1.6em);
+  min-height:3lh;
+}
+
+/* Portrait variant for poster popups (webinar + opportunity). */
+.pcm-cover--portrait{ aspect-ratio:4/5; }
+@media (max-width: 720px){
+  .pcm-cover--portrait{ max-width:min(100%, 340px); }
+}
+
+/* ---- Podcast popup: compact split-screen on desktop + horizontal tablet ---- */
+@media (min-width: 1025px){
+  /* Modal takes the same footprint as webinar/opportunity popups. */
+  .pcm--podcast{
+    max-width:min(1200px, 92vw);
+    max-height:95vh;
+    max-height:95dvh;
+  }
+
+  /* Single scroll container. Columns split 45 / gap / 50 (remaining 5% is
+     the gap). Both columns use overflow:visible. */
+  .pcm--podcast .pcm-scroll{
+    display:grid;
+    grid-template-columns:minmax(0, 45fr) minmax(0, 50fr);
+    column-gap:5%;                        /* the leftover 5% */
+    align-items:start;
+    padding:clamp(1.5rem, 2.5vw, 2rem);
+    overflow-y:auto;
+  }
+
+  /* Left column: sticky, compact typography so it fits without scroll. */
+  .pcm--podcast .pcm-head{
+    grid-template-columns:1fr;
+    gap:1rem;
+    align-content:start;
+    align-self:start;
+    position:sticky;
+    top:0;
+    padding-right:0;
+  }
+  .pcm--podcast .pcm-info{
+    padding-right:2.75rem;                /* clears the × */
+  }
+
+  /* Cover: capped so it doesn't dominate the sticky left pane. Crops to
+     1:1 with object-fit:cover — no empty bands around the artwork. */
+  .pcm--podcast .pcm-cover{
+    aspect-ratio:1/1;
+    width:100%;
+    max-width:280px;
+    max-height:280px;
+    margin-inline:0;
+    background:var(--navy);               /* navy shows through only if the
+                                             image fails to load */
+  }
+  .pcm--podcast .pcm-cover img{
+    object-fit:cover;
+    object-position:center;
+    background:transparent;
+  }
+
+  .pcm--podcast .pcm-kicker{
+    font-size:.65rem;
+    margin-bottom:.3rem;
+  }
+  /* Title only: shrunk further to 0.8–0.95rem so long titles wrap tightly. */
+  .pcm--podcast .pcm h2{
+    font-size:clamp(.8rem, 1vw, .95rem);
+    line-height:1.15;
+    margin:0 0 .3rem;
+  }
+  .pcm--podcast .pcm-meta{
+    font-size:.78rem;
+    margin:.2rem 0 .5rem;
+  }
+  .pcm--podcast .pcm-desc{
+    font-size:.82rem;
+    line-height:1.45;
+    margin:0 0 .75rem;
+  }
+  .pcm--podcast .pcm-links-label{
+    font-size:.7rem;
+    margin:0 0 .35rem;
+  }
+  .pcm--podcast .pcm-links{
+    gap:.35rem;
+  }
+  .pcm--podcast .pcm-links .pc-platform-btn{
+    font-size:.72rem;
+    padding:.3rem .65rem;
+    gap:.3rem;
+  }
+
+  /* Right column: dense episode list, but with LARGER readable text. */
+  .pcm--podcast .pcm-episodes{
+    margin-top:0;
+    border-top:0;
+    padding:0;
+  }
+  .pcm--podcast .pcm-episodes h3{
+    font-size:1.05rem;
+    margin:0 0 .75rem;
+  }
+
+  /* Episode row: no thumbnail, tight vertical padding, larger text. */
+  .pcm--podcast .pcm-episode{
+    grid-template-columns:minmax(0, 1fr);
+    gap:0;
+    padding:.75rem 0;
+  }
+  .pcm--podcast .pcm-ep-media{
+    display:none;
+  }
+  .pcm--podcast .pcm-ep-body{
+    min-width:0;
+  }
+  .pcm--podcast .pcm-ep-meta{
+    font-size:.75rem;
+    gap:.5rem;
+    margin-bottom:.2rem;
+  }
+  .pcm--podcast .pcm-episode h4{
+    font-size:1rem;
+    line-height:1.35;
+    margin:0 0 .3rem;
+  }
+  .pcm--podcast .pcm-episode p{
+    font-size:.875rem;
+    line-height:1.5;
+    margin:0 0 .55rem;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+
+  /* Compact action pills: icon + short platform label. */
+  .pcm--podcast .pcm-ep-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.35rem;
+    margin-top:.15rem;
+  }
+  .pcm--podcast .pcm-ep-links .pc-platform-btn{
+    display:inline-flex;
+    width:auto;
+    flex:0 0 auto;
+    font-size:.72rem;
+    padding:.28rem .6rem;
+    gap:.3rem;
+    line-height:1.2;
+  }
+  .pcm--podcast .pcm-ep-links .pc-platform-btn svg{
+    width:13px;
+    height:13px;
+  }
+}
+
+/* Close button gets a subtle shadow in the split view so it reads over the
+   scrolling right column. */
+@media (min-width: 1025px){
+  .pcm--podcast .pcm-close{
+    box-shadow:0 1px 3px rgba(7,16,25,.08);
+  }
+}
+
+
+/* Webinar + opportunity popups: 25% larger on desktop only (≥1025px).
+   Below 1025px the modifier is fully neutralized. */
+@media (min-width: 1025px){
+  .pcm--tall{
+    max-width:min(1200px, 92vw);
+    max-height:95vh;
+    max-height:95dvh;
+  }
+  .pcm--tall .pcm-scroll{ padding:clamp(1.5rem, 3.5vw, 2.75rem); }
+  .pcm--tall .pcm-head{
+    grid-template-columns:minmax(0, 420px) minmax(0, 1fr);
+    gap:clamp(1.5rem, 3.5vw, 2.5rem);
+    align-items:start;
+  }
+  .pcm--tall .pcm-cover{
+    aspect-ratio:4/5;
+    width:100%;
+    min-height:500px;
+    max-height:600px;
+  }
+  .pcm--tall .pcm-info{ padding-right:3.25rem; }
+  .pcm--tall .pcm h2{ font-size:clamp(1.9rem, 3.75vw, 2.65rem); line-height:1.15; }
+  .pcm--tall .pcm-kicker{ font-size:.9rem; margin-bottom:.625rem; }
+  .pcm--tall .pcm-meta{ font-size:1.125rem; margin:.45rem 0 1.25rem; }
+  .pcm--tall .pcm-desc{ font-size:1.25rem; line-height:1.6; margin:0 0 1.5rem; }
+  .pcm--tall .pcm-links-label{ font-size:.95rem; margin-bottom:.625rem; }
+  .pcm--tall .pcm-links .pc-platform-btn{ font-size:1rem; padding:.55rem 1.05rem; gap:.55rem; }
+  .pcm--tall .pcm-note{ font-size:1.1rem; }
+  .pcm--tall .pcm-embed{ margin-top:clamp(1.5rem, 3.5vw, 2.25rem); }
 }

@@ -1,60 +1,55 @@
 {
-  "_instructions": "One file for everything on the Updates page. Copy the block that matches what you're publishing, fill it in, save. 'type' controls which tab it appears under and how the card is drawn. For podcasts and webinars, this site never hosts the audio/video itself — put the real links (YouTube, Spotify, Apple Podcasts, Zoom recording, etc.) in 'links', and optionally an 'embedUrl' (a YouTube/Spotify embed link) to show a preview player right on the page. podcastSeries defines the show metadata; podcast items reference seriesId. Card images: 1200 x 800 px (3:2), WebP or JPG under 250 KB; keep text, logos and faces inside the central 80% safe zone. Optional per-item \"imagePosition\" field (any CSS object-position value, e.g. \"top\" or \"50% 20%\") controls the image focal point; default center.",
+  "_instructions": "One file for everything on the Updates page. Copy the block that matches what you're publishing, fill it in, save. 'type' controls which tab it appears under and how the card is drawn. For podcasts and webinars, this site never hosts the audio/video itself — put the real links (YouTube, Spotify, Apple Podcasts, Zoom recording, etc.) in 'links', and optionally an 'embedUrl' (a YouTube/Spotify embed link) to show a preview player right on the page. podcastSeries defines the show metadata; podcast items reference seriesId. Card images: 1200 x 800 px (3:2), WebP or JPG under 250 KB; keep text, logos and faces inside the central 80% safe zone. Optional per-item \"imagePosition\" field (any CSS object-position value, e.g. \"top\" or \"50% 20%\") controls the image focal point; default center. Optional per-item \"time\" field (webinars only, e.g. \"10:00 AM CAT\") shows the schedule line on upcoming webinar cards as \"Live: <date> • <time>\". Every item carries a unique \"id\" for stable referencing, deep-linking, and analytics.",
   "podcastSeries": [
     {
       "id": "equip-insights",
-      "title": "Equip Insights",
-      "description": "Conversations with leaders shaping Malawi's economy — entrepreneurs, investors, policymakers, and development practitioners.",
+      "title": "10 Entrepreneurial Archetypes That Stunt Your Growth",
+      "description": "A deep dive into the common psychological and operational archetypes that hold entrepreneurs back from scaling their businesses effectively.",
       "coverArt": "assets/images/updates/equip-insights-cover.jpg",
-      "totalEpisodes": 12,
-      "latestEpisodeDate": "2025-08-15",
       "people": ["Rollins Chitika"],
       "links": { "spotify": "https://open.spotify.com/show/REPLACE_WITH_YOUR_SHOW_ID", "apple": "https://podcasts.apple.com/podcast/idREPLACE", "youtube": "https://youtube.com/@equipgroup" }
     },
     {
       "id": "series-2",
-      "title": "Series 2",
-      "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
+      "title": "Partnerships: How To Build Together",
+      "description": "Discover the secrets to finding the right partners, aligning visions, and building sustainable business relationships that withstand the test of time and turbulence.",
       "coverArt": "assets/images/updates/business-unfiltered-cover.jpg",
-      "totalEpisodes": 8,
-      "latestEpisodeDate": "2025-07-22",
       "people": ["Rollins Chitika", "Charles Phiri"],
       "links": { "spotify": "https://open.spotify.com/show/REPLACE", "youtube": "https://youtube.com/@equipgroup" }
     },
     {
       "id": "series-3",
-      "title": "Series 3",
-      "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
+      "title": "Breaking The Boundaries Of Media To Build Your Brand",
+      "description": "Learn unconventional media strategies and creative approaches to cut through the noise, capture attention, and position your brand as a market leader.",
       "coverArt": "assets/images/updates/series-03.png",
-      "totalEpisodes": 9,
-      "latestEpisodeDate": "2025-07-22",
       "people": ["Maxwell Mkumba"],
       "links": { "spotify": "https://open.spotify.com/show/REPLACE", "youtube": "https://youtube.com/@equipgroup" }
     },
     {
-      "id": "series-1",
+      "id": "start-build-grow",
       "title": "Start. Build. Grow. Podcast",
       "description": "Raw, practical conversations with Malawian founders about what it really takes to build and scale.",
       "coverArt": "assets/images/updates/equip-podcast1.avif",
-      "totalEpisodes": 1,
-      "latestEpisodeDate": "2025-09-28",
       "people": ["Rollins Chitika"],
-      "links": { "spotify": "https://open.spotify.com/show/7FfGHGdnobPUSU8JuHdB8K", "youtube": "https://youtu.be/qP2k4bybDAY", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast/id6817039751" }
+      "links": { "spotify": "https://open.spotify.com/show/7FfGHGdnobPUSU8JuHdB8K", "youtube": "https://youtube.com/playlist?list=PLfWzEuMTRU8c&si=OozEnSv5cLMWbh8b", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast/id6817039751" }
     }
   ],
 
   
   "items": [
     {
+      "id": "webinar-exploring-poultry-business-opportunities",
       "type": "webinar",
       "title": "Exploring Poultry Business Opportunities Webinar",
       "date": "2026-08-28",
+      "time": "10:00 AM CAT",
       "excerpt": "What will it take to build lasting success in the poultry sector? Join us for a conversation on the business opportunities poultry offers young people across SADC.",
       "image": "assets/images/updates/poultry-webinar.jpeg",
       "embedUrl": "",
-      "links": { "youtube": "https://youtu.be/d1BCFuiuwEM"}
+      "links": { "youtube": "https://youtu.be/d1BCFuiuwEM", "Form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog"}
     },
     {
+      "id": "opportunity-join-network-of-expert-consultants",
       "type": "opportunity",
       "title": "Join our network of expert consultants",
       "date": "2025-10-24",
@@ -64,6 +59,7 @@
       "deadline": "2026-12-31"
     },
     {
+      "id": "opportunity-consultant-call-monitoring-evaluation-specialist",
       "type": "opportunity",
       "title": "Consultant call: Monitoring & Evaluation specialist",
       "date": "2025-08-15",
@@ -73,21 +69,131 @@
       "deadline": "2025-09-30"
     },
     {
+      "id": "podcast-equip-insights-ep01-solopreneur",
       "type": "podcast",
       "seriesId": "equip-insights",
-      "episodeNumber": 12,
-      "title": "10 Entrepreneurial Archetypes That Stunt Your Growth",
-      "date": "2026-07-10",
-      "excerpt": "A deep dive into the common psychological and operational archetypes that hold entrepreneurs back from scaling their businesses effectively.",
+      "episodeNumber": 1,
+      "title": "Archetype 1: The Solopreneur (The Do-It-Aller)",
+      "date": "2025-01-10",
+      "excerpt": "Believes no one can do it as well as they can, so they refuse to delegate. Growth stalls because the business can never exceed the founder's personal bandwidth.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep02-procrastinator",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 2,
+      "title": "Archetype 2: The Procrastinator (The Over-Planner)",
+      "date": "2025-01-17",
+      "excerpt": "Endless strategizing, courses, and research instead of shipping and selling. Motion is mistaken for progress.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep03-perfectionist",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 3,
+      "title": "Archetype 3: The Perfectionist",
+      "date": "2025-02-05",
+      "excerpt": "Waits for the product, pitch, or website to be 'ready' before shipping or selling. Misses market timing and feedback loops because nothing is ever good enough to release.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep04-visionary",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 4,
+      "title": "Archetype 4: The Visionary (The Idea Machine)",
+      "date": "2025-02-15",
+      "excerpt": "Constantly starts new initiatives and chases shiny objects. Great at ideation, terrible at follow-through; the team is whiplashed and nothing compounds.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep05-firefighter",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 5,
+      "title": "Archetype 5: The Firefighter",
+      "date": "2025-04-01",
+      "excerpt": "Addicted to urgency and crisis. Feels productive putting out fires, so they unconsciously create or tolerate chaos rather than building systems that prevent fires.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep06-people-pleaser",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 6,
+      "title": "Archetype 6: The People Pleaser",
+      "date": "2025-04-08",
+      "excerpt": "Avoids hard conversations, keeps underperformers too long, and says yes to every customer request. Margins and culture erode because boundaries are never set.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep07-technician",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 7,
+      "title": "Archetype 7: The Technician",
+      "date": "2025-04-15",
+      "excerpt": "Loves the craft (coding, design, selling) and avoids the CEO work of strategy, hiring, and capital. The business stays a job, not an asset.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep08-controller",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 8,
+      "title": "Archetype 8: The Controller (The Micromanager)",
+      "date": "2025-04-22",
+      "excerpt": "Delegates tasks but not authority. Reviews everything, reverses decisions, and trains the team to wait for approval—killing speed and initiative.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep09-lone-wolf",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 9,
+      "title": "Archetype 9: The Lone Wolf",
+      "date": "2025-04-29",
+      "excerpt": "Refuses partnership, advice, or mastermind groups. Isolated decision-making leads to blind spots and repeated avoidable mistakes.",
+      "image": "assets/images/updates/series-01.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
+    },
+    {
+      "id": "podcast-equip-insights-ep10-status-seeker",
+      "type": "podcast",
+      "seriesId": "equip-insights",
+      "episodeNumber": 10,
+      "title": "Archetype 10: The Status Seeker",
+      "date": "2026-01-06",
+      "excerpt": "Optimizes for appearances (funding headlines, fancy office, title) over unit economics and customer value. Growth becomes a vanity project rather than a durable business.",
       "image": "assets/images/updates/series-01.avif",
       "embedUrl": "",
       "links": { "spotify": "https://open.spotify.com/episode/REPLACE", "youtube": "https://youtube.com/@equipgroup1958?si=YPB5FJKRZe_N8AfH", "applePodcasts": "https://podcasts.apple.com/episode/REPLACE" }
     },
 
     {
+      "id": "podcast-series-3-ep01-breaking-boundaries-of-media",
       "type": "podcast",
       "seriesId": "series-3",
-      "episodeNumber": 15,
+      "episodeNumber": 1,
       "title": "Breaking The Boundaries Of Media To Build Your Brand",
       "date": "2026-07-25",
       "excerpt": "Learn unconventional media strategies and creative approaches to cut through the noise, capture attention, and position your brand as a market leader.",
@@ -97,9 +203,10 @@
     },
 
     {
+      "id": "podcast-series-2-ep01-partnerships-how-to-build-together",
       "type": "podcast",
       "seriesId": "series-2",
-      "episodeNumber": 8,
+      "episodeNumber": 1,
       "title": "Partnerships: How To Build Together",
       "date": "2026-07-22",
       "excerpt": "Discover the secrets to finding the right partners, aligning visions, and building sustainable business relationships that withstand the test of time and turbulence.",
@@ -109,24 +216,50 @@
     },
 
     {
+      "id": "podcast-start-build-grow-ep01-starting-a-business-in-malawi",
       "type": "podcast",
-      "seriesId": "series-1",
+      "seriesId": "start-build-grow",
       "episodeNumber": 1,
-      "title": "Start. Build. Grow. Podcast",
+      "title": "Starting a business in Malawi",
       "date": "2026-09-28",
-      "excerpt": "Discover the secrets to finding the right partners, aligning visions, and building sustainable business relationships that withstand the test of time and turbulence.",
-      "image": "assets/images/updates/equip-podcast1.png",
+      "excerpt": "Conversations that equip you to start, build, and grow.",
+      "image": "assets/images/updates/equip-podcast1.avif",
       "embedUrl": "",
-      "links": { "spotify": "https://open.spotify.com/show/7FfGHGdnobPUSU8JuHdB8K", "youtube": "https://youtu.be/qP2k4bybDAY", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast/id6817039751"}
+      "links": { "spotify": "https://open.spotify.com/episode/7mDODQOzmzeS680cflPCC1?si=PjV2MFtDQm6oEPUT8aQ3vQ", "youtube": "https://youtu.be/qP2k4bybDAY", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast-e01-starting-a-business-in-malawi/id6817039751?i=1000792061636"}
     },
     {
+      "id": "webinar-artificial-intelligence-in-poultry",
       "type": "webinar",
       "title": "Artificial Intelligence in Poultry",
       "date": "2026-09-29",
+      "time": "2:00 PM CAT",
       "excerpt": "Led by SACAU, in partnership with Equip and the Southern African Poultry Initiative (SAPI), this webinar will explore how AI and digital tools are used in poultry, from bird health and biosecurity to climate control, feed formulation, sales, and distribution.",
       "image": "assets/images/updates/ai-poultry.jpg",
       "embedUrl": "",
-      "links": { "youtube": "https://youtu.be/yJ1xdxPUDo0" }
+      "links": { "youtube": "https://youtu.be/yJ1xdxPUDo0", "Form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog" }
+    },
+    {
+      "id": "podcast-start-build-grow-ep02-choose-your-hard",
+      "type": "podcast",
+      "seriesId": "start-build-grow",
+      "episodeNumber": 2,
+      "title": "Choose your hard",
+      "date": "2026-10-26",
+      "excerpt": "Starting a business is hard. So is not starting one. Choose your hard.",
+      "image": "assets/images/updates/equip-podcast1.avif",
+      "embedUrl": "",
+      "links": { "spotify": "https://open.spotify.com/episode/5NBCSDoqbTkdGBVQ1ZgDLs?si=NRnEm5kMS5iwnXvV3ALqdw", "youtube": "https://youtu.be/i5idhEo0cug", "applePodcasts": "https://podcasts.apple.com/us/podcast/start-build-grow-podcast-e02-choose-your-hard/id6817039751?i=1000798179148"}
+    },
+    {
+      "id": "how-start-sustain-grow-poultry-webinar",
+      "type": "webinar",
+      "title": "How to start, sustain, and grow a poutltry business in Malawi",
+      "date": "2026-11-04",
+      "time": "2:00 PM CAT",
+      "excerpt": "There are opportunities across Malawi's poultry value chain, but knowing where to start, how to compete and what it takes to grow can be challenging. Join us as we explore business opportunities, common challenges, and where to find the support you need.",
+      "image": "assets/images/updates/poultry-business-webinar.jpeg",
+      "embedUrl": "",
+      "links": { "youtube": "https://youtu.be/yJ1xdxPUDo0", "Form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog" }
     }
   ]
 }
