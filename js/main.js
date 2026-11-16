@@ -96,33 +96,20 @@
       links.appendChild(link);
     });
 
-    // Reuse the social links from the actual website footer.
-    const footer = document.querySelector('#footer-slot');
+    // Reuse the exact social icons and links from the website footer.
     const footerSocials = document.createElement('div');
     footerSocials.className = 'services-mega-socials';
 
-    if (footer) {
-      const socialLinks = Array.from(
-        footer.querySelectorAll('a[href]')
-      ).filter(link => {
-        try {
-          const host = new URL(link.href).hostname.replace(/^www\./, '');
-          return [
-            'facebook.com',
-            'linkedin.com',
-            'instagram.com',
-            'youtube.com',
-            'x.com'
-          ].some(domain => host === domain || host.endsWith('.' + domain));
-        } catch {
-          return false;
-        }
-      });
+    const originalSocialRow = document.querySelector(
+      '.site-footer .social-row'
+    );
 
-      socialLinks.forEach(original => {
+    if (originalSocialRow) {
+      originalSocialRow.querySelectorAll('a').forEach(original => {
         const link = original.cloneNode(true);
+
         link.className = 'services-mega-social-link';
-        link.removeAttribute('style');
+
         footerSocials.appendChild(link);
       });
     }
