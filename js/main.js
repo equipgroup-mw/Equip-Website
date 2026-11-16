@@ -54,23 +54,91 @@
     return d.name.toLowerCase().replace(/[^a-z]+/g, '-');
   }
 
-  // Desktop dropdown
-  function buildServicesDropdown(departments){
+  // Desktop dropdown — full-screen Services navigation
+  function buildServicesDropdown(departments) {
     const panel = document.getElementById('servicesPanel');
-    if(!panel || !departments.length) return;
-    panel.innerHTML = departments.map((d) => {
-      const attrs = d.external ? 'target="_blank" rel="noopener"' : '';
-      const extIcon = d.external ? `<svg class="ext-icon" viewBox="0 0 24 24" fill="none" width="1em" height="1em"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` : '';
-      const nameParts = d.name.split(' ');
-      const displayName = d.name === 'Research & Project Management' ? 'Research &amp; Project<br>Management' : (nameParts.length <= 2 ? nameParts.join('<br>') : d.name);
-      const iconSpan = d.external ? `<span class="ext-icon">${extIcon}</span>` : '';
-      return `<a href="${deptHref(d)}" ${attrs} data-service="${deptKey(d)}"><strong>${displayName} ${iconSpan}</strong></a>`;
-    }).join('');
+    if (!panel || !departments.length) return;
+
+    panel.classList.add('services-mega-panel');
+
+    // Existing photograph — no captions or overlays added.
+    const imagePanel = document.createElement('div');
+    imagePanel.className = 'services-mega-image';
+
+    // Right-hand navigation panel
+    const content = document.createElement('div');
+    content.className = 'services-mega-content';
+
+    // Close control
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'services-mega-close';
+    closeButton.textContent = 'CLOSE';
+    closeButton.setAttribute('aria-label', 'Close services navigation');
+
+    const links = document.createElement('nav');
+    links.className = 'services-mega-links';
+    links.setAttribute('aria-label', 'Services');
+
+    departments.forEach((d, index) => {
+      const link = document.createElement('a');
+
+      link.href = deptHref(d);
+      link.dataset.service = deptKey(d);
+      link.style.setProperty('--link-index', index);
+
+      if (d.external) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+
+      link.textContent = d.name;
+      links.appendChild(link);
+    });
+
+    // Reuse the social links from the actual website footer.
+    const footer = document.querySelector('#footer-slot');
+    const footerSocials = document.createElement('div');
+    footerSocials.className = 'services-mega-socials';
+
+    if (footer) {
+      const socialLinks = Array.from(
+        footer.querySelectorAll('a[href]')
+      ).filter(link => {
+        try {
+          const host = new URL(link.href).hostname.replace(/^www\./, '');
+          return [
+            'facebook.com',
+            'linkedin.com',
+            'instagram.com',
+            'youtube.com',
+            'x.com'
+          ].some(domain => host === domain || host.endsWith('.' + domain));
+        } catch {
+          return false;
+        }
+      });
+
+      socialLinks.forEach(original => {
+        const link = original.cloneNode(true);
+        link.className = 'services-mega-social-link';
+        link.removeAttribute('style');
+        footerSocials.appendChild(link);
+      });
+    }
+
+    content.append(closeButton, links);
+
+    if (footerSocials.children.length) {
+      content.appendChild(footerSocials);
+    }
+
+    panel.replaceChildren(imagePanel, content);
   }
 
   // [FIX] Mobile accordion sub-links were never populated (only the desktop
   // #servicesPanel was), so expanding "Services" on mobile showed nothing.
-function buildMobileServices(departments){
+  function buildMobileServices(departments){
     const overlay = document.getElementById('mobileNavOverlay');
     if(!overlay || !departments.length) return;
     const item = overlay.querySelector('[data-accordion]');
@@ -94,20 +162,74 @@ function buildMobileServices(departments){
     }).join('');
   }
 
-  function wireDropdown(){
+  // Desktop dropdown wiring — full-screen open/close with scroll lock
+  function wireDropdown() {
     const dd = document.getElementById('servicesDropdown');
-    if(!dd) return;
+    if (!dd) return;
+
     const toggle = dd.querySelector('.dropdown-toggle');
-    toggle.addEventListener('click', (e) => {
+    const panel = document.getElementById('servicesPanel');
+    const closeButton = panel?.querySelector('.services-mega-close');
+
+    if (!toggle || !panel || !closeButton) return;
+
+    function openMenu() {
+      dd.classList.add('is-open');
+      document.body.classList.add('services-menu-open');
+
+      toggle.setAttribute('aria-expanded', 'true');
+      panel.setAttribute('aria-hidden', 'false');
+
+      panel.inert = false;
+
+      requestAnimationFrame(() => {
+        closeButton.focus();
+      });
+    }
+
+    function closeMenu(restoreFocus = true) {
+      dd.classList.remove('is-open');
+      document.body.classList.remove('services-menu-open');
+
+      toggle.setAttribute('aria-expanded', 'false');
+      panel.setAttribute('aria-hidden', 'true');
+
+      panel.inert = true;
+
+      if (restoreFocus) toggle.focus();
+    }
+
+    // Initial closed state
+    panel.setAttribute('aria-hidden', 'true');
+    panel.inert = true;
+    toggle.setAttribute('aria-controls', 'servicesPanel');
+
+    toggle.addEventListener('click', e => {
+      e.preventDefault();
       e.stopPropagation();
-      const isOpen = dd.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', isOpen);
+
+      if (dd.classList.contains('is-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
-    document.addEventListener('click', (e) => {
-      if(!dd.contains(e.target)){ dd.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); }
+
+    closeButton.addEventListener('click', () => closeMenu());
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && dd.classList.contains('is-open')) {
+        closeMenu();
+      }
     });
-    document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape'){ dd.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); }
+
+    // Close after choosing an internal service.
+    panel.addEventListener('click', e => {
+      const link = e.target.closest('.services-mega-links a');
+
+      if (link && !link.target) {
+        closeMenu(false);
+      }
     });
   }
 
