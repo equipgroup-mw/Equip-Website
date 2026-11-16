@@ -4967,3 +4967,112 @@ body.pcm-open{ overflow:hidden; }
     transform: none;
   }
 }
+
+
+/* FINAL REFINEMENTS — FULL SCREEN SERVICES MENU */
+
+@media (min-width: 901px) {
+
+  /* Give the right panel a more balanced layout */
+  .services-mega-content {
+    padding: 100px clamp(48px, 7vw, 110px) 55px;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  /* Prevent long service names from running off-screen */
+  .services-mega-links {
+    width: 100%;
+    max-width: 620px;
+    gap: clamp(20px, 2.5vh, 30px);
+  }
+
+  #servicesDropdown #servicesPanel .services-mega-links a {
+    width: 100%;
+    max-width: 100%;
+
+    font-size: clamp(27px, 3vw, 46px);
+    line-height: 1.17;
+    letter-spacing: -.045em;
+
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  /* More breathing room for the long service name */
+  #servicesDropdown #servicesPanel
+  .services-mega-links a:nth-child(2) {
+    max-width: 100%;
+  }
+
+  /* Keep the social footer visible */
+  .services-mega-socials {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 25px;
+    padding-bottom: 12px;
+    min-height: 65px;
+    border-top: 1px solid rgba(244,242,239,.16);
+  }
+
+  /* Logo remains above the full-screen panel */
+  body.services-menu-open .brand {
+    position: relative;
+    z-index: 1202;
+  }
+
+  /* CLOSE stays aligned to the top-right */
+  .services-mega-close {
+    top: 38px;
+    right: clamp(35px, 4vw, 65px);
+  }
+}
+
+
+@media (min-width: 901px) {
+
+  .services-mega-socials {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 24px;
+
+    width: 100%;
+    margin-top: auto;
+    padding-top: 28px;
+    padding-bottom: 12px;
+
+    border-top: 1px solid rgba(244,242,239,.16);
+  }
+
+  .services-mega-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 22px;
+    height: 22px;
+    padding: 0;
+
+    color: rgba(244,242,239,.75);
+    background: transparent;
+    border: none;
+    text-decoration: none;
+
+    transition: color .25s ease, transform .25s ease;
+  }
+
+  .services-mega-social-link svg {
+    display: block;
+    width: 19px;
+    height: 19px;
+  }
+
+  .services-mega-social-link:hover {
+    color: #a8935a !important;
+    background: transparent !important;
+    transform: translateY(-3px);
+  }
+}
+
