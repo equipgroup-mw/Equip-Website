@@ -5604,3 +5604,191 @@ body.pcm-open{ overflow:hidden; }
     animation: none;
   }
 }
+
+/* ========================================================================
+   SERVICES MEGA DROPDOWN — social icons
+   Strategy: the cloned <a> elements carry the footer's own classes and
+   inline SVG markup. Inherit the footer's sizing/layout rules verbatim,
+   then override only the colour for the light panel background.
+   ======================================================================== */
+
+@media (min-width: 901px){
+
+  /* Container: reuse footer spacing rhythm but sit on the light panel */
+  #servicesPanel .services-mega-socials{
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(13,33,54,.12);
+  }
+
+  /* Every child link: same box model as .site-footer .social-row a,
+     but navy at rest, gold on hover — matching the tile interaction. */
+  #servicesPanel .services-mega-socials a{
+    width: 42px;
+    height: 42px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--paper);
+    text-decoration: none;
+    transition: color .25s var(--ease), transform .25s var(--ease);
+  }
+  #servicesPanel .services-mega-socials a:hover,
+  #servicesPanel .services-mega-socials a:focus-visible{
+    color: var(--gold);
+    transform: translateY(-3px);
+  }
+  #servicesPanel .services-mega-socials a:focus-visible{
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  /* Same icon box model as the footer's .social-row svg, but with
+     fill:currentColor so every glyph draws at full opacity. This
+     mirrors exactly what the footer does — nothing else. */
+  #servicesPanel .services-mega-socials svg{
+    width: 27px;
+    height: 27px;
+    display: block;
+    fill: currentColor;
+  }
+  #servicesPanel .services-mega-socials svg[fill="none"]{
+    fill: none;
+  }
+}
+
+/* ========================================================================
+   SERVICES MEGA DROPDOWN — social icons polish
+   1. Remove the gold underline that .main-nav a::after paints on hover
+      (the cloned footer links carry the nav's `a` styles through inheritance).
+   2. Restore the subtle divider above the social row.
+   ======================================================================== */
+
+@media (min-width: 901px){
+
+  /* Kill any pseudo-element underline that the cloned <a> inherits from
+     `.main-nav a::after` or similar. Two selectors because the cloned
+     links carry BOTH the footer's classes and .services-mega-social-link. */
+  #servicesPanel .services-mega-socials a::after,
+  #servicesPanel .services-mega-socials a::before,
+  #servicesPanel .services-mega-social-link::after,
+  #servicesPanel .services-mega-social-link::before{
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Ensure no border-bottom sneakily appears on hover either. */
+  #servicesPanel .services-mega-socials a,
+  #servicesPanel .services-mega-socials a:hover,
+  #servicesPanel .services-mega-socials a:focus-visible{
+    border-bottom: 0;
+    text-decoration: none;
+  }
+
+  /* Restore the hairline divider above the social row. Some earlier
+     rule (or the old mega-menu patch) stripped padding-top or the
+     border-top, so reassert both with a value that reads clearly on
+     the light cream panel. */
+  #servicesPanel .services-mega-socials{
+    border-top: 1px var(--paper);
+    padding-top: 16px;
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+  }
+}
+
+
+/* ========================================================================
+   SERVICES DROPDOWN — social row: divider + no underline (FINAL)
+   Replaces all previous ad-hoc patches. Single source of truth.
+   ======================================================================== */
+
+@media (min-width: 901px){
+
+  /* Social row container: divider + spacing */
+  #servicesPanel .services-mega-socials{
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    width: 100%;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(244, 242, 239, 0.18);
+  }
+
+  /* Social links: kill the nav's gold underline + ensure clean box model */
+  #servicesPanel .services-mega-socials a,
+  #servicesPanel .services-mega-socials a:link,
+  #servicesPanel .services-mega-socials a:visited{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    margin: 0;
+    color: rgba(246, 244, 239, 0.85);
+    background: transparent;
+    border: 0;
+    text-decoration: none;
+    transition: color .25s ease, transform .25s ease;
+  }
+
+  /* Kill pseudo-element underlines (from .main-nav a::after) */
+  #servicesPanel .services-mega-socials a::before,
+  #servicesPanel .services-mega-socials a::after{
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Hover: gold, no underline, tiny lift */
+  #servicesPanel .services-mega-socials a:hover,
+  #servicesPanel .services-mega-socials a:focus-visible{
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 0;
+    transform: translateY(-2px);
+  }
+  #servicesPanel .services-mega-socials a:focus-visible{
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  /* Icons: match footer's box model, solid fill */
+  #servicesPanel .services-mega-socials svg{
+    width: 22px;
+    height: 22px;
+    display: block;
+    fill: currentColor;
+  }
+  #servicesPanel .services-mega-socials svg[fill="none"]{
+    fill: none;
+  }
+}
+
+
+/* ========================================================================
+   SERVICES DROPDOWN — social icons 25% larger (append last)
+   22px icon → 27.5px | 36px hit box → 44px
+   ======================================================================== */
+
+@media (min-width: 901px){
+
+  #servicesPanel .services-mega-socials a,
+  #servicesPanel .services-mega-socials a:link,
+  #servicesPanel .services-mega-socials a:visited{
+    width: 44px;
+    height: 44px;
+  }
+
+  #servicesPanel .services-mega-socials svg{
+    width: 27.5px;
+    height: 27.5px;
+  }
+}
