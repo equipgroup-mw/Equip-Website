@@ -5076,3 +5076,44 @@ body.pcm-open{ overflow:hidden; }
   }
 }
 
+@media (min-width: 901px) {
+  /* Socials live inside .services-mega-content and are pushed to the bottom
+     by margin-top:auto — no fixed positioning needed. */
+  .services-mega-content .services-mega-socials {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    width: 100%;
+    margin-top: auto;
+    padding-top: 28px;
+
+    border-top: 1px solid rgba(244,242,239,.16);
+  }
+
+  .services-mega-content .services-mega-socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    color: rgba(246,244,239,.85);
+    background: transparent;
+    border: none;
+    transition: color .25s ease, transform .25s ease;
+  }
+
+  .services-mega-content .services-mega-socials svg {
+    width: 27px;
+    height: 27px;
+    display: block;
+    fill: currentColor;
+  }
+
+  .services-mega-content .services-mega-socials a:hover {
+    color: #a8935a;
+    transform: translateY(-3px);
+  }
+}
