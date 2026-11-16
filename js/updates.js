@@ -176,9 +176,9 @@
     return submenuGroup(links, verb || 'Listen');
   }
 
-  /* Reveal-button opener reusing the Listen Now component. */
-  function revealOpener(label, holderId){
-    return `<button class="pc-cta" type="button" aria-expanded="false" aria-controls="${holderId}">${label}</button>`;
+  /* Card button that opens the item's popup (podcast, webinar, opportunity). */
+  function modalOpener(label){
+    return `<button class="pc-cta" type="button" data-open-modal aria-haspopup="dialog">${label}</button>`;
   }
 
   function esc(s){
@@ -205,10 +205,6 @@
   }
   function webinarVerb(item){
     return webinarStatus(item.date) === 'upcoming' ? '' : 'Watch';
-  }
-  function webinarGroup(item, entries){
-    const verb = webinarVerb(item);
-    return `<div class="pc-platforms" data-count="${entries.length}">${entries.map(([k, u]) => submenuBtn(k, u, verb)).join('')}</div>`;
   }
 
   /* Build the feed: ONE card per podcast series (count and latest date come
@@ -307,8 +303,12 @@
   function episodeRow(ep){
     const num = ep.episodeNumber ? `<span class="pcm-ep-num">Episode ${esc(ep.episodeNumber)}</span>` : '';
     const entries = Object.entries(ep.links || {}).filter(([, url]) => url);
+    /* One "▶ Listen Now" button per episode; clicking it swaps the button for
+       the platform links (see the click handler in mountModal). */
+    const linksId = 'pcm-ep-links-' + (ep.episodeNumber || slugify(ep.title));
     const pills = entries.length
-      ? `<div class="pcm-ep-links">${entries.map(([k, u]) => submenuBtn(k, u, 'Listen')).join('')}</div>`
+      ? `<button type="button" class="pcm-listen-btn" aria-expanded="false" aria-controls="${esc(linksId)}"><span aria-hidden="true">▶</span> Listen Now</button>
+        <div class="pcm-ep-links" id="${esc(linksId)}" hidden>${entries.map(([k, u]) => submenuBtn(k, u, 'Listen')).join('')}</div>`
       : '';
     return `<li class="pcm-episode">
       <div class="pcm-ep-body">
@@ -338,7 +338,7 @@
           ${people ? `<span class="pc-people">${people}</span>` : ''}
           <p class="pcm-meta">${metaBits.join(' · ')}</p>
           ${series.description ? `<p class="pcm-desc">${series.description}</p>` : ''}
-          ${showLinks ? `<p class="pcm-links-label">Listen to the full podcast</p>${showLinks}` : ''}
+          ${showLinks ? `<p class="visually-hidden">Listen to the full podcast</p>${showLinks}` : ''}
         </div>
       </header>
       <section class="pcm-episodes" aria-label="Episodes">
@@ -462,6 +462,26 @@
         <div class="pcm-scroll">${innerHtml}</div>
       </div>`;
     el.addEventListener('click', (e) => {
+      const listenBtn = e.target.closest('.pcm-listen-btn');
+      if(listenBtn){
+        const links = document.getElementById(listenBtn.getAttribute('aria-controls'));
+        if(links){
+          /* Accordion: collapse any other episode that is open first. */
+          el.querySelectorAll('.pcm-listen-btn[aria-expanded="true"]').forEach(openBtn => {
+            if(openBtn === listenBtn) return;
+            const openLinks = document.getElementById(openBtn.getAttribute('aria-controls'));
+            if(openLinks) openLinks.hidden = true;
+            openBtn.hidden = false;
+            openBtn.setAttribute('aria-expanded', 'false');
+          });
+          listenBtn.hidden = true;
+          listenBtn.setAttribute('aria-expanded', 'true');
+          links.hidden = false;
+          const first = links.querySelector('a.pc-platform-btn');
+          if(first) first.focus({ preventScroll: true });
+        }
+        return;
+      }
       if(e.target === el || e.target.closest('.pcm-close')) dismissModal();
     });
     document.body.appendChild(el);
@@ -509,7 +529,6 @@
 
   function card(item, index){
     const typeLabel = TYPE_LABELS[item.type] || item.type;
-    const holderId = `up-links-${index}`;
     const isPodcast = item.type === 'podcast';
     const media = item.embedUrl
       ? `<div class="update-embed"><iframe src="${item.embedUrl}" title="${item.title}" loading="lazy" allowfullscreen></iframe></div>`
@@ -519,7 +538,6 @@
     let byline = '';
     let deadlineHtml = '';
     let ctaInner = '';
-    let holder = '';
     const modalAttr = item.modalId ? ` data-modal-id="${esc(item.modalId)}" aria-haspopup="dialog"` : '';
     const emptyCta = `<div class="update-cta--empty" aria-hidden="true"><span class="pc-cta" style="visibility:hidden">Read Now</span></div>`;
 
@@ -530,22 +548,17 @@
       const peopleStr = peopleLabel(people);
       badges += `<span class="pc-episodes">${epCount} Episode${epCount!==1?'s':''}</span>`;
       if(peopleStr) byline = `<span class="pc-people">${peopleStr}</span>`;
-      ctaInner = revealOpener('▶ Listen Now', holderId);
-      holder = `<div class="pc-platforms-holder" id="${holderId}" hidden>${platformSelector(item.links, 'Listen')}</div>`;
+      ctaInner = modalOpener('▶ Listen Now');
     } else if(item.type === 'webinar'){
       const upcoming = webinarStatus(item.date) === 'upcoming';
-      const wEntries = webinarEntries(item);
       if(upcoming){
         badges += `<span class="update-status-badge update-status-upcoming">Upcoming</span>`;
         const time = item.time ? ` • ${esc(item.time)}` : '';
         deadlineHtml = `<span class="webinar-schedule">Live: ${fmtUpdateDate(item.date)}${time}</span>`;
       }
-      if(wEntries.length){
-        ctaInner = revealOpener(upcoming ? 'Register Now' : '▶ Watch Now', holderId);
-        holder = `<div class="pc-platforms-holder" id="${holderId}" hidden>${webinarGroup(item, wEntries)}</div>`;
-      } else {
-        ctaInner = emptyCta;
-      }
+      /* Always shown, even before a form/recording link exists: the popup
+         then says "Registration details / The recording ... coming soon." */
+      ctaInner = modalOpener(upcoming ? 'Register Now' : '▶ Watch Now');
     } else if(item.type === 'opportunity'){
       const st = deadlineStatus(item.deadline);
       if(st === 'closed'){
@@ -554,10 +567,7 @@
       } else {
         if(st === 'today') deadlineHtml = `<span class="deadline-flag">Closes today</span>`;
         else if(item.deadline) deadlineHtml = `<span class="deadline-flag">Apply by ${fmtUpdateDate(item.deadline)}</span>`;
-        const applyUrl = applyUrlFor(item);
-        const applyLabel = isExternalUrl(applyUrl) ? 'Application form' : 'Contact us';
-        ctaInner = revealOpener('Apply Now', holderId);
-        holder = `<div class="pc-platforms-holder" id="${holderId}" hidden><div class="pc-platforms" data-count="1">${submenuBtn('link', applyUrl, 'Apply', applyLabel)}</div></div>`;
+        ctaInner = modalOpener('Apply Now');
       }
       if(st === 'closed') badges += `<span class="update-closed-badge">Closed</span>`;
     } else if(item.type === 'article'){
@@ -583,7 +593,7 @@
         <span class="update-date">${fmtUpdateDate(item.date)}</span>
         <p class="update-desc">${item.excerpt||''}</p>
         ${deadlineHtml}
-        <div class="update-cta">${ctaInner}${holder}</div>
+        <div class="update-cta">${ctaInner}</div>
       </div>
     </article>`;
   }
@@ -592,46 +602,14 @@
     return submenuGroup(links, verb || 'Watch');
   }
 
-  /* Button-swap reveal: the main button hides (hidden attr, kept in DOM) and
-     the submenu takes its exact box. restoreSwap brings the main back. */
-  function restoreSwap(cardEl, focusMain){
-    if(!cardEl) return;
-    const main = cardEl.querySelector('.pc-cta[aria-expanded]');
-    const holder = cardEl.querySelector('.pc-platforms-holder');
-    if(holder && !holder.hasAttribute('hidden')) holder.setAttribute('hidden', '');
-    if(main){
-      if(main.hasAttribute('hidden')) main.removeAttribute('hidden');
-      main.setAttribute('aria-expanded', 'false');
-      if(focusMain){
-        try { main.focus({ preventScroll: true }); } catch(err) { main.focus(); }
-      }
-    }
-  }
-
-  function closeAllSwaps(exceptCard){
-    const grid = document.getElementById('updatesGrid');
-    if(!grid) return;
-    grid.querySelectorAll('.update-card').forEach(c => {
-      if(c !== exceptCard) restoreSwap(c, false);
-    });
-  }
-
   /* Card-level action (UC): podcast, webinar and opportunity cards open their
-     popup; other cards reuse their own main control — the Read Now link for
-     articles. Linkless cards deliberately do nothing. */
+     popup (from the card or its button); articles go straight to the article
+     via their Read Now link. Linkless cards deliberately do nothing. */
   function triggerCardAction(cardEl){
     if(!cardEl) return;
     const mid = cardEl.getAttribute('data-modal-id');
     if(mid){
-      restoreSwap(cardEl, false);
       openModal(mid, cardEl, false);
-      return;
-    }
-    if(cardEl.querySelector('.pc-cta[aria-expanded="true"]')) return;
-    if(cardEl.querySelector('button.pc-cta:disabled')) return;
-    const mainBtn = cardEl.querySelector('.pc-cta[aria-expanded]');
-    if(mainBtn){
-      if(!mainBtn.disabled) mainBtn.click();
       return;
     }
     const readLink = cardEl.querySelector('a.pc-cta[href]');
@@ -804,59 +782,14 @@
       }
     }
 
-    /* UC: only actionable cards are focusable — popup cards, toggle mains and
-       Read Now links qualify; spacer cards never match. */
+    /* UC: only actionable cards are focusable — popup cards and Read Now
+       links qualify; spacer cards never match. */
     grid.querySelectorAll('.update-card').forEach(cardEl => {
-      if(cardEl.hasAttribute('data-modal-id') || cardEl.querySelector('.pc-cta[aria-expanded], a.pc-cta[href]')){
+      if(cardEl.hasAttribute('data-modal-id') || cardEl.querySelector('a.pc-cta[href]')){
         cardEl.setAttribute('tabindex', '0');
       }
     });
-
-    grid.querySelectorAll('.pc-cta[aria-expanded]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const cardEl = btn.closest('.update-card');
-        const holder = document.getElementById(btn.getAttribute('aria-controls'));
-        const isOpen = btn.getAttribute('aria-expanded') === 'true';
-        closeAllSwaps(cardEl);
-        if(!isOpen && holder && cardEl){
-          btn.setAttribute('hidden', '');
-          btn.setAttribute('aria-expanded', 'true');
-          holder.removeAttribute('hidden');
-          const first = holder.querySelector('a.pc-platform-btn');
-          if(first) first.focus();
-        }
-      });
-    });
-
-    grid.querySelectorAll('.update-card').forEach(cardEl => {
-      cardEl.addEventListener('focusout', (e) => {
-        if(cardEl.querySelector('.pc-cta[aria-expanded="true"]')
-          && e.relatedTarget && !cardEl.contains(e.relatedTarget)){
-          restoreSwap(cardEl, false);
-        }
-      });
-      cardEl.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape'
-          && cardEl.querySelector('.pc-cta[aria-expanded="true"]')){
-          e.stopPropagation();
-          restoreSwap(cardEl, true);
-        }
-      });
-    });
   }
-
-  document.addEventListener('click', (e) => {
-    const grid = document.getElementById('updatesGrid');
-    if(!grid) return;
-    grid.querySelectorAll('.update-card').forEach(cardEl => {
-      if(cardEl.querySelector('.pc-cta[aria-expanded="true"]')
-        && !cardEl.contains(e.target)){
-        restoreSwap(cardEl, false);
-      }
-    });
-  });
 
   function wireControls(){
     const types = ['All', ...new Set(ALL.map(i => i.type))];
@@ -948,6 +881,7 @@
       grid.addEventListener('click', (e) => {
         const cardEl = e.target.closest ? e.target.closest('.update-card') : null;
         if(!cardEl || !grid.contains(cardEl)) return;
+        if(e.target.closest('[data-open-modal]')){ triggerCardAction(cardEl); return; }
         if(e.target.closest('a, button, iframe, input, select, textarea')) return;
         triggerCardAction(cardEl);
       });
@@ -1051,7 +985,7 @@
   try {
     window.__updates = {
       card, submenuGroup, platformSelector, platformButtons, submenuBtn, platformIcon,
-      triggerCardAction, restoreSwap, articleToCardItem, mergeFeed,
+      triggerCardAction, articleToCardItem, mergeFeed,
       openModal, dismissModal, buildFeed, buildPodcastFeed: buildFeed, webinarStatus, webinarEntries,
       openSeriesModal: (seriesId, el) => {
         const key = Object.keys(MODALS).find(k => MODALS[k].kind === 'podcast' && MODALS[k].seriesId === seriesId);

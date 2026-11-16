@@ -14,7 +14,6 @@
       <div class="carousel">
         <div class="carousel-track" tabindex="0" aria-label="Carousel, use arrow keys or the controls below to browse">${itemsHtml}</div>
         <div class="carousel-controls">
-          <div class="carousel-dots" role="tablist"></div>
           <div class="carousel-arrows">
             <button type="button" class="prev" aria-label="Previous">${ARROW_LEFT}</button>
             <button type="button" class="next" aria-label="Next">${ARROW_RIGHT}</button>
@@ -23,40 +22,13 @@
       </div>`;
 
     const track = mount.querySelector('.carousel-track');
-    const dotsWrap = mount.querySelector('.carousel-dots');
     const prevBtn = mount.querySelector('.prev');
     const nextBtn = mount.querySelector('.next');
     const items = Array.from(track.querySelectorAll(itemSelector));
 
-    items.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.setAttribute('aria-label', `Go to item ${i+1}`);
-      dot.addEventListener('click', () => scrollToIndex(i));
-      dotsWrap.appendChild(dot);
-    });
-    const dots = Array.from(dotsWrap.children);
-
     function visibleCount(){
       const itemWidth = items[0]?.getBoundingClientRect().width || track.clientWidth;
       return Math.max(1, Math.round(track.clientWidth / itemWidth));
-    }
-
-    function currentIndex(){
-      const scrollLeft = track.scrollLeft;
-      let closest = 0, min = Infinity;
-      items.forEach((item, i) => {
-        const d = Math.abs(item.offsetLeft - scrollLeft);
-        if(d < min){ min = d; closest = i; }
-      });
-      return closest;
-    }
-
-    function scrollToIndex(i){
-      i = Math.max(0, Math.min(items.length - 1, i));
-      const itemWidth = items[0].getBoundingClientRect().width;
-      const gap = parseFloat(getComputedStyle(track).gap) || 0;
-      track.scrollTo({ left: i * (itemWidth + gap), behavior: 'smooth' });
     }
 
     function currentIndex(){
@@ -66,9 +38,14 @@
       return Math.max(0, Math.min(items.length - 1, Math.round(scrollLeft / (itemWidth + gap))));
     }
 
+    function scrollToIndex(i){
+      i = Math.max(0, Math.min(items.length - 1, i));
+      const itemWidth = items[0].getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      track.scrollTo({ left: i * (itemWidth + gap), behavior: 'smooth' });
+    }
+
     function updateUI(){
-      const idx = currentIndex();
-      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
       prevBtn.disabled = track.scrollLeft <= 4;
       nextBtn.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
     }

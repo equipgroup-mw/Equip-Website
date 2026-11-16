@@ -19,7 +19,7 @@
     },
     {
       "id": "series-3",
-      "title": "Breaking The Boundaries Of Media To Build Your Brand",
+      "title": "Breaking The Boundaries Of Media To Build & Grow Your Brand",
       "description": "Learn unconventional media strategies and creative approaches to cut through the noise, capture attention, and position your brand as a market leader.",
       "coverArt": "assets/images/updates/series-03.png",
       "people": ["Maxwell Mkumba"],
@@ -46,7 +46,7 @@
       "excerpt": "What will it take to build lasting success in the poultry sector? Join us for a conversation on the business opportunities poultry offers young people across SADC.",
       "image": "assets/images/updates/poultry-webinar.jpeg",
       "embedUrl": "",
-      "links": { "youtube": "https://youtu.be/d1BCFuiuwEM", "Form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog"}
+      "links": { "youtube": "https://youtu.be/d1BCFuiuwEM", "form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog"}
     },
     {
       "id": "opportunity-join-network-of-expert-consultants",
@@ -236,7 +236,7 @@
       "excerpt": "Led by SACAU, in partnership with Equip and the Southern African Poultry Initiative (SAPI), this webinar will explore how AI and digital tools are used in poultry, from bird health and biosecurity to climate control, feed formulation, sales, and distribution.",
       "image": "assets/images/updates/ai-poultry.jpg",
       "embedUrl": "",
-      "links": { "youtube": "https://youtu.be/yJ1xdxPUDo0", "Form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog" }
+      "links": { "youtube": "https://youtu.be/yJ1xdxPUDo0", "form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog" }
     },
     {
       "id": "podcast-start-build-grow-ep02-choose-your-hard",
@@ -253,13 +253,13 @@
     {
       "id": "how-start-sustain-grow-poultry-webinar",
       "type": "webinar",
-      "title": "How to start, sustain, and grow a poutltry business in Malawi",
+      "title": "How to start, sustain, and grow a poultry business in Malawi",
       "date": "2026-11-04",
       "time": "2:00 PM CAT",
       "excerpt": "There are opportunities across Malawi's poultry value chain, but knowing where to start, how to compete and what it takes to grow can be challenging. Join us as we explore business opportunities, common challenges, and where to find the support you need.",
       "image": "assets/images/updates/poultry-business-webinar.jpeg",
       "embedUrl": "",
-      "links": { "youtube": "https://youtu.be/yJ1xdxPUDo0", "Form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog" }
+      "links": { "youtube": "", "form": "https://docs.google.com/forms/d/e/1FAIpQLSdFnSmAN4BqezMctY14zuV5_s1J0TuuhnxbgPUfaIThF8DN4A/viewform?usp=dialog" }
     }
   ]
 }

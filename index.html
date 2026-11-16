@@ -256,21 +256,122 @@
         <span style="display:none; font-weight:600; color:var(--navy); font-size:.85rem;">${l.name}</span>
       </div>
     `).join('');
-    new LogoMarquee(logoWrapper, { speed: 26, gap: 96 });
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+    new LogoMarquee(logoWrapper, {
+      speed: isDesktop ? 18 : 26,
+      gap: isDesktop ? 42 : 16
+    });
   }
 
   // Pull the 3 most recent updates for the homepage preview strip
-  fetch(ROOT + 'data/updates.json').then(r=>r.json()).then(({items}) => {
-    const recent = items.slice().sort((a,b)=> new Date(b.date)-new Date(a.date)).slice(0,3);
-    document.getElementById('homeUpdatesPreview').innerHTML = recent.map(i => `
-      <a href="updates/index.html" class="card">
-        <div class="card-media"><img src="${ROOT}${i.image}" alt="" onerror="this.parentElement.style.background='var(--navy)'"></div>
-        <div class="card-body">
-          <span class="tag">${i.type}</span>
-          <h4>${i.title}</h4>
-          <p>${i.excerpt}</p>
+  // Pull the 3 most recent updates for the homepage preview strip.
+  // Cards use the same CTA label + destination as the Updates page, so a
+  // click anywhere (or on the CTA) navigates to updates/index.html and
+  // either opens the item's modal via #<id> or lands on the article page.
+  // Pull the 3 most recent updates for the homepage preview strip.
+  // Uses the same card labels + destinations as the Updates page:
+  //   - podcast / webinar / opportunity → updates/index.html#<id>
+  //     (updates.js's syncModalFromURL() opens the modal on arrival)
+  //   - article → article.html?id=<id>
+  //   - announcement with a link → the link itself
+  fetch(ROOT + 'data/updates.json').then(r=>r.json()).then(json => {
+    const items = Array.isArray(json.items) ? json.items : [];
+    const podcastSeries = Array.isArray(json.podcastSeries) ? json.podcastSeries : [];
+    const seriesById = {};
+    podcastSeries.forEach(s => { if(s && s.id) seriesById[s.id] = s; });
+
+    // Group podcast episodes by seriesId (mirrors updates.js buildFeed()).
+    const episodesBySeries = {};
+    items.forEach(it => {
+      if(it && it.type === 'podcast'){
+        (episodesBySeries[it.seriesId] = episodesBySeries[it.seriesId] || []).push(it);
+      }
+    });
+    Object.keys(episodesBySeries).forEach(id => {
+      episodesBySeries[id].sort((a,b) =>
+        String(b.date||'').localeCompare(String(a.date||'')) ||
+        (b.episodeNumber||0) - (a.episodeNumber||0));
+    });
+
+    // Build the flat feed: non-podcast items as-is + one card per series.
+    const feed = [];
+    items.forEach(it => { if(it && it.type !== 'podcast') feed.push(it); });
+    podcastSeries.forEach(s => {
+      const eps = episodesBySeries[s.id] || [];
+      if(!eps.length) return;              // hide empty series, like updates.js
+      feed.push({
+        type: 'podcast',
+        seriesId: s.id,
+        id: s.id,
+        title: s.title,
+        excerpt: s.description || '',
+        image: s.coverArt || eps[0].image,
+        date: eps[0].date
+      });
+    });
+
+    // Date + status helpers (mirror updates.js so labels match exactly).
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
+    const fmtDate = d => {
+      const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d || '');
+      if(!m) return '';
+      const mi = parseInt(m[2], 10);
+      return (mi >= 1 && mi <= 12) ? `${parseInt(m[3],10)} ${MONTHS[mi-1]} ${m[1]}` : '';
+    };
+    const malawiToday = () => {
+      try { return new Intl.DateTimeFormat('en-CA',{timeZone:'Africa/Blantyre',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); }
+      catch(e){ return new Date(Date.now()+2*3600*1000).toISOString().slice(0,10); }
+    };
+    const deadlineClosed = d => d && Date.now() > new Date(d + 'T23:59:59+02:00').getTime();
+    const webinarUpcoming = d => {
+      const s = String(d||'').slice(0,10);
+      return /^\d{4}-\d{2}-\d{2}$/.test(s) && s >= malawiToday();
+    };
+
+    const slug = s => String(s||'').toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60) || 'item';
+    const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+    const TYPE_LABELS = { article:'Article', announcement:'Announcement', opportunity:'Opportunity', podcast:'Podcast', webinar:'Webinar' };
+
+    // Per-item CTA — same branch order as updates.js card() so label + dest match.
+    const ctaFor = it => {
+      const modalId = it.id || slug(it.title);
+      const hashHref = `updates/index.html#${encodeURIComponent(modalId)}`;
+      if(it.type === 'podcast')      return { label: '▶ Listen Now', href: hashHref };
+      if(it.type === 'webinar')      return { label: webinarUpcoming(it.date) ? 'Register Now' : '▶ Watch Now', href: hashHref };
+      if(it.type === 'opportunity'){
+        if(deadlineClosed(it.deadline)) return { label: 'Applications closed', href: hashHref, disabled: true };
+        return { label: 'Apply Now', href: hashHref };
+      }
+      if(it.type === 'article')      return { label: 'Read Now', href: `article.html?id=${encodeURIComponent(it.id||'')}` };
+      if(it.link){
+        const href = /^https?:\/\//i.test(it.link) ? it.link : ROOT + String(it.link).replace(/^\//,'');
+        return { label: 'Read Now', href };
+      }
+      return { label: 'Read Now', href: hashHref };
+    };
+
+    const recent = feed.slice().sort((a,b)=> new Date(b.date)-new Date(a.date)).slice(0,3);
+    document.getElementById('homeUpdatesPreview').innerHTML = recent.map(i => {
+      const cta = ctaFor(i);
+      const disabledCls = cta.disabled ? ' is-disabled' : '';
+      const ext = /^https?:\/\//i.test(cta.href) ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return `
+      <a href="${esc(cta.href)}" class="card update-card"${ext}>
+        <div class="card-media">
+          <img src="${ROOT}${(i.image||'').replace(/^\//,'')}" alt="" loading="lazy" onerror="this.parentElement.style.background='var(--navy)'">
+          <span class="update-type-badge">${esc(TYPE_LABELS[i.type] || i.type)}</span>
         </div>
-      </a>`).join('');
+        <div class="card-body">
+          <h4>${esc(i.title)}</h4>
+          <span class="update-date">${fmtDate(i.date)}</span>
+          <p class="update-desc">${esc(i.excerpt||'')}</p>
+          <div class="update-cta">
+            <span class="pc-cta${disabledCls}" role="button" aria-disabled="${cta.disabled ? 'true' : 'false'}">${esc(cta.label)}</span>
+          </div>
+        </div>
+      </a>`;
+    }).join('');
   }).catch(()=>{});
 
   // Services section scroll-triggered intro animation

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact us</title>
+<title>Contact us — Equip Group</title>
 <meta name="description" content="Get in touch with Equip Group in Lilongwe, Malawi.">
 <link rel="stylesheet" href="css/style.css?v=2">
 <link rel="icon" type="image/avif" href="assets/logos/favicon.avif">
@@ -35,230 +35,683 @@
 }
 </script>
 <style>
-  /* Contact page specific styles */
+  /* ============================================================
+     Contact page — 5-step guided intake
+     ============================================================ */
+
   .contact-section{
-    padding-top: calc(var(--header-h) + 3rem);
-    padding-bottom: 4rem;
+    padding-top: calc(var(--header-h) + 2.5rem);
+    padding-bottom: 3rem;
   }
+
   .contact-head{
-    max-width: 52ch;
-    margin-bottom: 3rem;
+    max-width: 60ch;
+    margin-bottom: 2rem;
   }
   .contact-head .eyebrow{
     color: var(--ink);
-    font-size: var(--step-0);
+    font-size: var(--step--1);
     font-weight: 500;
-    letter-spacing: .1em;
+    letter-spacing: .16em;
     text-transform: uppercase;
-    margin-bottom: .75rem;
+    margin: 0 0 .4rem;
   }
   .contact-head h1{
-    font-size: clamp(var(--step-3), 5vw, var(--step-4));
-    line-height: 1.1;
-    margin: 0 0 .75rem;
+    font-family: var(--font-display);
+    font-size: clamp(var(--step-3), 3.4vw, var(--step-4));
+    line-height: 1.05;
+    margin: 0 0 .4rem;
     color: var(--navy);
+    letter-spacing: -0.01em;
+    font-weight: 400;
   }
   .contact-head p{
     color: var(--ink);
     font-size: var(--step-0);
-    line-height: 1.6;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 52ch;
   }
+
+  /* Grid */
   .contact-grid{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(2rem, 4vw, 4rem);
     align-items: start;
   }
-  @media (max-width: 900px){
-    .contact-grid{ grid-template-columns: 1fr; }
-  }
-  /* Reach us directly column */
+
+  /* ------------------------------------------------------------
+     LEFT COLUMN — Reach us directly
+     ------------------------------------------------------------ */
   .reach-column h2{
+    font-family: var(--font-display);
     font-size: var(--step-2);
     color: var(--navy);
-    margin: 0 0 .5rem;
+    margin: 0 0 .35rem;
     position: relative;
-    padding-top: 1.25rem;
+    padding-top: 1rem;
+    letter-spacing: -0.01em;
+    font-weight: 500;
   }
   .reach-column h2::before{
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 30px;
-    height: 2px;
+    top: 0; left: 0;
+    width: 30px; height: 2px;
     background: var(--gold);
   }
-  .reach-column > p{
+  .reach-column > p.lede{
     color: var(--ink);
-    margin-bottom: 2rem;
-    font-size: var(--step-0);
+    margin: 0 0 1.5rem;
+    font-size: var(--step--1);
+    line-height: 1.5;
+    max-width: 44ch;
+  }
+
+  .contact-list{
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
   .contact-item{
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.75rem;
+    gap: .9rem;
+    padding: .6rem 0;
+    border-bottom: 1px solid var(--line);
   }
+  .contact-item:last-child{ border-bottom: 0; }
   .contact-icon{
     flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    margin-top: 2px;
+    width: 20px; height: 20px;
+    margin-top: 3px;
     color: var(--navy);
     stroke-width: 1.5;
   }
   .contact-item-content{
     display: flex;
     flex-direction: column;
-    gap: .25rem;
+    gap: .15rem;
     min-width: 0;
   }
   .contact-label{
-    font-size: var(--step--1);
-    font-weight: 500;
-    color: var(--ink);
-    letter-spacing: .05em;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--blue-grey);
+    letter-spacing: .14em;
     text-transform: uppercase;
   }
   .contact-value{
     font-size: var(--step-0);
     font-weight: 600;
     color: var(--navy);
-    line-height: 1.5;
+    line-height: 1.4;
     word-break: break-word;
     overflow-wrap: anywhere;
-  }
-  .contact-value a{
-    color: inherit;
     text-decoration: none;
     transition: color .2s var(--ease);
   }
-  .contact-value a:hover{ color: var(--gold); }
-  /* Map */
-  .map-wrapper{
-    aspect-ratio: 4/3;
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    margin-top: 1rem;
+  a.contact-value:hover{ color: var(--gold); }
+  a.contact-value:hover::after{ content: " →"; color: var(--gold); }
+
+  /* Low-commitment quick actions */
+  .quick-actions{
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-top: 1.25rem;
   }
-  .map-wrapper iframe{
-    width: 100%; height: 100%; border: 0;
+  .quick-btn{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .8rem 1.15rem;
+    border-radius: 2px;
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-family: var(--font-body);
+    transition: transform .2s var(--ease), background .2s var(--ease), color .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
   }
-  /* Form panel */
-  .form-panel{
-    background: #0d2136;
-    border-radius: 8px;
-    padding: clamp(1.5rem, 3vw, 2.5rem);
+  .quick-btn svg{
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+  }
+  .quick-btn--primary{
+    background: var(--navy);
     color: var(--cream);
+    box-shadow: 0 6px 20px rgba(13,33,54,.18);
+  }
+  .quick-btn--primary:hover{
+    background: var(--navy-mid);
+    transform: translateY(-1px);
+  }
+  .quick-btn--primary::after{
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    border: 2px solid var(--gold);
+    opacity: 0;
+    animation: pulseRing 2.6s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulseRing{
+    0%   { opacity: .55; transform: scale(1); }
+    70%  { opacity: 0;   transform: scale(1.06); }
+    100% { opacity: 0;   transform: scale(1.06); }
+  }
+  .quick-btn--ghost{
+    background: transparent;
+    color: var(--navy);
+    border-color: var(--line);
+  }
+  .quick-btn--ghost:hover{
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-1px);
+  }
+
+  .copy-status{
+    min-height: 1.1em;
+    margin: .5rem 0 0;
+    font-size: var(--step--1);
+    color: var(--gold-dark);
+    opacity: 0;
+    transform: translateY(-2px);
+    transition: opacity .25s var(--ease), transform .25s var(--ease);
+  }
+  .copy-status.is-visible{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ------------------------------------------------------------
+     RIGHT COLUMN — Guided intake
+     ------------------------------------------------------------ */
+  .form-panel{
+    background: var(--navy);
+    border-radius: 4px;
+    padding: clamp(1.5rem, 2.6vw, 2.25rem);
+    color: var(--cream);
+    box-shadow: 0 24px 60px -30px rgba(13,33,54,.6);
+    position: relative;
+    overflow: hidden;
   }
   .form-panel h2{
-    font-size: clamp(var(--step-1), 3vw, var(--step-2));
+    font-family: var(--font-display);
+    font-size: clamp(var(--step-1), 2.4vw, var(--step-2));
     color: var(--cream);
-    margin: 0 0 .5rem;
+    margin: 0 0 .35rem;
     position: relative;
-    padding-top: 1.25rem;
+    padding-top: 1rem;
+    letter-spacing: -0.01em;
+    font-weight: 500;
   }
   .form-panel h2::before{
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 30px;
-    height: 2px;
+    top: 0; left: 0;
+    width: 30px; height: 2px;
     background: var(--gold);
   }
-  .form-panel > p{
+  .form-panel > p.sub{
     color: var(--soft-gold);
     font-size: var(--step--1);
-    margin: 0 0 2rem;
+    margin: 0 0 1.15rem;
     line-height: 1.5;
+    opacity: .85;
   }
+
+  /* Progress dots — now 5 */
+  .step-progress{
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    margin-bottom: 1.1rem;
+  }
+  .step-dot{
+    height: 3px;
+    flex: 1;
+    background: rgba(214,202,176,.22);
+    border-radius: 999px;
+    transition: background .35s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+  .step-dot::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .45s var(--ease);
+  }
+  .step-dot.is-active::after{ transform: scaleX(1); }
+  .step-dot.is-done::after{ transform: scaleX(1); background: var(--soft-gold); }
+
+  /* Step container */
+  .steps{
+    position: relative;
+    min-height: 0;
+  }
+  .step{
+    display: none;
+    animation: stepIn .38s var(--ease) both;
+  }
+  .step.is-active{ display: block; }
+  .step.is-exiting{ display: block; animation: stepOut .25s var(--ease) both; }
+
+  @keyframes stepIn{
+    from{ opacity: 0; transform: translateY(8px); }
+    to  { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes stepOut{
+    from{ opacity: 1; transform: translateY(0); }
+    to  { opacity: 0; transform: translateY(-8px); }
+  }
+
+  .step-eyebrow{
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 .35rem;
+    font-weight: 600;
+  }
+  .step-title{
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--cream);
+    margin: 0 0 .35rem;
+    line-height: 1.25;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .step-sub{
+    font-size: var(--step--1);
+    color: var(--soft-gold);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+    opacity: .8;
+  }
+
+  /* Choice cards (step 1) — 6 items */
+  .choice-grid{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .6rem;
+  }
+  .choice{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    padding: .8rem .9rem .85rem;
+    background: rgba(244,242,239,.04);
+    border: 1px solid rgba(214,202,176,.22);
+    border-radius: 2px;
+    color: var(--cream);
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: background .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .choice:hover{
+    background: rgba(244,242,239,.08);
+    border-color: rgba(168,147,90,.55);
+    transform: translateY(-1px);
+  }
+  .choice:focus-visible{
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .choice[aria-pressed="true"]{
+    background: rgba(168,147,90,.14);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px var(--gold) inset;
+  }
+  .choice-title{
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: .01em;
+    line-height: 1.25;
+  }
+  .choice-desc{
+    font-size: 11.5px;
+    color: var(--soft-gold);
+    line-height: 1.35;
+    opacity: .8;
+  }
+  .choice-check{
+    position: absolute;
+    top: .5rem; right: .5rem;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(214,202,176,.5);
+    transition: background .2s var(--ease), border-color .2s var(--ease);
+  }
+  .choice[aria-pressed="true"] .choice-check{
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(168,147,90,.25);
+  }
+
+  /* Chips (step 2) */
+  .chip-grid{
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-top: .25rem;
+  }
+  .chip{
+    padding: .55rem .9rem;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid rgba(214,202,176,.3);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    cursor: pointer;
+    transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+  }
+  .chip:hover{ border-color: var(--gold); }
+  .chip:focus-visible{ outline: 2px solid var(--gold); outline-offset: 2px; }
+  .chip[aria-pressed="true"]{
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* Org chips (step 4) — single-select, styled like choice cards but as a row */
+  .org-grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .55rem;
+    margin-bottom: 1rem;
+  }
+  .org-chip{
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .7rem .85rem;
+    background: rgba(244,242,239,.04);
+    border: 1px solid rgba(214,202,176,.22);
+    border-radius: 2px;
+    color: var(--cream);
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 600;
+    transition: background .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease);
+  }
+  .org-chip:hover{
+    background: rgba(244,242,239,.08);
+    border-color: rgba(168,147,90,.55);
+    transform: translateY(-1px);
+  }
+  .org-chip:focus-visible{ outline: 2px solid var(--gold); outline-offset: 2px; }
+  .org-chip[aria-pressed="true"]{
+    background: rgba(168,147,90,.14);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px var(--gold) inset;
+  }
+  .org-chip .org-dot{
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(214,202,176,.5);
+    flex-shrink: 0;
+    transition: background .2s var(--ease), border-color .2s var(--ease);
+  }
+  .org-chip[aria-pressed="true"] .org-dot{
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(168,147,90,.25);
+  }
+
+  /* Dynamic follow-up field (step 4) */
+  .org-detail{
+    display: none;
+    flex-direction: column;
+    gap: .35rem;
+    animation: stepIn .3s var(--ease) both;
+  }
+  .org-detail.is-visible{ display: flex; }
+  .org-detail label{
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cream);
+    letter-spacing: .03em;
+  }
+  .org-detail .optional-hint{
+    color: var(--soft-gold);
+    font-weight: 400;
+    opacity: .75;
+  }
+
+  /* Inputs */
   .form-grid{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-  }
-  @media (max-width: 600px){
-    .form-grid{ grid-template-columns: 1fr; }
+    gap: .75rem;
   }
   .form-field{
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: .35rem;
   }
-  .form-field.full-width{
-    grid-column: 1 / -1;
-  }
+  .form-field.full{ grid-column: 1 / -1; }
   .form-field label{
-    font-size: var(--step--1);
+    font-size: 12px;
     font-weight: 600;
     color: var(--cream);
-    letter-spacing: .02em;
+    letter-spacing: .03em;
   }
-  .form-field .required{ color: var(--soft-gold); }
+  .form-field label .req{ color: var(--gold); }
+  .form-field label .optional-hint{
+    color: var(--soft-gold);
+    font-weight: 400;
+    opacity: .75;
+  }
   .form-field input,
   .form-field textarea{
     font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.5;
-    padding: .9rem 1rem;
+    padding: .8rem .9rem;
     border: 1px solid rgba(214,202,176,.3);
-    border-radius: 6px;
+    border-radius: 2px;
     background: var(--cream);
     color: var(--navy);
     transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
-    min-height: 52px;
+    min-height: 46px;
     width: 100%;
     box-sizing: border-box;
   }
-  .form-field textarea{
-    min-height: 140px;
-    resize: vertical;
-  }
-  .form-field input::placeholder,
-  .form-field textarea::placeholder{
-    color: var(--blue-grey);
-    opacity: .7;
-  }
+  .form-field textarea{ min-height: 100px; resize: vertical; }
   .form-field input:focus,
   .form-field textarea:focus{
     outline: none;
     border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(168,147,90,.2);
+    box-shadow: 0 0 0 3px rgba(168,147,90,.25);
   }
-  .form-field input:-webkit-autofill,
-  .form-field textarea:-webkit-autofill{
-    -webkit-box-shadow: 0 0 0 1000px var(--cream) inset;
-    box-shadow: 0 0 0 1000px var(--cream) inset;
+  .form-field input::placeholder,
+  .form-field textarea::placeholder{
+    color: var(--blue-grey);
+    opacity: .8;
   }
-  .form-submit{
-    margin-top: 1.5rem;
-    width: 100%;
+
+  /* Footer controls */
+  .step-controls{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-top: 1.25rem;
   }
-  .form-submit .btn{
-    width: 100%;
-    padding: 1rem 2rem;
-    font-size: var(--step-0);
-    font-weight: 600;
+  .step-back{
+    background: transparent;
+    border: 0;
+    color: var(--soft-gold);
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    cursor: pointer;
+    padding: .55rem .25rem;
+    transition: color .2s var(--ease);
+    opacity: .85;
+  }
+  .step-back:hover{ color: var(--cream); opacity: 1; }
+  .step-back[hidden]{ display: none; }
+
+  .btn-continue{
+    margin-left: auto;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
+    gap: .5rem;
+    padding: .8rem 1.4rem;
+    background: var(--gold);
+    color: var(--navy);
+    border: 0;
+    border-radius: 2px;
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: .02em;
+    cursor: pointer;
+    transition: background .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
+    box-shadow: 0 8px 22px -10px rgba(168,147,90,.6);
   }
+  .btn-continue:hover{
+    background: var(--soft-gold);
+    transform: translateY(-1px);
+  }
+  .btn-continue:disabled{
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn-continue svg{ width: 14px; height: 14px; }
+
   .form-status{
-    margin-top: 1rem;
+    margin: .75rem 0 0;
     font-size: var(--step--1);
     color: var(--soft-gold);
-    min-height: 1.5em;
+    min-height: 1.2em;
   }
-  /* Mobile adjustments */
+
+  /* ============================================================
+     DESKTOP / LANDSCAPE TABLET: viewport-locked
+     ============================================================ */
+  @media (min-width: 992px){
+    .contact-section{
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding-top: calc(var(--header-h) + 1.5rem);
+      padding-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    .contact-section > .container{ width: 100%; }
+    .contact-head{ margin-bottom: 1.25rem; }
+    .contact-head h1{
+      font-size: clamp(1.9rem, 3vw, 2.6rem);
+      margin-bottom: .25rem;
+    }
+    .contact-head p{ font-size: var(--step--1); }
+    .contact-grid{ align-items: stretch; }
+    .reach-column{ padding-top: .25rem; }
+    .reach-column h2{
+      font-size: clamp(1.3rem, 1.6vw, 1.6rem);
+      padding-top: .85rem;
+      margin-bottom: .25rem;
+    }
+    .reach-column > p.lede{ margin-bottom: 1rem; }
+    .contact-list{ gap: .75rem; }
+    .contact-item{ padding: .5rem 0; }
+    .contact-value{ font-size: var(--step--1); }
+
+    .form-panel{
+      padding: 1.6rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-panel h2{
+      font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+      padding-top: .85rem;
+      margin-bottom: .2rem;
+    }
+    .form-panel > p.sub{ margin-bottom: .9rem; }
+    .step-title{ font-size: clamp(1.05rem, 1.2vw, 1.2rem); }
+    .step-sub{ margin-bottom: .8rem; }
+    .choice{ padding: .65rem .8rem .7rem; }
+    .choice-desc{ font-size: 11px; }
+    .form-field input,
+    .form-field textarea{ min-height: 42px; padding: .65rem .8rem; }
+    .form-field textarea{ min-height: 90px; }
+    .step-controls{ margin-top: 1rem; }
+    .org-chip{ padding: .6rem .75rem; }
+  }
+
+  /* Very short landscape tablets */
+  @media (min-width: 992px) and (max-height: 720px){
+    .contact-section{
+      padding-top: calc(var(--header-h) + .75rem);
+      padding-bottom: .75rem;
+    }
+    .contact-head{ margin-bottom: .75rem; }
+    .contact-head .eyebrow{ margin-bottom: .2rem; }
+    .contact-head h1{ font-size: 1.75rem; }
+    .contact-head p{ font-size: 13px; }
+    .form-panel h2{ padding-top: .7rem; }
+    .contact-list{ gap: .5rem; }
+    .contact-item{ padding: .35rem 0; }
+    .step-sub{ margin-bottom: .6rem; }
+    .step-controls{ margin-top: .8rem; }
+    .choice{ padding: .5rem .7rem; }
+    .choice-desc{ display: none; }
+    .form-field textarea{ min-height: 72px; }
+  }
+
+  /* ============================================================
+     MOBILE / PORTRAIT TABLET — unchanged stacked flow
+     ============================================================ */
+  @media (max-width: 991px){
+    .contact-grid{ grid-template-columns: 1fr; }
+  }
+  @media (max-width: 900px){
+    .choice-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 600px){
+    .form-grid{ grid-template-columns: 1fr; }
+    .org-grid{ grid-template-columns: 1fr; }
+  }
   @media (max-width: 480px){
-    .contact-head{ margin-bottom: 2rem; }
+    .contact-head{ margin-bottom: 1.5rem; }
     .form-panel{ padding: 1.5rem; }
     .form-field input,
-    .form-field textarea{ font-size: 16px; } /* Prevent iOS zoom */
+    .form-field textarea{ font-size: 16px; }
+    .choice-grid{ grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .step,
+    .step.is-active,
+    .step.is-exiting,
+    .org-detail{ animation: none; }
+    .quick-btn--primary::after{ animation: none; }
   }
 </style>
 </head>
@@ -271,80 +724,238 @@
       <div class="contact-head">
         <p class="eyebrow">Get in touch</p>
         <h1>Contact us</h1>
-        <p>How can we help? We're here to answer all your questions.</p>
+        <p>Five quick steps and we'll route you to the right team. We typically reply within one business day.</p>
       </div>
 
       <div class="contact-grid">
-        <!-- Reach us directly column -->
+        <!-- ===================== LEFT ===================== -->
         <div class="reach-column">
           <h2>Reach us directly</h2>
-          <p>Prefer email, phone, or dropping by? All three work.</p>
+          <p class="lede">Prefer to skip the form? Reach the team via email, phone, or our Lilongwe office.</p>
 
-          <div class="contact-item">
-            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor"/><polyline points="22,6 12,13 2,6" stroke="currentColor"/></svg>
-            <div class="contact-item-content">
-              <span class="contact-label">Email</span>
-              <a class="contact-value" href="mailto:info@equipgroup.co">info@equipgroup.co</a>
-            </div>
-          </div>
+          <ul class="contact-list">
+            <li class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor"/><polyline points="22,6 12,13 2,6" stroke="currentColor"/></svg>
+              <div class="contact-item-content">
+                <span class="contact-label">Email</span>
+                <a class="contact-value" href="mailto:info@equipgroup.co">info@equipgroup.co</a>
+              </div>
+            </li>
 
-          <div class="contact-item">
-            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor"/></svg>
-            <div class="contact-item-content">
-              <span class="contact-label">Phone</span>
-              <a class="contact-value" href="tel:+265885303239" style="display:block;">+265 (0) 885 303 239</a>
-              <a class="contact-value" href="tel:+265887413116">+265 (0) 887 413 116</a>
-            </div>
-          </div>
+            <li class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor"/></svg>
+              <div class="contact-item-content">
+                <span class="contact-label">Phone</span>
+                <a class="contact-value" href="tel:+265885303239">+265 (0) 885 303 239</a>
+                <a class="contact-value" href="tel:+265887413116">+265 (0) 887 413 116</a>
+              </div>
+            </li>
 
-          <div class="contact-item">
-            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor"/><circle cx="12" cy="10" r="3" stroke="currentColor"/></svg>
-            <div class="contact-item-content">
-              <span class="contact-label">Address</span>
-              <address class="contact-value" style="font-style:normal;">Area 3, Keppel Compton Road, House 109<br>P.O. Box 3020, Lilongwe, Malawi</address>
-            </div>
-          </div>
+            <li class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor"/><circle cx="12" cy="10" r="3" stroke="currentColor"/></svg>
+              <div class="contact-item-content">
+                <span class="contact-label">Office</span>
+                <address class="contact-value" style="font-style:normal;">Area 3, Keppel Compton Road, House 109<br>P.O. Box 3020, Lilongwe, Malawi</address>
+              </div>
+            </li>
+          </ul>
 
-          <!-- Map -->
-          <div class="map-wrapper">
-            <iframe
-              title="Map to Equip Group offices"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.4637549114777!2d33.76039667430563!3d-13.990493881129378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1921d319c5f0586d%3A0xbb1a149bffe3a5c6!2sEquip%20Group!5e0!3m2!1sen!2smw!4v1789311450413!5m2!1sen!2smw"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+          <div class="quick-actions">
+            <button type="button" class="quick-btn quick-btn--primary" id="copyEmailBtn"
+                    data-email="info@equipgroup.co">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V5a2 2 0 0 1 2-2h10" stroke="currentColor" stroke-width="1.6"/></svg>
+              Copy email
+            </button>
+            <a class="quick-btn quick-btn--ghost" href="mailto:info@equipgroup.co?subject=Quick%20question">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.6"/></svg>
+              Email now
+            </a>
           </div>
+          <p class="copy-status" id="copyStatus" aria-live="polite"></p>
         </div>
 
-        <!-- Contact form panel -->
+        <!-- ===================== RIGHT — 5-step form ===================== -->
         <form id="contactForm" class="form-panel" novalidate>
           <h2>Send us a message</h2>
-          <p>We'll get back to you within one business day.</p>
+          <p class="sub">Guided — takes about 30 seconds.</p>
 
-          <div class="form-grid">
-            <div class="form-field">
-              <label>First name <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" name="firstName" required autocomplete="given-name" placeholder="First name">
+          <div class="step-progress" aria-hidden="true">
+            <span class="step-dot is-active" data-step-dot="1"></span>
+            <span class="step-dot" data-step-dot="2"></span>
+            <span class="step-dot" data-step-dot="3"></span>
+            <span class="step-dot" data-step-dot="4"></span>
+            <span class="step-dot" data-step-dot="5"></span>
+          </div>
+
+          <div class="steps">
+            <!-- STEP 1 — Focus -->
+            <div class="step is-active" data-step="1" aria-labelledby="step1-title">
+              <p class="step-eyebrow">Step 1 of 5</p>
+              <h3 class="step-title" id="step1-title">What is your primary focus?</h3>
+              <p class="step-sub">Pick the area that best matches your need — we'll tailor the next step.</p>
+
+              <div class="choice-grid" role="group" aria-labelledby="step1-title">
+                <button type="button" class="choice" data-focus="Business Development" aria-pressed="false">
+                  <span class="choice-check" aria-hidden="true"></span>
+                  <span class="choice-title">Business Development</span>
+                  <span class="choice-desc">Partnerships, market entry, growth</span>
+                </button>
+                <button type="button" class="choice" data-focus="Research &amp; Project Management" aria-pressed="false">
+                  <span class="choice-check" aria-hidden="true"></span>
+                  <span class="choice-title">Research &amp; Project Management</span>
+                  <span class="choice-desc">Studies, M&amp;E, delivery oversight</span>
+                </button>
+                <button type="button" class="choice" data-focus="Data Division" aria-pressed="false">
+                  <span class="choice-check" aria-hidden="true"></span>
+                  <span class="choice-title">Data Division</span>
+                  <span class="choice-desc">Dashboards, analytics, portals</span>
+                </button>
+                <button type="button" class="choice" data-focus="Clickbait Marketing" aria-pressed="false">
+                  <span class="choice-check" aria-hidden="true"></span>
+                  <span class="choice-title">Clickbait Marketing</span>
+                  <span class="choice-desc">Campaigns, brand, content</span>
+                </button>
+                <button type="button" class="choice" data-focus="Equip Insights" aria-pressed="false">
+                  <span class="choice-check" aria-hidden="true"></span>
+                  <span class="choice-title">Equip Insights</span>
+                  <span class="choice-desc">Reports, briefings, thought leadership</span>
+                </button>
+                <button type="button" class="choice" data-focus="Other" aria-pressed="false">
+                  <span class="choice-check" aria-hidden="true"></span>
+                  <span class="choice-title">Other</span>
+                  <span class="choice-desc">Something else — we'll figure it out</span>
+                </button>
+              </div>
+
+              <div class="step-controls">
+                <button type="button" class="step-back" data-back hidden>← Back</button>
+                <button type="button" class="btn-continue" data-next disabled>
+                  Continue
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
             </div>
-            <div class="form-field">
-              <label>Last name <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" name="lastName" required autocomplete="family-name" placeholder="Last name">
+
+            <!-- STEP 2 — Scope -->
+            <div class="step" data-step="2" aria-labelledby="step2-title">
+              <p class="step-eyebrow">Step 2 of 5</p>
+              <h3 class="step-title" id="step2-title">Tell us a bit about scope</h3>
+              <p class="step-sub" data-step2-prompt>Choose any that apply.</p>
+
+              <div class="chip-grid" role="group" aria-label="Scope options" data-chips></div>
+
+              <div class="step-controls">
+                <button type="button" class="step-back" data-back>← Back</button>
+                <button type="button" class="btn-continue" data-next disabled>
+                  Continue
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
             </div>
-            <div class="form-field full-width">
-              <label>Email address <span class="required" aria-hidden="true">*</span></label>
-              <input type="email" name="email" required autocomplete="email" placeholder="name@example.com">
+
+            <!-- STEP 3 — Contact (compact: name + email only) -->
+            <div class="step" data-step="3" aria-labelledby="step3-title">
+              <p class="step-eyebrow">Step 3 of 5</p>
+              <h3 class="step-title" id="step3-title">Where should we reply?</h3>
+              <p class="step-sub">One business day turnaround. No mailing lists.</p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="firstName">First name <span class="req" aria-hidden="true">*</span></label>
+                  <input id="firstName" name="firstName" type="text" required autocomplete="given-name" placeholder="First name">
+                </div>
+                <div class="form-field">
+                  <label for="lastName">Last name</label>
+                  <input id="lastName" name="lastName" type="text" autocomplete="family-name" placeholder="Last name">
+                </div>
+                <div class="form-field full">
+                  <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+                  <input id="email" name="email" type="email" required autocomplete="email" placeholder="name@example.com">
+                </div>
+              </div>
+
+              <div class="step-controls">
+                <button type="button" class="step-back" data-back>← Back</button>
+                <button type="button" class="btn-continue" data-next>
+                  Continue
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
             </div>
-            <div class="form-field full-width">
-              <label>Subject <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" name="subject" required autocomplete="off" placeholder="What's this about?">
+
+            <!-- STEP 4 — Organisation -->
+            <div class="step" data-step="4" aria-labelledby="step4-title">
+              <p class="step-eyebrow">Step 4 of 5</p>
+              <h3 class="step-title" id="step4-title">Where are you writing from?</h3>
+              <p class="step-sub">Helps us tailor the response. Pick the closest match.</p>
+
+              <div class="org-grid" role="group" aria-labelledby="step4-title">
+                <button type="button" class="org-chip" data-org="Company" aria-pressed="false">
+                  <span class="org-dot" aria-hidden="true"></span>
+                  Company
+                </button>
+                <button type="button" class="org-chip" data-org="Institution" aria-pressed="false">
+                  <span class="org-dot" aria-hidden="true"></span>
+                  Institution / NGO / Government
+                </button>
+                <button type="button" class="org-chip" data-org="Self" aria-pressed="false">
+                  <span class="org-dot" aria-hidden="true"></span>
+                  Self / Independent
+                </button>
+                <button type="button" class="org-chip" data-org="Undisclosed" aria-pressed="false">
+                  <span class="org-dot" aria-hidden="true"></span>
+                  Prefer not to say
+                </button>
+              </div>
+
+              <!-- Dynamic follow-up field -->
+              <div class="org-detail" data-org-detail>
+                <label for="orgName" data-org-label>Which organisation?</label>
+                <input id="orgName" name="orgName" type="text" autocomplete="organization" placeholder="Organisation name">
+              </div>
+
+              <div class="step-controls">
+                <button type="button" class="step-back" data-back>← Back</button>
+                <button type="button" class="btn-continue" data-next disabled>
+                  Continue
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
             </div>
-            <div class="form-field full-width">
-              <label>Message <span class="required" aria-hidden="true">*</span></label>
-              <textarea name="message" required rows="6" placeholder="Tell us a bit more..."></textarea>
+
+            <!-- STEP 5 — Anything else? (optional) + submit -->
+            <div class="step" data-step="5" aria-labelledby="step5-title">
+              <p class="step-eyebrow">Step 5 of 5</p>
+              <h3 class="step-title" id="step5-title">Anything else?</h3>
+              <p class="step-sub">Optional — a line or two of context helps. Then hit send.</p>
+
+              <div class="form-grid">
+                <div class="form-field full">
+                  <label for="message">Your message <span class="optional-hint">(optional)</span></label>
+                  <textarea id="message" name="message" rows="4" placeholder="Deadline, budget range, links — anything useful…"></textarea>
+                </div>
+              </div>
+
+              <div class="step-controls">
+                <button type="button" class="step-back" data-back>← Back</button>
+                <button type="submit" class="btn-continue">
+                  Send message
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="step is-success" data-step="6" aria-labelledby="step6-title">
+              <p class="step-eyebrow">Sent</p>
+              <h3 class="step-title" id="step6-title">Thanks — we've got it.</h3>
+              <p class="step-sub">We'll be in touch within one business day. In the meantime, feel free to reach us directly.</p>
+              <div class="step-controls">
+                <a class="quick-btn quick-btn--ghost" href="mailto:info@equipgroup.co">Email us directly</a>
+              </div>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-gold form-submit">Send message</button>
           <p id="formStatus" class="form-status" aria-live="polite"></p>
         </form>
       </div>
@@ -361,12 +972,243 @@
   initHeroAnimations();
 </script>
 <script>
-  // Wire this up to Formspree, Netlify Forms, or your own endpoint by
-  // replacing the fetch URL below — no backend included in this template.
-  document.getElementById('contactForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    document.getElementById('formStatus').textContent = 'Thanks — connect this form to your email service (e.g. Formspree) in js/main.js or here to go live.';
-  });
+  /* ============================================================
+     5-step guided intake flow
+     ============================================================ */
+  (function(){
+    const form        = document.getElementById('contactForm');
+    const status      = document.getElementById('formStatus');
+    const chipsWrap   = form.querySelector('[data-chips]');
+    const prompt      = form.querySelector('[data-step2-prompt]');
+    const orgDetail   = form.querySelector('[data-org-detail]');
+    const orgLabel    = form.querySelector('[data-org-label]');
+    const orgInput    = form.querySelector('#orgName');
+
+    const state = {
+      step: 1,
+      focus: null,
+      scope: new Set(),
+      orgType: null,
+    };
+
+    /* ---- Per-track step 2 config ---- */
+    const TRACKS = {
+      'Business Development': {
+        prompt: 'What kind of support are you looking for?',
+        chips: ['Market entry', 'Partnerships', 'Growth strategy', 'Investor / board materials', 'Workshop'],
+      },
+      'Research & Project Management': {
+        prompt: 'What does the engagement look like?',
+        chips: ['Research study', 'M&E framework', 'Baseline / endline', 'Project oversight', 'Proposal support'],
+      },
+      'Data Division': {
+        prompt: 'What does the work look like?',
+        chips: ['Dashboard & BI', 'Data pipeline', 'Forecasting / modelling', 'Portal / data product', 'Reporting automation'],
+      },
+      'Clickbait Marketing': {
+        prompt: 'What are you building or fixing?',
+        chips: ['Campaign', 'Brand system', 'Website / landing', 'Content strategy', 'Ongoing retainer'],
+      },
+      'Equip Insights': {
+        prompt: 'What kind of insight do you need?',
+        chips: ['Sector report', 'Executive briefing', 'Keynote / talk', 'Research collaboration', 'Subscription'],
+      },
+      'Other': {
+        prompt: 'Pick any that are close — or just tell us in the final step.',
+        chips: ['Not sure yet', 'Partnership', 'Careers', 'Press / media', 'General enquiry'],
+      },
+    };
+
+    /* ---- Org type config (step 4) ---- */
+    const ORG_CONFIG = {
+      'Company':     { label: 'Which company?',            placeholder: 'e.g. Acme Ltd.',           hint: '' },
+      'Institution': { label: 'Which institution?',        placeholder: 'e.g. Ministry of Health',  hint: '' },
+      'Self':        { label: 'Your role or practice area', placeholder: 'e.g. Independent consultant', hint: 'optional' },
+      'Undisclosed': { label: null, placeholder: '', hint: '' },
+    };
+
+    /* ---- Progress dots ---- */
+    const dots = Array.from(form.querySelectorAll('.step-dot'));
+    function renderDots(){
+      dots.forEach(d => {
+        const n = Number(d.dataset.stepDot);
+        d.classList.toggle('is-done', n < state.step);
+        d.classList.toggle('is-active', n === state.step);
+      });
+    }
+
+    function showStep(n){
+      const current = form.querySelector(`.step[data-step="${state.step}"]`);
+      const target  = form.querySelector(`.step[data-step="${n}"]`);
+      if(!target || target === current) return;
+
+      if(current){
+        current.classList.add('is-exiting');
+        setTimeout(() => {
+          current.classList.remove('is-active', 'is-exiting');
+        }, 220);
+      }
+      target.classList.add('is-active');
+      state.step = n;
+      renderDots();
+
+      const heading = target.querySelector('.step-title');
+      if(heading){
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+      }
+    }
+
+    function updateNextState(stepEl){
+      const nextBtn = stepEl.querySelector('[data-next]');
+      if(!nextBtn) return;
+      const n = Number(stepEl.dataset.step);
+      if(n === 1) nextBtn.disabled = !state.focus;
+      if(n === 2) nextBtn.disabled = state.scope.size === 0;
+      if(n === 4) nextBtn.disabled = !state.orgType;
+    }
+
+    /* ---- Step 1: focus selection ---- */
+    form.querySelectorAll('.choice').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.focus = btn.dataset.focus;
+        form.querySelectorAll('.choice').forEach(b => {
+          b.setAttribute('aria-pressed', String(b === btn));
+        });
+        state.scope.clear();
+        renderChips();
+        updateNextState(form.querySelector('.step[data-step="1"]'));
+      });
+    });
+
+    /* ---- Step 2: dynamic chips ---- */
+    function renderChips(){
+      if(!state.focus) return;
+      const cfg = TRACKS[state.focus] || TRACKS['Other'];
+      prompt.textContent = cfg.prompt;
+      chipsWrap.innerHTML = '';
+      cfg.chips.forEach(label => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chip';
+        b.textContent = label;
+        b.setAttribute('aria-pressed', String(state.scope.has(label)));
+        b.addEventListener('click', () => {
+          if(state.scope.has(label)) state.scope.delete(label);
+          else state.scope.add(label);
+          b.setAttribute('aria-pressed', String(state.scope.has(label)));
+          updateNextState(form.querySelector('.step[data-step="2"]'));
+        });
+        chipsWrap.appendChild(b);
+      });
+      updateNextState(form.querySelector('.step[data-step="2"]'));
+    }
+
+    /* ---- Step 3: contact validation ---- */
+    function validateStep3(){
+      const fn = form.querySelector('#firstName');
+      const em = form.querySelector('#email');
+      let ok = true;
+      [fn, em].forEach(el => {
+        if(!el.checkValidity()){
+          ok = false;
+          el.style.borderColor = '#7e2138';
+        } else {
+          el.style.borderColor = '';
+        }
+      });
+      if(!ok) status.textContent = 'Please add your first name and email.';
+      return ok;
+    }
+
+    /* ---- Step 4: org type selection + dynamic field ---- */
+    form.querySelectorAll('.org-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.orgType = btn.dataset.org;
+        form.querySelectorAll('.org-chip').forEach(b => {
+          b.setAttribute('aria-pressed', String(b === btn));
+        });
+
+        const cfg = ORG_CONFIG[state.orgType];
+
+        if(state.orgType === 'Undisclosed'){
+          // No follow-up field
+          orgDetail.classList.remove('is-visible');
+          orgInput.value = '';
+        } else {
+          orgDetail.classList.add('is-visible');
+          const hint = cfg.hint ? ` <span class="optional-hint">(${cfg.hint})</span>` : '';
+          orgLabel.innerHTML = cfg.label + (state.orgType === 'Self' ? hint : '');
+          orgInput.placeholder = cfg.placeholder;
+        }
+
+        updateNextState(form.querySelector('.step[data-step="4"]'));
+      });
+    });
+
+    /* ---- Navigation ---- */
+    form.addEventListener('click', (e) => {
+      const next = e.target.closest('[data-next]');
+      const back = e.target.closest('[data-back]');
+
+      if(next){
+        const current = Number(next.closest('.step').dataset.step);
+        if(current === 1 && !state.focus) return;
+        if(current === 2 && state.scope.size === 0) return;
+        if(current === 3 && !validateStep3()) return;
+        if(current === 4 && !state.orgType) return;
+        status.textContent = '';
+
+        if(current === 1){ renderChips(); showStep(2); }
+        else if(current === 2){ showStep(3); }
+        else if(current === 3){ showStep(4); }
+        else if(current === 4){ showStep(5); }
+      }
+      if(back){
+        const current = Number(back.closest('.step').dataset.step);
+        if(current > 1) showStep(current - 1);
+      }
+    });
+
+    /* ---- Submit ---- */
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if(!validateStep3()) return;
+
+      // TODO: wire to Formspree / Netlify / backend
+      const payload = {
+        focus: state.focus,
+        scope: Array.from(state.scope),
+        firstName: form.querySelector('#firstName').value.trim(),
+        lastName:  form.querySelector('#lastName').value.trim(),
+        email:     form.querySelector('#email').value.trim(),
+        orgType:   state.orgType,
+        orgName:   form.querySelector('#orgName').value.trim(),
+        message:   form.querySelector('#message').value.trim(),
+      };
+      console.log('[contact] payload', payload);
+      status.textContent = '';
+      showStep(6);
+    });
+
+    /* ---- Copy email quick action ---- */
+    const copyBtn    = document.getElementById('copyEmailBtn');
+    const copyStatus = document.getElementById('copyStatus');
+    copyBtn?.addEventListener('click', async () => {
+      const email = copyBtn.dataset.email;
+      try{
+        await navigator.clipboard.writeText(email);
+        copyStatus.textContent = 'Email copied to clipboard.';
+      }catch{
+        copyStatus.textContent = 'Copy failed — email is ' + email;
+      }
+      copyStatus.classList.add('is-visible');
+      clearTimeout(copyStatus._t);
+      copyStatus._t = setTimeout(() => copyStatus.classList.remove('is-visible'), 2200);
+    });
+
+    renderDots();
+  })();
 </script>
 </body>
 </html>

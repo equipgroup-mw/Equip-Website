@@ -6,6 +6,7 @@
 <title>About Equip</title>
 <meta name="description" content="Equip Group delivers tailor-made management, data and capacity development solutions for organisations shaping Malawi's economy.">
 <link rel="stylesheet" href="css/style.css?v=2">
+<link rel="stylesheet" href="css/timeline.css">
 <link rel="icon" type="image/avif" href="assets/logos/favicon.avif">
 <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script type="application/ld+json">
@@ -55,16 +56,24 @@
       <div class="hero-content">
         <h1>About Equip</h1>
         <p class="hero-lede">Tailor-made management, data and capacity development solutions for organisations shaping Malawi's economy.</p>
+        <div class="hero-ctas">
+          <a href="#our-story" class="btn btn-gold">Our story</a>
+          <a href="contact.html" class="btn btn-outline" style="color:var(--cream);">Let's talk</a>
+        </div>
       </div>
     </div>
     <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
   </section>
 
   <!-- FOUNDING STORY -->
-  <section class="section founding-story-section">
+  <section class="section founding-story-section" id="our-story">
     <div class="founding-story-grid">
       <div class="founding-story-image" aria-hidden="true">
         <img src="assets/images/about-founder.avif" alt="Rollins Chitika, Founder of Equip Group" loading="lazy">
+        <div class="founder-caption">
+          <h3 class="founder-name">Rollins Chitika</h3>
+          <p class="founder-title">Founder and Managing Director</p>
+        </div>
       </div>
       <div class="founding-story-content">
         <hr class="rule">
@@ -95,9 +104,44 @@
           </div>
         </div>
         <div class="vision-mission-photo" aria-hidden="true">
-          <div class="card-media"><img src="assets/images/about-mission.avif" alt="Equip Group team working on mission and vision" loading="lazy" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
+          <div class="card-media"><img src="assets/images/about-mission.png" alt="Equip Group team working on mission and vision" loading="lazy" onerror="this.parentElement.style.background='var(--navy-mid)'"></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Transition band from mission/vision (white) into timeline (navy). -->
+  <div class="about-transition-band" aria-hidden="true"></div>
+
+  <!-- TIMELINE — Equip through the years -->
+  <section class="equip-timeline-section" id="equip-evolution">
+    <div class="equip-timeline-container">
+
+      <div class="equip-top-bar">
+        <h2 class="equip-timeline-title">Equip through the years</h2>
+        <button type="button" class="equip-timeline-replay" id="equip-btn-replay-desktop">Replay</button>
+      </div>
+
+      <!-- Mobile-only Replay button — sits at the top of the timeline so
+           pressing it doesn't require the auto-scroll to travel back up. -->
+      <div class="equip-mobile-replay">
+        <button type="button" class="equip-timeline-replay" id="equip-btn-replay-mobile-top">Replay</button>
+      </div>
+
+      <div class="equip-desktop-stage" id="equip-desktop-stage">
+        <svg id="equip-timeline-svg" viewBox="0 0 1920 1080" preserveAspectRatio="none" role="img" aria-label="Equip Group growth timeline from 2015 to 2025">
+          <line id="equip-main-axis" class="equip-main-line" x1="122" y1="510" x2="1795" y2="510" />
+          <g id="equip-milestones-layer"></g>
+        </svg>
+      </div>
+
+      <div class="equip-mobile-stage" id="equip-mobile-stage">
+        <div class="equip-mobile-spine-track">
+          <div class="equip-mobile-spine-fill" id="equip-mobile-spine-fill"></div>
+        </div>
+        <ul class="equip-mobile-list" id="equip-mobile-list"></ul>
+      </div>
+
     </div>
   </section>
 
@@ -108,36 +152,85 @@
         <div><hr class="rule"><h2>Our values</h2></div>
       </div>
     </div>
-    <div class="values-panel">
-      <div class="value-column">
-        <h3>Tailor made</h3>
-        <hr class="rule">
-        <p>So that we provide relevant and unique services to our clients.</p>
-      </div>
-      <div class="value-column">
-        <h3>Human development</h3>
-        <hr class="rule">
-        <p>We aim to provide more than a service — we build with you.</p>
-      </div>
-      <div class="value-column">
-        <h3>Innovation</h3>
-        <hr class="rule">
-        <p>Bringing new methods, ideas and products relevant to an ever-changing world.</p>
-      </div>
-      <div class="value-column">
-        <h3>Networking</h3>
-        <hr class="rule">
-        <p>We value relationships, both internally and with our clients.</p>
-      </div>
-      <div class="value-column">
-        <h3>Knowledge</h3>
-        <hr class="rule">
-        <p>For excellent service delivery and combating new challenges.</p>
-      </div>
+    <div class="values-cards" role="list">
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6a2 2 0 1 0 4 0a2 2 0 1 0-4 0M4 6h8m4 0h4M6 12a2 2 0 1 0 4 0a2 2 0 1 0-4 0m-2 0h2m4 0h10m-5 6a2 2 0 1 0 4 0a2 2 0 1 0-4 0M4 18h11m4 0h1"/>
+          </svg>
+        </div>
+        <div class="value-card-body">
+          <h3>Tailor-made</h3>
+          <p>So that we provide relevant and unique services to our clients.</p>
+        </div>
+      </article>
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+          </svg>
+        </div>
+        <div class="value-card-body">
+          <h3>Human development</h3>
+          <p>We aim to provide more than a service — we build with you.</p>
+        </div>
+      </article>
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h1m8-9v1m8 8h1M5.6 5.6l.7.7m12.1-.7l-.7.7M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0-1 3a2 2 0 0 1-4 0a3.5 3.5 0 0 0-1-3m.7 1h4.6"/>
+          </svg>
+        </div>
+        <div class="value-card-body">
+          <h3>Innovation</h3>
+          <p>Bringing new methods, ideas and products relevant to an ever-changing world.</p>
+        </div>
+      </article>
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12a3 3 0 1 0 6 0a3 3 0 1 0-6 0m12-6a3 3 0 1 0 6 0a3 3 0 1 0-6 0m0 12a3 3 0 1 0 6 0a3 3 0 1 0-6 0m-6.3-7.3l6.6-3.4m-6.6 6l6.6 3.4"/>
+          </svg>
+        </div>
+        <div class="value-card-body">
+          <h3>Networking</h3>
+          <p>We value relationships, both internally and with our clients.</p>
+        </div>
+      </article>
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0M3 6v13m9-13v13m9-13v13"/>
+          </svg>
+        </div>
+        <div class="value-card-body">
+          <h3>Knowledge</h3>
+          <p>For excellent service delivery and combating new challenges.</p>
+        </div>
+      </article>
     </div>
+
+    <!-- Values carousel navigation (mobile/tablet only — CSS hides on desktop) -->
+    <nav class="values-nav" aria-label="Values carousel controls">
+      <button type="button" class="carousel-arrow carousel-arrow--prev" id="valuesPrev" aria-label="Previous value" disabled>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button type="button" class="carousel-arrow carousel-arrow--next" id="valuesNext" aria-label="Next value">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </nav>
   </section>
 
-  <!-- NUMBERS (copied from index.html) -->
+  <!-- NUMBERS -->
   <section class="section stats-section" style="background:var(--light-beige);">
     <div class="container">
       <div class="section-head"><div><hr class="rule"><h2>Equip by the numbers</h2><p>A track record built on measurable impact across Malawi's economy.</p></div></div>
@@ -166,11 +259,22 @@
     </div>
   </section>
 
-  <!-- TRUSTED BY (logo carousel) -->
+  <!-- TRUSTED BY -->
   <section class="section" style="padding-block:3rem;">
     <div class="container">
       <h3 class="center" style="margin-bottom:2rem;">Trusted by the Best</h3>
       <div data-logos></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section--compact bg-white" style="padding-block: clamp(1.5rem, 3vw, 2.5rem);">
+    <div class="container">
+      <div class="section-head">
+        <div><hr class="rule"><h2>What our clients say</h2></div>
+        <a href="contact.html" class="testimonials-cta">Let's work together →</a>
+      </div>
+      <div data-testimonials></div>
     </div>
   </section>
 
@@ -185,11 +289,14 @@
     </div>
   </section>
 
-  <!-- CLOSING CTA (copied from index.html) -->
-  <section style="padding-block:4rem; border-top:1px solid rgba(246,244,238,.12); background-image: url('assets/images/discover.webp'); background-size: cover; background-position: center;">
-    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
-      <h3 class="mt-0" style="max-width:26ch; color:#a8935a;">Discover tailored business solutions</h3>
-      <a href="contact.html" class="btn btn-gold">Let's talk</a>
+  <!-- CLOSING CTA -->
+  <section class="closing-cta">
+    <div class="container closing-cta-inner">
+      <h3 class="closing-cta-heading">Discover tailored business solutions</h3>
+      <div class="closing-cta-actions">
+        <a href="contact.html" class="closing-cta-btn closing-cta-btn--primary">Let's talk</a>
+        <a href="work.html" class="closing-cta-btn closing-cta-btn--secondary">Our work</a>
+      </div>
     </div>
   </section>
 
@@ -199,6 +306,7 @@
 
 <script src="js/main.js"></script>
 <script src="js/carousel.js"></script>
+<script src="js/timeline.js"></script>
 <script type="module">
   const ROOT = document.documentElement.dataset.root || '';
   import { initHeroAnimations } from './js/hero-animations.js';
@@ -246,13 +354,50 @@
             </div>
           </div>
         </div>`;
-      
+
       if (hasLinkedIn) {
         return `<a href="${m.linkedin}" target="_blank" rel="noopener noreferrer" class="team-card-link" aria-label="${m.name} on LinkedIn (opens in a new tab)">${cardContent}</a>`;
       }
       return cardContent;
     }).join('');
   }).catch(()=>{});
+
+  // ==========================================================================
+  // VALUES CAROUSEL — mobile prev/next controls.
+  // Desktop hides the buttons (CSS) and the 5-column grid handles layout.
+  // ==========================================================================
+  (function initValuesCarousel(){
+    const track = document.querySelector('.values-cards');
+    const prevBtn = document.getElementById('valuesPrev');
+    const nextBtn = document.getElementById('valuesNext');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+
+    function updateButtons(){
+      if (!isMobile()) return;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      // 5px tolerance for sub-pixel scroll positions on high-DPI phones
+      prevBtn.disabled = track.scrollLeft <= 5;
+      nextBtn.disabled = track.scrollLeft >= maxScroll - 5;
+    }
+
+    function scrollByCard(direction){
+      const card = track.querySelector('.value-card');
+      if (!card) return;
+      const styles = getComputedStyle(track);
+      const gap = parseFloat(styles.gap) || 16;
+      const step = card.getBoundingClientRect().width + gap;
+      track.scrollBy({ left: direction * step, behavior: 'smooth' });
+    }
+
+    prevBtn.addEventListener('click', () => scrollByCard(-1));
+    nextBtn.addEventListener('click', () => scrollByCard(1));
+    track.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', updateButtons);
+
+    updateButtons();
+  })();
 </script>
 
 </body>

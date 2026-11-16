@@ -115,6 +115,7 @@ import { loadCaseStudies, renderCaseStudyCard } from './case-studies.js';
   }
 
   function syncControls(){
+    /* Desktop service-button row */
     const tabWrap = document.getElementById('workTabs');
     if(tabWrap){
       tabWrap.querySelectorAll('.work-tab').forEach(b => {
@@ -124,8 +125,16 @@ import { loadCaseStudies, renderCaseStudyCard } from './case-studies.js';
         b.setAttribute('aria-selected', String(match));
       });
     }
+
+    /* Mobile service select — same single source of truth as the tabs. */
+    const serviceSel = document.getElementById('workServiceSelect');
+    if(serviceSel) serviceSel.value = activeService;
+
+    /* Sort select */
     const sortSel = document.getElementById('workSort');
     if(sortSel) sortSel.value = activeSort;
+
+    /* Search */
     const search = document.getElementById('workSearch');
     if(search) search.value = activeQuery;
   }
@@ -177,14 +186,16 @@ import { loadCaseStudies, renderCaseStudyCard } from './case-studies.js';
       }
     }
 
-    grid.querySelectorAll('.card').forEach(cardEl => {
-      if(cardEl.querySelector('a[href]')){
+    /* Cards with actionable links get tabindex=0 (matches Updates page). */
+    grid.querySelectorAll('.case-study-card').forEach(cardEl => {
+      if(cardEl.querySelector('a.pc-cta[href]')){
         cardEl.setAttribute('tabindex', '0');
       }
     });
   }
 
   function wireControls(){
+    /* Desktop service-button row */
     const tabWrap = document.getElementById('workTabs');
     if(tabWrap){
       tabWrap.innerHTML = [
@@ -201,6 +212,11 @@ import { loadCaseStudies, renderCaseStudyCard } from './case-studies.js';
         writeURL('push');
       });
     }
+
+    /* Mobile service select */
+    wireMobileServiceFilter();
+
+    /* Search */
     const search = document.getElementById('workSearch');
     if(search){
       search.addEventListener('input', (e) => {
@@ -211,6 +227,7 @@ import { loadCaseStudies, renderCaseStudyCard } from './case-studies.js';
       });
     }
 
+    /* Sort */
     const sortSel = document.getElementById('workSort');
     if(sortSel){
       sortSel.addEventListener('change', () => {
@@ -223,6 +240,7 @@ import { loadCaseStudies, renderCaseStudyCard } from './case-studies.js';
       });
     }
 
+    /* Pagination */
     const prev = document.getElementById('workPrev');
     const next = document.getElementById('workNext');
     if(prev) prev.addEventListener('click', () => {
@@ -239,21 +257,61 @@ import { loadCaseStudies, renderCaseStudyCard } from './case-studies.js';
       smoothScrollTo(document.getElementById('workGrid'));
     });
 
+    /* Whole-card click + keyboard activation on the grid (delegated,
+       so it survives re-renders). */
     const grid = document.getElementById('workGrid');
     if(grid){
       grid.addEventListener('click', (e) => {
-        if(!e.target.closest('[data-clear-filters]')) return;
-        clearAllFilters();
-        syncControls();
-        draw();
-        writeURL('push');
+        if(e.target.closest('[data-clear-filters]')){
+          clearAllFilters();
+          syncControls();
+          draw();
+          writeURL('push');
+          return;
+        }
+        const cardEl = e.target.closest ? e.target.closest('.case-study-card') : null;
+        if(!cardEl || !grid.contains(cardEl)) return;
+        if(e.target.closest('a, button, iframe, input, select, textarea')) return;
+        const link = cardEl.querySelector('a.pc-cta[href]');
+        if(link) link.click();
+      });
+      grid.addEventListener('keydown', (e) => {
+        if(e.key !== 'Enter' && e.key !== ' ') return;
+        const cardEl = e.target.closest ? e.target.closest('.case-study-card') : null;
+        if(!cardEl || e.target !== cardEl) return;
+        e.preventDefault();
+        const link = cardEl.querySelector('a.pc-cta[href]');
+        if(link) link.click();
       });
     }
 
+    /* Back/forward */
     window.addEventListener('popstate', () => {
       readURL();
       syncControls();
       draw();
+    });
+  }
+
+  /* Mobile service filter — mirrors activeService to a native <select>.
+     Same pattern as updates.js's mobile type filter: build options from
+     the canonical slug list, wire change to the same pipeline as a tab
+     click, and let syncControls() handle mirroring back to the select. */
+  function wireMobileServiceFilter(){
+    const sel = document.getElementById('workServiceSelect');
+    if(!sel) return;
+
+    sel.innerHTML = [
+      { value: 'All', label: 'All services' },
+      ...SERVICE_SLUGS.map(s => ({ value: s, label: SERVICE_LABELS[s] }))
+    ].map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+
+    sel.addEventListener('change', () => {
+      activeService = sel.value;
+      activePage = 1;
+      syncControls();
+      draw();
+      writeURL('push');
     });
   }
 
@@ -284,7 +342,7 @@ import { loadCaseStudies, renderCaseStudyCard } from './case-studies.js';
     draw();
     if(fromURL === 'query'){
       writeURL('replace');
-      smoothScrollTo(document.querySelector('.updates-toolbar, .work-toolbar'));
+      smoothScrollTo(document.querySelector('.work-toolbar'));
     }
   }
 

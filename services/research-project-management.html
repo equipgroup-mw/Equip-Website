@@ -124,9 +124,35 @@
 
   loadCaseStudies('research-project-management', { featuredOnly: false })
     .then(studies => {
-      document.getElementById('projectsGrid').innerHTML = studies.map(cs => renderCaseStudyCard(cs, { link: true })).join('');
+      const grid = document.getElementById('projectsGrid');
+      grid.innerHTML = studies.map(cs => renderCaseStudyCard(cs, { link: true })).join('');
+      
+      /* Whole-card click behavior (matching Updates page) */
+      grid.addEventListener('click', (e) => {
+        const cardEl = e.target.closest ? e.target.closest('.case-study-card') : null;
+        if(!cardEl || !grid.contains(cardEl)) return;
+        if(e.target.closest('a, button, iframe, input, select, textarea')) return;
+        const link = cardEl.querySelector('a.pc-cta[href]');
+        if(link) link.click();
+      });
+      
+      /* Keyboard activation */
+      grid.addEventListener('keydown', (e) => {
+        if(e.key !== 'Enter' && e.key !== ' ') return;
+        const cardEl = e.target.closest ? e.target.closest('.case-study-card') : null;
+        if(!cardEl || e.target !== cardEl) return;
+        e.preventDefault();
+        const link = cardEl.querySelector('a.pc-cta[href]');
+        if(link) link.click();
+      });
+      
+      /* Focusable cards */
+      grid.querySelectorAll('.case-study-card').forEach(cardEl => {
+        if(cardEl.querySelector('a.pc-cta[href]')) cardEl.setAttribute('tabindex', '0');
+      });
+
       wireFeaturedPagination(
-        document.getElementById('projectsGrid'),
+        grid,
         document.getElementById('featuredProjectsPagination'),
         studies
       );

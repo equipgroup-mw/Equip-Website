@@ -53,7 +53,6 @@
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
 
   --ease: cubic-bezier(.4,0,.2,1);
-  --card-scale: 0.9;
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
@@ -651,8 +650,6 @@ body.contact-page .site-header{ background: #0d2136; }
 .main-nav a{ color: var(--cream); font-size: var(--step--1); font-weight:600; position:relative; padding: .4rem 0; white-space: nowrap; }
 .main-nav a::after{ content:''; position:absolute; left:0; bottom:0; height:1px; width:0; background: var(--gold); transition: width .25s var(--ease); }
 .main-nav a:hover::after{ width:100%; }
-.main-nav a[aria-current="page"]{ color:var(--gold); }
-.main-nav a[aria-current="page"]::after{ width:100%; }
 
 .has-dropdown{ position:relative; }
 .dropdown-toggle{ display:flex; align-items:center; gap:.5rem; background:none; border:0; color:var(--cream); font: inherit; font-weight:600; font-size: var(--step--1); padding:.4rem 0; transition: background .25s var(--ease), color .25s var(--ease); }
@@ -789,7 +786,6 @@ body.contact-page .site-header{ background: #0d2136; }
   transition: color .3s var(--ease);
 }
 .mobile-nav-link:hover .mobile-nav-link-text { color: var(--soft-gold); }
-.mobile-nav-link[aria-current="page"] .mobile-nav-link-text{ color:var(--gold); }
 .mobile-nav-link--cta .mobile-nav-link-text{ display:inline-flex; align-items:baseline; }
 .mobile-nav-arrow{ font-size:.9rem; opacity:.6; }
 
@@ -854,7 +850,8 @@ body.nav-open .site-header{ background:var(--navy-deep); }
    column row (stats or feature blurbs) running full-width beneath it. ---- */
 .hero{
   position: relative;
-  min-height: 100svh; /* tall content grows the hero, preventing overlap with next section */
+  min-height: 100dvh;
+  height: 100dvh;
   display:flex; flex-direction:column; justify-content:flex-end;
   color: var(--cream);
   overflow:hidden;
@@ -997,55 +994,10 @@ body.nav-open .site-header{ background:var(--navy-deep); }
       animation:none;
       transform:scaleY(1);
       transform-origin:center;
-}
-}
-
-/* ===== What we do: 2-col pages share Data Division's compact item styling (desktop) ===== */
-@media (min-width: 901px){
-  .services-grid--2col .service-card{ padding: 1rem 1.25rem; gap: .45rem; height: auto; border: none; }
-  .services-grid--2col .service-num-icon{ gap: .35rem; margin-bottom: 0; }
-  .services-grid--2col .service-num{ font-size: clamp(1.25rem, 2.5vw, 2rem); }
-  .services-grid--2col .service-icon{ width: clamp(24px, 2.5vw, 32px); height: clamp(24px, 2.5vw, 32px); }
-  .services-grid--2col .service-card h4{ font-size: clamp(.85rem, 1.5vw, 1.05rem); line-height: 1.2; min-height: 2.4em; }
-  .services-grid--2col .service-card p{ font-size: clamp(.78rem, 1.2vw, .92rem); line-height: 1.4; max-width: none; }
-}
-
-
-/* ===== What we do: phones keep a single column and no forced heading height ===== */
-@media (max-width: 900px){
-  .services-grid--2col .service-card h4{ min-height: 0; }
-}
-
-
-/* ===== What we do: TABLET PORTRAIT = 2 columns on all three service pages =====
-   The earlier "@media (max-width:900px)" block forces 1 column with !important,
-   so this block must also use !important to override it. Phones (<=640px) stay 1 column. */
-@media (min-width: 641px) and (max-width: 900px){
-  .services-grid,
-  .services-grid-3x2,
-  .services-grid--2col{
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 1.25rem 1.5rem !important;
+    }
   }
-  .services-grid .service-card,
-  .services-grid-3x2 .service-card,
-  .services-grid--2col .service-card{
-    border: 0 !important;
-    padding: 1rem 1.25rem;
-    max-width: none;
-  }
-  .services-grid .service-card p,
-  .services-grid-3x2 .service-card p,
-  .services-grid--2col .service-card p{
-    max-width: none;
-    font-size: clamp(.9rem, 1.9vw, 1rem);
-    line-height: 1.5;
-  }
-}
-
   /* Hide scroll cue on very short viewports to avoid overlap */
   @media (max-height:520px){
-
     .hero--compact .scroll-cue,
     .hero .scroll-cue{ display:none; }
   }
@@ -1053,9 +1005,9 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 
 /* ---------------- Cards / grids ---------------- */
 .grid{ display:grid; gap: 1.25rem; align-items:stretch; }
-.grid-3{ grid-template-columns: repeat(3, 1fr); }
-.grid-4{ grid-template-columns: repeat(4, 1fr); }
-@media (max-width: 980px){ .grid-3, .grid-4{ grid-template-columns: repeat(2,1fr); } }
+.grid-3{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 980px){ .grid-3, .grid-4{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px){ .grid-3, .grid-4{ grid-template-columns: 1fr; } }
 
 /* Ensure cards in grids stretch to equal height */
@@ -1065,93 +1017,63 @@ body.nav-open .site-header{ background:var(--navy-deep); }
   height:100%;
   display:flex;
   flex-direction:column;
+  min-width:0;
 }
 
-.card{ background: var(--paper); border:1px solid var(--line); display:flex; flex-direction:column; }
-.card-media{ aspect-ratio: 16/9; overflow:hidden; background: var(--navy); }
-.card-media img{ width:100%; height:100%; object-fit:cover; transition: transform .5s var(--ease); }
+.card{ background: var(--paper); border:1px solid var(--line); display:flex; flex-direction:column; min-width:0; }
+.card-media{ aspect-ratio: 16/9; overflow:hidden; background: var(--navy); min-width:0; }
+.card-media img{ width:100%; height:100%; object-fit:cover; transition: transform .5s var(--ease); min-width:0; }
 .card:hover .card-media img{ transform: scale(1.05); }
-.card-body{ padding: .9rem; display:flex; flex-direction:column; gap:.35rem; flex:1; }
+.card-body{ padding: .9rem; display:flex; flex-direction:column; gap:.35rem; flex:1; min-width:0; }
 .card-body h4{ font-size: var(--step-1); margin:0; }
-.tag{ display:inline-block; font-size: .72rem; font-weight:700; letter-spacing:.03em; padding:.25rem .5rem; background: var(--cream); color: var(--navy); border:1px solid var(--line); width:fit-content; }
+.tag{ display:inline-block; font-size: .72rem; font-weight:700; letter-spacing:.03em; padding:.25rem .5rem; background: var(--light-beige); color: var(--navy); border:1px solid var(--line); width:fit-content; }
 
 .divider-feature{ border-top:1px solid var(--line); padding-top:1.5rem; }
 /* Services grid - 4-column icon layout */
-.services-grid-section{ height: auto; min-height: 0; max-height: none; overflow:visible; display:flex; flex-direction:column; justify-content:flex-start; }
-.services-grid{ display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding-top: 3rem; align-items: stretch; grid-auto-rows: 1fr; }
-.service-card{ display:flex; flex-direction:column; align-items:flex-start; gap: .75rem; padding: 1.5rem; height: auto; border: none; }
+.services-grid-section{ min-height: 95vh; max-height: 900px; overflow:visible; display:flex; flex-direction:column; justify-content:center; }
+.services-grid{ display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding-top: 3rem; }
+.service-card{ display:flex; flex-direction:column; align-items:flex-start; gap: .75rem; padding: 1.5rem; border-right: 1px solid var(--line); }
 .service-card:last-child{ border-right: 0; }
 .service-num-icon{ display:flex; align-items:center; gap:.5rem; }
 .service-num{ font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; color: var(--gold); line-height: 1; }
 .service-icon{ width: clamp(28px, 3vw, 44px); height: clamp(28px, 3vw, 44px); color: var(--gold); flex-shrink: 0; }
-.service-card h4{ color: var(--navy); font-size: clamp(1rem, 2vw, 1.25rem); margin: 0; font-weight: 600; line-height: 1.3; min-height: clamp(3.5rem, 4vw, 4.5rem); }
-.service-card p{ color: var(--ink-soft); margin: 0; font-size: clamp(.9rem, 1.5vw, 1.05rem); max-width: 28ch; line-height: 1.6; flex: 1; }
+.service-card h4{ color: var(--navy); font-size: clamp(1rem, 2vw, 1.25rem); margin: 0; font-weight: 600; line-height: 1.3; }
+.service-card p{ color: var(--ink-soft); margin: 0; font-size: clamp(.9rem, 1.5vw, 1.05rem); max-width: 28ch; line-height: 1.6; }
 .sector-tag{ display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.03em; padding:.25rem .5rem; background:var(--gold-dark); color:#fff; border:1px solid var(--gold-dark); width:fit-content; }
-@media (max-width: 900px){ .services-grid-3x2{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; } }
-@media (max-width: 640px){ .services-grid-3x2{ grid-template-columns: 1fr; } }
-@media (max-width: 900px){ .services-grid--2col{ grid-template-columns: 1fr; gap: 1.5rem; } }
-@media (max-width: 640px){ .services-grid--2col{ grid-template-columns: 1fr; } }
-.services-grid-3x2{ grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding-top: 1.5rem; align-items: stretch; grid-auto-rows: 1fr; }
-.services-grid--2col{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding-top: 1.5rem; align-items: stretch; grid-auto-rows: 1fr; }
-.services-grid-3x2 .service-card{ padding: 1rem 1.25rem; gap: .45rem; height: auto; border: none; }
-.services-grid-3x2 .service-num-icon{ gap:.35rem; margin-bottom:0; }
-.services-grid-3x2 .service-num{ font-size: clamp(1.25rem, 2.5vw, 2rem); }
-.services-grid-3x2 .service-icon{ width: clamp(24px, 2.5vw, 32px); height: clamp(24px, 2.5vw, 32px); color: var(--gold); flex-shrink: 0; }
-.services-grid-3x2 .service-card h4{ font-size: clamp(.85rem, 1.5vw, 1.05rem); line-height:1.2; margin: 0; font-weight: 600; min-height: clamp(3rem, 4vw, 4rem); }
+@media (max-width: 900px){ .services-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; } .service-card:nth-child(2n){ border-right: 0; } .service-card:nth-child(2n+1){ border-right: 1px solid var(--line); } }
+@media (max-width: 640px){ .services-grid{ grid-template-columns: 1fr; gap: 0; } .service-card{ border-right: 0 !important; border-bottom: 1px solid var(--line); } .service-card:last-child{ border-bottom: 0; } }
+.services-grid-3x2{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.services-grid-3x2 .service-card:nth-child(3n){ border-right: 0; }
+.services-grid-3x2 .service-card:nth-child(3n-2){ border-bottom: 1px solid var(--line); }
+.services-grid-3x2 .service-card:nth-child(3n-1){ border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
+.services-grid-3x2 .service-card:nth-child(3n){ border-bottom: 1px solid var(--line); }
+/* Remove bottom border on last row (items 5 and 6) */
+.services-grid-3x2 .service-card:nth-child(5),
+.services-grid-3x2 .service-card:nth-child(6){ border-bottom: 0; }
+@media (max-width: 900px){ .services-grid-3x2{ grid-template-columns: repeat(2, minmax(0, 1fr)); } .services-grid-3x2 .service-card:nth-child(3n){ border-right: 1px solid var(--line); border-bottom: 0; } .services-grid-3x2 .service-card:nth-child(3n-2){ border-right: 0; border-bottom: 1px solid var(--line); } .services-grid-3x2 .service-card:nth-child(3n-1){ border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); } .services-grid-3x2 .service-card:nth-child(3n){ border-right: 0; border-bottom: 1px solid var(--line); } }
+@media (max-width: 900px){
+  /* On tablet 2-col layout, last row is items 5-6 (if 6 items) or 3-4 (if 4 items) */
+  .services-grid-3x2 .service-card:nth-last-child(-n+2){ border-bottom: 0; }
+}
+.services-grid-3x2 .service-card h4{ font-size: clamp(.85rem, 1.5vw, 1.05rem); line-height:1.2; }
 .services-grid-3x2 .service-card p{ font-size: clamp(.78rem, 1.2vw, .92rem); line-height:1.4; max-width: 30ch; }
-@media (max-width: 900px){ .services-grid-3x2{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; } }
-@media (max-width: 640px){ .services-grid-3x2{ grid-template-columns: 1fr; } }
+.services-grid-3x2 .service-num-icon{ gap:.35rem; }
+.services-grid-3x2 .service-num{ font-size: clamp(1.25rem, 2.5vw, 2rem); }
+.services-grid-3x2 .service-icon{ width: clamp(24px, 2.5vw, 32px); height: clamp(24px, 2.5vw, 32px); }
+.services-grid-3x2{ gap: 0; padding-top: 1.5rem; row-gap: 0; }
+.services-grid-3x2 .service-card{ padding: 1rem 1.25rem; gap: .45rem; }
+.services-grid-3x2 .service-num-icon{ margin-bottom:0; }
+@media (max-width: 900px){ .services-grid-3x2{ padding-top: 1.25rem; } .services-grid-3x2 .service-card{ padding: .85rem 1rem; gap: .35rem; } }
+@media (max-width: 640px){ .services-grid-3x2{ grid-template-columns: 1fr; } .services-grid-3x2 .service-card{ padding: .75rem 1rem; gap: .3rem; border-right: 0 !important; border-bottom: 1px solid var(--line); } .services-grid-3x2 .service-card:last-child{ border-bottom: 0; } .services-grid-section{ min-height: auto; max-height: none; } }
 
 /* ========================================================================
-   SHARED CTA BAND (used on all three service pages)
+   SERVICE PAGES — Mobile layout (≤900px)
    ======================================================================== */
-.cta-band{
-  padding-block: 4rem;
-  border-top: 1px solid rgba(246,244,238,.12);
-  background-image: url('../assets/images/discover.webp');
-  background-size: cover;
-  background-position: center;
-}
-.cta-band__inner{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: center;
-}
-.cta-band__content{
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.cta-band__content .rule{ background: var(--gold); }
-.cta-band__content h2{ color: #fff; margin: 0; }
-.cta-band__content p{ color: #fff; margin: 0; }
-.cta-band__image{ position: relative; aspect-ratio: 4/3; }
-.cta-band__image img{ width: 100%; height: 100%; object-fit: cover; }
-.cta-band__image img[onerror]{ /* fallback handled by inline onerror */ }
-
-@media (max-width: 1024px){
-  .cta-band__inner{
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-  }
-  .cta-band__image{ order: -1; /* image on top */ }
-  .cta-band__content{ text-align: center; }
-}
-
-/* Ensure the image doesn't take over the screen on mobile */
-.cta-band__image img{
-  max-height: 60vh;
-  object-fit: cover;
-}
 @media (max-width: 900px){
-  /* Consistent gutters: single left gutter via .container (var--gutter),
-     .services-grid-section rules removed to avoid double‑gutter overlap. */
+  /* Consistent gutters: 20px on phones, 32px on tablets */
   .services-grid-section,
   .section:has(.services-grid),
-  .section:has(.services-grid-3x2){
-    /* padding-left/right deliberately omitted — .container supplies the gutter */
-  }
+  .section:has(.services-grid-3x2),
   .section:has(.dd-tab-switcher),
   .section:has(.dd-toolbar),
   .section:has(#ddProjectsGrid),
@@ -1160,18 +1082,10 @@ body.nav-open .site-header{ background:var(--navy-deep); }
     padding-right: clamp(1.25rem, 4vw, 2rem);
   }
 
-  /* Consistent vertical rhythm: ~4rem top/bottom on phones;
-     no section touches or overlaps its neighbour. */
+  /* Consistent vertical rhythm: ~64px top/bottom on phones */
   .services-grid-section,
   .section:has(.services-grid),
   .section:has(.services-grid-3x2){
-    padding-top: clamp(4rem, 6vw, 5rem);
-    padding-bottom: clamp(4rem, 6vw, 5rem);
-  }
-  .section:has(.dd-tab-switcher),
-  .section:has(.dd-toolbar),
-  .section:has(#ddProjectsGrid),
-  .section:has(#ddGrid){
     padding-top: clamp(3rem, 6vw, 4rem);
     padding-bottom: clamp(3rem, 6vw, 4rem);
   }
@@ -1277,20 +1191,22 @@ body.nav-open .site-header{ background:var(--navy-deep); }
     font-size:clamp(0.85rem, 2.5vw, 1rem);
   }
 
-  /* Project cards: single column, full width, image keeps aspect ratio.
-     Scoped off #updatesGrid, which keeps its own 3/2/1-column layout. */
+/* Project cards: single column, full width, image keeps aspect ratio.
+   Scoped off #updatesGrid, which keeps its own 3/2/1-column layout. */
+@media (max-width: 900px){
   .grid.grid-3:not(#updatesGrid){
-    grid-template-columns: 1fr !important;
-    gap:clamp(1rem, 3vw, 1.25rem) !important;
+    grid-template-columns: 1fr;
+    gap:clamp(1rem, 3vw, 1.25rem);
   }
-  .grid.grid-3 > .card,
-  .grid.grid-3 > .case-study-card{
-    border:1px solid var(--line);
-  }
-  .card-media,
-  .case-study-card .card-media{
-    aspect-ratio: 16/9;
-  }
+}
+.grid.grid-3 > .card,
+.grid.grid-3 > .case-study-card{
+  border:1px solid var(--line);
+}
+.card-media,
+.case-study-card .card-media{
+  aspect-ratio: 16/9;
+}
 
   /* Ensure body text 16px minimum */
   .service-card p,
@@ -1437,21 +1353,21 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 @media (max-width: 640px){ .marquee-arrow{ display:none; } }
 
 /* ---------------- Footer ---------------- */
+/* ---------------- Footer ---------------- */
 .site-footer{ background: var(--navy); color: rgba(246,244,238,.78); padding-block: 8rem 2rem; }
 .site-footer .container{ max-width: var(--maxw); }
 .footer-top{ display:grid; grid-template-columns: 1.7fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(246,244,238,.12); }
 .footer-top > *{ min-width: 0; }
 @media (max-width: 900px){ .footer-top{ grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px){ .footer-top{ grid-template-columns: 1fr; gap: 2rem; } }
-.footer-nav h5{ color: var(--gold); font-size: .82rem; font-weight:700; letter-spacing:.08em; text-transform: uppercase; margin: 0 0 1rem; }
+.footer-nav h5{ color: var(--soft-gold); font-size: .82rem; font-weight:700; letter-spacing:.08em; text-transform: uppercase; margin: 0 0 1rem; }
 .footer-link{ display:block; margin-bottom:.65rem; font-size: .92rem; line-height: 1.45; color: rgba(246,244,238,.9); text-decoration: none; }
 .footer-link:hover{ color: var(--cream); text-decoration: underline; text-underline-offset: 3px; }
 .footer-link:focus-visible{ outline: 2px solid var(--soft-gold); outline-offset: 3px; }
 .footer-brand{ display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
-.footer-brand-link{ display: inline-flex; align-items: center; gap: .65rem; text-decoration: none; min-width: 160px; }
-.footer-logo{ height: 34px; width: auto; display: block; }
+.footer-brand-link{ display: block; width: 100%; }
+.footer-logo{ width: 100%; max-width: 420px; height: auto; display: block; }
 .brand-text{ font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .14em; color: var(--cream); }
-.footer-tagline{ margin: 0; color: rgba(246,244,238,.62); font-size:.9rem; line-height: 1.65; max-width: 42ch; }
 
 .social-row{ display:flex; gap:.7rem; margin-top:.5rem; flex-wrap: wrap; }
 .social-row a{ width:38px; height:38px; flex: 0 0 auto; display:inline-flex; align-items:center; justify-content:center; color: rgba(246,244,238,.85); text-decoration: none; transition: color .25s var(--ease), transform .25s var(--ease); }
@@ -1482,14 +1398,156 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .dd-tab.active{ background: var(--navy); border-color:var(--navy); color:#fff; }
 .dd-count{ font-size:.8rem; color: var(--ink-soft); white-space:nowrap; }
 
-/* Work page service filter tabs (mirrors .dd-tab styling) */
+/* Work page filter tabs — match .dd-tab style */
 .work-tabs{ display:flex; gap:.5rem; flex-wrap:wrap; }
 .work-tab{ padding:.4rem .8rem; border:1px solid var(--line); background: var(--paper); font-size:.78rem; font-weight:600; color: var(--ink-soft); }
 .work-tab.active{ background: var(--navy); border-color:var(--navy); color:#fff; }
-.work-tab:not(.active):hover{ color:#0d2136; }
+.work-tab:hover:not(.active){ background:rgba(13,33,54,.08); border-color:#0d2136; color:#0d2136; }
 .work-tab:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 
-/* Data Division view toggle: segmented control */
+/* Work page toolbar: count on its own line below search/tabs/sort */
+/* Work page toolbar — desktop: single row (matches updates.html)
+   Base .dd-toolbar-inner already provides display:flex, align-items:center,
+   gap, and flex-wrap:wrap, so we just need to let children size naturally. */
+.work-toolbar .dd-search{
+  flex: 1 1 auto;
+  min-width: 240px;      /* keeps the search usable but not full-width */
+}
+.work-toolbar .work-tabs{
+  flex: 0 0 auto;        /* tabs size to content */
+  flex-wrap: nowrap;     /* tabs stay on one line next to search */
+}
+.work-toolbar .up-sort{
+  flex: 0 0 auto;
+}
+.work-toolbar .dd-count{
+  flex: 0 0 auto;
+  width: auto;
+  margin-top: 0;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Work page mobile filter button & dropdown */
+.work-filter-btn{
+  display:none;
+  align-items:center;
+  gap:.5rem;
+  padding:.5rem .75rem;
+  border:1px solid var(--line);
+  background:var(--paper);
+  font-size:.8125rem;
+  font-weight:600;
+  color:var(--navy);
+  cursor:pointer;
+  line-height:1;
+  min-height:40px;
+  white-space:nowrap;
+  transition:background .2s, border-color .2s, color .2s;
+}
+.work-filter-btn .work-filter-label{ flex:1; text-align:left; overflow:hidden; text-overflow:ellipsis; }
+.work-filter-btn .work-filter-chevron{ width:18px; height:18px; flex-shrink:0; transition:transform .2s ease; }
+.work-filter-btn:hover{ background:rgba(13,33,54,.08); border-color:#0d2136; color:#0d2136; }
+.work-filter-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.work-filter-btn.active{ background:var(--navy); border-color:var(--navy); color:#fff; }
+.work-filter-btn.active:hover{ background:var(--navy-mid); }
+
+.work-filter-panel{
+  position:absolute;
+  top:calc(100% + 6px);
+  right:0;
+  z-index:30;
+  min-width:220px;
+  max-width:90vw;
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow:0 12px 32px rgba(13,33,54,.18);
+  border-radius:4px;
+  overflow:hidden;
+}
+.work-filter-option{
+  display:flex;
+  align-items:center;
+  padding:.75rem 1rem;
+  font-size:.875rem;
+  font-weight:500;
+  color:var(--navy);
+  cursor:pointer;
+  min-height:44px;
+  background:#fff;
+  transition:background .15s, color .15s;
+}
+.work-filter-option:hover,
+.work-filter-option:focus{
+  background:rgba(13,33,54,.06);
+}
+.work-filter-option[aria-selected="true"]{
+  background:rgba(13,33,54,.1);
+  color:var(--navy);
+  font-weight:700;
+}
+
+/* Mobile filter bar layout (≤768px) */
+@media (max-width: 768px){
+  .work-toolbar{
+    padding-block:.625rem;
+  }
+  .work-toolbar .dd-toolbar-inner{
+    gap:.5rem;
+  }
+  .work-toolbar .dd-search{
+    order:1;
+    flex:1 1 auto;
+    min-width:0;
+  }
+  .work-toolbar .dd-search input{
+    height:40px;
+    padding:.5rem .75rem .5rem 2.2rem;
+    font-size:.875rem;
+  }
+  .work-toolbar .dd-search svg{
+    width:16px; height:16px;
+  }
+  .work-filter-btn{
+    display:inline-flex;
+    order:2;
+    flex:0 0 auto;
+    height:40px;
+    padding:.5rem .75rem;
+  }
+  .work-toolbar .work-tabs{
+    display:none;
+  }
+  .work-toolbar .up-sort{
+    order:3;
+    flex:0 0 auto;
+  }
+  .work-toolbar .up-sort-select{
+    height:40px;
+    padding:.5rem 2rem .5rem .75rem;
+    font-size:.8125rem;
+  }
+  .work-toolbar .dd-count{
+    order:4;
+    width:100%;
+    margin-top:.375rem;
+    padding-top:.375rem;
+    border-top:1px solid var(--line);
+    font-size:.75rem;
+    text-align:left;
+  }
+  .work-toolbar .dd-toolbar-inner{
+    flex-wrap:wrap;
+    align-items:center;
+    gap:.375rem;
+  }
+}
+
+/* Desktop: hide filter button, show tabs */
+@media (min-width: 769px){
+  .work-filter-btn{ display:none !important; }
+  .work-toolbar .work-tabs{ display:flex !important; }
+}
 .dd-tab-switcher{
   display:flex; justify-content:center; align-items:stretch; gap:0;
   width:min(100%, 560px);
@@ -2029,36 +2087,93 @@ body.nav-open .site-header{ background:var(--navy-deep); }
 .update-cta{ margin-top:auto; padding-top:.85rem; }
 .update-cta--empty{ min-height:0; }
 
-/* Top-right status badge on the card image overlay (matches opportunity
-   badge placement). */
-.update-status-badge{
-  position:absolute;
-  top:.6rem;
-  right:.6rem;
-  z-index:2;
-  display:inline-block;
-  padding:.3rem .65rem;
-  font-size:.68rem;
-  font-weight:700;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  line-height:1.2;
-  border-radius:2px;
-  pointer-events:none;
-}
-.update-status-upcoming{
-  background:#a8935a;
-  color:#0d2136;
+/* ---------------- Case study cards: Project Impact Panel ---------------- */
+.case-study-card[tabindex="0"]{ cursor:pointer; }
+.case-study-card[tabindex="0"]:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.case-study-card:hover a.pc-cta{ background:var(--navy); color:#fff; border-color:var(--navy); }
+
+/* Ensure inner elements don't overflow */
+.case-study-card,
+.case-study-card .card-body,
+.case-study-card .impact-panel,
+.case-study-card .impact-stat{
+  min-width:0;
 }
 
-/* Upcoming webinar schedule line above the CTA. Reuses the maroon/plum
-   opportunity-date treatment; falls back if that var isn't defined. */
-.webinar-schedule{
-  display:block;
-  font-size:.85rem;
+.case-study-card .impact-panel{
+  background:var(--light-beige);
+  border-radius:12px;
+  padding:.75rem 1rem;
+  margin-top:auto;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:0;
+  container-type:inline-size;
+}
+.case-study-card .impact-stat{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  text-align:left;
+}
+.case-study-card .impact-stat--divided{
+  border-left:1px solid var(--gold);
+  padding-left:14px;
+}
+.case-study-card .impact-value{
+  font-family:var(--font-display);
+  font-size:clamp(1.4rem, 8cqi, 2rem);
   font-weight:700;
-  color:var(--maroon, #7d2a32);
-  margin:.35rem 0 .75rem;
+  line-height:1.1;
+  color:var(--navy);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  width:100%;
+}
+.case-study-card .impact-stat .impact-label{
+  font-family:var(--font-body);
+  font-size:.65rem;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--navy);
+  opacity:.75;
+  line-height:1.25;
+  margin-top:.2rem;
+  white-space:normal;
+  overflow-wrap:break-word;
+  min-height:2.5em;
+}
+
+/* Single metric: full width, no divider */
+.case-study-card .impact-panel:has(.impact-stat:only-child){
+  grid-template-columns:1fr;
+}
+.case-study-card .impact-panel:has(.impact-stat:only-child) .impact-stat{
+  border-left:none;
+  padding-left:0;
+}
+
+/* Mobile: at very narrow cards, allow stats to stack if needed */
+@media (max-width: 360px){
+  .case-study-card .impact-panel{
+    grid-template-columns:1fr;
+  }
+  .case-study-card .impact-stat{
+    border-left:none;
+    border-top:1px solid var(--gold);
+    padding-top:.5rem;
+  }
+  .case-study-card .impact-stat:first-child{
+    border-top:none;
+    padding-top:0;
+  }
+  .case-study-card .impact-stat--divided{
+    border-left:none;
+    padding-left:0;
+  }
 }
 
 /* ---------------- Article detail figures ---------------- */
@@ -2088,10 +2203,6 @@ figure.article-figure img{ width:auto; max-width:100%; max-height:min(70vh, 480p
 .article-backlink a{ display:inline-block; color:var(--navy); font-size:13px; font-weight:600; text-decoration:none; padding:.85rem 0; }
 .article-backlink a:hover{ text-decoration:underline; text-underline-offset:3px; }
 .article-backlink a:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-/* "View all projects" link on service pages — matches existing text-link style */
-.view-all{ display:inline-block; color:var(--navy); font-size:var(--step--1); font-weight:600; text-decoration:none; }
-.view-all:hover{ text-decoration:underline; text-underline-offset:3px; }
-.view-all:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 .article-byline-row{ display:flex; justify-content:space-between; align-items:center; gap:1rem; margin:0 0 1.5rem; }
 .article-byline{ font-size:.95rem; font-weight:600; color:var(--ink-soft); margin:0; }
 .btn-share{ display:inline-flex; align-items:center; gap:.45rem; font-size:.82rem; font-weight:700; line-height:1.2; padding:.55rem 1.1rem; min-height:44px; border:1px solid var(--navy); border-radius:2px; background:transparent; color:var(--navy); cursor:pointer; white-space:nowrap; transition:background .2s, color .2s, border-color .2s; }
@@ -2228,19 +2339,143 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
 /* Scroll targets sit below the fixed header (+ sticky toolbar for the grid) */
 .updates-toolbar{ scroll-margin-top:calc(var(--header-h) + .75rem); }
 #updatesGrid{ scroll-margin-top:calc(var(--header-h) + 4.5rem); }
-#featured-projects{ scroll-margin-top:calc(var(--header-h) + .75rem); }
 
-@media (max-width:700px){
-  .updates-toolbar .dd-toolbar-inner{ flex-direction:row; flex-wrap:wrap; align-items:center; }
-  .updates-toolbar .dd-search{ order:1; flex:1 1 100%; width:100%; }
-  .updates-toolbar .dd-tabs{ order:2; flex:1 1 100%; justify-content:flex-start; }
-  .updates-toolbar .up-sort{ order:3; flex:1 1 auto; }
-  .updates-toolbar .dd-count{ order:4; flex:0 0 auto; width:auto; margin-top:0; text-align:right; }
-  .up-sort-label{
-    position:absolute !important; width:1px !important; height:1px !important;
-    padding:0 !important; margin:-1px !important; overflow:hidden !important;
-    clip:rect(0 0 0 0) !important; white-space:nowrap !important; border:0 !important;
+/* ---------- Updates toolbar — mobile: 3-row layout ----------
+   Row 1: search (full width)
+   Row 2: [type filter ▾]  [sort ▾]     ← both selects share the row
+   Row 3: X results (own row, hairline separator)
+   ----------------------------------------------------------- */
+@media (max-width: 700px){
+  .updates-toolbar .dd-toolbar-inner{
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
   }
+
+  /* Row 1 — search */
+  .updates-toolbar .dd-search{
+    order: 1;
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  /* Hide the horizontal tab row — replaced by the select */
+  .updates-toolbar .dd-tabs{
+    display: none;
+  }
+
+  /* Show the mobile type-filter select */
+  .updates-toolbar .up-tabs-mobile{
+    display: block !important;
+    order: 2;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* Row 2 — sort select shares the row with the type filter */
+  .updates-toolbar .up-sort{
+    order: 2;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* Both selects: shrink to fit side-by-side, ellipsize overflow */
+  .updates-toolbar .up-tabs-select,
+  .updates-toolbar .up-sort-select{
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    padding: .5rem 2rem .5rem .75rem;
+    font-size: .8125rem;
+    text-overflow: ellipsis;
+  }
+
+  /* Visually hide the "Sort by" label (matches existing treatment) */
+  .up-sort-label{
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  /* Row 3 — results count */
+  .updates-toolbar .dd-count{
+    order: 3;
+    flex: 1 1 100%;
+    width: 100%;
+    margin-top: .375rem;
+    padding-top: .5rem;
+    border-top: 1px solid var(--line);
+    text-align: left;
+    font-size: .75rem;
+  }
+}
+
+/* Work page mobile toolbar — mirrors .updates-toolbar exactly so both
+   pages show: search row / [type][sort] row / count row.
+   The desktop service-button row (#workTabs) is hidden below 701px; the
+   mobile <select> is hidden at ≥701px. */
+@media (max-width: 700px){
+  .work-toolbar .dd-toolbar-inner{
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+  }
+  .work-toolbar .dd-search{
+    order: 1;
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .work-toolbar .dd-tabs{
+    display: none;
+  }
+  .work-toolbar .up-tabs-mobile{
+    display: block !important;
+    order: 2;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .work-toolbar .up-sort{
+    order: 2;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .work-toolbar .up-tabs-select,
+  .work-toolbar .up-sort-select{
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    padding: .5rem 2rem .5rem .75rem;
+    font-size: .8125rem;
+    text-overflow: ellipsis;
+  }
+  .work-toolbar .dd-count{
+    order: 3;
+    flex: 1 1 100%;
+    width: 100%;
+    margin-top: .375rem;
+    padding-top: .5rem;
+    border-top: 1px solid var(--line);
+    text-align: left;
+    font-size: .75rem;
+  }
+}
+
+@media (min-width: 701px){
+  .work-toolbar .up-tabs-mobile{ display: none !important; }
+  .work-toolbar .dd-tabs{ display: flex !important; }
+}
+
+/* Desktop: hide the mobile select, keep the tab row visible */
+@media (min-width: 701px){
+  .updates-toolbar .up-tabs-mobile{ display: none !important; }
 }
 @media (max-width:640px){ .update-card .pc-cta{ min-height:44px; } }
 
@@ -2366,43 +2601,13 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
   .mobile-nav-chevron{ transition: none !important; }
 }
 
-/* Case study mobile layout: hero metric row stays centred */
+/* Case study mobile layout: Project Details on top, single column */
+.cs-detail-grid{ grid-template-columns: 2fr 1fr; gap:3rem; }
 @media (max-width: 640px){
+  .cs-detail-grid{ grid-template-columns: 1fr; }
+  .cs-detail-grid aside{ order: -1; }
   .hero-content .metric-row{ display:grid !important; grid-template-columns: repeat(2, 1fr); gap:1rem 2rem; justify-items:center; }
   .hero-content .metric-row > div{ text-align:center; min-width:auto; }
-}
-
-/* ---------------- Case study detail: article-style single column ---------------- */
-#caseStudyContent .case-study-section h2{ font-size:1.75rem; margin:2.5rem 0 .75rem; }
-#caseStudyContent .case-study-section .prose p{ color:var(--ink-soft); font-size:var(--step-0); line-height:1.7; margin:0 0 1em; }
-.cs-details{
-  display:grid;
-  grid-template-columns:repeat(4, minmax(0, 1fr));
-  gap:1rem 1.5rem;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  padding:1rem 0;
-  margin:0 0 2rem;
-}
-.cs-details-label{
-  display:block;
-  font-size:.72rem;
-  font-weight:700;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--ink-soft);
-  margin-bottom:.35rem;
-}
-.cs-details-value{
-  display:block;
-  font-size:.95rem;
-  font-weight:600;
-  color:var(--navy);
-  overflow-wrap:break-word;
-}
-@media (max-width: 640px){
-  .cs-details{ grid-template-columns:repeat(2, minmax(0, 1fr)); gap:.85rem 1rem; }
-  .cs-details-value{ font-size:.9rem; }
 }
 
 /* ---------------- Mobile Nav Media Query ---------------- */
@@ -2699,52 +2904,46 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
   }
 }
 
-
 /* ==========================================================================
    COMPACT CARDS — body-shrink pass.  Desktop (≥901px) only.
-   Root cause of the previous attempt: this block sat mid-file and equal-
-   specificity rules further down (.update-card .update-desc 16px,
-   .update-card .card-media 3/2, .update-date 14px, .card-body h4) won the
-   cascade.  This block is now the LAST thing in the file, so it wins ties.
    Scope: .update-card (Updates grid + Latest articles + pagination grids),
           .case-study-card (More Projects, service "Projects", listing),
           #homeUpdatesPreview .card (index.html 3-card Updates snapshot).
-   Excluded by design (measured before/after, required unchanged):
-          .dd-card + .dd-card-media, team/stat/service-card/testimonial,
+   Excluded by design: .dd-card, team/stat/service-card/testimonial,
           badges + tags (.update-type-badge, .update-closed-badge,
           .pc-episodes, .tag, .platform-btn, .sector-tag),
           phones ≤900px (16px body floor already applies there).
-   Tuning surface: the --card-* custom properties below; every number is the
-   target value from review (NOT a flat --card-scale multiply).  Images keep
-   their original aspect ratios (3/2 update cards, 16/9 project cards) and
+   Tuning surface: the --card-* custom properties below; images keep
+   their original aspect ratios (3/2 update cards, 2/1 project cards) and
    object-fit: cover; grid columns/gaps and container width are untouched;
    equal-height rows stay (grid 1fr rows + .update-cta margin-top:auto).
    ========================================================================== */
 @media (min-width: 901px){
   .update-card, .case-study-card, #homeUpdatesPreview .card{
-    --card-body-pad:   .7rem;  /* .card-body padding, was .9rem */
-    --card-body-gap:   .23rem; /* .card-body flex gap, was .35rem (~1/3 less) */
-    --card-title-size: 1.2rem; /* h4, was 22.4px (~1.4rem) */
-    --card-title-lh:   1.25;   /* was 1.3 */
-    --card-desc-size:  14px;   /* .update-desc, was 16px */
-    --card-desc-lh:    1.45;   /* was 1.6 */
-    --card-meta-size:  13px;   /* .update-date + .deadline-flag, was 14px */
-    --card-byline-size:.7rem;  /* .pc-people, was .72rem (11.52px→11.2px ≥11px) */
-    --card-cta-space:  .5rem;  /* .update-cta padding-top, was .85rem */
-    --card-cta-min:    35px;   /* .pc-cta comfortable click target, 34–36px */
+    --card-body-pad:   .7rem;
+    --card-body-gap:   .23rem;
+    --card-title-size: 1.05rem;
+    --card-title-lh:   1.25;
+    --card-desc-size:  13px;
+    --card-desc-lh:    1.4;
+    --card-meta-size:  12px;
+    --card-byline-size:.65rem;
+    --card-cta-space:  .5rem;
+    --card-cta-min:    36px;
+    --card-img-ratio:  2/1;
   }
 
   .update-card .card-body,
   .case-study-card .card-body,
   #homeUpdatesPreview .card-body{
-    padding: var(--card-body-pad);
-    gap: var(--card-body-gap);
+    padding: var(--card-body-pad) !important;
+    gap: var(--card-body-gap) !important;
   }
   .update-card h4,
   .case-study-card h4,
   #homeUpdatesPreview h4{
-    font-size: var(--card-title-size);
-    line-height: var(--card-title-lh);
+    font-size: var(--card-title-size) !important;
+    line-height: var(--card-title-lh) !important;
   }
   .update-card .update-desc{
     font-size: var(--card-desc-size);
@@ -2763,36 +2962,77 @@ button.feature-item:focus-visible{ outline:2px solid var(--gold); outline-offset
   .update-card .update-cta{ padding-top: var(--card-cta-space); }
   .update-card .pc-cta{ min-height: var(--card-cta-min); }
 
-  /* case-study-card CTA/meta are inline-styled in js/case-studies.js; inline
-     styles can only be beaten with !important — the two !importants below are
-     that unavoidable case (documented, no other !important used). */
+  .case-study-card .card-body{
+    padding: var(--card-body-pad) !important;
+    gap: var(--card-body-gap) !important;
+  }
   .case-study-card .card-body > p{
     font-size: var(--card-meta-size) !important;
     line-height: var(--card-desc-lh) !important;
   }
-  .case-study-card .card-body > div:last-child{ padding-top: .5rem !important; }
-  .case-study-card .card-body a.btn{
-    padding-top: .45rem;
-    padding-bottom: .45rem;
+  .case-study-card .card-body > .tag{
+    display:inline-flex !important;
+    align-items:center !important;
+    font-size: var(--card-byline-size) !important;
+    padding: .3rem .5625rem !important;
+  }
+  .case-study-card .card-body > h4{
+    font-size: var(--card-title-size) !important;
+    line-height: var(--card-title-lh) !important;
+  }
+  .case-study-card .card-body > div:last-child{ padding-top: var(--card-cta-space) !important; }
+  .case-study-card .card-body a.pc-cta{
+    min-height: var(--card-cta-min) !important;
+    padding-top: .4rem !important;
+    padding-bottom: .4rem !important;
+  }
+
+  .case-study-card .card-media{
+    aspect-ratio: var(--card-img-ratio) !important;
+  }
+  .case-study-card .card-media img{
+    object-position: center 30% !important;
+  }
+
+  .case-study-card .impact-panel{
+    padding: .65rem .875rem !important;
+    margin-top: auto !important;
+  }
+  .case-study-card .impact-stat{
+    padding: 0 .5rem !important;
+  }
+  .case-study-card .impact-stat--divided{
+    border-left: 1px solid var(--gold) !important;
+  }
+  .case-study-card .impact-value{
+    font-size: clamp(1.5rem, 2.2vw, 2rem) !important;
+    line-height: 1.1 !important;
+  }
+  .case-study-card .impact-stat .impact-label{
+    font-size: var(--card-byline-size) !important;
+    line-height: 1.2 !important;
+    margin-top: .15rem !important;
   }
 }
 
-/* What we do: tighter spacing (BDS + Research pages) */
-#service-overview:has(.services-grid--2col){ padding-block: 7rem !important; }
-#service-overview:has(.services-grid--2col) .section-head{ margin-bottom: 2.5rem !important; }
-#service-overview:has(.services-grid--2col) .section-head h2{ margin-bottom: 0 !important; }
-#service-overview:has(.services-grid--2col) .rule{ margin-bottom: .5rem !important; }
-#service-overview:has(.services-grid--2col) .services-grid{ padding-top: 0 !important; gap: .5rem 1.5rem !important; }
-#service-overview:has(.services-grid--2col) .service-card{ padding: 2.75rem 1rem !important; gap: .4rem !important; }
-#service-overview:has(.services-grid--2col) .service-card h4{ min-height: 0 !important; }
-#service-overview:has(.services-grid--2col) .service-num{ font-size: 2rem !important; }
-#service-overview:has(.services-grid--2col) .service-icon{ width: 28px !important; height: 28px !important; }
+/* ---------- Update card excerpt — line clamp ----------
+   Mobile (≤900px): 3 lines.  Desktop/tablet (≥901px): 5 lines.
+   Uses the standard -webkit-box clamp (same technique as .dd-card
+   .update-desc above). Appended after the COMPACT CARDS block so the
+   desktop rule wins by cascade order without !important. */
+.update-card .update-desc{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
 
-
-/* Fix: container shrinking inside the flex-column services section */
-.services-grid-section > .container{
-  width: 100%;
-  max-width: var(--maxw);
+@media (min-width: 901px){
+  .update-card .update-desc{
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+  }
 }
 
 /* ---------------- Podcast series popup ---------------- */
@@ -3083,4 +3323,1243 @@ body.pcm-open{ overflow:hidden; }
   .pcm--tall .pcm-links .pc-platform-btn{ font-size:1rem; padding:.55rem 1.05rem; gap:.55rem; }
   .pcm--tall .pcm-note{ font-size:1.1rem; }
   .pcm--tall .pcm-embed{ margin-top:clamp(1.5rem, 3.5vw, 2.25rem); }
+}
+
+/* Updates portal cards: no resting outline, no resting shadow.
+   Hover shadow from the premium `.card:hover` rule is preserved. */
+.update-card{
+  border: 0;
+  box-shadow: none;
+}
+
+/* Work + Service page project cards: no resting outline, no resting shadow.
+   Hover shadow from the premium `.card:hover` rule is preserved.
+   Same treatment as .update-card (Updates portal), extended to
+   .case-study-card so work.html and the service "Projects" grids match.
+   .dd-card (Data Division portal) is intentionally NOT included. */
+.case-study-card{
+  border: 0;
+  box-shadow: none;
+}
+
+.dd-card{
+  border: 0;
+  box-shadow: none;
+}
+
+/* Case-study cards (work.html + service "Projects" grids):
+   - Service tag: no box, no padding so text aligns with sibling text.
+   - Impact panel: no background, no padding so the metric row reads
+     as inline stats rather than a contained box. */
+.case-study-card .tag{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  color: var(--gold-dark);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.case-study-card .impact-panel{
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* ==========================================================================
+   Case-study card alignment fix (tag + impact panel).
+   Two COMPACT CARDS rules at ≥901px currently force padding on the tag
+   and the impact panel with !important. That beats the plain
+   `.case-study-card .tag { padding: 0 }` override from before, so the
+   tag stays indented and the impact panel stays boxed on desktop.
+   These rules restore the intended alignment across all breakpoints by
+   matching the same specificity and using !important in the same media
+   query, appended after the COMPACT CARDS block so they win by source
+   order.
+   ========================================================================== */
+@media (min-width: 901px){
+  /* Tag: keep it flush-left with the title/description at desktop, exactly
+     like it already is on mobile/tablet where COMPACT CARDS doesn't apply. */
+  .case-study-card .card-body > .tag{
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    color: var(--gold-dark) !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
+    align-self: flex-start !important;
+  }
+
+  /* Impact panel: no inner box at desktop either. */
+  .case-study-card .impact-panel{
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   Case-study card description: CSS-only 3-line clamp.
+   Replaces any prior truncation (none currently in js/case-studies.js —
+   this is purely additive; the JS passes the full text through and
+   escapeHtml keeps it intact in the DOM for search/AT).
+   -webkit-line-clamp: 3 ellipsizes at exactly 3 lines.
+   min-height reserves the 3-line slot on every card, including short ones,
+   so all cards in a row stay equal height even when descriptions vary.
+   line-height:1.5 matches the min-height calculation.
+   ========================================================================== */
+.case-study-card .case-study-desc{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #0d2136;
+  margin: 0;
+  overflow-wrap: anywhere;
+  min-height: calc(3 * 1.5em);
+  min-height: 3lh;
+}
+
+@media (min-width: 901px){
+  /* Same compact size as the updates compact pass, but keep the 1.5
+     line-height so min-height: 3lh stays accurate. */
+  .case-study-card .case-study-desc{
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+/* ==========================================================================
+   Case-study card eyebrow (service name only, no category).
+   JS now strips "• Category" so this is just the service name.
+   - Single line with ellipsis (never wraps, same height on every card).
+   - Colour #7a6a35 = darkened gold; contrast on white ≈ 4.9:1 (≥4.5:1
+     WCAG AA for normal text). The prior --gold-dark (#7a6b2e) is 4.6:1
+     — nearly identical, both pass; using #7a6a35 to be explicit about
+     the 4.5:1 target per the brief.
+   - Existing font-size / letter-spacing / uppercase from the COMPACT
+     CARDS and base rules are preserved; only the colour and overflow
+     treatment are overridden here.
+   ========================================================================== */
+.case-study-card .tag{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: #7a6a35;
+}
+
+/* Project card meta line (client • period) — BOLD, navy, sits visually
+   above the description as a distinct line. 4px above (title → meta),
+   8px below (meta → description). */
+.case-study-card .card-body > p:not(.case-study-desc){
+  font-weight: 600;
+  color: var(--navy);
+  font-size: .9rem;
+  line-height: 1.4;
+  margin: 4px 0 8px;
+}
+
+/* Description — regular weight, softer colour. Keeps the 3-line clamp
+   and the min-height reservation. 14px desktop / 16px tablet-up-to-900 /
+   15.2px (0.95rem) on phones — see the phone block below. */
+.case-study-card .case-study-desc{
+  font-weight: 400;
+  color: rgba(13, 33, 54, 0.8);
+}
+
+/* Phone (≤640px): reduce description to ~0.95rem, keep the 3-line clamp.
+   Also neutralise any large vertical gap between the gold eyebrow and
+   the title — the culprit was a leftover line-height on the tag rule
+   plus the 12px card-body gap plus the h4's default margin-bottom. */
+@media (max-width: 640px){
+  .case-study-card .case-study-desc{
+    font-size: 0.95rem;       /* ~15.2px */
+    line-height: 1.5;
+    min-height: calc(3 * 1.5 * 0.95rem);
+    min-height: 3lh;
+  }
+
+  .case-study-card .card-body > p:not(.case-study-desc){
+    font-size: 0.85rem;
+  }
+
+  /* Tight title/eyebrow grouping on mobile */
+  .case-study-card .card-body > .tag{
+    margin-bottom: 0 !important;
+    line-height: 1.2;
+  }
+  .case-study-card .card-body > h4{
+    margin-top: 6px !important;
+    margin-bottom: 4px !important;
+  }
+}
+
+/* ==========================================================================
+   FINAL OVERRIDES — case-study card vertical rhythm.
+   These are last in the file and use !important so nothing upstream
+   (COMPACT CARDS, inline styles, stale cache) can push the eyebrow
+   away from the title or add phantom space under it.
+   ========================================================================== */
+.case-study-card .card-body{
+  gap: 0 !important;   /* let explicit margins own the spacing */
+}
+
+/* Eyebrow: no margins, no min-height, tight line box. */
+.case-study-card .card-body > .tag{
+  display: inline-block !important;
+  align-items: unset !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  min-height: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #7a6a35 !important;
+  font-size: .72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .06em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 100% !important;
+  align-self: flex-start !important;
+}
+
+/* 6px gap between eyebrow and title. */
+.case-study-card .card-body > .tag + h4{
+  margin-top: 6px !important;
+  margin-bottom: 4px !important;
+}
+
+/* Meta line (client • period): bold, navy, 4px above / 8px below. */
+.case-study-card .card-body > p:not(.case-study-desc){
+  margin: 0 0 8px !important;
+  font-weight: 600 !important;
+  color: var(--navy) !important;
+  font-size: .9rem !important;
+  line-height: 1.4 !important;
+}
+
+/* Description: 3-line clamp, softer colour, always at least 3 lines tall. */
+.case-study-card .case-study-desc{
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+  line-clamp: 3 !important;
+  overflow: hidden !important;
+  font-weight: 400 !important;
+  color: rgba(13, 33, 54, 0.8) !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  min-height: 3lh !important;
+  overflow-wrap: anywhere !important;
+}
+@media (min-width: 901px){
+  .case-study-card .case-study-desc{
+    font-size: 14px !important;
+  }
+}
+@media (max-width: 640px){
+  .case-study-card .case-study-desc{
+    font-size: 0.95rem !important;
+  }
+  .case-study-card .card-body > p:not(.case-study-desc){
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Button wrapper: pinned to bottom, 16px gap above, nothing below. */
+.case-study-card .card-body > .update-cta,
+.case-study-card .card-body > div:last-child{
+  margin-top: auto !important;
+  padding-top: 1rem !important;
+  padding-bottom: 0 !important;
+}
+
+
+/* ==========================================================================
+   Podcast popup — episode "▶ Listen Now" button that reveals platform links
+   (button is injected by js/podcast-listen.js; popup markup is unchanged)
+   ========================================================================== */
+.pcm-ep-links[hidden],
+.pcm-listen-btn[hidden]{ display:none !important; }
+
+.pcm-listen-btn{
+  display:inline-flex; align-items:center; gap:.4rem;
+  margin-top:.15rem;
+  padding:.45rem .95rem;
+  font-family:inherit; font-size:.78rem; font-weight:700; line-height:1.2;
+  color:#fff; background:var(--navy);
+  border:1px solid var(--navy); border-radius:2px;
+  cursor:pointer;
+  transition:background .2s var(--ease), border-color .2s var(--ease);
+}
+.pcm-listen-btn span{ font-size:.7em; }
+.pcm-listen-btn:hover{ background:var(--navy-mid); border-color:var(--navy-mid); }
+.pcm-listen-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+/* Revealed platform links: one equal-width row, same box the button occupied */
+.pcm-ep-links{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.15rem; }
+
+/* Mobile: smaller episode buttons so all three fit on one row */
+@media (max-width: 640px){
+  .pcm-listen-btn{
+    min-height:40px;
+    padding:.5rem 1rem;
+    font-size:.8rem;
+  }
+  .pcm-ep-links{ gap:.3rem; flex-wrap:nowrap; }
+  .pcm-ep-links .pc-platform-btn{
+    flex:1 1 0; min-width:0;
+    justify-content:center;
+    gap:.25rem;
+    padding:.4rem .25rem;
+    min-height:36px;
+    font-size:.66rem;
+    line-height:1.1;
+    white-space:nowrap;
+  }
+  .pcm-ep-links .pc-platform-btn svg{ width:12px; height:12px; flex-shrink:0; }
+}
+
+/* ==========================================================================
+   Popups (podcast, webinar, opportunity): every platform / apply button has a
+   navy background with white text.
+   ========================================================================== */
+.pcm .pc-platform-btn{
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+}
+.pcm .pc-platform-btn:hover{
+  background:var(--navy-mid);
+  border-color:var(--navy-mid);
+  color:#fff;
+}
+.pcm .pc-platform-btn:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+}
+
+/* ==========================================================================
+   Podcast popup — FIXED HEIGHT on desktop (≥1025px)
+   The popup is always the same height. The left column is a flex column: the
+   cover is the only flexible part, so it grows to push the buttons to the
+   bottom edge when there is little text, and shrinks (down to 96px) so
+   everything fits when there is a lot. Title ≤3 lines, byline ≤2, description
+   ≤4, all ending in "…". Right column: heading stays put, only the episode
+   list scrolls. Tablet/mobile (<1025px): single scrolling column, untouched.
+   ========================================================================== */
+@media (min-width: 1025px){
+  .pcm--podcast{
+    height:min(680px, 92vh);
+    height:min(680px, 92dvh);
+  }
+  .pcm--podcast .pcm-scroll{
+    flex:1 1 auto;
+    min-height:0;
+    display:grid;
+    grid-template-columns:minmax(0, 45fr) minmax(0, 50fr);
+    grid-template-rows:minmax(0, 1fr);
+    column-gap:5%;
+    align-items:stretch;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+
+  /* Left column: cover (flexible) + text block (natural height) */
+  .pcm--podcast .pcm-head{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    align-self:stretch;
+    position:static;
+    min-height:0;
+    container-type:inline-size;
+  }
+  .pcm--podcast .pcm-cover{
+    position:relative;
+    flex:1 1 0;
+    min-height:96px;
+    width:auto;
+    max-width:100%;
+    max-height:100cqw;             /* never taller than the column is wide */
+    aspect-ratio:1/1;
+    align-self:flex-start;
+    margin:0 0 1rem;
+  }
+  .pcm--podcast .pcm-cover img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .pcm--podcast .pcm-info{
+    flex:none;
+    margin-top:auto;               /* text block hugs the bottom edge */
+  }
+
+  .pcm--podcast .pcm-info h2,
+  .pcm--podcast .pcm-info .pc-people,
+  .pcm--podcast .pcm-desc{
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    overflow-wrap:anywhere;
+  }
+  .pcm--podcast .pcm-info h2{ -webkit-line-clamp:3; line-clamp:3; }
+  .pcm--podcast .pcm-info .pc-people{ -webkit-line-clamp:2; line-clamp:2; }
+  .pcm--podcast .pcm-desc{ -webkit-line-clamp:4; line-clamp:4; margin-bottom:.75rem; }
+
+  /* Right column: fixed heading, scrolling list */
+  .pcm--podcast .pcm-episodes{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    margin:0;
+    padding:0;
+    border-top:0;
+  }
+  .pcm--podcast .pcm-episodes h3{ flex:none; }
+  .pcm--podcast .pcm-episodes ul{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    padding-right:.5rem;
+  }
+}
+
+/* Short windows: tighter caps so the left column still fits at the fixed height */
+@media (min-width: 1025px) and (max-height: 700px){
+  .pcm--podcast .pcm-info h2{ -webkit-line-clamp:2; line-clamp:2; }
+  .pcm--podcast .pcm-desc{ -webkit-line-clamp:3; line-clamp:3; }
+}
+
+/* Episode rows, every screen size: title ≤2 lines, description exactly 2 lines
+   ("…" when longer) with a reserved 2-line slot, so all rows are the same height. */
+.pcm-episode h4{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  overflow:hidden;
+  overflow-wrap:anywhere;
+}
+.pcm-episode p{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  overflow:hidden;
+  overflow-wrap:anywhere;
+  line-height:1.5;
+  min-height:calc(2 * 1.5em);
+  min-height:2lh;
+}
+
+/* ==========================================================================
+   TRUSTED-BY LOGOS — 2× size on desktop only (≥ 768px).
+   Mobile stays at the original 56px so the strip doesn't overwhelm the
+   small viewport. The JS passes gap:192 on desktop and gap:96 on mobile
+   (see index.html inline <script type="module">) so spacing scales with
+   the logo size and the marquee step distance stays correct.
+   ========================================================================== */
+@media (min-width: 768px){
+  .logo-marquee .logo-item{
+    height: 112px;          /* was 56px → 2× */
+    min-width: 280px;       /* was 140px → 2× */
+    padding-inline: 2rem;   /* was 1rem → 2×, keeps hover pad proportional */
+  }
+  .logo-marquee img{
+    max-height: 112px;      /* was 56px → 2× */
+    max-width: 360px;       /* was 180px → 2× */
+  }
+  .logo-marquee .logo-item span{
+    font-size: 1.7rem;      /* fallback text scales with logos (was .85rem) */
+  }
+}
+
+
+/* ==========================================================================
+   LOGO HOVER — prevent crop when scaling.
+   1. Give the strip vertical breathing room so the 1.06× scale has somewhere
+      to go (was clipped by overflow:hidden on the wrapper + [data-logos]).
+   2. Pull the hovered logo above siblings so its scaled edges paint on top
+      instead of being cut by neighbouring items' boxes.
+   3. Reduce the scale slightly (1.06 → 1.04) — with 112px logos, 1.06 is a
+      6.7px overshoot per edge, which still clips against the tight strip.
+   ========================================================================== */
+
+/* 1. Breathing room on the scroll containers */
+[data-logos],
+.logo-marquee-wrapper{
+  /* top/bottom padding gives the scale room to grow without being clipped */
+  padding-block: 12px;
+  /* cancel the added height so the strip's layout footprint is unchanged */
+  margin-block: -12px;
+}
+
+/* 2. Hovered item paints above neighbours during the scale */
+.logo-marquee .logo-item{
+  position: relative;
+  z-index: 0;
+  transition: z-index 0s;
+}
+.logo-marquee .logo-item:hover{
+  z-index: 2;
+}
+
+/* 3. Gentler scale + keep transform-origin centered */
+.logo-marquee .logo-item:hover img{
+  transform: scale(1.04);
+  transform-origin: center center;
+}
+
+
+/* ==========================================================================
+   SERVICES HERO — tablet portrait uses the same compact grid as mobile.
+   iPad portrait (768×1024), iPad Air portrait (820×1180), iPad Pro 11"
+   portrait (834×1194) fall into the 769–1024px gap where the ≤768px
+   compact layout didn't apply and the ≤900px `height:100dvh` per card
+   made each card a full viewport tall. This block re-applies the mobile
+   layout for portrait orientations up to 1024px, without touching
+   landscape tablets (which keep the 4-column row at ≥901px).
+   ========================================================================== */
+@media (max-width: 1024px) and (orientation: portrait){
+  .services-hero-section{
+    height: 100vh;
+    height: 100svh;
+    min-height: 0;
+  }
+  .services-hero-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  .service-hero-card{
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    padding: 0;
+    background-position: center 25%;
+  }
+  .service-hero-content{
+    width: 100%;
+    text-align: left;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+  .service-hero-content hr.rule{
+    width: 2rem;
+    margin: 0;
+  }
+  .service-hero-content h3{
+    font-size: clamp(1rem, 4.6vw, 1.25rem);
+    line-height: 1.15;
+    margin: 0;
+    overflow-wrap: break-word;
+  }
+  .service-hero-content p{
+    font-size: clamp(.78rem, 3.4vw, .9rem);
+    line-height: 1.4;
+    margin: 0;
+    max-width: none;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+  }
+}
+
+/* ==========================================================================
+   UPDATE CARDS — fix two issues seen only on the home preview strip.
+   1. .update-type-badge was being painted UNDER the image on hover because
+      the image's `transform: scale(1.07)` created a stacking context later
+      in the DOM. Lifting the badge with z-index pins it above the image on
+      every card, regardless of markup order.
+   2. .pc-cta hover-darken only matched `button.pc-cta` / `a.pc-cta` — the
+      home card uses `<span class="pc-cta">` (since the whole card is a
+      link), so it never darkened. Add the span variant to match the
+      Updates page behaviour.
+   ========================================================================== */
+.update-type-badge{
+  z-index: 2;
+}
+
+.update-card:hover span.pc-cta:not(.is-disabled){
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+}
+.update-card:hover span.pc-cta.is-disabled{
+  background: var(--light-grey);
+  border-color: var(--light-grey);
+  color: var(--ink-soft);
+}
+
+/* ==========================================================================
+   FOUNDER CAPTION — name + title overlaid on the founding-story photo.
+   Mirrors the team-card treatment (bottom navy gradient, white text) but
+   scaled up for the full-bleed image.
+   ========================================================================== */
+.founding-story-image{
+  position: relative;
+}
+.founder-caption{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: clamp(2rem, 5vw, 4rem);
+  background: linear-gradient(
+    to top,
+    rgba(13, 33, 54, 0.98) 0%,
+    rgba(13, 33, 54, 0.88) 35%,
+    rgba(13, 33, 54, 0.4) 70%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+.founder-name{
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.1;
+  color: var(--cream);
+  margin: 0 0 .35rem;
+  letter-spacing: -0.01em;
+}
+.founder-title{
+  font-family: var(--font-body);
+  font-size: clamp(.9rem, 1.6vw, 1.15rem);
+  font-weight: 500;
+  color: var(--cream);
+  margin: 0;
+  max-width: none;
+  letter-spacing: .02em;
+  text-transform: none;
+}
+@media (max-width: 900px){
+  .founder-caption{ padding: clamp(1.5rem, 4vw, 2rem); }
+  .founder-name{ font-size: clamp(1.5rem, 5vw, 2rem); }
+  .founder-title{ font-size: .95rem; }
+}
+
+/* ==========================================================================
+   VALUES — 5-column card grid (replaces the old single navy panel).
+   Each value is its own card with a placeholder icon, title and text
+   set close together. Mobile: horizontal scroll-snap carousel.
+   ========================================================================== */
+.values-section{
+  background: #fff;
+  padding-block: clamp(3.5rem, 8vw, 7rem);
+  min-height: auto;
+  display: block;
+}
+.values-header{
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.values-cards{
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(1rem, 1.8vw, 1.5rem);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+.value-card{
+  background: var(--navy);
+  padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1.25rem, 2vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .65rem;
+  transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s var(--ease), border-color .3s var(--ease);
+}
+.value-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(7,16,25,.1);
+  border-color: var(--soft-gold);
+}
+.value-icon{
+  width: 40px;
+  height: 40px;
+  color: var(--gold);
+  margin-bottom: .35rem;
+  flex-shrink: 0;
+}
+.value-icon svg{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.value-card h3{
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+  font-weight: 600;
+  color: var(--cream);
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.value-card p{
+  font-size: clamp(.9rem, 1.2vw, 1rem);
+  line-height: 1.55;
+  color: var(--cream);
+  margin: 0;
+  max-width: none;
+}
+
+/* Tablet: 3 columns */
+@media (max-width: 1100px){
+  .values-cards{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Mobile: horizontal scroll-snap carousel */
+@media (max-width: 900px){
+  .values-cards{
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: .5rem;
+    /* allow cards to reach the screen edge while keeping outer padding */
+    margin-inline: 0;
+    padding-inline: var(--gutter);
+  }
+  .values-cards::-webkit-scrollbar{ display: none; }
+  .value-card{
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+    max-width: 320px;
+  }
+}
+@media (max-width: 480px){
+  .value-card{ flex: 0 0 88%; }
+}
+
+/* ==========================================================================
+   TESTIMONIALS — navy nav arrows + outlined CTA.
+   The section appears on both the homepage and the About page, so this
+   affects both. Arrow hover inverts to gold so it stays visible against
+   the navy fill.
+   ========================================================================== */
+.carousel-arrows button{
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--cream);
+}
+.carousel-arrows button:hover:not(:disabled){
+  background: var(--navy-mid);
+  border-color: var(--navy-mid);
+  color: var(--cream);
+}
+.carousel-arrows button:disabled{
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--cream);
+  opacity: .35;
+}
+
+/* Outlined "Let's work together" — matches the replay button treatment */
+.testimonials-cta{
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .9rem 1.6rem;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--navy);
+  font: inherit;
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: transform .35s cubic-bezier(.16,1,.3,1),
+              box-shadow .35s var(--ease),
+              background-color .3s var(--ease),
+              color .3s var(--ease),
+              border-color .3s var(--ease);
+}
+.testimonials-cta:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(7,16,25,.18);
+  background: var(--navy);
+  color: var(--cream);
+  border-color: var(--navy);
+}
+.testimonials-cta:active{
+  transform: translateY(0) scale(.98);
+  box-shadow: 0 6px 18px rgba(7,16,25,.14);
+}
+.testimonials-cta:focus-visible{
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================================
+   HERO CTAS — button row inside the About page hero.
+   Spacing scales with the viewport; stacks on mobile.
+   ========================================================================== */
+.hero-ctas{
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+@media (max-width: 640px){
+  .hero-ctas{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-ctas .btn{
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   CLOSING CTA — doubled height, larger typography and buttons.
+   Used on the About page (and reusable on any page that ends with the
+   "Discover tailored business solutions" block).
+   ========================================================================== */
+.closing-cta{
+  padding-block: 8rem;
+  border-top: 1px solid rgba(246,244,238,.12);
+  background-image: url('../assets/images/discover.webp');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+/* Subtle navy wash over the background image so the larger text reads
+   cleanly even on light regions of the photo */
+.closing-cta::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 33, 54, 0.55);
+  pointer-events: none;
+}
+.closing-cta-inner{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+}
+.closing-cta-heading{
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.15;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: -0.01em;
+}
+.closing-cta-actions{
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.closing-cta-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 2.5rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform .35s cubic-bezier(.16,1,.3,1),
+              box-shadow .35s var(--ease),
+              background-color .3s var(--ease),
+              color .3s var(--ease),
+              border-color .3s var(--ease);
+}
+.closing-cta-btn--primary{
+  background: var(--gold);
+  color: var(--navy-deep);
+}
+.closing-cta-btn--primary:hover{
+  background: var(--soft-gold);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(7,16,25,.35);
+}
+.closing-cta-btn--secondary{
+  background: transparent;
+  color: var(--cream);
+  border-color: var(--cream);
+}
+.closing-cta-btn--secondary:hover{
+  background: var(--cream);
+  color: var(--navy);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(7,16,25,.35);
+}
+.closing-cta-btn:focus-visible{
+  outline: 2px solid var(--soft-gold);
+  outline-offset: 3px;
+}
+@media (max-width: 900px){
+  .closing-cta{ padding-block: 5rem; }
+  .closing-cta-inner{ flex-direction: column; align-items: flex-start; }
+  .closing-cta-actions{ width: 100%; }
+  .closing-cta-btn{ flex: 1 1 auto; }
+}
+@media (max-width: 640px){
+  .closing-cta{ padding-block: 4rem; }
+  .closing-cta-actions{ flex-direction: column; }
+  .closing-cta-btn{ width: 100%; }
+}
+
+
+/* ==========================================================================
+   ABOUT PAGE — deliberate handoff band between Mission/Vision (white) and
+   the Timeline (navy). Replaces the abrupt white→navy cut with a defined
+   ~200px navy transition zone. Same navy as the timeline, so the eye reads
+   one continuous dark region rather than two stacked sections.
+   ========================================================================== */
+.about-transition-band{
+  height: clamp(10rem, 12vh, 8rem);
+  background: var(--paper);
+  /* No content, no padding, no border — it's purely a colour transition.
+     The height scales with viewport height so it feels proportional on
+     tall monitors without dominating shorter laptops. */
+}
+
+
+/* ==========================================================================
+   VALUES HEADER — mobile alignment fix.
+   The desktop `.values-header .section-head { align-items: flex-end }` rule
+   was designed for a row-direction flex (heading left, nothing right). On
+   mobile, `.section-head` becomes `flex-direction: column`, and `align-items:
+   flex-end` then right-aligns the heading + rule. Reset to flex-start so it
+   matches every other section head on the page at mobile widths.
+   ========================================================================== */
+@media (max-width: 900px){
+  .values-header .section-head{
+    align-items: flex-start;
+  }
+}
+
+/* ==========================================================================
+   VALUES CAROUSEL — mobile/tablet only.
+   Swipeable track with centered active card, generous side margins so the
+   active card never touches the screen edge, and prev/next buttons matching
+   the testimonial carousel arrows. Desktop keeps the 5-column grid above.
+   ========================================================================== */
+@media (max-width: 900px){
+  .values-cards{
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    /* 12vw of space on each side centres the 76vw card with generous
+       breathing room. This replaces the previous var(--gutter) padding
+       which let the card sit too close to the edge. */
+    padding-inline: 12vw;
+    padding-block: .5rem;
+    scroll-padding-inline: 12vw;
+  }
+  .values-cards::-webkit-scrollbar{ display: none; }
+
+  .value-card{
+    flex: 0 0 76vw;
+    max-width: 320px;
+    /* Taller min-height preserves the portrait/vertical silhouette of the
+       desktop cards — without this, mobile cards look squat. */
+    min-height: 320px;
+    scroll-snap-align: center;
+    transition: transform .3s ease, opacity .3s ease;
+  }
+
+  /* Prev/next buttons, styled like the testimonial carousel arrows */
+  .values-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .6rem;
+    margin-top: 1.5rem;
+    padding-inline: var(--gutter);
+  }
+}
+
+/* Buttons are hidden on desktop (grid doesn't need them) */
+.values-nav{
+  display: none;
+}
+
+/* ==========================================================================
+   VALUES NAV — square prev/next buttons, matching the testimonial arrows.
+   Active = navy; disabled = muted grey. 44×44 tap target on mobile.
+   ========================================================================== */
+.values-nav .carousel-arrow{
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--navy);
+  border-radius: 0;
+  background: var(--navy);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+}
+.values-nav .carousel-arrow svg{
+  width: 16px;
+  height: 16px;
+}
+.values-nav .carousel-arrow:hover:not(:disabled){
+  background: var(--navy-mid);
+  border-color: var(--navy-mid);
+}
+.values-nav .carousel-arrow:focus-visible{
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.values-nav .carousel-arrow:disabled{
+  background: var(--light-grey);
+  border-color: var(--light-grey);
+  color: var(--ink-soft);
+  cursor: not-allowed;
+  opacity: .8;
+}
+
+/* ==========================================================================
+   VALUES SECTION — desktop untouched, mobile-only carousel adjustments.
+
+   Desktop (≥901px): cards keep their original compact sizing — no
+   min-height, no space-between, no oversized content. The `value-card-body`
+   wrapper is a plain flex column, so the visual order (icon, title, body)
+   matches the original markup exactly.
+
+   Mobile (≤900px): 100dvh section, taller cards with larger content,
+   swipeable carousel with centered active card, nav arrows below.
+   ========================================================================== */
+
+/* Desktop: section is 100dvh but cards keep original sizes */
+@media (min-width: 901px){
+  .values-section{
+    background: var(--cream);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  /* Neutralize the value-card-body wrapper so it doesn't add extra
+     spacing on desktop — plain flex column, same visual as before. */
+  .value-card-body{
+    display: contents;
+  }
+}
+
+/* Mobile: cream background, generous bottom padding so the beige stats
+   section starts cleanly (no bleed). */
+@media (max-width: 900px){
+  .values-section{
+    background: var(--cream);
+    padding-block: clamp(3rem, 6vw, 4rem);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Values nav — desktop hidden, mobile shown. Ordering matters: the
+   `display: none` rule MUST come before the mobile `display: flex` rule,
+   otherwise the mobile rule is overridden by source order.
+   -------------------------------------------------------------------------- */
+.values-nav{
+  display: none;
+}
+
+@media (max-width: 900px){
+  .values-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .6rem;
+    margin-top: 1.5rem;
+    padding-inline: var(--gutter);
+  }
+}
+
+.values-nav .carousel-arrow{
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--navy);
+  border-radius: 0;
+  background: var(--navy);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+}
+.values-nav .carousel-arrow svg{
+  width: 16px;
+  height: 16px;
+}
+.values-nav .carousel-arrow:hover:not(:disabled){
+  background: var(--navy-mid);
+  border-color: var(--navy-mid);
+}
+.values-nav .carousel-arrow:focus-visible{
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.values-nav .carousel-arrow:disabled{
+  background: var(--light-grey);
+  border-color: var(--light-grey);
+  color: var(--ink-soft);
+  cursor: not-allowed;
+  opacity: .8;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile-only card sizing — the ONLY place cards get resized.
+   Desktop uses the original `.value-card` rule from the base stylesheet.
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px){
+  .value-card{
+    /* Taller than a natural content flow, narrower than the screen so the
+       next card peeks in from the right. */
+    flex: 0 0 76vw;
+    max-width: 320px;
+    min-height: 360px;
+    max-height: 360px;
+    padding: 2.25rem 1.75rem;
+    gap: .75rem;                     /* was 1.25rem — tighter so the icon
+                                        and text aren't so far apart */
+    justify-content: flex-start;     /* was space-between — keeps content
+                                        near the top instead of being
+                                        pushed apart */
+    scroll-snap-align: center;
+  }
+
+  .value-card-body{
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+  }
+
+  .value-icon{
+    width: 56px;
+    height: 56px;
+    margin-bottom: .25rem;           /* was .5rem — pull text closer */
+  }
+
+  .value-card h3{
+    font-size: clamp(1.3rem, 4vw, 1.5rem);
+    line-height: 1.15;
+  }
+
+  .value-card p{
+    font-size: clamp(1rem, 3.2vw, 1.1rem);
+    line-height: 1.55;
+  }
+}
+
+/* ==========================================================================
+   VALUES — desktop header re-alignment + mobile card content scale-up.
+
+   1. Desktop: `.values-section` becomes a flex column when filling 100dvh,
+      which was centering the header. Force the header subtree back to
+      flex-start so the rule + "Our values" sit left-aligned as originally.
+   2. Mobile: cards are 360px tall but content only fills ~45%. Scale up
+      icon, title, and body so content fills ~85% of the card without
+      overflowing.
+   ========================================================================== */
+
+/* Desktop header — restore left alignment */
+@media (min-width: 901px){
+  .values-section{
+    align-items: stretch;
+  }
+  .values-header{
+    width: 100%;
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .values-header .section-head{
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+  .values-header .section-head > div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .values-header .section-head .rule{
+    width: 30px;
+    margin: 0 0 .75rem;
+  }
+}
+
+/* Mobile card content — 1.5–2× larger to fill the 360px cards */
+@media (max-width: 900px){
+  .value-card{
+    gap: 1rem;
+  }
+  .value-card-body{
+    gap: .85rem;
+  }
+  .value-icon{
+    width: 88px;
+    height: 88px;
+    margin-bottom: .5rem;
+  }
+  .value-card h3{
+    font-size: clamp(1.65rem, 6vw, 1.95rem);
+    line-height: 1.15;
+  }
+  .value-card p{
+    font-size: clamp(1.15rem, 4vw, 1.35rem);
+    line-height: 1.6;
+  }
 }

@@ -149,7 +149,7 @@
       "heroImageAlt": "MSE Tracker dashboard showing live index performance",
       "coverCaption": "Live dashboards for the Malawi Stock Exchange and Reserve Bank of Malawi.",
       "eyebrow": "Data Division • Live Dashboards",
-      "challenge": "<p>The Malawi Stock Exchange had no real-time public dashboard. Investors relied on end-of-day PDFs or third-party sites with delayed data. Retail participation was low (< 5,000 active accounts) partly due to information opacity. MSE needed a modern, accessible market data platform.</p>",
+      "challenge": "<p>The Malawi Stock Exchange had no real-time public dashboard. Investors relied on end-of-day PDFs or third-party sites with delayed data. Retail participation was low (less than 5,000 active accounts) partly due to information opacity. MSE needed a modern, accessible market data platform.</p>",
       "approach": "<p>Partnered with MSE's data vendor to secure a real-time feed. Built a Power BI dashboard with: live index & top movers, company fundamentals, sector heatmaps, historical charts with drawing tools, and a 'my watchlist' feature. Optimized for mobile — 60% of target users access via phone. Embedded on MSE website and as standalone PWA.</p>",
       "solution": "<p>Launched MSE Tracker v1 in 2022, v2 in 2024 with IPO calendar, dividend tracker, and bond module. Added Chichewa language toggle. Integrated with MSE's trading engine for T+0 price updates. Built admin CMS so MSE staff can post announcements, corporate actions, and market holidays without developers.</p>",
       "results": "<p>Dashboard visits grew from 200/mo to 18,000/mo. Retail investor accounts increased 34% since launch. MSE uses it for investor roadshows. Reserve Bank cites it in Monetary Policy Statements. Won 'Best Capital Market Innovation' at 2023 SADC Capital Markets Awards.</p>",
@@ -424,8 +424,8 @@
       "solution": "<p>Built a Flask SMS chatbot with bilingual question flows, a Google Apps Script backend writing to structured data and dashboard sheets, and a per-farmer dashboard with day-of-cycle calculations. Farmers are identified by phone number or email, so each sees only their own data. After comparing Power BI licensing options, we chose a Chart.js and GitHub Pages dashboard for sustainability and lower running costs.</p>",
       "results": "<p>Farmers report in their own language from any phone, and programme staff see flock progress by farmer and by day of cycle as the data arrives. The dashboard runs without per-user licence fees, so it can be extended to new cohorts easily.</p>",
       "metrics": [
-        { "label": "Languages", "value": "2", "description": "English and Chichewa chatbot flows" },
-        { "label": "Handset Requirement", "value": "Any phone", "description": "No smartphone or internet needed to report" },
+        { "label": "Languages Supported", "value": "2", "description": "English and Chichewa chatbot flows" },
+        { "label": "Handset Requirement", "value": "None", "description": "No smartphone or internet needed to report" },
         { "label": "Dashboard Licences", "value": "$0", "description": "Chart.js on GitHub Pages, no per-user fees" },
         { "label": "Data Entry Routes", "value": "2", "description": "SMS chatbot and Google Forms" }
       ],

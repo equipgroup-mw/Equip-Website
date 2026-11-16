@@ -37,29 +37,45 @@ export function getServiceColor(serviceSlug) {
   return colors[serviceSlug] || 'navy';
 }
 
+/* Plain-text snippet from the case study's body prose.
+   Uses the first populated of challenge/approach/solution/results,
+   strips HTML tags, collapses whitespace. The card clamps to 3 lines. */
+function cardDescription(cs){
+  const raw = cs.challenge || cs.approach || cs.solution || cs.results || cs.summary || '';
+  return String(raw)
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function escapeHtml(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 export function renderCaseStudyCard(cs, { link = true } = {}) {
   const color = getServiceColor(cs.serviceSlug);
   const studyUrl = ROOT + `case-study.html?id=${cs.id}`;
+  const description = cardDescription(cs);
+  const serviceName = String(cs.eyebrow || '').split('•')[0].trim();
+
   return `
-    <article class="card case-study-card" data-id="${cs.id}" style="display:flex; flex-direction:column; height:100%;">
-      <div class="card-media">
+    <article class="card case-study-card" data-id="${cs.id}" style="display:flex; flex-direction:column; height:100%; min-width:0;">
+      <div class="card-media" style="aspect-ratio:2/1;">
         <img src="${ROOT}${cs.heroImage}" alt="${cs.heroImageAlt}"
-             onerror="this.parentElement.style.background='var(--${color})'">
+             onerror="this.parentElement.style.background='var(--${color})'"
+             style="width:100%; height:100%; object-fit:cover; object-position:center 30%;">
       </div>
-      <div class="card-body" style="display:flex; flex-direction:column; flex:1;">
-        <span class="tag">${cs.eyebrow}</span>
-        <h4>${cs.title}</h4>
-        <p style="font-size:.85rem; color:var(--ink-soft); margin-bottom:.75rem;">${cs.client} • ${cs.period}</p>
-        <div class="metric-preview" style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:.75rem;">
-          ${cs.metrics.slice(0, 2).map(m => `
-            <div class="metric-mini" style="flex:1; min-width:80px;">
-              <b style="font-family:var(--font-display); color:var(--navy); display:block; font-size:.9rem;">${m.value}</b>
-              <span style="font-size:.7rem; color:var(--ink-soft);">${m.label}</span>
-            </div>
-          `).join('')}
-        </div>
-        <div style="margin-top:auto; padding-top:.75rem;">
-          ${link ? `<a href="${studyUrl}" class="btn btn-outline" style="font-size:.8rem; width:100%; justify-content:center;">Read case study →</a>` : ''}
+      <div class="card-body" style="display:flex; flex-direction:column; flex:1; min-width:0; padding:.875rem .875rem .875rem .875rem; gap:.4rem;">
+        <span class="tag" title="${escapeHtml(cs.eyebrow || '')}">${escapeHtml(serviceName)}</span>
+        <h4 style="font-size:1.05rem; line-height:1.25; margin:0;">${cs.title}</h4>
+        <p style="font-size:.8rem; color:var(--ink-soft); margin:0; line-height:1.4;">${cs.client} &bull; ${cs.period}</p>
+        ${description ? `<p class="case-study-desc">${escapeHtml(description)}</p>` : ''}
+        <div class="update-cta" style="margin-top:auto; padding-top:1rem; padding-bottom:0;">
+          ${link ? `<a href="${studyUrl}" class="pc-cta" style="min-height:36px;">Read Now</a>` : ''}
         </div>
       </div>
     </article>
@@ -200,9 +216,31 @@ export function wireCaseStudyPagination(rootEl, related) {
   const info = nav.querySelector('[data-cs-page-info]');
   let page = 1;
 
+  function attachCardBehaviors() {
+    grid.addEventListener('click', (e) => {
+      const cardEl = e.target.closest ? e.target.closest('.case-study-card') : null;
+      if(!cardEl || !grid.contains(cardEl)) return;
+      if(e.target.closest('a, button, iframe, input, select, textarea')) return;
+      const link = cardEl.querySelector('a.pc-cta[href]');
+      if(link) link.click();
+    });
+    
+    grid.addEventListener('keydown', (e) => {
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      const cardEl = e.target.closest ? e.target.closest('.case-study-card') : null;
+      if(!cardEl || e.target !== cardEl) return;
+      e.preventDefault();
+      const link = cardEl.querySelector('a.pc-cta[href]');
+      if(link) link.click();
+    });
+    
+    grid.querySelectorAll('.case-study-card').forEach(cardEl => {
+      if(cardEl.querySelector('a.pc-cta[href]')) cardEl.setAttribute('tabindex', '0');
+    });
+  }
+
   function renderPage(n) {
     page = Math.max(1, Math.min(pages, n));
-    // Replace the cards outright — the old set is destroyed, not hidden.
     grid.innerHTML = list
       .slice((page - 1) * CS_PER_PAGE, page * CS_PER_PAGE)
       .map(cs => renderCaseStudyCard(cs, { link: true }))
@@ -216,6 +254,7 @@ export function wireCaseStudyPagination(rootEl, related) {
       next.disabled = page >= pages;
       next.setAttribute('aria-disabled', String(page >= pages));
     }
+    attachCardBehaviors();
   }
 
   if (pages <= 1) {
@@ -238,6 +277,32 @@ export function wireFeaturedPagination(gridEl, navEl, studies, { perPage = 3 } =
   let page = 1;
   const pages = Math.max(1, Math.ceil(studies.length / perPage));
 
+  function attachCardBehaviors() {
+    /* Whole-card click behavior (matching Updates page) */
+    gridEl.addEventListener('click', (e) => {
+      const cardEl = e.target.closest ? e.target.closest('.case-study-card') : null;
+      if(!cardEl || !gridEl.contains(cardEl)) return;
+      if(e.target.closest('a, button, iframe, input, select, textarea')) return;
+      const link = cardEl.querySelector('a.pc-cta[href]');
+      if(link) link.click();
+    });
+    
+    /* Keyboard activation */
+    gridEl.addEventListener('keydown', (e) => {
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      const cardEl = e.target.closest ? e.target.closest('.case-study-card') : null;
+      if(!cardEl || e.target !== cardEl) return;
+      e.preventDefault();
+      const link = cardEl.querySelector('a.pc-cta[href]');
+      if(link) link.click();
+    });
+    
+    /* Focusable cards */
+    gridEl.querySelectorAll('.case-study-card').forEach(cardEl => {
+      if(cardEl.querySelector('a.pc-cta[href]')) cardEl.setAttribute('tabindex', '0');
+    });
+  }
+
   function renderPage(n) {
     page = Math.max(1, Math.min(pages, n));
     gridEl.innerHTML = studies
@@ -253,6 +318,7 @@ export function wireFeaturedPagination(gridEl, navEl, studies, { perPage = 3 } =
       next.disabled = page >= pages;
       next.setAttribute('aria-disabled', String(page >= pages));
     }
+    attachCardBehaviors();
   }
 
   if (pages <= 1) {

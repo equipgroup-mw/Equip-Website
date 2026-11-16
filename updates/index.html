@@ -27,14 +27,14 @@
 
 <main id="main">
   <section class="hero hero--compact hero--updates" data-hero>
-    <div class="hero-bg"><img src="../assets/images/hero-updates.avif" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-bg"><img src="../assets/images/hero-updates.png" alt="" onerror="this.style.opacity=0"></div>
     <div class="hero-inner">
       <div class="hero-content">
         <h1>Welcome to our Updates</h1>
         <p class="hero-lede">Stay current with Equip's news, research, opportunities, podcasts and webinars — all in one place.</p>
       </div>
       <div class="feature-list cols-3">
-        <button type="button" class="feature-item" data-shortcut="articles-announcements"><h4>Articles &amp; announcements <span class="feature-arrow" aria-hidden="true">→</span></h4><p>Research, insights and news from across the firm.</p></button>
+        <button type="button" class="feature-item" data-shortcut="articles-announcements"><h4>Articles <span class="feature-arrow" aria-hidden="true">→</span></h4><p>Research, insights and news from across the firm.</p></button>
         <button type="button" class="feature-item" data-shortcut="opportunities"><h4>Opportunities <span class="feature-arrow" aria-hidden="true">→</span></h4><p>Open consultant calls and ways to work with us.</p></button>
         <button type="button" class="feature-item" data-shortcut="podcasts-webinars"><h4>Podcasts &amp; webinars <span class="feature-arrow" aria-hidden="true">→</span></h4><p>Recorded conversations and sessions, waiting for you to watch and listen.</p></button>
       </div>
@@ -56,6 +56,17 @@
           <option value="oldest">Oldest first</option>
           <option value="title-asc">Title A to Z</option>
           <option value="title-desc">Title Z to A</option>
+        </select>
+      </div>
+      <div class="up-tabs-mobile" hidden>
+        <label class="visually-hidden" for="upTypeFilterMobile">Filter by type</label>
+        <select id="upTypeFilterMobile" class="up-sort-select up-tabs-select">
+          <option value="all" selected>All</option>
+          <option value="articles">Articles</option>
+          <option value="announcements">Announcements</option>
+          <option value="opportunities">Opportunities</option>
+          <option value="podcasts">Podcasts</option>
+          <option value="webinars">Webinars</option>
         </select>
       </div>
       <span class="dd-count" id="ddCount"></span>
