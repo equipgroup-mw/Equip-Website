@@ -5792,3 +5792,43 @@ body.pcm-open{ overflow:hidden; }
     height: 27.5px;
   }
 }
+
+/* ========================================================================
+   WORK PAGE HERO — desktop centred, mobile left-aligned
+   Uses one image; only object-position shifts at the breakpoint.
+   ======================================================================== */
+
+/* Desktop / default: centred */
+.hero-work-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Mobile: pin to the left edge so the subject stays visible */
+@media (max-width: 900px){
+  .hero-work-img{
+    object-position: left center;
+  }
+}
+
+/* ========================================================================
+   HERO IMAGE — desktop centred, mobile left-aligned
+   Applies to home (hero-home.avif) and work (hero-work.png)
+   ======================================================================== */
+
+.hero-home-img,
+.hero-work-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+@media (max-width: 900px){
+  .hero-home-img,
+  .hero-work-img{
+    object-position: left center;
+  }
+}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Work — Equip Group</title>
+<title>Our Work</title>
 <meta name="description" content="Equip Group's projects and case studies — business development, research and project management, and data division work across Malawi and the region.">
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" type="image/avif" href="assets/logos/favicon.avif">
@@ -28,7 +28,7 @@
 
 <main id="main">
   <section class="hero hero--compact hero--updates" data-hero>
-    <div class="hero-bg"><img src="assets/images/hero-work.png" alt="" onerror="this.style.opacity=0"></div>
+    <div class="hero-bg"><img class="hero-work-img" src="assets/images/hero-work.png" alt="" onerror="this.style.opacity=0"></div>
     <div class="hero-inner">
       <div class="hero-content">
         <p class="hero-eyebrow">Our Pride & Joy</p>
@@ -45,7 +45,7 @@
         <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         <input type="search" id="workSearch" placeholder="Search projects…" aria-label="Search projects">
       </div>
-      <div class="work-tabs" id="workTabs"></div>
+      <div class="dd-tabs" id="workTabs"></div>
       <div class="up-sort">
         <label class="up-sort-label" for="workSort">Sort by</label>
         <select id="workSort" class="up-sort-select">
@@ -53,6 +53,15 @@
           <option value="oldest">Oldest first</option>
           <option value="title-asc">Title A to Z</option>
           <option value="title-desc">Title Z to A</option>
+        </select>
+      </div>
+      <div class="up-tabs-mobile" hidden>
+        <label class="visually-hidden" for="workServiceSelect">Filter by service</label>
+        <select id="workServiceSelect" class="up-sort-select up-tabs-select">
+          <option value="All" selected>All services</option>
+          <option value="business-development">Business Development</option>
+          <option value="research-project-management">Research &amp; Project Management</option>
+          <option value="data-division">Data Division</option>
         </select>
       </div>
       <span class="dd-count" id="workCount"></span>
