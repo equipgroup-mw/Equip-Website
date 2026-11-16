@@ -5117,3 +5117,490 @@ body.pcm-open{ overflow:hidden; }
     transform: translateY(-3px);
   }
 }
+
+
+/* ============================================================
+   EQUIP — RESTORED DESKTOP SERVICES DROPDOWN
+   Floating menu + blurred hero backdrop
+   ============================================================ */
+
+@media (min-width: 901px) {
+
+  /* ----------------------------------------------------------
+     1. RESTORE THE NORMAL HEADER NAVIGATION
+     ---------------------------------------------------------- */
+
+  body.services-menu-open .site-header {
+    position: relative;
+    z-index: 1200;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  body.services-menu-open .site-header .container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  body.services-menu-open .header-top-row {
+    position: relative;
+    z-index: 1202;
+    flex: 1;
+    width: auto;
+  }
+
+  body.services-menu-open .brand {
+    position: relative;
+    z-index: 1202;
+  }
+
+  /* Restore the navigation links previously hidden */
+  body.services-menu-open #mainNav {
+    position: relative;
+    flex: 0 1 auto;
+    width: auto;
+    height: auto;
+    gap: clamp(1.5rem, 2.5vw, 2.5rem);
+  }
+
+  body.services-menu-open #mainNav > a,
+  body.services-menu-open #servicesDropdown > .dropdown-toggle {
+    display: inline-flex !important;
+  }
+
+  #servicesDropdown {
+    position: static;
+  }
+
+
+  /* ----------------------------------------------------------
+     2. BLURRED HERO BACKDROP
+     ---------------------------------------------------------- */
+
+  body.services-menu-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1090;
+
+    background: rgba(5, 14, 25, .35);
+
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+
+    pointer-events: none;
+
+    animation: equipBackdropIn .4s ease forwards;
+  }
+
+  @keyframes equipBackdropIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+
+  /* ----------------------------------------------------------
+     3. FLOATING DROPDOWN PANEL
+     ---------------------------------------------------------- */
+
+  #servicesDropdown #servicesPanel.services-mega-panel {
+    position: fixed;
+
+    top: calc(var(--header-h, 80px) + 16px);
+    left: 50%;
+
+    width: min(1100px, calc(100vw - 64px));
+
+    height: min(
+      540px,
+      calc(100dvh - var(--header-h, 80px) - 32px)
+    );
+
+    max-width: none;
+    min-width: 0;
+    min-height: 0;
+
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 1fr;
+
+    padding: 0;
+    margin: 0;
+    gap: 0;
+
+    overflow: hidden;
+
+    background: #0d2136;
+
+    /* Completely remove the outline */
+    border: none !important;
+    outline: none !important;
+    border-radius: 3px;
+
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translate(-50%, 16px);
+
+    transition:
+      opacity .4s ease,
+      transform .55s cubic-bezier(.16, 1, .3, 1),
+      visibility .4s ease;
+
+    z-index: 1100;
+  }
+
+  /* Open state */
+  #servicesDropdown.is-open #servicesPanel.services-mega-panel {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: translate(-50%, 0);
+  }
+
+
+  /* ----------------------------------------------------------
+     4. LEFT IMAGE PANEL
+     ---------------------------------------------------------- */
+
+  .services-mega-image {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    overflow: hidden;
+
+    background-color: #0d2136;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border: none;
+  }
+
+  .services-mega-image::before,
+  .services-mega-image::after {
+    display: none !important;
+    content: none !important;
+  }
+
+
+  /* ----------------------------------------------------------
+     5. RIGHT NAVIGATION PANEL
+     ---------------------------------------------------------- */
+
+  .services-mega-content {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+
+    padding: clamp(2.5rem, 5vw, 4.5rem);
+
+    background: #0d2136;
+
+    border: none;
+    outline: none;
+  }
+
+  /* Hide the close button: this is now a dropdown */
+  .services-mega-close {
+    display: none !important;
+  }
+
+
+  /* ----------------------------------------------------------
+     6. SERVICE LINKS
+     ---------------------------------------------------------- */
+
+  .services-mega-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    width: 100%;
+    max-width: 540px;
+
+    gap: clamp(.45rem, 1.1vh, .85rem);
+  }
+
+  #servicesDropdown #servicesPanel .services-mega-links a {
+    display: block;
+
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent !important;
+
+    border: none !important;
+    outline: none;
+    border-radius: 0;
+
+    box-shadow: none !important;
+
+    color: var(--cream);
+
+    font-family: var(--font-body);
+    font-size: clamp(1.6rem, 2.7vw, 2.65rem);
+    font-weight: 500;
+
+    line-height: 1.17;
+    letter-spacing: -.045em;
+
+    text-decoration: none;
+
+    opacity: 0;
+    transform: translateY(12px);
+
+    transition:
+      color .3s ease,
+      transform .35s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  /* Dropdown entrance animation */
+  #servicesDropdown.is-open .services-mega-links a {
+    animation: equipDropdownLinkIn .55s cubic-bezier(.16, 1, .3, 1)
+      forwards;
+
+    animation-delay: calc(.08s + var(--link-index, 0) * .08s);
+  }
+
+  @keyframes equipDropdownLinkIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Gold hover — no decorative lines */
+  #servicesDropdown #servicesPanel .services-mega-links a::before,
+  #servicesDropdown #servicesPanel .services-mega-links a::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  #servicesDropdown #servicesPanel .services-mega-links a:hover,
+  #servicesDropdown #servicesPanel .services-mega-links a:focus-visible {
+    color: #a8935a !important;
+
+    background: transparent !important;
+    border: none !important;
+    outline: none;
+
+    box-shadow: none !important;
+
+    text-decoration: none !important;
+
+    transform: translateX(6px);
+  }
+
+
+  /* ----------------------------------------------------------
+     7. SOCIAL ICONS
+     Preserve the existing SVG icons and their styling
+     ---------------------------------------------------------- */
+
+  .services-mega-content .services-mega-socials {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 24px;
+
+    width: 100%;
+
+    margin-top: auto;
+    padding-top: 24px;
+    padding-bottom: 0;
+
+    border-top: 1px solid rgba(244, 242, 239, .16);
+  }
+
+  .services-mega-content .services-mega-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+    margin: 0;
+
+    background: transparent;
+    border: none;
+
+    color: rgba(246, 244, 239, .8);
+
+    transition:
+      color .25s ease,
+      transform .25s ease;
+  }
+
+  .services-mega-content .services-mega-socials a:hover {
+    color: #a8935a;
+    background: transparent;
+    transform: translateY(-3px);
+  }
+
+
+  /* ----------------------------------------------------------
+     8. BODY SCROLL
+     ---------------------------------------------------------- */
+
+  body.services-menu-open {
+    overflow: hidden;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   9. MOBILE PROTECTION
+   Existing mobile navigation stays unchanged
+   ------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+
+  body.services-menu-open {
+    overflow: visible;
+  }
+
+  body.services-menu-open::before {
+    display: none;
+  }
+
+  .services-mega-close {
+    display: none;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   10. ACCESSIBILITY
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  body.services-menu-open::before {
+    animation: none;
+  }
+
+  #servicesDropdown #servicesPanel {
+    transition: none !important;
+  }
+
+  #servicesDropdown.is-open .services-mega-links a {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ============================================================
+   EQUIP — SERVICES DROPDOWN FIXES (append last)
+   1. Header stays fixed + transparent (no layout push, no white bar)
+   2. More breathing room between the service links
+   ============================================================ */
+
+@media (min-width: 901px) {
+
+  /* 1. Header: back to fixed so the hero never moves */
+  body.services-menu-open .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    z-index: 1200;
+    transform: none;
+  }
+
+  /* 2. Panel: a little taller to fit the roomier spacing */
+  #servicesDropdown #servicesPanel.services-mega-panel {
+    height: min(
+      580px,
+      calc(100dvh - var(--header-h, 84px) - 32px)
+    );
+  }
+
+  /* Tighter side padding gives the long names more room to breathe */
+  .services-mega-content {
+    padding: clamp(2.25rem, 4vw, 3.5rem) clamp(2rem, 3.5vw, 3.25rem);
+  }
+
+  /* Links: more gap + slightly looser line-height */
+  .services-mega-links {
+    gap: clamp(1rem, 2.4vh, 1.75rem);
+    max-width: 560px;
+  }
+
+  #servicesDropdown #servicesPanel .services-mega-links a {
+    font-size: clamp(1.6rem, 2.6vw, 2.5rem);
+    line-height: 1.22;
+    letter-spacing: -.04em;
+    padding: .1em 0;               /* a touch more hit area */
+
+    /* Resting state is fully visible. The entrance below only plays
+       from the hidden state, so hover movement isn't locked out. */
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  /* Staggered entrance (about 60ms apart) */
+  #servicesDropdown.is-open #servicesPanel .services-mega-links a {
+    animation: equipDropdownLinkIn2 .5s cubic-bezier(.16, 1, .3, 1) backwards;
+    animation-delay: calc(.06s + var(--link-index, 0) * .06s);
+  }
+
+  @keyframes equipDropdownLinkIn2 {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  /* Hover (gold + slight nudge) now works because the animation
+     no longer holds the final transform */
+  #servicesDropdown #servicesPanel .services-mega-links a:hover,
+  #servicesDropdown #servicesPanel .services-mega-links a:focus-visible {
+    transform: translateX(6px);
+  }
+
+  /* Socials sit a bit further from the last link */
+  .services-mega-content .services-mega-socials {
+    padding-top: 22px;
+    margin-top: auto;
+  }
+}
+
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+  #servicesDropdown.is-open #servicesPanel .services-mega-links a {
+    animation: none;
+  }
+}
