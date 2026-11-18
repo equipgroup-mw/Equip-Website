@@ -670,6 +670,48 @@
   @media (min-width: 992px) and (max-height: 640px){ .choice-desc{ display: none; } }
 
   @media (prefers-reduced-motion: reduce){ .step{ transition: none; } }
+
+  /* ============================================================
+     v3 — fit above the fold, fuller message + sent steps, larger left column
+     ============================================================ */
+  .reach-column > p.lede{ font-size: 1rem; margin-bottom: .6rem; }
+  .contact-list{ border-top: 1px solid var(--line); }
+  .contact-item{ gap: 1.1rem; }
+  .contact-icon{ width: 26px; height: 26px; }
+  .contact-item-content{ gap: .2rem; }
+  .contact-label{ font-size: 12px; letter-spacing: .14em; }
+  .contact-value{ display: block; font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.4; }
+
+  .step[data-step="3"] .form-field{ display: flex; flex-direction: column; }
+  .step[data-step="3"] .form-field textarea{ flex: 1; min-height: 80px; }
+
+  .step.is-success{ justify-content: flex-start; align-items: stretch; }
+  .success-head{ display: flex; align-items: center; gap: .85rem; margin-bottom: .6rem; }
+  .success-mark{ width: 40px; height: 40px; margin: 0; flex: none; }
+  .step.is-success .step-title{ margin: 0; }
+  .next-steps{
+    list-style: none; margin: .4rem 0 .9rem; padding: 0; flex: 1; display: flex; flex-direction: column;
+    border-top: 1px solid rgba(214,202,176,.28);
+  }
+  .next-steps li{
+    flex: 1; display: flex; align-items: center; gap: .85rem; padding: .6rem 0;
+    border-bottom: 1px solid rgba(214,202,176,.28); font-size: 14px; color: var(--cream);
+  }
+  .next-steps li span{ color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: .12em; min-width: 1.6rem; }
+  .success-actions{ margin-top: 0; }
+
+  @media (min-width: 992px){
+    .contact-section{ padding-top: calc(var(--header-h) + .6rem); padding-bottom: .9rem; }
+    .contact-head{ margin-bottom: .7rem; }
+    .contact-head h1{ font-size: 2.15rem; margin-bottom: .2rem; }
+    .form-panel{ padding: 1.1rem 1.75rem; }
+    .panel-head{ margin-bottom: .55rem; }
+    .step-progress{ margin-bottom: .8rem; }
+    .step-sub{ margin-bottom: .55rem; }
+    .form-field input{ padding: .6rem .9rem; font-size: .95rem; min-height: 0; }
+    .step-controls{ padding-top: .6rem; }
+    .btn-continue{ padding-top: .65rem; padding-bottom: .65rem; }
+  }
 </style>
 </head>
 <body class="contact-page">
@@ -839,9 +881,16 @@
 
             <!-- SUCCESS -->
             <div class="step is-success" data-step="4" aria-labelledby="step4-title">
-              <div class="success-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <h3 class="step-title" id="step4-title">Thanks — we've got it.</h3>
-              <p class="step-sub">A member of our team will be in touch as soon as possible. In the meantime, feel free to reach us directly.</p>
+              <div class="success-head">
+                <div class="success-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <h3 class="step-title" id="step4-title">Thanks — we've got it.</h3>
+              </div>
+              <p class="step-sub" id="successSub">Your message is on its way to the right team. We'll be in touch as soon as possible.</p>
+              <ol class="next-steps" aria-label="What happens next">
+                <li><span>01</span>We will review your request</li>
+                <li><span>02</span>We will match you with the right team</li>
+                <li><span>03</span>We will reach out with next steps</li>
+              </ol>
               <div class="success-actions">
                 <a class="btn-ghost-light" href="mailto:info@equipgroup.co">Email us directly</a>
               </div>
@@ -991,6 +1040,12 @@
         message:   form.querySelector('#message').value.trim(),
       };
       console.log('[contact] payload', payload);
+      const picked = form.querySelector('.choice[aria-pressed="true"]');
+      const team = picked && state.focus !== 'Other' ? picked.dataset.focus : '';
+      form.querySelector('#step4-title').textContent = `Thanks, ${fnEl.value.trim()} — we've got it.`;
+      form.querySelector('#successSub').textContent = (team
+        ? `Your message is on its way to our ${team} team.`
+        : 'Your message is on its way to the right team.') + " We'll be in touch as soon as possible.";
       showStep(4);
     });
 
