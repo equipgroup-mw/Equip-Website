@@ -70,7 +70,6 @@ function eqtInit(root) {
   updateHeaderOffset();
   addEventListener("resize", updateHeaderOffset);
   addEventListener("load", updateHeaderOffset);
-  // the header partial may be injected after this script runs
   setTimeout(updateHeaderOffset, 400);
   setTimeout(updateHeaderOffset, 1500);
 
@@ -112,20 +111,20 @@ function eqtInit(root) {
     const stemLen = off - NODE_R;
     const stem = svgEl("line", {
       x1: m.cx, y1: m.cy + sign * NODE_R, x2: m.cx, y2: dotY,
-      stroke: "#b08a45", "stroke-width": 2.2, "stroke-linecap": "round"
+      stroke: "#a8935a", "stroke-width": 2.2, "stroke-linecap": "round"
     }, g);
     stem.style.strokeDasharray = stemLen;
     stem.style.strokeDashoffset = stemLen;
     const endDot = svgEl("g", { transform: `translate(${m.cx} ${dotY}) scale(0)` }, g);
-    svgEl("circle", { r: 5.5, fill: "#b08a45" }, endDot);
+    svgEl("circle", { r: 5.5, fill: "#a8935a" }, endDot);
 
     const nodeG = svgEl("g", { transform: `translate(${m.cx} ${m.cy})` }, g);
     const hover = svgEl("g", { class: "eqt-node-hover" }, nodeG);
-    const pulse = svgEl("circle", { r: NODE_R, fill: "none", stroke: "#c9a35a", "stroke-width": 2, opacity: 0 }, nodeG);
+    const pulse = svgEl("circle", { r: NODE_R, fill: "none", stroke: "#a8935a", "stroke-width": 2, opacity: 0 }, nodeG);
     const pop = svgEl("g", { transform: "scale(0)" }, hover);
     const ring = svgEl("circle", {
       class: "eqt-node-ring", r: NODE_R - 1.5, fill: "#f3efe8", "fill-opacity": 0,
-      stroke: "#b08a45", "stroke-width": 3, pathLength: 100, transform: "rotate(-90)"
+      stroke: "#a8935a", "stroke-width": 3, pathLength: 100, transform: "rotate(-90)"
     }, pop);
     ring.style.strokeDasharray = 100;
     ring.style.strokeDashoffset = 100;
@@ -180,6 +179,8 @@ function eqtInit(root) {
      ========================================================== */
   let elapsed = 0, lastTs = null, isPlaying = false, hasTriggered = false;
   let targetScrollY = window.pageYOffset, isUserScrolling = false;
+  let hasReplayed = false;
+  let rootInView = false;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   addEventListener("touchstart", () => { isUserScrolling = true; }, { passive: true });
@@ -248,12 +249,25 @@ function eqtInit(root) {
     });
 
     mFill.style.height = `${progress * 100}%`;
+
+    /* Mobile reveal is driven by the m-fill bar's progress against each
+       card's TOP edge, so a card lights up the moment the bar reaches it. */
+    const stage = mFill.parentElement.parentElement;   // .eqt-mobile-stage
+    const trackH = mFill.parentElement.clientHeight || 1;
+    const fillPx = (parseFloat(mFill.style.height) / 100) * trackH;
     let active = null;
+
     mobileItems.forEach(mi => {
-      if (ms >= mi.trigger) { mi.el.classList.add("eqt-revealed"); active = mi.el; }
-      else mi.el.classList.remove("eqt-revealed");
+      const node = mi.el.querySelector(".eqt-m-node");
+      const fromTop = node
+        ? node.getBoundingClientRect().top - stage.getBoundingClientRect().top
+        : Infinity;
+      const revealed = fillPx >= fromTop - 12;
+      mi.el.classList.toggle("eqt-revealed", revealed);
+      if (revealed) active = mi.el;
     });
-    if (isMobile() && isPlaying && active && !isUserScrolling) {
+
+    if (isMobile() && isPlaying && active && !isUserScrolling && !hasReplayed && rootInView) {
       const r = active.getBoundingClientRect();
       targetScrollY = r.top + pageYOffset - innerHeight / 2 + r.height / 2;
     }
@@ -269,7 +283,7 @@ function eqtInit(root) {
       renderFrame(elapsed);
       if (elapsed >= TOTAL_DURATION) isPlaying = false;
     }
-    if (isMobile() && isPlaying && !isUserScrolling) {
+    if (isMobile() && isPlaying && !isUserScrolling && !hasReplayed && rootInView) {
       const cur = pageYOffset, diff = targetScrollY - cur;
       if (Math.abs(diff) > 0.5) scrollTo(0, cur + diff * 0.08);
     }
@@ -279,6 +293,7 @@ function eqtInit(root) {
   function startOrReplay() {
     isUserScrolling = false;
     lastTs = null;
+    if (hasTriggered) hasReplayed = true;
     if (reduceMotion) { elapsed = TOTAL_DURATION; isPlaying = false; renderFrame(TOTAL_DURATION); return; }
     elapsed = 0;
     isPlaying = true;
@@ -288,6 +303,7 @@ function eqtInit(root) {
   /* Start once the section is mostly on screen */
   new IntersectionObserver(entries => {
     entries.forEach(e => {
+      rootInView = e.isIntersecting;
       if (e.isIntersecting && !hasTriggered) { hasTriggered = true; startOrReplay(); }
     });
   }, { threshold: 0.4 }).observe(root);
@@ -466,8 +482,8 @@ function eqtRepair(root) {
     const root = document.getElementById("equip-evolution");
     if (!root) return false;
     if (root.dataset.eqtInit) return true;
-    if (!final && !document.getElementById("eqt-ribbon")) {                // section is here but incomplete:
-      if (!grace) grace = setTimeout(() => tryStart(true), 700);            // give the markup a moment, then repair
+    if (!final && !document.getElementById("eqt-ribbon")) {
+      if (!grace) grace = setTimeout(() => tryStart(true), 700);
       return false;
     }
     root.dataset.eqtInit = "1";
