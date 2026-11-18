@@ -5934,3 +5934,10 @@ body.pcm-open{ overflow:hidden; }
     object-position: left center;
   }
 }
+
+/* Breathing room between founding story → mission/vision, and
+   mission/vision → timeline, on the About page only. */
+.about-page .vision-mission-section {
+  padding-top:    clamp(3rem, 8vw, 16rem);
+  padding-bottom: clamp(3rem, 8vw, 12rem);
+}
