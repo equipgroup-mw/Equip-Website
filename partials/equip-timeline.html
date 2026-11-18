@@ -1,0 +1,240 @@
+<!-- partials/equip-timeline.html
+     Markup for the Company Milestones timeline.
+     IDs/classes are namespaced with "eqt-" and must match js/equip-timeline.js.
+     The animation logic lives in js/equip-timeline.js — do NOT add an inline <script> here. -->
+<section class="eqt-section" id="equip-evolution" aria-label="Equip company milestones">
+
+  <!-- Icon library (referenced by desktop SVG + mobile cards via #eqt-i-*) -->
+  <svg class="eqt-sprite" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="eqt-i-train" viewBox="0 0 64 64">
+        <circle cx="13" cy="14" r="6.5" fill="currentColor"/>
+        <path d="M4 58V34q0-8 8-8h3q8 0 8 8v24h-6V44h-7v14z" fill="currentColor"/>
+        <path d="M22 33l13-5" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <rect x="35" y="12" width="26" height="24" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+        <rect x="40" y="27" width="4" height="6" fill="currentColor"/>
+        <rect x="47" y="22" width="4" height="11" fill="currentColor"/>
+        <rect x="54" y="17" width="4" height="16" fill="currentColor"/>
+        <path d="M43 36l-3 22M53 36l3 22" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+      </symbol>
+      <symbol id="eqt-i-write" viewBox="0 0 64 64">
+        <path d="M5 20q13-5 25 3v33q-12-8-25-3z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/>
+        <path d="M30 23q8-5 16-3" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M30 56q9-6 16-4v-16" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M10 29q7-2 14 1M10 37q7-2 14 1M10 45q7-2 14 1" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        <g transform="rotate(40 48 24)"><rect x="44" y="2" width="8" height="30" rx="1.5" fill="currentColor"/><path d="M44 33h8l-4 9z" fill="currentColor"/></g>
+      </symbol>
+      <symbol id="eqt-i-rocket" viewBox="0 0 64 64">
+        <g transform="rotate(42 32 32)">
+          <path d="M32 2c11 9 14 23 10 40H22c-4-17-1-31 10-40z" fill="currentColor"/>
+          <circle cx="32" cy="21" r="5" fill="var(--eqt-node-fill)"/>
+          <path d="M23.5 31L15 43l9-1.5zM40.5 31L49 43l-9-1.5z" fill="currentColor"/>
+          <path d="M27 45h10l-5 15z" fill="currentColor"/>
+        </g>
+        <circle cx="9" cy="50" r="2.4" fill="currentColor"/><circle cx="14" cy="57" r="1.9" fill="currentColor"/>
+      </symbol>
+      <symbol id="eqt-i-team" viewBox="0 0 64 64">
+        <circle cx="32" cy="20" r="9" fill="currentColor"/>
+        <path d="M14 54q0-20 18-20t18 20z" fill="currentColor"/>
+        <circle cx="12" cy="29" r="6.5" fill="currentColor"/>
+        <path d="M0 54q0-14 11-14 3 0 6 2-5 5-5 12z" fill="currentColor"/>
+        <circle cx="52" cy="29" r="6.5" fill="currentColor"/>
+        <path d="M64 54q0-14-11-14-3 0-6 2 5 5 5 12z" fill="currentColor"/>
+      </symbol>
+      <symbol id="eqt-i-audit" viewBox="0 0 64 64">
+        <path d="M12 6h24l12 12v13M12 6v48h17" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M36 6v12h12" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/>
+        <path d="M20 26h14M20 34h9M20 42h7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="42" cy="43" r="11" fill="var(--eqt-node-fill)" stroke="currentColor" stroke-width="3.6"/>
+        <path d="M50 51l9 9" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        <path d="M37 43l4 4 7-8" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="eqt-i-deal" viewBox="0 0 64 64">
+        <path d="M0 20l12-5 10 25-12 5z" fill="currentColor"/>
+        <path d="M64 20l-12-5-10 25 12 5z" fill="currentColor"/>
+        <path d="M17 20l12-4c3-1 6-.5 8.5 1.5l5.5 4.5 8 2.5v9l-9 9-7 7c-2 2-5 2-7 0l-3-3c-2 1-4.5.5-6-1.5L14 39z" fill="currentColor"/>
+        <path d="M29 22c3 4 8 5 13 2M44 37l-8 8M38 32l-7 8M32 27l-6 7" fill="none" stroke="var(--eqt-node-fill)" stroke-width="2.2" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="eqt-i-globe" viewBox="0 0 64 64">
+        <circle cx="29" cy="30" r="21" fill="none" stroke="currentColor" stroke-width="3.2"/>
+        <ellipse cx="29" cy="30" rx="9.5" ry="21" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M8 30h42M11.5 19h35M11.5 41h35M29 9v42" fill="none" stroke="currentColor" stroke-width="2.6"/>
+        <path d="M12 56q30 9 45-22" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round"/>
+        <path d="M49 33l11-12 3 17z" fill="currentColor"/>
+      </symbol>
+      <symbol id="eqt-i-org" viewBox="0 0 64 64">
+        <circle cx="32" cy="9" r="5.2" fill="currentColor"/>
+        <path d="M22 26q0-9 10-9t10 9z" fill="currentColor"/>
+        <path d="M32 26v8M10 34h44M10 34v7M32 34v7M54 34v7" fill="none" stroke="currentColor" stroke-width="3"/>
+        <circle cx="10" cy="46" r="4.6" fill="currentColor"/><path d="M2 61q0-9 8-9t8 9z" fill="currentColor"/>
+        <circle cx="32" cy="46" r="4.6" fill="currentColor"/><path d="M24 61q0-9 8-9t8 9z" fill="currentColor"/>
+        <circle cx="54" cy="46" r="4.6" fill="currentColor"/><path d="M46 61q0-9 8-9t8 9z" fill="currentColor"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <button type="button" class="eqt-replay eqt-replay-desktop" id="eqt-btn-replay-desktop">Replay</button>
+
+  <!-- ================= DESKTOP SCENE ================= -->
+  <div class="eqt-desktop">
+      <svg id="eqt-scene" viewBox="0 0 1456 780" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Animated timeline of Equip's company milestones from 2015 to 2025">      <defs>
+        <linearGradient id="eqt-ribbonGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1456" y2="0">
+          <stop offset="0"    stop-color="#a8935a" stop-opacity="0.55"/>
+          <stop offset="0.14" stop-color="#a8935a"/>
+          <stop offset="0.55" stop-color="#a8935a"/>
+          <stop offset="0.9"  stop-color="#a8935a"/>
+          <stop offset="1"    stop-color="#a8935a" stop-opacity="0.45"/>
+        </linearGradient>
+        <radialGradient id="eqt-cometGrad">
+          <stop offset="0" stop-color="#fff3cf" stop-opacity="0.95"/>
+          <stop offset="0.35" stop-color="#e2bd69" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#a8935a" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Title block -->
+      <g id="eqt-title-block">
+        <g id="eqt-t1g"><text class="eqt-t-line" x="56" y="125" font-size="92" fill="#0f2347" textLength="462" lengthAdjust="spacingAndGlyphs">COMPANY</text></g>
+        <g id="eqt-t2g"><text class="eqt-t-line" x="56" y="213" font-size="92" fill="#a8935a" textLength="612" lengthAdjust="spacingAndGlyphs">MILESTONES</text></g>
+        <line id="eqt-t-rule" x1="56" y1="232" x2="577" y2="232" stroke="#a8935a" stroke-width="1.6"/>
+        <g id="eqt-t3g"><text class="eqt-t-tag" x="56" y="276" font-size="31" textLength="556" lengthAdjust="spacingAndGlyphs">Our Journey. Our Growth. Our Future.</text></g>
+        <g id="eqt-t4g">
+          <text class="eqt-t-sub" x="56" y="315" font-size="22">Key moments that shaped our company</text>
+          <text class="eqt-t-sub" x="56" y="342" font-size="22">and continue to drive us forward.</text>
+        </g>
+      </g>
+
+      <path id="eqt-ribbon-track" fill="none" stroke="#a8935a" stroke-opacity="0.10" stroke-width="22" stroke-linecap="round"/>
+      <path id="eqt-ribbon" fill="none" stroke="url(#eqt-ribbonGrad)" stroke-width="22" stroke-linecap="round" pathLength="1000"/>
+      <circle id="eqt-comet" r="34" fill="url(#eqt-cometGrad)" opacity="0"/>
+
+      <g id="eqt-milestones-layer"></g>
+    </svg>
+  </div>
+
+  <!-- ================= MOBILE / PORTRAIT ================= -->
+  <div class="eqt-mobile-head">
+    <div class="eqt-mh-1">COMPANY</div>
+    <div class="eqt-mh-2">MILESTONES</div>
+    <div class="eqt-mh-rule"></div>
+    <div class="eqt-mh-tag">Our Journey. Our Growth. Our Future.</div>
+    <p class="eqt-mh-sub">Key moments that shaped our company and continue to drive us forward.</p>
+    <button type="button" class="eqt-replay" id="eqt-btn-replay-mobile">Replay</button>
+  </div>
+
+  <div class="eqt-mobile-stage">
+    <div class="eqt-m-track"><div class="eqt-m-fill" id="eqt-m-fill"></div></div>
+    <ul class="eqt-m-list" id="eqt-m-list"></ul>
+  </div>
+</section>
+
+<style>
+  /* ============================================================
+     Scoped styles for the timeline partial.
+     Everything is namespaced .eqt-* so it never leaks into the
+     rest of about.html. Values mirror the original design.
+     ============================================================ */
+  .eqt-section {
+    --eqt-bg: #e6e1da;
+    --eqt-node-fill: #f3efe8;
+    --eqt-navy: #0d2136;
+    --eqt-text: #1a2c52;
+    --eqt-gold: #a8935a;
+    --eqt-gold-deep: #a8935a;
+    --eqt-gold-soft: #d6bd86;
+    --eqt-serif: Georgia, 'Times New Roman', serif;
+    --eqt-sans: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --eqt-offset: 0px;
+
+    position: relative;
+    width: 100%;
+    background: var(--eqt-bg);
+    color: var(--eqt-text);
+    overflow: hidden;
+    font-family: var(--eqt-sans);
+  }
+  .eqt-section * { box-sizing: border-box; }
+
+  /* ---------------- Replay button ---------------- */
+  .eqt-replay {
+    background: transparent;
+    color: var(--eqt-gold-deep);
+    border: 1px solid rgba(164, 123, 51, 0.55);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font: 600 11px/1 var(--eqt-sans);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+    white-space: nowrap;
+  }
+  .eqt-replay:hover { background: var(--eqt-gold-deep); color: #fff; }
+  .eqt-replay:focus-visible { outline: 2px solid var(--eqt-gold-deep); outline-offset: 3px; }
+
+  /* ---------------- Desktop ---------------- */
+    /* ---------------- Desktop ---------------- */
+  .eqt-desktop { display: block; padding-top: clamp(1rem, 10vh, 13.5rem); }
+  .eqt-desktop svg { display: block; width: 100%; height: 100%; }
+  .eqt-replay-desktop { position: absolute; top: 20px; right: 28px; z-index: 5; }
+
+  .eqt-mobile-head, .eqt-mobile-stage { display: none; }
+
+  @media (min-width: 901px) and (min-aspect-ratio: 1/1) {
+    /* Full-viewport height minus the site header (set via --eqt-offset by JS) */
+    .eqt-section { height: calc(100vh - var(--eqt-offset)); height: calc(100dvh - var(--eqt-offset)); min-height: 520px; }
+    .eqt-desktop { height: 100%; }
+  }
+
+  /* ---------------- SVG text styles ---------------- */
+  .eqt-t-line { font-family: var(--eqt-serif); font-weight: 700; }
+  .eqt-t-tag  { font-family: var(--eqt-serif); font-weight: 700; fill: var(--eqt-navy); }
+  .eqt-t-sub  { font-family: var(--eqt-sans); fill: var(--eqt-text); }
+  .eqt-year   { font-family: var(--eqt-serif); font-weight: 700; fill: var(--eqt-gold-deep); letter-spacing: 1px; }
+  .eqt-desc   { font-family: var(--eqt-sans); font-weight: 400; fill: var(--eqt-text); }
+  .eqt-icon   { color: var(--eqt-navy); }
+
+  .eqt-node-ring { filter: drop-shadow(0 5px 9px rgba(90, 65, 20, 0.20)); }
+  .eqt-node-hover { transform-box: fill-box; transform-origin: center; transition: transform .35s cubic-bezier(.34,1.56,.64,1); cursor: default; }
+  .eqt-node:hover .eqt-node-hover { transform: scale(1.08); }
+
+  /* ---------------- Mobile / portrait ---------------- */
+  @media (max-width: 900px), (max-aspect-ratio: 1/1) {
+    .eqt-section { padding: 48px 20px 40px; }
+    .eqt-desktop, .eqt-replay-desktop { display: none; }
+    .eqt-mobile-head { display: block; max-width: 640px; margin: 0 auto 32px; }
+    .eqt-mobile-stage { display: block; }
+  }
+
+  .eqt-mh-1 { font: 700 clamp(40px, 12vw, 64px)/0.95 var(--eqt-serif); color: var(--eqt-navy); }
+  .eqt-mh-2 { font: 700 clamp(40px, 12vw, 64px)/0.95 var(--eqt-serif); color: var(--eqt-gold); }
+  .eqt-mh-rule { height: 1px; background: var(--eqt-gold); margin: 16px 0 14px; }
+  .eqt-mh-tag { font: 700 clamp(18px, 5vw, 24px)/1.2 var(--eqt-serif); color: var(--eqt-navy); margin-bottom: 8px; }
+  .eqt-mh-sub { font: 400 15px/1.5 var(--eqt-sans); color: var(--eqt-text); margin-bottom: 14px; }
+  .eqt-mobile-head .eqt-replay { margin-top: 4px; }
+
+  .eqt-mobile-stage { position: relative; max-width: 640px; margin: 0 auto; padding: 8px 0 12px; }
+  .eqt-m-track { position: absolute; top: 28px; bottom: 28px; left: 27px; width: 4px; background: rgba(176, 138, 69, 0.22); border-radius: 4px; }
+  .eqt-m-fill { position: absolute; inset: 0 0 auto 0; height: 0%; background: linear-gradient(180deg, var(--eqt-gold-soft), var(--eqt-gold)); border-radius: 4px; transition: height .25s linear; }
+  .eqt-m-list { list-style: none; display: flex; flex-direction: column; gap: 26px; padding: 0; margin: 0; }
+  .eqt-m-item {
+    position: relative; padding-left: 76px; opacity: .25; transform: translateY(14px);
+    transition: opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1);
+  }
+  .eqt-m-item.eqt-revealed { opacity: 1; transform: none; }
+  .eqt-m-node {
+    position: absolute; left: 0; top: 0; width: 58px; height: 58px; border-radius: 50%;
+    background: var(--eqt-node-fill); border: 2.5px solid var(--eqt-gold); color: var(--eqt-navy);
+    display: grid; place-items: center; z-index: 2; transform: scale(.8);
+    transition: transform .45s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+  }
+  .eqt-m-node svg { width: 32px; height: 32px; }
+  .eqt-m-item.eqt-revealed .eqt-m-node { transform: scale(1); box-shadow: 0 0 0 6px rgba(176,138,69,.16), 0 6px 12px rgba(90,65,20,.15); }
+  .eqt-m-card { background: rgba(255,255,255,.38); border: 1px solid rgba(176,138,69,.3); border-radius: 12px; padding: 14px 18px; }
+  .eqt-m-year { display: block; font: 700 22px/1.1 var(--eqt-serif); color: var(--eqt-gold-deep); margin-bottom: 4px; }
+  .eqt-m-desc { font: 400 15px/1.55 var(--eqt-sans); color: var(--eqt-text); margin: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eqt-m-item, .eqt-m-node, .eqt-m-fill, .eqt-node-hover { transition: none; }
+  }
+</style>

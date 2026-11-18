@@ -6,7 +6,6 @@
 <title>About Equip</title>
 <meta name="description" content="Equip Group delivers tailor-made management, data and capacity development solutions for organisations shaping Malawi's economy.">
 <link rel="stylesheet" href="css/style.css?v=2">
-<link rel="stylesheet" href="css/timeline.css">
 <link rel="icon" type="image/avif" href="assets/logos/favicon.avif">
 <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script type="application/ld+json">
@@ -110,40 +109,10 @@
     </div>
   </section>
 
-  <!-- Transition band from mission/vision (white) into timeline (navy). -->
-  <div class="about-transition-band" aria-hidden="true"></div>
-
-  <!-- TIMELINE — Equip through the years -->
-  <section class="equip-timeline-section" id="equip-evolution">
-    <div class="equip-timeline-container">
-
-      <div class="equip-top-bar">
-        <h2 class="equip-timeline-title">Equip through the years</h2>
-        <button type="button" class="equip-timeline-replay" id="equip-btn-replay-desktop">Replay</button>
-      </div>
-
-      <!-- Mobile-only Replay button — sits at the top of the timeline so
-           pressing it doesn't require the auto-scroll to travel back up. -->
-      <div class="equip-mobile-replay">
-        <button type="button" class="equip-timeline-replay" id="equip-btn-replay-mobile-top">Replay</button>
-      </div>
-
-      <div class="equip-desktop-stage" id="equip-desktop-stage">
-        <svg id="equip-timeline-svg" viewBox="0 0 1920 1080" preserveAspectRatio="none" role="img" aria-label="Equip Group growth timeline from 2015 to 2025">
-          <line id="equip-main-axis" class="equip-main-line" x1="122" y1="510" x2="1795" y2="510" />
-          <g id="equip-milestones-layer"></g>
-        </svg>
-      </div>
-
-      <div class="equip-mobile-stage" id="equip-mobile-stage">
-        <div class="equip-mobile-spine-track">
-          <div class="equip-mobile-spine-fill" id="equip-mobile-spine-fill"></div>
-        </div>
-        <ul class="equip-mobile-list" id="equip-mobile-list"></ul>
-      </div>
-
-    </div>
-  </section>
+  <!-- TIMELINE — loaded from partials/equip-timeline.html (full-screen, 100dvh).
+       The min-height + beige background reserve the space while the partial loads,
+       so nothing jumps around underneath. -->
+  <div id="timeline-slot" style="min-height:100vh;min-height:100dvh;background:#e6e1da;"></div>
 
   <!-- OUR VALUES -->
   <section class="section values-section">
@@ -230,6 +199,18 @@
     </nav>
   </section>
 
+
+  <!-- TEAM -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div><hr class="rule"><h2>Who are we?</h2></div>
+        <p class="team-intro">A team of passionate people helping businesses grow and thrive through innovative, results-driven consulting.</p>
+      </div>
+      <div class="grid grid-4" id="teamGrid"></div>
+    </div>
+  </section>
+
   <!-- NUMBERS -->
   <section class="section stats-section" style="background:var(--light-beige);">
     <div class="container">
@@ -278,16 +259,6 @@
     </div>
   </section>
 
-  <!-- TEAM -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div><hr class="rule"><h2>Who are we?</h2></div>
-        <p class="team-intro">A team of passionate people helping businesses grow and thrive through innovative, results-driven consulting.</p>
-      </div>
-      <div class="grid grid-4" id="teamGrid"></div>
-    </div>
-  </section>
 
   <!-- CLOSING CTA -->
   <section class="closing-cta">
@@ -306,7 +277,26 @@
 
 <script src="js/main.js"></script>
 <script src="js/carousel.js"></script>
-<script src="js/timeline.js"></script>
+<script>
+  // Loads partials/equip-timeline.html into #timeline-slot, then starts its animation
+  // (js/equip-timeline.js). The animation lives in its own file so it never depends on
+  // inline <script> tags surviving the HTML injection.
+  (async () => {
+    const slot = document.getElementById('timeline-slot');
+    if (!slot) return;
+    const ROOT = document.documentElement.dataset.root || '';
+    try {
+      const res = await fetch(ROOT + 'partials/equip-timeline.html');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      slot.innerHTML = await res.text();
+      const js = document.createElement('script');
+      js.src = ROOT + 'js/equip-timeline.js';
+      document.body.appendChild(js);
+    } catch (err) {
+      console.error('Timeline partial failed to load:', err);
+    }
+  })();
+</script>
 <script type="module">
   const ROOT = document.documentElement.dataset.root || '';
   import { initHeroAnimations } from './js/hero-animations.js';

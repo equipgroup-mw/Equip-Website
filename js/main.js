@@ -107,9 +107,7 @@
     if (originalSocialRow) {
       originalSocialRow.querySelectorAll('a').forEach(original => {
         const link = original.cloneNode(true);
-
-        link.className = 'services-mega-social-link';
-
+        link.classList.add('services-mega-social-link');
         footerSocials.appendChild(link);
       });
     }
